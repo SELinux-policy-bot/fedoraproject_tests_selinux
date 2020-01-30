@@ -283,15 +283,18 @@ rlJournalStart
                 "Harden tun_tap test against missing defs"
 
             exclude_tests=""
+            force_tests=""
             for file in ./tests/nnp*/execnnp.c; do
                 rlRun "sed -i 's/3.18/3.9/' $file" 0 \
                     "Fix up kernel version in nnp test"
             done
             if rlIsRHEL ; then
-                rlRun "sed -i 's/4.20.17/4.18/' tests/Makefile" 0 \
-                    "Fix up kernel version for sctp test"
-                rlRun "sed -i 's/5.2/4.18.0-80.19/' tests/Makefile" 0 \
-                    "Fix up kernel version for cgroupfs_label test"
+                if kver_ge 4.18; then
+                    force_tests+=" sctp"
+                fi
+                if kver_ge 4.18.0-80.19; then
+                    force_tests+=" cgroupfs_label"
+                fi
                 # CONFIG_KEYS_DH_COMPUTE not enabled on RHEL-8 :(
                 exclude_tests+=" keys"
             fi
@@ -365,6 +368,10 @@ rlJournalStart
             if [ -n "$exclude_tests" ] ; then
                 rlRun "sed -i '/^[^[:space:]]*:\(\| .*\)\$/i SUBDIRS:=\$(filter-out $exclude_tests, \$(SUBDIRS))' tests/Makefile" 0 \
                     "Exclude not applicable tests: $exclude_tests"
+            fi
+            if [ -n "$force_tests" ] ; then
+                rlRun "sed -i '/^[^[:space:]]*:\(\| .*\)\$/i SUBDIRS:=\$(filter-out $force_tests, \$(SUBDIRS))\nSUBDIRS += $force_tests' tests/Makefile" 0 \
+                    "Force applicable tests: $force_tests"
             fi
 
             # needed for filesystem test on RHEL-7
