@@ -37,6 +37,11 @@ PROCESS_CONTEXT="rrdcached_t"
 VAR_RUN_CONTEXT="rrdcached_var_run_t"
 TMP_CONTEXT="rrdcached_tmp_t"
 
+if rlIsFedora "<31" ; then
+    echo "Not applicable to this Fedora version."
+    exit
+fi
+
 rlJournalStart
     rlPhaseStartSetup
         rlRun "rlImport 'selinux-policy/common'"
