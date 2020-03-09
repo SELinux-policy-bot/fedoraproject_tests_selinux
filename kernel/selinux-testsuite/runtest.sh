@@ -184,6 +184,9 @@ rlJournalStart
             which
         "
         rlRun "installDeps \$REQUIRES" 0 "Install requires"
+        if rlIsRHEL '>=8'; then
+            rlRun "dnf install --enablerepo rhel-CRB -y libbpf-devel"
+        fi
     rlPhaseEnd
 
     rlPhaseStartSetup
@@ -346,9 +349,13 @@ rlJournalStart
                 rlRun "cat >>policy/test_mmap.te <<<'allow_map(test_no_execmem_t, tmpfs_t, file)'"
             fi
 
-            if rlIsRHEL || [ "$(rlGetPrimaryArch)" != x86_64 ]; then
-                rlRun "sed -i '/SUBDIRS += bpf/d;/export CFLAGS += -DHAVE_BPF/d' tests/Makefile" 0 \
-                    "Disable BPF tests on RHEL and non-x86_64 Fedora"
+            if [ -f /proc/sys/kernel/unprivileged_bpf_disabled ] &&
+               [ "$(cat /proc/sys/kernel/unprivileged_bpf_disabled)" -eq 1 ] ||
+               [ "$(rlGetPrimaryArch)" != x86_64 ]
+            then
+                rlLog "Unprivileged BPF disabled => add CAP_SYS_ADMIN to BPF domains"
+                rlRun "echo 'allow bpfdomain self:capability { sys_admin };' >>policy/test_bpf.te"
+                rlRun "echo 'allow fdreceivebpfdomain self:capability { sys_admin };' >>policy/test_fdreceive_bpf.te"
             fi
 
             # CKI mainline kernels don't ship with module build infrastructure
