@@ -184,9 +184,6 @@ rlJournalStart
             which
         "
         rlRun "installDeps \$REQUIRES" 0 "Install requires"
-        if rlIsRHEL '>=8'; then
-            rlRun "dnf install --enablerepo rhel-CRB -y libbpf-devel"
-        fi
     rlPhaseEnd
 
     rlPhaseStartSetup
