@@ -313,6 +313,10 @@ rlJournalStart
                 rlRun "sed -i 's/^corecmd_bin_entry_type(\(.*\))$/corecmd_bin_entry_type(\1)\ncorecmd_sbin_entry_type(\1)/' policy/*.te" 0
                 rlRun "sed -i 's/^userdom_search_user_home_dirs(\(.*\))$/userdom_search_user_home_dirs(user, \1)/' policy/*.te" 0
             fi
+            if rlIsRHEL "<8.2"; then
+                rlRun "sed -i '/SUBDIRS += bpf/d;/export CFLAGS += -DHAVE_BPF/d' tests/Makefile" 0 \
+                    "RHEL < 8.2 doesn't ship libbpf => disable BPF subtests"
+            fi
             if ! [ -x /usr/bin/python3 ]; then
                 # to avoid error messages like runcon: ‘overlay/access’: No such file or directory
                 rlRun "rpm -qa | grep python | sort"
