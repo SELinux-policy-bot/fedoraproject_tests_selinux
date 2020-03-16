@@ -185,6 +185,14 @@ rlJournalStart
             which
         "
         rlRun "installDeps \$REQUIRES" 0 "Install requires"
+
+        # The CRB repo with libbpf-devel might not be enabled on RHEL
+        if rlIsRHEL '>=8'; then
+            for repo in "rhel-CRB" "beaker-CRB"; do
+                rpm -q libbpf-devel &>/dev/null && break
+                rlRun "dnf install --enablerepo $repo -y libbpf-devel" 0-255
+            done
+        fi
     rlPhaseEnd
 
     rlPhaseStartSetup
