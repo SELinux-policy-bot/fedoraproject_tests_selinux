@@ -26,8 +26,7 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# Include Beaker environment
-. /usr/bin/rhts-environment.sh || exit 1
+# Include Beakerlib environment
 . /usr/share/beakerlib/beakerlib.sh || exit 1
 
 PACKAGE="selinux-policy"
