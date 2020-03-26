@@ -1,0 +1,11 @@
+PURPOSE of /CoreOS/selinux-policy/Regression/pam_timestamp-and-related
+Author: Milos Malik <mmalik@redhat.com>
+
+Does SELinux cooperate with pam_timestamp_check and pam_timestamp.so?
+Confined and unconfined users are tested using SSH.
+
+This TC uses following parameters which can be overriden:
+ * ALLOWED_USERS - which SELinux users should be tested?
+ * DENIED_USERS - which SELinux users should NOT be tested?
+ * TIMESTAMP_DIR - in which directory is the _pam_timestamp_key file stored?
+
