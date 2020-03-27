@@ -188,12 +188,12 @@ rlJournalStart
         # directory that supports security.restorecon_last xattr
         rlRun "strace -ostrace.out -s 64 ./test_restorecon /var/log RECURSE NOCHANGE" 0 "Calling selinux_restorecon on /tmp"
 
-        rlRun "grep security.restorecon_last strace.out" 0
+        rlRun "grep -E \"security\.(restorecon_last|sehash)\" strace.out" 0
 
         # directory that does not supports security.restorecon_last xattr
         rlRun "strace -ostrace.out -s 64 ./test_restorecon /sys RECURSE NOCHANGE" 0 "Calling selinux_restorecon on /sys"
 
-        rlRun "grep security.restorecon_last strace.out" 1
+        rlRun "grep -E \"security\.(restorecon_last|sehash)\" strace.out" 1
 
         rlRun "rm -f strace.out"
     rlPhaseEnd
