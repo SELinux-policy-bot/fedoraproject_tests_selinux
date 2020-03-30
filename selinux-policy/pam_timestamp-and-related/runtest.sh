@@ -61,8 +61,10 @@ rlJournalStart
         rlSESearchRule "allow sshd_t var_run_t : dir { write add_name } [ ]"
         rlSESearchRule "type_transition sshd_t var_run_t : dir pam_var_run_t"
         rlSESearchRule "allow sshd_t pam_var_run_t : dir { create } [ ]"
-        rlRun "strings /usr/sbin/pam_timestamp_check | grep ${TIMESTAMP_DIR}"
-        rlRun "strings /usr/lib64/security/pam_timestamp.so | grep ${TIMESTAMP_DIR}"
+        # sed is needed for pam versions before
+        # https://github.com/linux-pam/linux-pam/commit/9b62f2ed3be1731581ad8f4b7e5cefd8fd030085
+        rlRun "strings /usr/sbin/pam_timestamp_check | sed \"s|//*|/|g\" | grep ${TIMESTAMP_DIR}"
+        rlRun "strings /usr/lib64/security/pam_timestamp.so | sed \"s|//*|/|g\" | grep ${TIMESTAMP_DIR}"
     rlPhaseEnd
 
     rlPhaseStartTest "real scenario -- confined users"
