@@ -46,6 +46,7 @@ rlJournalStart
         rlRun "TmpDir=\$(mktemp -d)" 0 "Creating tmp directory"
         rlRun "auditctl -l | sed 's/^No rules$/# No rules/' > $TmpDir/auditctl" 0 "Backup current audit rules"
         rlRun "auditctl -D" 0 "Delete all audit rules"
+        rlRun "auditctl -w /etc/shadow -p w" 0 "Add audit rule"
     rlPhaseEnd
 
     rlPhaseStartTest "basic use"
@@ -82,6 +83,7 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartCleanup
+        rlRun "auditctl -D" 0 "Delete all audit rules"
         rlRun "auditctl -R $TmpDir/auditctl" 0 "Restore audit rules"
         rm -f ${OUTPUT_FILE}
     rlPhaseEnd
