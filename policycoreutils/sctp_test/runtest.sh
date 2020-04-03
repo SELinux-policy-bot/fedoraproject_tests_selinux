@@ -43,6 +43,7 @@ rlJournalStart
     rlPhaseStartSetup
         rlAssertRpm $PACKAGE
         # make sure the right version of kernel[-rt]-modules-extra is installed
+        rlRun "dnf install -y kernel-modules-$(uname -r)" 0-255
         rlRun "dnf install -y kernel-modules-extra-$(uname -r)" 0-255
         rlRun "dnf install -y kernel-rt-modules-extra-$(uname -r)" 0-255
         rlRun "modprobe sctp" 0 "Enabling SCTP kernel module"
