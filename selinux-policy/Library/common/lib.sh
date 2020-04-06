@@ -66,6 +66,8 @@ rlSE_CACHE_DIR="${rlSE_CACHE_DIR:-$__INTERNAL_PERSISTENT_TMP/BEAKERLIB-rlSE}"
 __INTERNAL_rlSE_CACHEFILE="$rlSE_CACHE_DIR/cache.db"
 __INTERNAL_rlSE_SUMFILE="$rlSE_CACHE_DIR/cache.policy-checksum"
 
+SETOOLS_MAJOR_VERSION=`sesearch --version 2>&1| sed -n 's/sesearch //;s/\..*$//p'`
+
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #   Functions
@@ -133,12 +135,9 @@ rlSESearchRule() {
   local comment="$3"
   # TODO: takes ~1 second, abstract to a separate function that remembers
   #       the version in some __INTERNAL_rlSE_* variable
-  if sesearch --version 2>&1 | grep -q '3.[0123]' ; then
-    local SETOOLS_VER=3
-    local SESEARCH_OPTS='-C'
-  else # setools v.4
-    local SETOOLS_VER=4
-    local SESEARCH_OPTS=''
+  local SESEARCH_OPTS=''
+  if [[ ${SETOOLS_MAJOR_VERSION} == "3" ]] ; then
+    SESEARCH_OPTS='-C'
   fi
   rlIsRHEL '<6' && SESEARCH_OPTS="-i -n $SESEARCH_OPTS"
 
@@ -215,7 +214,7 @@ rlSESearchRule() {
     local SEARCH_RULETYPE="$RULETYPE"
     [[ "$RULETYPE" == "dontaudit" ]] && rlIsRHEL '<6' && SEARCH_RULETYPE="audit" # dontaudit rules are in --audit rule type
     if [[ "$RULETYPE" == "type_transition" ]]; then
-      if [[ ${SETOOLS_VER} == "3" ]]; then
+      if [[ ${SETOOLS_MAJOR_VERSION} == "3" ]]; then
         SEARCH_RULETYPE="type" # type_transition rules are in --type rule type
       else # setools v.4
         SEARCH_RULETYPE="type_trans" # type_transition rules are in --type_trans rule type
@@ -229,7 +228,7 @@ rlSESearchRule() {
     # sesearch v.3 --type covers type_trans, type_member, type_change
     # sesearch v.4 recognizes 3 different options for ^^^
     if [[ "$RULETYPE" == "type_change" ]]; then
-      if [[ ${SETOOLS_VER} == "3" ]]; then
+      if [[ ${SETOOLS_MAJOR_VERSION} == "3" ]]; then
         SEARCH_RULETYPE="type"
       else # setools v.4
         SEARCH_RULETYPE="type_change"
@@ -711,7 +710,7 @@ function rlSEMatchPortCon() {
         return
     fi
 
-    if ! seinfo --version | grep -q '3.[0123]' ; then
+    if [[ ${SETOOLS_MAJOR_VERSION} == "4" ]] ; then
         # setools v.4
         rlRun "seinfo --portcon=$2 | grep \"portcon $1 .*:$3\""
     elif rlIsRHEL 5 ; then
@@ -745,7 +744,7 @@ function rlSEPortAdd() {
         shift
     done
 
-    if ! seinfo --version | grep -q '3.[0123]' ; then
+    if [[ ${SETOOLS_MAJOR_VERSION} == "4" ]] ; then
         # setools v.4
         seinfo --portcon=$2 | grep "portcon $1 .*:$3"
         RES=$?
@@ -761,7 +760,7 @@ function rlSEPortAdd() {
         rlLog "$FUNCNAME: The type $3 of $1 port $2 already in policy"
     else
 
-        if ! seinfo --version | grep -q '3.[0123]' ; then
+        if [[ ${SETOOLS_MAJOR_VERSION} == "4" ]] ; then
             # setools v.4
             seinfo --portcon=$2 | grep "portcon $1 \<$2\>"
             RES=$?
@@ -1431,7 +1430,7 @@ function rlSETranslateAlias {
             # cannot translate alias, if setools v.4 are used then BZ#1581761
             echo $1
             return 1
-        elif seinfo --version | grep -q ^4 ; then
+        elif [[ ${SETOOLS_MAJOR_VERSION} == "4" ]] ; then
             # setools v.4
             seinfo -t$1 2>/dev/null | tail -n 1 | tr -s ' ' | cut -d ' ' -f 2
             return 0
