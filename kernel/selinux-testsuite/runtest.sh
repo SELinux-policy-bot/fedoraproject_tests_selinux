@@ -35,7 +35,7 @@ PACKAGE="selinux-policy"
 # This should be updated as needed after verifying that the new version
 # doesn't break testing and after applying all necessary tweaks in the TC.
 # Run with GIT_BRANCH=master to run the latest upstream version.
-DEFAULT_COMMIT="e95fe950381682a18c93a0952b995eb975cb5c2e"
+DEFAULT_COMMIT="04fb49b946b9cb48ff75d770d4c16338463b1814"
 # Default pull requests to merge before running the test.
 # If non-empty, then after checking out GIT_BRANCH the listed upstream pull
 # requests (by number) are merged, creating a new temporary local branch.
@@ -359,15 +359,6 @@ rlJournalStart
                 rlRun "cat >>policy/test_ipc.te <<<'allow_map(ipcdomain, tmpfs_t, file)'"
                 rlRun "cat >>policy/test_mmap.te <<<'allow_map(test_execmem_t, tmpfs_t, file)'"
                 rlRun "cat >>policy/test_mmap.te <<<'allow_map(test_no_execmem_t, tmpfs_t, file)'"
-            fi
-
-            if [ -f /proc/sys/kernel/unprivileged_bpf_disabled ] &&
-               [ "$(cat /proc/sys/kernel/unprivileged_bpf_disabled)" -eq 1 ] ||
-               [ "$(rlGetPrimaryArch)" != x86_64 ]
-            then
-                rlLog "Unprivileged BPF disabled => add CAP_SYS_ADMIN to BPF domains"
-                rlRun "echo 'allow bpfdomain self:capability { sys_admin };' >>policy/test_bpf.te"
-                rlRun "echo 'allow fdreceivebpfdomain self:capability { sys_admin };' >>policy/test_fdreceive_bpf.te"
             fi
 
             # CKI mainline kernels don't ship with module build infrastructure
