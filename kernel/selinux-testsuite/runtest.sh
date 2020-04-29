@@ -35,14 +35,13 @@ PACKAGE="selinux-policy"
 # This should be updated as needed after verifying that the new version
 # doesn't break testing and after applying all necessary tweaks in the TC.
 # Run with GIT_BRANCH=master to run the latest upstream version.
-DEFAULT_COMMIT="04fb49b946b9cb48ff75d770d4c16338463b1814"
+DEFAULT_COMMIT="03872ef3c206e56a90ef7df7c1042895c7096cc3"
 # Default pull requests to merge before running the test.
 # If non-empty, then after checking out GIT_BRANCH the listed upstream pull
 # requests (by number) are merged, creating a new temporary local branch.
 DEFAULT_PULLS=""
 # Default SELinux Patchwork series to apply before running the test.
-DEFAULT_PATCHES="297289"
-# 297289 - policy/test_overlayfs.te: allow mounter to create whiteouts
+DEFAULT_PATCHES=""
 
 # Optional test parameter - location of testuite git.
 GIT_URL=${GIT_URL:-"git://github.com/SELinuxProject/selinux-testsuite"}
@@ -160,6 +159,7 @@ rlJournalStart
             libselinux-utils
             libsemanage
             libsepol-devel
+            libuuid-devel
             lksctp-tools-devel
             mktemp
             nc
@@ -182,6 +182,7 @@ rlJournalStart
             selinux-policy-devel
             setools-console
             which
+            xfsprogs-devel
         "
         rlRun "installDeps \$REQUIRES" 0 "Install requires"
 
@@ -215,6 +216,12 @@ rlJournalStart
             selinuxfs=/sys/fs/selinux
         else
             selinuxfs=/selinux
+        fi
+
+        if rlIsRHEL '<7.3'; then
+            use_cil=n
+        else
+            use_cil=y
         fi
 
         # test turns this boolean off
@@ -342,6 +349,11 @@ rlJournalStart
         rlRun "sed -i 's/tm\.tv_sec = [0-9]*;/tm.tv_sec = $NETWORK_TIMEOUT;/' ./tests/*/*.c" 0 \
             "Tweak timeout in networking tests" # 2 secs is too little for SCTP test
 
+        if kver_lt "3.10" || rlIsRHEL '<7.4'; then
+            # filesystem tests don't work well on RHEL <7.4
+            exclude_tests+=" filesystem"
+        fi
+
         if kver_lt "3.10.0-349"; then
             # c4684bbdac07 [security] selinux: Permit bounded transitions under NO_NEW_PRIVS or NOSUID
             # da74590f6501 [security] selinux: reject setexeccon() on MNT_NOSUID applications with -EACCES
@@ -367,6 +379,18 @@ rlJournalStart
             rlRun "cat >>policy/test_ipc.te <<<'allow_map(ipcdomain, tmpfs_t, file)'"
             rlRun "cat >>policy/test_mmap.te <<<'allow_map(test_execmem_t, tmpfs_t, file)'"
             rlRun "cat >>policy/test_mmap.te <<<'allow_map(test_no_execmem_t, tmpfs_t, file)'"
+        fi
+
+        if rlIsRHEL; then
+            # Needs:
+            # e4cfa05e9bfe ("selinux: Add xfs quota command types")
+            # (not backported to any RHEL at this point - TODO update the check once it is)
+            script1='s/\$test_count += 62;/$test_count = 55;/g'
+            script2='s/\$quota_checks += 1;/$quota_checks = 0;/g'
+            # for some reason this is needed for older RHEL 7 versions...
+            script3='s/\$test_count += 69;/$test_count = 55;/g'
+            rlRun "sed -i -E -e '$script1' -e '$script2' -e '$script3' tests/filesystem/test" 0 \
+                "Apply workaround for missing XFS quota checks"
         fi
 
         # CKI mainline kernels don't ship with module build infrastructure
@@ -438,10 +462,11 @@ rlJournalStart
 
     rlPhaseStartTest
         rlRun "pushd selinux-testsuite"
-        rlRun "$TS_ENV make SELINUXFS=$selinuxfs" 0
+        make_vars="SELINUXFS=$selinuxfs SUPPORTS_CIL=$use_cil"
+        rlRun "$TS_ENV make $make_vars" 0
         rlRun "cat results.log" 0
         $PIPEFAIL_ENABLE
-        rlRun "$TS_ENV unbuffer make -s test SELINUXFS=$selinuxfs 2>&1 | tee -a results.log" 0
+        rlRun "$TS_ENV unbuffer make -s test $make_vars 2>&1 | tee -a results.log" 0
         $PIPEFAIL_DISABLE
         rlRun "popd"
     rlPhaseEnd
