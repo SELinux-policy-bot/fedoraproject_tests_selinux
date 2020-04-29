@@ -150,7 +150,6 @@ rlJournalStart
             gcc
             git
             grep
-            ipsec-tools
             iptables
             keyutils-libs-devel
             libbpf-devel
