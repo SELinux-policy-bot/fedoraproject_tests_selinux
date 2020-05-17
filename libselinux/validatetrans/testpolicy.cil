@@ -1,0 +1,4 @@
+(validatetrans dir (neq t1 swapfile_t))
+(validatetrans file (neq t1 swapfile_t))
+(validatetrans fifo_file (neq t1 swapfile_t))
+

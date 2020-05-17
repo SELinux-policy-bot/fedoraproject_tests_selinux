@@ -1,0 +1,4 @@
+path: /libselinux/validatetrans
+relevancy:
+- "distro < fedora-32: False"
+
