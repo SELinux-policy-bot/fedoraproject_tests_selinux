@@ -1,0 +1,5 @@
+PURPOSE of /CoreOS/selinux-policy/Regression/systemd-bootchart-and-similar
+Author: Milos Malik <mmalik@redhat.com>
+
+SELinux interferes with systemd-bootchart and related programs.
+
