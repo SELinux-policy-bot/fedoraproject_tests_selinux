@@ -367,6 +367,15 @@ rlJournalStart
                 exclude_tests+=" module_load"
             fi
 
+            # CKI kernels are cross-compiled and generate invalid BTF for s390x
+            if [ "$(rlGetPrimaryArch)" = s390x ] && [ -r /sys/kernel/btf/vmlinux ]; then
+                # Check whether the magic number is stored big-endian
+                btf_head="$(head -c 2 /sys/kernel/btf/vmlinux | hexdump -e '/1 "%02x"')"
+                if [ "$btf_head" != eb9f ]; then
+                    exclude_tests+=" bpf"
+                fi
+            fi
+
             if [ -n "$exclude_tests" ] ; then
                 rlRun "sed -i '/^[^[:space:]]*:\(\| .*\)\$/i SUBDIRS:=\$(filter-out $exclude_tests, \$(SUBDIRS))' tests/Makefile" 0 \
                     "Exclude not applicable tests: $exclude_tests"
