@@ -41,7 +41,8 @@ DEFAULT_COMMIT="04fb49b946b9cb48ff75d770d4c16338463b1814"
 # requests (by number) are merged, creating a new temporary local branch.
 DEFAULT_PULLS=""
 # Default SELinux Patchwork series to apply before running the test.
-DEFAULT_PATCHES=""
+DEFAULT_PATCHES="297289"
+# 297289 - policy/test_overlayfs.te: allow mounter to create whiteouts
 
 # Optional test parameter - location of testuite git.
 GIT_URL=${GIT_URL:-"git://github.com/SELinuxProject/selinux-testsuite"}
