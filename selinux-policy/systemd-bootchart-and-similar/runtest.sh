@@ -40,6 +40,12 @@ PROCESS_NAME="systemd-bootchart"
 PROCESS_CONTEXT="systemd_bootchart_t"
 
 rlJournalStart
+    if ! rlIsFedora && ! rlIsRHEL ">8.3"; then
+        rlLog "Not applicable to this OS version."
+        rlJournalEnd
+        exit 0
+    fi
+
     rlPhaseStartSetup
         rlRun "rlImport 'selinux-policy/common'"
         rlSESatisfyRequires
