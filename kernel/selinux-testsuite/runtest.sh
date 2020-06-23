@@ -230,9 +230,18 @@ rlJournalStart
         else
             rlRun "echo 'expand-check = 0' >>/etc/selinux/semanage.conf"
         fi
-        if [ ! -d selinux-testsuite ] && rlRun "git clone $GIT_URL" 0; then
+        if [ ! -d selinux-testsuite ]; then
+            if ! rlRun "git clone $GIT_URL selinux-testsuite" 0; then
+                rlLogFatal "Unable to clone the testsuite repo!"
+                rlPhaseEnd
+                exit 127
+            fi
             rlRun "pushd selinux-testsuite"
-            rlRun "git checkout $GIT_BRANCH" 0
+            if ! rlRun "git checkout $GIT_BRANCH" 0; then
+                rlLogFatal "Unable to checkout the requested branch!"
+                rlPhaseEnd
+                exit 127
+            fi
             for _ in $GIT_PULLS $GIT_PATCHES; do
                 rlRun "git config --global user.email nobody@redhat.com"
                 rlRun "git config --global user.name 'Nemo Nobody'"
@@ -266,181 +275,175 @@ rlJournalStart
             rlRun "popd"
         fi
 
-        if [ -d selinux-testsuite ]; then
-            rlRun "pushd selinux-testsuite"
+        rlRun "pushd selinux-testsuite"
 
-            # backup code before making tweaks
-            rlFileBackup "."
+        # backup code before making tweaks
+        rlFileBackup "."
 
-            if [ "$VERBOSE" = "1" ]; then
-                rlRun "sed -i 's/\(use Test::Harness;\)/\1 \$Test::Harness::verbose = TRUE;/' tests/runtests.pl" 0 \
-                    "Enable verbose output"
-            fi
-
-            {
-                echo "#ifndef IFF_NAPI"
-                echo "#define IFF_NAPI 0x0010"
-                echo "#endif"
-                echo "#ifndef IFF_NAPI_FRAGS"
-                echo "#define IFF_NAPI_FRAGS 0x0020"
-                echo "#endif"
-                echo "#ifndef IFF_NO_PI"
-                echo "#define IFF_NO_PI 0x1000"
-                echo "#endif"
-            } | rlRun "tee -a tests/tun_tap/tun_common.h" 0 \
-                "Harden tun_tap test against missing defs"
-
-            exclude_tests=""
-            force_tests=""
-            for file in ./tests/nnp*/execnnp.c; do
-                rlRun "sed -i 's/3.18/3.9/' $file" 0 \
-                    "Fix up kernel version in nnp test"
-            done
-            if rlIsRHEL ; then
-                if kver_ge 4.18; then
-                    force_tests+=" sctp"
-                fi
-                if kver_ge 4.18.0-80.19; then
-                    force_tests+=" cgroupfs_label"
-                fi
-                # CONFIG_KEYS_DH_COMPUTE not enabled on RHEL-8 :(
-                exclude_tests+=" keys"
-            fi
-            if rlIsRHEL 5 ; then
-                rlRun "sed -i '/unconfined_devpts_t/d' policy/test_policy.if" 0
-
-                rlRun "sed -i 's/read_file_perms/r_file_perms/'  policy/*.te" 0
-                rlRun "sed -i 's/mmap_file_perms/rx_file_perms/' policy/*.te" 0
-                rlRun "sed -i 's/list_dir_perms/r_dir_perms/'    policy/*.te" 0
-                rlRun "sed -i 's/ open / /'                      policy/*.te" 0
-
-                rlRun "sed -i 's/^sysadm_bin_spec_domtrans_to/userdom_sysadm_bin_spec_domtrans_to/' policy/*.te" 0
-
-                rlRun "sed -i 's/^corecmd_exec_bin(\(.*\))$/corecmd_exec_bin(\1)\ncorecmd_exec_sbin(\1)/' policy/*.te" 0
-                rlRun "sed -i 's/^corecmd_bin_entry_type(\(.*\))$/corecmd_bin_entry_type(\1)\ncorecmd_sbin_entry_type(\1)/' policy/*.te" 0
-                rlRun "sed -i 's/^userdom_search_user_home_dirs(\(.*\))$/userdom_search_user_home_dirs(user, \1)/' policy/*.te" 0
-            fi
-            if rlIsRHEL "<8.2"; then
-                rlRun "sed -i '/SUBDIRS += bpf/d;/export CFLAGS += -DHAVE_BPF/d' tests/Makefile" 0 \
-                    "RHEL < 8.2 doesn't ship libbpf => disable BPF subtests"
-            fi
-            if ! [ -x /usr/bin/python3 ]; then
-                # to avoid error messages like runcon: ‘overlay/access’: No such file or directory
-                rlRun "rpm -qa | grep python | sort"
-                rlRun "sed -i 's/python3\$/python2/' tests/overlay/access" 0 \
-                    "Fix up Python shebang in overlay test"
-            fi
-
-            rlRun "sed -i 's/tm\.tv_sec = [0-9]*;/tm.tv_sec = $NETWORK_TIMEOUT;/' ./tests/*/*.c" 0 \
-                "Tweak timeout in networking tests" # 2 secs is too little for SCTP test
-
-            if kver_lt "3.10.0-349"; then
-                # c4684bbdac07 [security] selinux: Permit bounded transitions under NO_NEW_PRIVS or NOSUID
-                # da74590f6501 [security] selinux: reject setexeccon() on MNT_NOSUID applications with -EACCES
-                exclude_tests+=" nnp_nosuid"
-            fi
-
-            if kver_lt "3.10.0-693"; then
-                # I don't know when exactly this test starts passing, so I'm just
-                # disabling it for anything below the RHEL-7.4 kernel...
-                exclude_tests+=" inet_socket"
-            fi
-
-            if kver_lt "3.10.0-875"; then
-                rlLog "No xperms support => disable xperms testing"
-                rlRun "sed -i '/TARGETS += test_ioctl_xperms\.te/d' policy/Makefile"
-                rlRun "sed -i 's/\$kernver >= 30/\$kernver >= 999999/' tests/ioctl/test"
-            fi
-            # workaround for https://bugzilla.redhat.com/show_bug.cgi?id=1613056
-            # (if running kernel version sorts inside the known-bug window, then
-            # we need to apply the workaround)
-            if kver_ge "3.10.0-875" && kver_lt "3.10.0-972"; then
-                rlLog "Applying workaround for BZ 1613056..."
-                rlRun "cat >>policy/test_ipc.te <<<'allow_map(ipcdomain, tmpfs_t, file)'"
-                rlRun "cat >>policy/test_mmap.te <<<'allow_map(test_execmem_t, tmpfs_t, file)'"
-                rlRun "cat >>policy/test_mmap.te <<<'allow_map(test_no_execmem_t, tmpfs_t, file)'"
-            fi
-
-            # CKI mainline kernels don't ship with module build infrastructure
-            # just yet. Also, RHEL-8 CKI kernel-devel programs are
-            # cross-compiled badly for alt arches, so try executing one of them.
-            if ! "/lib/modules/$(uname -r)/build/scripts/unifdef" /dev/null &>/dev/null; then
-                exclude_tests+=" module_load"
-            fi
-
-            # CKI kernels are cross-compiled and generate invalid BTF for s390x
-            if [ "$(rlGetPrimaryArch)" = s390x ] && [ -r /sys/kernel/btf/vmlinux ]; then
-                # Check whether the magic number is stored big-endian
-                btf_head="$(head -c 2 /sys/kernel/btf/vmlinux | hexdump -e '/1 "%02x"')"
-                if [ "$btf_head" != eb9f ]; then
-                    exclude_tests+=" bpf"
-                fi
-            fi
-
-            if [ -n "$exclude_tests" ] ; then
-                rlRun "sed -i '/^[^[:space:]]*:\(\| .*\)\$/i SUBDIRS:=\$(filter-out $exclude_tests, \$(SUBDIRS))' tests/Makefile" 0 \
-                    "Exclude not applicable tests: $exclude_tests"
-            fi
-            if [ -n "$force_tests" ] ; then
-                rlRun "sed -i '/^[^[:space:]]*:\(\| .*\)\$/i SUBDIRS:=\$(filter-out $force_tests, \$(SUBDIRS))\nSUBDIRS += $force_tests' tests/Makefile" 0 \
-                    "Force applicable tests: $force_tests"
-            fi
-
-            # needed for filesystem test on RHEL-7
-            rlRun "modprobe ext4"
-
-            if ! modprobe sctp 2>/dev/null; then
-                script1='s/runcon -t test_sctp_socket_t/true/g'
-                script2='s/runcon -t test_no_sctp_socket_t/false/g'
-                rlRun "sed -i -e '$script1' -e '$script2' ./tests/extended_socket_class/test" 0 \
-                    "No SCTP support => fix up extended_socket_class test"
-            fi
-
-            # on aarch64 and s390x the kernel support for Bluetooth is turned
-            # off so we disable the Bluetooth socket tests there
-            case "$(rlGetPrimaryArch)" in
-                aarch64|s390x)
-                    script1='s/runcon -t test_bluetooth_socket_t/true/g'
-                    script2='s/runcon -t test_no_bluetooth_socket_t/false/g'
-                    rlRun "sed -i -e '$script1' -e '$script2' ./tests/extended_socket_class/test" 0 \
-                        "No Bluetooth support => fix up extended_socket_class test"
-                    ;;
-            esac
-
-            # Initialize report.
-            rlRun "echo 'Remote: $GIT_URL' >results.log" 0
-            rlRun "echo 'Branch: $GIT_BRANCH' >>results.log" 0
-            rlRun "echo 'Commit: $(git rev-parse $GIT_BRANCH)' >>results.log" 0
-            rlRun "echo 'GH PRs: ${GIT_PULLS:-"(none)"}' >>results.log" 0
-            rlRun "echo 'Series: ${GIT_PATCHES:-"(none)"}' >>results.log" 0
-            rlRun "echo 'Kernel: $(uname -r)' >>results.log" 0
-            rlRun "echo 'Policy: $(rpm -q selinux-policy)' >>results.log" 0
-            rlRun "echo '        $(rpm -q checkpolicy)' >>results.log" 0
-            rlRun "echo '        $(rpm -q libselinux)' >>results.log" 0
-            rlRun "echo '        $(rpm -q libsemanage)' >>results.log" 0
-            rlRun "echo '        $(rpm -q libsepol)' >>results.log" 0
-            rlRun "echo '        $(rpm -q policycoreutils)' >>results.log" 0
-            rlRun "echo '' >>results.log" 0
-
-            rlRun "popd"
+        if [ "$VERBOSE" = "1" ]; then
+            rlRun "sed -i 's/\(use Test::Harness;\)/\1 \$Test::Harness::verbose = TRUE;/' tests/runtests.pl" 0 \
+                "Enable verbose output"
         fi
+
+        {
+            echo "#ifndef IFF_NAPI"
+            echo "#define IFF_NAPI 0x0010"
+            echo "#endif"
+            echo "#ifndef IFF_NAPI_FRAGS"
+            echo "#define IFF_NAPI_FRAGS 0x0020"
+            echo "#endif"
+            echo "#ifndef IFF_NO_PI"
+            echo "#define IFF_NO_PI 0x1000"
+            echo "#endif"
+        } | rlRun "tee -a tests/tun_tap/tun_common.h" 0 \
+            "Harden tun_tap test against missing defs"
+
+        exclude_tests=""
+        force_tests=""
+        for file in ./tests/nnp*/execnnp.c; do
+            rlRun "sed -i 's/3.18/3.9/' $file" 0 \
+                "Fix up kernel version in nnp test"
+        done
+        if rlIsRHEL ; then
+            if kver_ge 4.18; then
+                force_tests+=" sctp"
+            fi
+            if kver_ge 4.18.0-80.19; then
+                force_tests+=" cgroupfs_label"
+            fi
+            # CONFIG_KEYS_DH_COMPUTE not enabled on RHEL-8 :(
+            exclude_tests+=" keys"
+        fi
+        if rlIsRHEL 5 ; then
+            rlRun "sed -i '/unconfined_devpts_t/d' policy/test_policy.if" 0
+
+            rlRun "sed -i 's/read_file_perms/r_file_perms/'  policy/*.te" 0
+            rlRun "sed -i 's/mmap_file_perms/rx_file_perms/' policy/*.te" 0
+            rlRun "sed -i 's/list_dir_perms/r_dir_perms/'    policy/*.te" 0
+            rlRun "sed -i 's/ open / /'                      policy/*.te" 0
+
+            rlRun "sed -i 's/^sysadm_bin_spec_domtrans_to/userdom_sysadm_bin_spec_domtrans_to/' policy/*.te" 0
+
+            rlRun "sed -i 's/^corecmd_exec_bin(\(.*\))$/corecmd_exec_bin(\1)\ncorecmd_exec_sbin(\1)/' policy/*.te" 0
+            rlRun "sed -i 's/^corecmd_bin_entry_type(\(.*\))$/corecmd_bin_entry_type(\1)\ncorecmd_sbin_entry_type(\1)/' policy/*.te" 0
+            rlRun "sed -i 's/^userdom_search_user_home_dirs(\(.*\))$/userdom_search_user_home_dirs(user, \1)/' policy/*.te" 0
+        fi
+        if rlIsRHEL "<8.2"; then
+            rlRun "sed -i '/SUBDIRS += bpf/d;/export CFLAGS += -DHAVE_BPF/d' tests/Makefile" 0 \
+                "RHEL < 8.2 doesn't ship libbpf => disable BPF subtests"
+        fi
+        if ! [ -x /usr/bin/python3 ]; then
+            # to avoid error messages like runcon: ‘overlay/access’: No such file or directory
+            rlRun "rpm -qa | grep python | sort"
+            rlRun "sed -i 's/python3\$/python2/' tests/overlay/access" 0 \
+                "Fix up Python shebang in overlay test"
+        fi
+
+        rlRun "sed -i 's/tm\.tv_sec = [0-9]*;/tm.tv_sec = $NETWORK_TIMEOUT;/' ./tests/*/*.c" 0 \
+            "Tweak timeout in networking tests" # 2 secs is too little for SCTP test
+
+        if kver_lt "3.10.0-349"; then
+            # c4684bbdac07 [security] selinux: Permit bounded transitions under NO_NEW_PRIVS or NOSUID
+            # da74590f6501 [security] selinux: reject setexeccon() on MNT_NOSUID applications with -EACCES
+            exclude_tests+=" nnp_nosuid"
+        fi
+
+        if kver_lt "3.10.0-693"; then
+            # I don't know when exactly this test starts passing, so I'm just
+            # disabling it for anything below the RHEL-7.4 kernel...
+            exclude_tests+=" inet_socket"
+        fi
+
+        if kver_lt "3.10.0-875"; then
+            rlLog "No xperms support => disable xperms testing"
+            rlRun "sed -i '/TARGETS += test_ioctl_xperms\.te/d' policy/Makefile"
+            rlRun "sed -i 's/\$kernver >= 30/\$kernver >= 999999/' tests/ioctl/test"
+        fi
+        # workaround for https://bugzilla.redhat.com/show_bug.cgi?id=1613056
+        # (if running kernel version sorts inside the known-bug window, then
+        # we need to apply the workaround)
+        if kver_ge "3.10.0-875" && kver_lt "3.10.0-972"; then
+            rlLog "Applying workaround for BZ 1613056..."
+            rlRun "cat >>policy/test_ipc.te <<<'allow_map(ipcdomain, tmpfs_t, file)'"
+            rlRun "cat >>policy/test_mmap.te <<<'allow_map(test_execmem_t, tmpfs_t, file)'"
+            rlRun "cat >>policy/test_mmap.te <<<'allow_map(test_no_execmem_t, tmpfs_t, file)'"
+        fi
+
+        # CKI mainline kernels don't ship with module build infrastructure
+        # just yet. Also, RHEL-8 CKI kernel-devel programs are
+        # cross-compiled badly for alt arches, so try executing one of them.
+        if ! "/lib/modules/$(uname -r)/build/scripts/unifdef" /dev/null &>/dev/null; then
+            exclude_tests+=" module_load"
+        fi
+
+        # CKI kernels are cross-compiled and generate invalid BTF for s390x
+        if [ "$(rlGetPrimaryArch)" = s390x ] && [ -r /sys/kernel/btf/vmlinux ]; then
+            # Check whether the magic number is stored big-endian
+            btf_head="$(head -c 2 /sys/kernel/btf/vmlinux | hexdump -e '/1 "%02x"')"
+            if [ "$btf_head" != eb9f ]; then
+                exclude_tests+=" bpf"
+            fi
+        fi
+
+        if [ -n "$exclude_tests" ] ; then
+            rlRun "sed -i '/^[^[:space:]]*:\(\| .*\)\$/i SUBDIRS:=\$(filter-out $exclude_tests, \$(SUBDIRS))' tests/Makefile" 0 \
+                "Exclude not applicable tests: $exclude_tests"
+        fi
+        if [ -n "$force_tests" ] ; then
+            rlRun "sed -i '/^[^[:space:]]*:\(\| .*\)\$/i SUBDIRS:=\$(filter-out $force_tests, \$(SUBDIRS))\nSUBDIRS += $force_tests' tests/Makefile" 0 \
+                "Force applicable tests: $force_tests"
+        fi
+
+        # needed for filesystem test on RHEL-7
+        rlRun "modprobe ext4"
+
+        if ! modprobe sctp 2>/dev/null; then
+            script1='s/runcon -t test_sctp_socket_t/true/g'
+            script2='s/runcon -t test_no_sctp_socket_t/false/g'
+            rlRun "sed -i -e '$script1' -e '$script2' ./tests/extended_socket_class/test" 0 \
+                "No SCTP support => fix up extended_socket_class test"
+        fi
+
+        # on aarch64 and s390x the kernel support for Bluetooth is turned
+        # off so we disable the Bluetooth socket tests there
+        case "$(rlGetPrimaryArch)" in
+            aarch64|s390x)
+                script1='s/runcon -t test_bluetooth_socket_t/true/g'
+                script2='s/runcon -t test_no_bluetooth_socket_t/false/g'
+                rlRun "sed -i -e '$script1' -e '$script2' ./tests/extended_socket_class/test" 0 \
+                    "No Bluetooth support => fix up extended_socket_class test"
+                ;;
+        esac
+
+        # Initialize report.
+        rlRun "echo 'Remote: $GIT_URL' >results.log" 0
+        rlRun "echo 'Branch: $GIT_BRANCH' >>results.log" 0
+        rlRun "echo 'Commit: $(git rev-parse $GIT_BRANCH)' >>results.log" 0
+        rlRun "echo 'GH PRs: ${GIT_PULLS:-"(none)"}' >>results.log" 0
+        rlRun "echo 'Series: ${GIT_PATCHES:-"(none)"}' >>results.log" 0
+        rlRun "echo 'Kernel: $(uname -r)' >>results.log" 0
+        rlRun "echo 'Policy: $(rpm -q selinux-policy)' >>results.log" 0
+        rlRun "echo '        $(rpm -q checkpolicy)' >>results.log" 0
+        rlRun "echo '        $(rpm -q libselinux)' >>results.log" 0
+        rlRun "echo '        $(rpm -q libsemanage)' >>results.log" 0
+        rlRun "echo '        $(rpm -q libsepol)' >>results.log" 0
+        rlRun "echo '        $(rpm -q policycoreutils)' >>results.log" 0
+        rlRun "echo '' >>results.log" 0
+
+        rlRun "popd"
         rlRun "AUDIT_FILE=\"\$(mktemp)\""
         rlRun "auditctl -w \"\$AUDIT_FILE\" -p w" 0 \
             "Enable creation of PATH audit records"
     rlPhaseEnd
 
     rlPhaseStartTest
-        if [ -d selinux-testsuite ]; then
-            rlRun "pushd selinux-testsuite"
-            rlRun "$TS_ENV make SELINUXFS=$selinuxfs" 0
-            rlRun "cat results.log" 0
-            $PIPEFAIL_ENABLE
-            rlRun "$TS_ENV unbuffer make -s test SELINUXFS=$selinuxfs 2>&1 | tee -a results.log" 0
-            $PIPEFAIL_DISABLE
-            rlRun "popd"
-        else
-            rlFail "GIT was unable to clone the testsuite repo"
-        fi
+        rlRun "pushd selinux-testsuite"
+        rlRun "$TS_ENV make SELINUXFS=$selinuxfs" 0
+        rlRun "cat results.log" 0
+        $PIPEFAIL_ENABLE
+        rlRun "$TS_ENV unbuffer make -s test SELINUXFS=$selinuxfs 2>&1 | tee -a results.log" 0
+        $PIPEFAIL_DISABLE
+        rlRun "popd"
     rlPhaseEnd
 
     rlPhaseStartCleanup
@@ -453,13 +456,12 @@ rlJournalStart
         rlRun "boolSet domain_can_mmap_files $BACKUP_domain_can_mmap_files"
         rlRun "boolSet allow_domain_fd_use $BACKUP_allow_domain_fd_use"
 
-        if [ -d selinux-testsuite ]; then
-            rlRun "pushd selinux-testsuite"
-            # Submit report to beaker.
-            rlFileSubmit "results.log" "selinux-testsuite.results.$(uname -r).txt"
-            rlRun "$TS_ENV make -s clean SELINUXFS=$selinuxfs" 0-2
-            rlRun "popd"
-        fi
+        rlRun "pushd selinux-testsuite"
+        # Submit report to beaker.
+        rlFileSubmit "results.log" "selinux-testsuite.results.$(uname -r).txt"
+        rlRun "$TS_ENV make -s clean SELINUXFS=$selinuxfs" 0-2
+        rlRun "popd"
+
         rlRun "semodule -r test_policy" 0,1
         rlRun "sleep 5" 0
         rlRun "dmesg | grep -i \"rcu_sched detected stalls\"" 1
