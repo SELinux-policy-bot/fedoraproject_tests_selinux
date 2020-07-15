@@ -114,7 +114,7 @@ function boolGet() {
     getsebool "$1" | cut -d ' ' -f 3
 }
 function boolSet() {
-    getsebool -a | cut -d ' ' -f 1 | grep "^$1\$" || return 0
+    getsebool "$1" &>/dev/null || return 0
     setsebool "$1" "$2" || return 1
     [ "$(boolGet "$1")" == "$2" ]
 }
