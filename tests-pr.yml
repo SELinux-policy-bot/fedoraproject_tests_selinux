@@ -1,0 +1,18 @@
+- hosts: localhost
+  tags:
+    - classic
+
+  pre_tasks:
+    - name: Generate list of tests in this PR
+      shell: |
+          COMMIT_NUM=$(git cherry origin/master | wc -l)
+          git log --format= --stat HEAD -$COMMIT_NUM | grep '/' | sed 's#^ \(.*\)/.*#\1#' | sort -u | tr '\n' ' ' | xargs
+      delegate_to: localhost
+      register: tests_list
+
+    - name: set fact foo
+      set_fact:
+        tests: "{{ tests_list.stdout.split(' ') }}"
+
+  roles:
+  - role: standard-test-beakerlib
