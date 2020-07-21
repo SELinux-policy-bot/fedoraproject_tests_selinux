@@ -1,0 +1,5 @@
+PURPOSE of /CoreOS/selinux-policy/Regression/bz481628-send-msg-to-dbus
+Author: Milos Malik <mmalik@redhat.com>
+
+SELinux interferes with D-bus daemon and related programs.
+
