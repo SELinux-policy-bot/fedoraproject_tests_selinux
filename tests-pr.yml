@@ -5,8 +5,7 @@
   pre_tasks:
     - name: Generate list of tests in this PR
       shell: |
-          COMMIT_NUM=$(git cherry origin/master | wc -l)
-          git log --format= --stat --name-only HEAD -$COMMIT_NUM | grep '/' | sed '/\//!d;s#\(.*\)/.*#\1#' | sort -u | tr '\n' ' ' | xargs
+          git diff --stat --name-only origin/master HEAD | sed '/\//!d;s#\(.*\)/.*#\1#' | sort -u | xargs
       delegate_to: localhost
       register: tests_list
 
