@@ -14,7 +14,7 @@ function check_config() {
 }
 
 function get_file_con() {
-    getfattr --absolute-names --only-values -n security.selinux "$1" | tr -d '\000'
+    getfattr -h --absolute-names --only-values -n security.selinux "$1" | tr -d '\000'
 }
 
 function strip_mls() {
@@ -109,8 +109,20 @@ rlJournalStart
             check_file_con "/mnt/myceph/test" "$SEUSER:object_r:unlabeled_t:s0"
             rlRun "chcon system_u:object_r:usr_t:s0 /mnt/myceph/test"
             check_file_con "/mnt/myceph/test" "system_u:object_r:usr_t:s0"
+
             rlRun "touch /mnt/myceph/test/file"
+            rlRun "mkdir /mnt/myceph/test/dir"
+            rlRun "ln -s /etc /mnt/myceph/test/symlink"
+            rlRun "mknod /mnt/myceph/test/fifo p"
+            rlRun "mknod /mnt/myceph/test/block b 1 3"
+            rlRun "mknod /mnt/myceph/test/char c 1 3"
+
             check_file_con "/mnt/myceph/test/file" "$SEUSER:object_r:usr_t:s0"
+            check_file_con "/mnt/myceph/test/dir" "$SEUSER:object_r:usr_t:s0"
+            check_file_con "/mnt/myceph/test/symlink" "$SEUSER:object_r:usr_t:s0"
+            check_file_con "/mnt/myceph/test/fifo" "$SEUSER:object_r:usr_t:s0"
+            check_file_con "/mnt/myceph/test/block" "$SEUSER:object_r:usr_t:s0"
+            check_file_con "/mnt/myceph/test/char" "$SEUSER:object_r:usr_t:s0"
         elif rlIsEL '>=8.3'; then
             # RHEL-8 - genfscon + xattr handling
             # See: https://bugzilla.redhat.com/show_bug.cgi?id=1823764
@@ -121,8 +133,20 @@ rlJournalStart
             check_file_con "/mnt/myceph/test" "$SEUSER:object_r:cephfs_t:s0"
             rlRun "chcon system_u:object_r:usr_t:s0 /mnt/myceph/test"
             check_file_con "/mnt/myceph/test" "system_u:object_r:usr_t:s0"
+
             rlRun "touch /mnt/myceph/test/file"
+            rlRun "mkdir /mnt/myceph/test/dir"
+            rlRun "ln -s /etc /mnt/myceph/test/symlink"
+            rlRun "mknod /mnt/myceph/test/fifo p"
+            rlRun "mknod /mnt/myceph/test/block b 1 3"
+            rlRun "mknod /mnt/myceph/test/char c 1 3"
+
             check_file_con "/mnt/myceph/test/file" "$SEUSER:object_r:usr_t:s0"
+            check_file_con "/mnt/myceph/test/dir" "$SEUSER:object_r:usr_t:s0"
+            check_file_con "/mnt/myceph/test/symlink" "$SEUSER:object_r:usr_t:s0"
+            check_file_con "/mnt/myceph/test/fifo" "$SEUSER:object_r:usr_t:s0"
+            check_file_con "/mnt/myceph/test/block" "$SEUSER:object_r:usr_t:s0"
+            check_file_con "/mnt/myceph/test/char" "$SEUSER:object_r:usr_t:s0"
         else
             # F31 and below - just genfscon
             check_file_con "/mnt/myceph" "system_u:object_r:cephfs_t:s0"
@@ -130,8 +154,20 @@ rlJournalStart
             check_file_con "/mnt/myceph/test" "system_u:object_r:cephfs_t:s0"
             rlRun "chcon system_u:object_r:usr_t:s0 /mnt/myceph/test" 1
             check_file_con "/mnt/myceph/test" "system_u:object_r:cephfs_t:s0"
+
             rlRun "touch /mnt/myceph/test/file"
+            rlRun "mkdir /mnt/myceph/test/dir"
+            rlRun "ln -s /etc /mnt/myceph/test/symlink"
+            rlRun "mknod /mnt/myceph/test/fifo p"
+            rlRun "mknod /mnt/myceph/test/block b 1 3"
+            rlRun "mknod /mnt/myceph/test/char c 1 3"
+
             check_file_con "/mnt/myceph/test/file" "system_u:object_r:cephfs_t:s0"
+            check_file_con "/mnt/myceph/test/dir" "system_u:object_r:cephfs_t:s0"
+            check_file_con "/mnt/myceph/test/symlink" "system_u:object_r:cephfs_t:s0"
+            check_file_con "/mnt/myceph/test/fifo" "system_u:object_r:cephfs_t:s0"
+            check_file_con "/mnt/myceph/test/block" "system_u:object_r:cephfs_t:s0"
+            check_file_con "/mnt/myceph/test/char" "system_u:object_r:cephfs_t:s0"
         fi
     rlPhaseEnd
 
