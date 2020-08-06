@@ -396,7 +396,7 @@ rlJournalStart
         # CKI mainline kernels don't ship with module build infrastructure
         # just yet. Also, RHEL-8 CKI kernel-devel programs are
         # cross-compiled badly for alt arches, so try executing one of them.
-        if ! "/lib/modules/$(uname -r)/build/scripts/unifdef" /dev/null &>/dev/null; then
+        if ! "/lib/modules/$(uname -r)/build/scripts/basic/fixdep" 2>&1 | grep -q "Usage"; then
             exclude_tests+=" module_load"
         fi
 
