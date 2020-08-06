@@ -54,6 +54,7 @@ rlJournalStart
         sleep 2
     rlPhaseEnd
 
+    if ! rlIsRHEL "<8.3" ; then
     rlPhaseStartTest "bz#1791957"
         rlSEMatchPathCon "/run" "var_run_t"
         rlSEMatchPathCon "${TIMESTAMP_DIR}" "pam_var_run_t"
@@ -66,6 +67,7 @@ rlJournalStart
         rlRun "strings /usr/sbin/pam_timestamp_check | sed \"s|//*|/|g\" | grep ${TIMESTAMP_DIR}"
         rlRun "strings /usr/lib64/security/pam_timestamp.so | sed \"s|//*|/|g\" | grep ${TIMESTAMP_DIR}"
     rlPhaseEnd
+    fi
 
     rlPhaseStartTest "real scenario -- confined users"
         rlRun "setsebool ssh_sysadm_login on"
