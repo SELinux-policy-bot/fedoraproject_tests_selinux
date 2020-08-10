@@ -5,7 +5,7 @@
   pre_tasks:
     - name: Generate list of tests in this PR
       shell: |
-          git diff --stat --name-only origin/master HEAD | sed '/\//!d;s#\(.*\)/.*#\1#' | sort -u | xargs
+          git log --format= --stat --name-only origin/master..HEAD | sed '/\//!d;s#\(.*\)/.*#\1#' | sort -u | xargs
       delegate_to: localhost
       register: tests_list
 
