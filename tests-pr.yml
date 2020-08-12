@@ -9,9 +9,10 @@
       delegate_to: localhost
       register: tests_list
 
-    - name: set fact foo
+    - name: Set tests
       set_fact:
         tests: "{{ tests_list.stdout.split(' ') }}"
 
   roles:
   - role: standard-test-beakerlib
+
