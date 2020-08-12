@@ -107,6 +107,13 @@ rlJournalStart
         rlRun "rm -rf mypolicy"
     rlPhaseEnd
 
+    rlPhaseStartTest "sepolicy manpage --web, bz1854639"
+        rlRun "sepolicy manpage --web -d zebra_t"
+        rlRun "ls /tmp/*release*" 0 "Html file with OS name exists."
+        rlRun "cat /tmp/*release* > /tmp/testfile"
+        rlAssertGrep "href=zebra.html" "/tmp/testfile"
+    rlPhaseEnd
+
     rlPhaseStartCleanup
         rlRun "popd"
         rlRun "rm -r $TmpDir" 0 "Removing tmp directory"
