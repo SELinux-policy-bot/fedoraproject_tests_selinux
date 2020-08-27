@@ -1,0 +1,5 @@
+PURPOSE of /CoreOS/selinux-policy/Regression/ladvd
+Author: Amith Kumar <apeetham@redhat.com>
+
+Test coverage for SELinux AVC issues related to ladvd service.
+
