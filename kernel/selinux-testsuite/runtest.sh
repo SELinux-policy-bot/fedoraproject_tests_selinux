@@ -458,6 +458,14 @@ rlJournalStart
         rlRun "AUDIT_FILE=\"\$(mktemp)\""
         rlRun "auditctl -w \"\$AUDIT_FILE\" -p w" 0 \
             "Enable creation of PATH audit records"
+
+        # Get another global IPv4 address to allow running a few extra SCTP tests.
+        rlRun "ip link add mygre type gretap local 127.0.0.1 remote 127.0.0.1" 0 \
+            "Set up a GRE tunnel to get one more global IPv4 address"
+        rlRun "ip addr add 10.123.123.123 dev mygre" 0 \
+            "Add a dummy address to the GRE tunnel interface"
+        rlRun "ip link set mygre up" 0 \
+            "Activate the GRE interface"
     rlPhaseEnd
 
     rlPhaseStartTest
@@ -472,6 +480,7 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartCleanup
+        rlRun "ip link del mygre"
         rlRun "auditctl -W \"\$AUDIT_FILE\" -p w" 0 \
             "Remove rule for creation of PATH audit records"
         rlRun "rm -f \"\$AUDIT_FILE\""
