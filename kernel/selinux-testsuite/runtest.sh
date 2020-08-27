@@ -165,6 +165,7 @@ rlJournalStart
             nc
             netlabel_tools
             net-tools
+            nftables
             nmap-ncat
             perl-Test
             perl-Test-Harness
