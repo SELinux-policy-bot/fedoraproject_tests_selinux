@@ -56,6 +56,14 @@ rlJournalStart
         sleep 2
     rlPhaseEnd
 
+    rlPhaseStartTest "bz#1834234"
+        rlSEMatchPathCon "/usr/sbin/nfsdcld" "rpcd_exec_t"
+        rlSESearchRule "allow init_t rpcd_exec_t : file { getattr open read execute } [ ]"
+        rlSESearchRule "type_transition init_t rpcd_exec_t : process rpcd_t"
+        rlSESearchRule "allow init_t rpcd_t : process { transition } [ ]"
+        rlSESearchRule "allow rpcd_t nfsd_fs_t : file { getattr open read } [ ]"
+    rlPhaseEnd
+
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
