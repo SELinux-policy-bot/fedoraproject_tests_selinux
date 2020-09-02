@@ -34,13 +34,17 @@ PACKAGE="selinux-policy"
 ROOT_PASSWORD="redhat"
 FILE_PATH="/usr/lib/systemd/systemd-bootchart"
 FILE_CONTEXT="systemd_bootchart_exec_t"
-SERVICE_PACKAGE="systemd-bootchart"
+if rlIsRHEL 7 ; then
+    SERVICE_PACKAGE="systemd"
+else
+    SERVICE_PACKAGE="systemd-bootchart"
+fi
 SERVICE_NAME="systemd-bootchart"
 PROCESS_NAME="systemd-bootchart"
 PROCESS_CONTEXT="systemd_bootchart_t"
 
 rlJournalStart
-    if ! rlIsFedora && ! rlIsRHEL ">8.3"; then
+    if ! rlIsFedora && ! rlIsRHEL 7 ; then
         rlLog "Not applicable to this OS version."
         rlJournalEnd
         exit 0
