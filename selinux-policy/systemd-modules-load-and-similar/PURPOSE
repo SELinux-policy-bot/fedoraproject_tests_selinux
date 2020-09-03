@@ -1,0 +1,5 @@
+PURPOSE of /CoreOS/selinux-policy/Regression/systemd-modules-load-and-similar
+Author: Milos Malik <mmalik@redhat.com>
+
+SELinux interferes with the systemd-modules-load service and related programs.
+
