@@ -1,0 +1,5 @@
+PURPOSE of /CoreOS/selinux-policy/Regression/usbguard-daemon-and-similar
+Author: Milos Malik <mmalik@redhat.com>
+
+SELinux interferes with usbguard and related programs.
+
