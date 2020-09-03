@@ -1,0 +1,5 @@
+PURPOSE of /CoreOS/selinux-policy/Regression/systemd-timesyncd-and-similar
+Author: Milos Malik <mmalik@redhat.com>
+
+SELinux interferes with systemd-timesyncd and related programs.
+
