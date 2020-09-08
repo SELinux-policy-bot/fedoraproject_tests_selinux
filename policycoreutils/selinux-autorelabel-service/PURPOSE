@@ -1,0 +1,9 @@
+PURPOSE of /CoreOS/policycoreutils/Regression/selinux-autorelabel-service
+Author: Milos Malik <mmalik@redhat.com>
+
+Description: incorrectly set StandardInput and StandardOutput of selinux-autorelabel service
+
+Bugzilla links:
+ * https://bugzilla.redhat.com/show_bug.cgi?id=1766578
+ * https://bugzilla.redhat.com/show_bug.cgi?id=1778094
+
