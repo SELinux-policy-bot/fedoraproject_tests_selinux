@@ -1,0 +1,5 @@
+PURPOSE of /CoreOS/selinux-policy/Regression/swap-file-and-systemd-access
+Author: Milos Malik <mmalik@redhat.com>
+
+SELinux interferes with systemd when accessing a swap file.
+
