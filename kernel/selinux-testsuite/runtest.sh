@@ -154,10 +154,8 @@ rlJournalStart
             keyutils-libs-devel
             libbpf-devel
             libibverbs-devel
-            libselinux
             libselinux-devel
             libselinux-utils
-            libsemanage
             libsepol-devel
             libuuid-devel
             lksctp-tools-devel
@@ -170,7 +168,6 @@ rlJournalStart
             perl-Test
             perl-Test-Harness
             perl-Test-Simple
-            platform-python
             policycoreutils
             policycoreutils-devel
             policycoreutils-python
@@ -179,7 +176,6 @@ rlJournalStart
             python3-lxml
             quota
             rdma-core-devel
-            selinux-policy
             selinux-policy-devel
             setools-console
             which
