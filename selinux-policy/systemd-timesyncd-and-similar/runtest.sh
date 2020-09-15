@@ -98,6 +98,10 @@ rlJournalStart
         rlSESearchRule "allow init_t systemd_timedated_t : process2 { nnp_transition } [ ]"
     rlPhaseEnd
 
+    rlPhaseStartTest "bz#1869979"
+        rlSESearchRule "allow systemd_timedated_t efivarfs_t : file { getattr open read } [ ]"
+    rlPhaseEnd
+
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
