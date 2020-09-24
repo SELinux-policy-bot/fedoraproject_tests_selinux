@@ -1,0 +1,7 @@
+PURPOSE of /CoreOS/libselinux/Regression/get_default_context
+Author: Vit Mojzis <vmojzis@redhat.com>
+Perform lookup of a default context for system_u:system_r:crond_t. This should
+return context derived from "system_r:system_cronjob_t", but fails,
+because of a kernel bug, when libselinux uses security_compute_user
+(deprecated).
+See https://bugzilla.redhat.com/show_bug.cgi?id=1879368
