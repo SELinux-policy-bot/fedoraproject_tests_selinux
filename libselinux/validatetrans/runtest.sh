@@ -33,6 +33,13 @@
 PACKAGE="libselinux"
 
 rlJournalStart
+    # validatetrans utility is available since Fedora 32
+    if ! rlIsRHEL ">8" && ! rlIsFedora ">31"; then
+        rlLog "Not applicable to this OS version."
+        rlJournalEnd
+        exit 0
+    fi
+
     rlPhaseStartSetup
         rlRun "rlImport 'selinux-policy/common'"
         rlAssertRpm ${PACKAGE}
