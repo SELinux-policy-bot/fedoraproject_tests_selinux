@@ -1,0 +1,10 @@
+path: /selinux-policy/systemd-homed
+summary: Test homectl utility and its sub-commands to verify AVC denials
+description: |
+    Test coverage for SELinux AVC issues associated with systemd-homed 
+    service. The homectl program calls the systemd-homed service, which 
+    is not yet confined, but it triggers SELinux denials. This test suite
+    covers command homectl with its subcommands and checks for avc denials.
+relevancy:
+    - "distro = rhel-4, rhel-5, rhel-6, rhel-7: False"
+
