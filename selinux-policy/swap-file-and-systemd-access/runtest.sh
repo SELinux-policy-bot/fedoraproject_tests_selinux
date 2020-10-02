@@ -32,6 +32,12 @@
 PACKAGE="selinux-policy"
 
 rlJournalStart
+    if rlIsFedora "<34" || rlIsRHEL "<8.4" ; then
+        rlLog "Not applicable to this system version."
+        rlJournalEnd
+        exit 0
+    fi
+
     rlPhaseStartSetup
         rlRun "rlImport 'selinux-policy/common'"
         rlSESatisfyRequires
