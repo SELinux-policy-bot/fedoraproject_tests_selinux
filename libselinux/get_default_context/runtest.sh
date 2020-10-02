@@ -40,10 +40,12 @@ rlJournalStart
         rlRun "sestatus"
     rlPhaseEnd
 
+    if rlIsRHEL ">=8.3" || rlIsFedora; then
     rlPhaseStartTest "#1879368"
         rlRun "cat ./reproducer.py"
         rlRun "./reproducer.py" 0
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
     rlPhaseEnd
