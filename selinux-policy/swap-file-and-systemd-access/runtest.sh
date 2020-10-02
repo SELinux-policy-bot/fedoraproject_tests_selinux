@@ -61,8 +61,8 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "bz#1797543 + bz#1798872"
-        rlSEMatchPathCon "/usr/lib/systemd/systemd-sleep" "init_exec_t"
-        rlSESearchRule "allow init_t swapfile_t : file { open read ioctl } [ ]"
+        rlSEMatchPathCon "/usr/lib/systemd/systemd-sleep" "systemd_sleep_exec_t"
+        rlSESearchRule "allow systemd_sleep_t swapfile_t : file { append getattr ioctl lock open read write } [ ]"
     rlPhaseEnd
 
     rlPhaseStartTest "bz#1845594"
