@@ -53,6 +53,7 @@ $(METADATA): Makefile
 	@echo "Description:     SELinux interferes with fapolicyd and related programs" >> $(METADATA)
 	@echo "Type:            Regression" >> $(METADATA)
 	@echo "TestTime:        10m" >> $(METADATA)
+	@echo "RunFor:          fapolicyd" >> $(METADATA)
 	@echo "RunFor:          selinux-policy" >> $(METADATA)
 	@echo "Requires:        audit initscripts libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted setools-console fapolicyd fapolicyd-selinux" >> $(METADATA)
 	@echo "RhtsRequires:    library(selinux-policy/common)" >> $(METADATA)
@@ -62,6 +63,7 @@ $(METADATA): Makefile
 	@echo "Confidential:    no" >> $(METADATA)
 	@echo "Destructive:     no" >> $(METADATA)
 	@echo "Releases:        -RHEL4 -RHEL5 -RHEL6 -RHEL7" >> $(METADATA)
+	@echo "Bug:             1865818" >> $(METADATA) # RHEL-8
 
 	rhts-lint $(METADATA)
 

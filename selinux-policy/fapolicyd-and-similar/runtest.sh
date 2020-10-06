@@ -57,14 +57,20 @@ rlJournalStart
         sleep 2
     rlPhaseEnd
 
+    rlPhaseStartTest "bz#1865818"
+        rlSEMatchPathCon "/usr/sbin/fapolicyd" ${FILE_CONTEXT}
+        rlSEMatchPathCon "/etc/resolv.conf" "net_conf_t"
+        rlSESearchRule "allow ${PROCESS_CONTEXT} net_conf_t : lnk_file { getattr read } [ ]"
+    rlPhaseEnd
+
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
-            # for RHELs where the SELinux domain does not exist yet
+            # for OSes where the SELinux domain does not exist yet
             PROCESS_CONTEXT="unconfined_service_t"
         fi
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
-	rlRun "restorecon -Rv /run /var"
+        rlRun "restorecon -Rv /run /var"
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
 
