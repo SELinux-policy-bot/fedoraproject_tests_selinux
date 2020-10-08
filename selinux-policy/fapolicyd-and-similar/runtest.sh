@@ -63,6 +63,15 @@ rlJournalStart
         rlSESearchRule "allow ${PROCESS_CONTEXT} net_conf_t : lnk_file { getattr read } [ ]"
     rlPhaseEnd
 
+    rlPhaseStartTest "bz#1874491"
+        rlSEMatchPathCon "/usr/sbin/fapolicyd" ${FILE_CONTEXT}
+        rlSEMatchPathCon "/run/dbus/system_bus_socket" "system_dbusd_var_run_t"
+        rlSESearchRule "allow fapolicyd_t system_dbusd_var_run_t : sock_file { write } [ ]"
+        rlSESearchRule "allow fapolicyd_t system_dbusd_t : unix_stream_socket { connectto } [ ]"
+        rlSESearchRule "allow fapolicyd_t system_dbusd_t : dbus { send_msg } [ ]"
+        rlSESearchRule "allow system_dbusd_t fapolicyd_t : dbus { send_msg } [ ]"
+    rlPhaseEnd
+
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
