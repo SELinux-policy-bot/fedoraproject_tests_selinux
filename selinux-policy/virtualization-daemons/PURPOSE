@@ -1,0 +1,6 @@
+PURPOSE of /CoreOS/selinux-policy/Regression/virtualization-daemons
+Author: Milos Malik <mmalik@redhat.com>
+
+Various virtualization daemons are confined by SELinux. Do they work
+as expected?
+

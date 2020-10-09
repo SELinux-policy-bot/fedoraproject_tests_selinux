@@ -1,0 +1,48 @@
+summary: SELinux interferes with various virtualization daemons.
+description: |+
+    SELinux interferes with various virtualization daemons.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+test: ./runtest.sh
+framework: beakerlib
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - /usr/sbin/service
+  - libvirt-client
+  - libvirt-daemon
+  - libvirt-daemon-driver-interface
+  - libvirt-daemon-driver-libxl
+  - libvirt-daemon-driver-lxc
+  - libvirt-daemon-driver-network
+  - libvirt-daemon-driver-nodedev
+  - libvirt-daemon-driver-nwfilter
+  - libvirt-daemon-driver-qemu
+  - libvirt-daemon-driver-secret
+  - libvirt-daemon-driver-storage-core
+  - libvirt-daemon-driver-vbox
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 15m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - NoRHEL8
+  - targeted
+adjust:
+-  enabled: false
+   when: distro < rhel-9
+   because: the virtualization daemons are not available there
+
