@@ -42,6 +42,13 @@ ALLOWED_USERS=${ALLOWED_USERS:-"staff_u user_u guest_u xguest_u sysadm_u unconfi
 DENIED_USERS=${DENIED_USERS:-""}
 
 rlJournalStart
+    # the systemd-userdbd service is not available on RHEL-8
+    if rlIsRHEL 8 ; then
+        rlLog "Not applicable to this OS version."
+        rlJournalEnd
+        exit 0
+    fi
+
     rlPhaseStartSetup
         rlRun "rlImport 'selinux-policy/common'"
         rlSESatisfyRequires
