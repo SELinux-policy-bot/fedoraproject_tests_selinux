@@ -84,6 +84,7 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartCleanup
+        rlServiceRestore ladvd
         rlRun "rm -f /tmp/avcfile"
         rlRun "rm -f /tmp/avc_class_file"
     rlPhaseEnd
