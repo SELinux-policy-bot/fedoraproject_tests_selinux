@@ -72,6 +72,14 @@ rlJournalStart
         rlSESearchRule "allow system_dbusd_t fapolicyd_t : dbus { send_msg } [ ]"
     rlPhaseEnd
 
+    rlPhaseStartTest "bz#1876538"
+        rlSEMatchPathCon "/usr/sbin/fapolicyd" ${FILE_CONTEXT}
+        rlSEMatchPathCon "/var/lib/rpm" "rpm_var_lib_t"
+        rlSEMatchPathCon "/var/lib/rpm/.dbenv.lock" "rpm_var_lib_t"
+        rlSESearchRule "allow fapolicyd_t rpm_var_lib_t : dir { write add_name } [ ]"
+        rlSESearchRule "allow fapolicyd_t rpm_var_lib_t : file { create } [ ]"
+    rlPhaseEnd
+
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
