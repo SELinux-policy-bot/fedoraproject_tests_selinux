@@ -5,7 +5,8 @@
   pre_tasks:
     - name: Generate list of tests in this PR
       shell: |
-          git log --format= --stat --name-only origin/master..HEAD | sed '/\//!d;s#\(.*\)/.*#\1#' | sort -u | xargs
+          git fetch https://src.fedoraproject.org/tests/selinux.git master:upstream-master
+          git log --format= --stat --name-only upstream-master..HEAD | sed '/\//!d;s#\(.*\)/.*#\1#' | sort -u | xargs
       delegate_to: localhost
       register: tests_list
 
