@@ -35,7 +35,7 @@ PACKAGE="selinux-policy"
 # This should be updated as needed after verifying that the new version
 # doesn't break testing and after applying all necessary tweaks in the TC.
 # Run with GIT_BRANCH=master to run the latest upstream version.
-DEFAULT_COMMIT="03872ef3c206e56a90ef7df7c1042895c7096cc3"
+DEFAULT_COMMIT="0c8e8d550f95b41ad64624d3f3e149bf3c6f290c"
 # Default pull requests to merge before running the test.
 # If non-empty, then after checking out GIT_BRANCH the listed upstream pull
 # requests (by number) are merged, creating a new temporary local branch.
@@ -455,14 +455,6 @@ rlJournalStart
         rlRun "AUDIT_FILE=\"\$(mktemp)\""
         rlRun "auditctl -w \"\$AUDIT_FILE\" -p w" 0 \
             "Enable creation of PATH audit records"
-
-        # Get another global IPv4 address to allow running a few extra SCTP tests.
-        rlRun "ip link add mygre type gretap local 127.0.0.1 remote 127.0.0.1" 0 \
-            "Set up a GRE tunnel to get one more global IPv4 address"
-        rlRun "ip addr add 10.123.123.123 dev mygre" 0 \
-            "Add a dummy address to the GRE tunnel interface"
-        rlRun "ip link set mygre up" 0 \
-            "Activate the GRE interface"
     rlPhaseEnd
 
     rlPhaseStartTest
@@ -477,7 +469,6 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartCleanup
-        rlRun "ip link del mygre"
         rlRun "auditctl -W \"\$AUDIT_FILE\" -p w" 0 \
             "Remove rule for creation of PATH audit records"
         rlRun "rm -f \"\$AUDIT_FILE\""
