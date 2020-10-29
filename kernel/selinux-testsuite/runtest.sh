@@ -41,7 +41,7 @@ DEFAULT_COMMIT="0c8e8d550f95b41ad64624d3f3e149bf3c6f290c"
 # requests (by number) are merged, creating a new temporary local branch.
 DEFAULT_PULLS=""
 # Default SELinux Patchwork series to apply before running the test.
-DEFAULT_PATCHES=""
+DEFAULT_PATCHES="372903"
 
 # Optional test parameter - location of testuite git.
 GIT_URL=${GIT_URL:-"git://github.com/SELinuxProject/selinux-testsuite"}
