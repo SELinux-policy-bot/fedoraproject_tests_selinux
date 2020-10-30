@@ -308,16 +308,6 @@ rlJournalStart
             rlRun "sed -i 's/3.18/3.9/' $file" 0 \
                 "Fix up kernel version in nnp test"
         done
-        if rlIsRHEL ; then
-            if kver_ge 4.18; then
-                force_tests+=" sctp"
-            fi
-            if kver_ge 4.18.0-80.19; then
-                force_tests+=" cgroupfs_label"
-            fi
-            # CONFIG_KEYS_DH_COMPUTE not enabled on RHEL-8 :(
-            exclude_tests+=" keys"
-        fi
         if rlIsRHEL 5 ; then
             rlRun "sed -i '/unconfined_devpts_t/d' policy/test_policy.if" 0
 
@@ -346,39 +336,48 @@ rlJournalStart
         rlRun "sed -i 's/tm\.tv_sec = [0-9]*;/tm.tv_sec = $NETWORK_TIMEOUT;/' ./tests/*/*.c" 0 \
             "Tweak timeout in networking tests" # 2 secs is too little for SCTP test
 
-        if kver_lt "3.10" || rlIsRHEL '<7.4'; then
-            # filesystem tests don't work well on RHEL <7.4
-            exclude_tests+=" filesystem"
-        fi
-
-        if kver_lt "3.10.0-349"; then
-            # c4684bbdac07 [security] selinux: Permit bounded transitions under NO_NEW_PRIVS or NOSUID
-            # da74590f6501 [security] selinux: reject setexeccon() on MNT_NOSUID applications with -EACCES
-            exclude_tests+=" nnp_nosuid"
-        fi
-
-        if kver_lt "3.10.0-693"; then
-            # I don't know when exactly this test starts passing, so I'm just
-            # disabling it for anything below the RHEL-7.4 kernel...
-            exclude_tests+=" inet_socket"
-        fi
-
-        if kver_lt "3.10.0-875"; then
-            rlLog "No xperms support => disable xperms testing"
-            rlRun "sed -i '/TARGETS += test_ioctl_xperms\.te/d' policy/Makefile"
-            rlRun "sed -i 's/\$kernver >= 30/\$kernver >= 999999/' tests/ioctl/test"
-        fi
-        # workaround for https://bugzilla.redhat.com/show_bug.cgi?id=1613056
-        # (if running kernel version sorts inside the known-bug window, then
-        # we need to apply the workaround)
-        if kver_ge "3.10.0-875" && kver_lt "3.10.0-972"; then
-            rlLog "Applying workaround for BZ 1613056..."
-            rlRun "cat >>policy/test_ipc.te <<<'allow_map(ipcdomain, tmpfs_t, file)'"
-            rlRun "cat >>policy/test_mmap.te <<<'allow_map(test_execmem_t, tmpfs_t, file)'"
-            rlRun "cat >>policy/test_mmap.te <<<'allow_map(test_no_execmem_t, tmpfs_t, file)'"
-        fi
-
         if rlIsRHEL; then
+            if kver_lt "3.10" || rlIsRHEL '<7.4'; then
+                # filesystem tests don't work well on RHEL <7.4
+                exclude_tests+=" filesystem"
+            fi
+
+            if kver_lt "3.10.0-349"; then
+                # c4684bbdac07 [security] selinux: Permit bounded transitions under NO_NEW_PRIVS or NOSUID
+                # da74590f6501 [security] selinux: reject setexeccon() on MNT_NOSUID applications with -EACCES
+                exclude_tests+=" nnp_nosuid"
+            fi
+
+            if kver_lt "3.10.0-693"; then
+                # I don't know when exactly this test starts passing, so I'm just
+                # disabling it for anything below the RHEL-7.4 kernel...
+                exclude_tests+=" inet_socket"
+            fi
+
+            if kver_lt "3.10.0-875"; then
+                rlLog "No xperms support => disable xperms testing"
+                rlRun "sed -i '/TARGETS += test_ioctl_xperms\.te/d' policy/Makefile"
+                rlRun "sed -i 's/\$kernver >= 30/\$kernver >= 999999/' tests/ioctl/test"
+            fi
+            # workaround for https://bugzilla.redhat.com/show_bug.cgi?id=1613056
+            # (if running kernel version sorts inside the known-bug window, then
+            # we need to apply the workaround)
+            if kver_ge "3.10.0-875" && kver_lt "3.10.0-972"; then
+                rlLog "Applying workaround for BZ 1613056..."
+                rlRun "cat >>policy/test_ipc.te <<<'allow_map(ipcdomain, tmpfs_t, file)'"
+                rlRun "cat >>policy/test_mmap.te <<<'allow_map(test_execmem_t, tmpfs_t, file)'"
+                rlRun "cat >>policy/test_mmap.te <<<'allow_map(test_no_execmem_t, tmpfs_t, file)'"
+            fi
+
+            if kver_ge 4.18; then
+                force_tests+=" sctp"
+            fi
+            if kver_ge 4.18.0-80.19; then
+                force_tests+=" cgroupfs_label"
+            fi
+            # CONFIG_KEYS_DH_COMPUTE not enabled on RHEL-8 :(
+            exclude_tests+=" keys"
+
             # Needs:
             # e4cfa05e9bfe ("selinux: Add xfs quota command types")
             # (not backported to any RHEL at this point - TODO update the check once it is)
