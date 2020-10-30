@@ -375,6 +375,14 @@ rlJournalStart
             if kver_ge 4.18.0-80.19; then
                 force_tests+=" cgroupfs_label"
             fi
+            if kver_lt 4.18.0-152; then
+                # 2839e8ee09517 [net] sctp: add SCTP_ADDR_MADE_PRIM event
+                rlRun "sed -i 's/\\\$test_asconf = 1;/\$test_count -= 3;/g' tests/sctp/test" 0 \
+                    "Disable SCTP ASCONF test (not testable on this kernel)"
+                # 3add2b6b02518 [net] sctp: add SCTP_SEND_FAILED_EVENT event
+                rlRun "sed -i 's/SCTP_SEND_FAILED_EVENT/SCTP_STREAM_CHANGE_EVENT + 1/g' tests/sctp/*.c" 0 \
+                    "Fix SCTP test compilation on old RHEL kernels"
+            fi
             # CONFIG_KEYS_DH_COMPUTE not enabled on RHEL-8 :(
             exclude_tests+=" keys"
 
