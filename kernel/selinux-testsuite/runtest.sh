@@ -35,13 +35,13 @@ PACKAGE="selinux-policy"
 # This should be updated as needed after verifying that the new version
 # doesn't break testing and after applying all necessary tweaks in the TC.
 # Run with GIT_BRANCH=master to run the latest upstream version.
-DEFAULT_COMMIT="0c8e8d550f95b41ad64624d3f3e149bf3c6f290c"
+DEFAULT_COMMIT="ce70a925a4c7766fab698330a626d9a5f5194cc5"
 # Default pull requests to merge before running the test.
 # If non-empty, then after checking out GIT_BRANCH the listed upstream pull
 # requests (by number) are merged, creating a new temporary local branch.
 DEFAULT_PULLS=""
 # Default SELinux Patchwork series to apply before running the test.
-DEFAULT_PATCHES="372903"
+DEFAULT_PATCHES=""
 
 # Optional test parameter - location of testuite git.
 GIT_URL=${GIT_URL:-"git://github.com/SELinuxProject/selinux-testsuite"}
@@ -145,12 +145,15 @@ rlJournalStart
             audit
             checkpolicy
             curl
+            dosfstools
+            e2fsprogs
             elfutils-libelf-devel
             expect
             gcc
             git
             grep
             iptables
+            jfsutils
             keyutils-libs-devel
             libbpf-devel
             libibverbs-devel
@@ -171,7 +174,6 @@ rlJournalStart
             policycoreutils
             policycoreutils-devel
             policycoreutils-python
-            python3
             python2-lxml
             python3-lxml
             quota
@@ -326,22 +328,11 @@ rlJournalStart
             rlRun "sed -i '/SUBDIRS += bpf/d;/export CFLAGS += -DHAVE_BPF/d' tests/Makefile" 0 \
                 "RHEL < 8.2 doesn't ship libbpf => disable BPF subtests"
         fi
-        if ! [ -x /usr/bin/python3 ]; then
-            # to avoid error messages like runcon: ‘overlay/access’: No such file or directory
-            rlRun "rpm -qa | grep python | sort"
-            rlRun "sed -i 's/python3\$/python2/' tests/overlay/access" 0 \
-                "Fix up Python shebang in overlay test"
-        fi
 
         rlRun "sed -i 's/tm\.tv_sec = [0-9]*;/tm.tv_sec = $NETWORK_TIMEOUT;/' ./tests/*/*.c" 0 \
             "Tweak timeout in networking tests" # 2 secs is too little for SCTP test
 
         if rlIsRHEL; then
-            if kver_lt "3.10" || rlIsRHEL '<7.4'; then
-                # filesystem tests don't work well on RHEL <7.4
-                exclude_tests+=" filesystem"
-            fi
-
             if kver_lt "3.10.0-349"; then
                 # c4684bbdac07 [security] selinux: Permit bounded transitions under NO_NEW_PRIVS or NOSUID
                 # da74590f6501 [security] selinux: reject setexeccon() on MNT_NOSUID applications with -EACCES
@@ -349,9 +340,10 @@ rlJournalStart
             fi
 
             if kver_lt "3.10.0-693"; then
-                # I don't know when exactly this test starts passing, so I'm just
-                # disabling it for anything below the RHEL-7.4 kernel...
+                # I don't know when exactly these tests start passing, so I'm just
+                # disabling them for anything below the RHEL-7.4 kernel...
                 exclude_tests+=" inet_socket"
+                exclude_tests+=" filesystem/ext4 filesystem/xfs filesystem/jfs filesystem/vfat"
             fi
 
             if kver_lt "3.10.0-875"; then
@@ -421,9 +413,6 @@ rlJournalStart
             rlRun "sed -i '/^[^[:space:]]*:\(\| .*\)\$/i SUBDIRS:=\$(filter-out $force_tests, \$(SUBDIRS))\nSUBDIRS += $force_tests' tests/Makefile" 0 \
                 "Force applicable tests: $force_tests"
         fi
-
-        # needed for filesystem test on RHEL-7
-        rlRun "modprobe ext4"
 
         if ! modprobe sctp 2>/dev/null; then
             script1='s/runcon -t test_sctp_socket_t/true/g'
