@@ -30,12 +30,11 @@
 . /usr/share/beakerlib/beakerlib.sh || exit 1
 
 PACKAGE="selinux-policy"
+REAL_SCENARIOS=${REAL_SCENARIOS:-true}
 
 rlJournalStart
-    if rlIsFedora "<34" || rlIsRHEL "<8.4" ; then
-        rlLog "Not applicable to this system version."
-        rlJournalEnd
-        exit 0
+    if ! seinfo -t | grep -q systemd_sleep ; then
+        rlDie "Not applicable to this SELinux policy version."
     fi
 
     rlPhaseStartSetup
@@ -74,6 +73,7 @@ rlJournalStart
         rlSESearchRule "allow systemd_logind_t swapfile_t : file { getattr open read ioctl } [ ]"
     rlPhaseEnd
 
+    if ${REAL_SCENARIOS} ; then
     rlPhaseStartTest "real scenario"
         rlRun "rm -f /swapfile"
         rlRun "dd if=/dev/zero of=/swapfile bs=1M count=256"
@@ -98,6 +98,7 @@ rlJournalStart
         rlRun "free"
         rlRun "rm -f /swapfile"
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2
