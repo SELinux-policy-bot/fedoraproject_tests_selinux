@@ -60,9 +60,13 @@ rlJournalStart
         rlSESearchRule "allow init_t swapfile_t : file { getattr } [ ]"
     rlPhaseEnd
 
-    rlPhaseStartTest "bz#1797543 + bz#1798872"
+    rlPhaseStartTest "bz#1797543 + bz#1798872 + bz#1850177"
         rlSEMatchPathCon "/usr/lib/systemd/systemd-sleep" "systemd_sleep_exec_t"
+        rlSEMatchPathCon "/sys/power" "sysfs_t"
+        rlSEMatchPathCon "/sys/power/state" "sysfs_t"
         rlSESearchRule "allow systemd_sleep_t swapfile_t : file { append getattr ioctl lock open read write } [ ]"
+        rlSESearchRule "allow systemd_sleep_t systemd_sleep_t : capability { sys_ptrace } [ ]"
+        rlSESearchRule "allow systemd_sleep_t sysfs_t : dir { write } [ ]"
     rlPhaseEnd
 
     rlPhaseStartTest "bz#1845594"
