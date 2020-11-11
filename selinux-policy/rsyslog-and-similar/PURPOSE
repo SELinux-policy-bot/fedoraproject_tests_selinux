@@ -1,0 +1,5 @@
+PURPOSE of /CoreOS/selinux-policy/Regression/rsyslog-and-similar
+Author: Amith Kumar <apeetham@redhat.com>
+
+SELinux interferes with rsyslogd and related programs.
+
