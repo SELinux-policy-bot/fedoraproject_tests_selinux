@@ -42,6 +42,12 @@ ALLOWED_USERS=${ALLOWED_USERS:-"staff_u user_u sysadm_u unconfined_u"}
 DENIED_USERS=${DENIED_USERS:-"guest_u xguest_u"}
 
 rlJournalStart
+    if rlIsRHEL || rlIsFedora "<32"; then
+        rlLog "Not applicable to this OS version."
+        rlJournalEnd
+        exit 0
+    fi
+
     rlPhaseStartSetup
         rlRun "rlImport 'selinux-policy/common'"
         rlSESatisfyRequires
