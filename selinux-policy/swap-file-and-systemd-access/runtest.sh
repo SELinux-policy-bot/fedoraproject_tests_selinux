@@ -68,10 +68,12 @@ rlJournalStart
         rlSESearchRule "allow systemd_sleep_t sysfs_t : dir { write } [ ]"
     rlPhaseEnd
 
+    if rlIsFedora ; then
     rlPhaseStartTest "bz#1845594"
         rlSEMatchPathCon "/usr/lib/systemd/systemd-logind" "systemd_logind_exec_t"
         rlSESearchRule "allow systemd_logind_t swapfile_t : file { getattr open read ioctl } [ ]"
     rlPhaseEnd
+    fi
 
     if ${REAL_SCENARIOS} ; then
     rlPhaseStartTest "real scenario"
