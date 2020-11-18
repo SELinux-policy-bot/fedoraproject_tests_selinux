@@ -54,6 +54,12 @@ rlJournalStart
         sleep 2
     rlPhaseEnd
 
+    rlPhaseStartTest "bz#1898298"
+        rlSEMatchPathCon "/usr/bin/rpmdb" "rpmdb_exec_t"
+        rlSEMatchPathCon "/etc/resolv.conf" "net_conf_t"
+        rlSESearchRule "allow rpmdb_t net_conf_t : lnk_file { getattr read } [ ]"
+    rlPhaseEnd
+
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "touch /var/lib/rpm/.rebuilddb"
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} - ${PROCESS_CONTEXT} "start status" 1
