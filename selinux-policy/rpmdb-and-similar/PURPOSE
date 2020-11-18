@@ -1,0 +1,5 @@
+PURPOSE of /CoreOS/selinux-policy/Regression/rpmdb-and-similar
+Author: Milos Malik <mmalik@redhat.com>
+
+SELinux interferes with rpmdb program, rpmdb-rebuild service and related programs.
+
