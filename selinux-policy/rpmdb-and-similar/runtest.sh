@@ -38,6 +38,8 @@ PROCESS_NAME="rpmdb"
 PROCESS_CONTEXT="rpmdb_t"
 
 rlJournalStart
+    rlLog "If this test fails, please contact mmalik or IRC #selinux"
+    rlLog "This test should fail if tested bugs are NOT fixed yet"
     rlPhaseStartSetup
         rlRun "rlImport 'selinux-policy/common'"
         rlSESatisfyRequires
@@ -66,6 +68,20 @@ rlJournalStart
         rlRun "restorecon -Rv /run /var"
         rlRun "touch /var/lib/rpm/.rebuilddb"
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} - ${PROCESS_CONTEXT} "restart status stop status" 1
+    rlPhaseEnd
+
+    rlPhaseStartTest "rpmdb executed by root/unconfined_t"
+        rlRun "restorecon -Rv /var/lib/rpm"
+        rlRun "rpmdb --help"
+        OUTPUT_FILE=`mktemp`
+        rlRun "rpmdb --exportdb >& ${OUTPUT_FILE}"
+        rlRun "ls -l ${OUTPUT_FILE}"
+        rlRun "ls -dZ /var/lib/rpm | grep :rpm_var_lib_t"
+        rlRun "ls -Z /var/lib/rpm"
+        rlRun "cat ${OUTPUT_FILE} | rpmdb --importdb"
+        rlRun "ls -dZ /var/lib/rpm | grep :rpm_var_lib_t"
+        rlRun "ls -Z /var/lib/rpm"
+        rm -f ${OUTPUT_FILE}
     rlPhaseEnd
 
     rlPhaseStartCleanup
