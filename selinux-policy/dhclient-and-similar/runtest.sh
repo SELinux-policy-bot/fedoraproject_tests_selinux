@@ -53,16 +53,25 @@ rlJournalStart
         sleep 2
     rlPhaseEnd
 
-    rlPhaseStartTest "real scenario -- runcon under root"
+    rlPhaseStartTest "bz#1897388"
+        rlSEMatchPathCon "/usr/sbin/dhclient-script" "dhcpc_exec_t"
+        rlSEMatchPathCon "/usr/bin/chronyc" "chronyc_exec_t"
+        rlSESearchRule "allow dhcpc_t chronyc_exec_t : file { getattr open read execute } [ ]"
+        rlSESearchRule "type_transition dhcpc_t chronyc_exec_t : process chronyc_t"
+        rlSESearchRule "allow dhcpc_t chronyc_t : process { transition } [ ]"
+    rlPhaseEnd
+
+    rlPhaseStartTest "real scenario"
         rlRun "dhclient"
-        sleep 5
-        rlRun "killall dhclient"
+        DHCLIENT_PID=`pgrep dhclient`
+        rlRun "ps -efZ | grep dhclient"
+        rlRun "ps -efZ | grep ':dhcpc_t:.*dhclient'"
     rlPhaseEnd
 
     rlPhaseStartCleanup
         sleep 2
         rlSECheckAVC
-
+        kill ${DHCLIENT_PID}
         rlServiceRestore ${SERVICE_NAME}
     rlPhaseEnd
 rlJournalPrintText

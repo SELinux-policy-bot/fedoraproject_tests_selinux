@@ -62,6 +62,7 @@ $(METADATA): Makefile
 	@echo "Confidential:    no" >> $(METADATA)
 	@echo "Destructive:     no" >> $(METADATA)
 	@echo "Releases:        -RHEL4 -RHEL5 -RHEL6 -RHEL7" >> $(METADATA)
+	@echo "Bug:             1897388" >> $(METADATA) # Fedora 33
 
 	rhts-lint $(METADATA)
 
