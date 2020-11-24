@@ -1,0 +1,5 @@
+path: /libsemanage/usepasswd-in-semanage-conf
+summary: Make sure usepasswd option in semanage.conf works properly
+relevancy:
+    - "distro = rhel-4, rhel-5, rhel-6: False"
+tier: 2

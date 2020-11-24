@@ -1,0 +1,6 @@
+PURPOSE of /CoreOS/libsemanage/Sanity/usepasswd-in-semanage-conf
+Author: Vit Mojzis <vmojzis@redhat.com>
+Bugzilla link: https://bugzilla.redhat.com/show_bug.cgi?id=1871786
+
+Make sure usepasswd option in semanage.conf works properly
+
