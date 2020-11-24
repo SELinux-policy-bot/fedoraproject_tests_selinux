@@ -1,0 +1,18 @@
+summary: Regression test for netlabel failure with many interfaces
+description: |
+    Netlabel daemon fails to remove all rules when many rules are added for
+    many interfaces (BZ#1901171 and BZ#1901174)
+contact: Ondrej Mosnacek <omosnace@redhat.com>
+component:
+- kernel
+framework: beakerlib
+require:
+- netlabel_tools
+- iproute
+duration: 5m
+tier: 2
+enabled: true
+adjust:
+    enabled: false
+    when: distro < rhel-7
+    because: RHEL-6 and below is too old...
