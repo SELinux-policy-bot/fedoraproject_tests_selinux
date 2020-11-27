@@ -29,7 +29,7 @@ export TESTVERSION=1.0
 
 BUILT_FILES=
 
-FILES=$(METADATA) runtest.sh Makefile PURPOSE
+FILES=$(METADATA) runtest.sh Makefile PURPOSE ssh.exp
 
 .PHONY: all install download clean
 
@@ -37,8 +37,8 @@ run: $(FILES) build
 	./runtest.sh
 
 build: $(BUILT_FILES)
-	chmod a+x runtest.sh
-	chcon -t bin_t runtest.sh
+	chmod a+x runtest.sh ssh.exp
+	chcon -t bin_t runtest.sh ssh.exp
 
 clean:
 	rm -f *~ $(BUILT_FILES)
@@ -54,7 +54,7 @@ $(METADATA): Makefile
 	@echo "Type:            Regression" >> $(METADATA)
 	@echo "TestTime:        10m" >> $(METADATA)
 	@echo "RunFor:          selinux-policy" >> $(METADATA)
-	@echo "Requires:        audit libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted setools-console perf" >> $(METADATA)
+	@echo "Requires:        audit libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted setools-console perf expect openssh-clients" >> $(METADATA)
 	@echo "RhtsRequires:    library(selinux-policy/common)" >> $(METADATA)
 	@echo "Environment:     AVC_ERROR=+no_avc_check" >> $(METADATA)
 	@echo "Priority:        Normal" >> $(METADATA)
