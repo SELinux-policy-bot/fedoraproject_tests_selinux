@@ -1,0 +1,5 @@
+PURPOSE of /CoreOS/selinux-policy/Regression/perf_event-and-related
+Author: Milos Malik <mmalik@redhat.com>
+
+Description: Is the perf_event class and its permissions defined? Does SELinux allow various perf_event aware programs to work?
+
