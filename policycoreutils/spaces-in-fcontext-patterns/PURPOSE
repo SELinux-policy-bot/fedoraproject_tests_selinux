@@ -1,0 +1,5 @@
+PURPOSE of /CoreOS/policycoreutils/Regression/spaces-in-fcontext-patterns
+Author: Milos Malik <mmalik@redhat.com>
+
+Description: Does semanage accept spaces in fcontext patterns?
+

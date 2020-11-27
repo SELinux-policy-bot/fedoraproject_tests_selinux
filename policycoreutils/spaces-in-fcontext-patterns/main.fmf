@@ -1,0 +1,37 @@
+summary: Does semanage accept spaces in fcontext patterns?
+description: |+
+  Does semanage accept spaces in fcontext patterns?
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - policycoreutils
+test: ./runtest.sh
+framework: beakerlib
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - /usr/sbin/semanage
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - CI-Tier-1
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - Tier1
+  - Tier1se
+  - targeted
+tier: '1'
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1893545
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7
+    continue: false
