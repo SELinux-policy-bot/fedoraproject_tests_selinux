@@ -59,8 +59,9 @@ rlJournalStart
         sleep 2
     rlPhaseEnd
 
-    rlPhaseStartTest "bz#1901957"
+    rlPhaseStartTest "bz#1901957 + bz#1901958"
         rlSESearchRule "allow unconfined_t unconfined_t : perf_event { open cpu kernel read write } [ ]"
+        rlSESearchRule "allow sysadm_t sysadm_t : perf_event { open cpu kernel read write } [ ]"
     rlPhaseEnd
 
     rlPhaseStartTest "real scenario -- perf tool under root"
