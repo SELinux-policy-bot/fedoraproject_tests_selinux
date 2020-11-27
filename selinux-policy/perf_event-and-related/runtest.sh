@@ -70,6 +70,10 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "real scenario -- confined root sysadm_u"
+        rlRun "grep -i permit /etc/ssh/sshd_config"
+        rlFileBackup /etc/ssh/sshd_config
+        rlRun "sed -i 's/^.*PermitRootLogin.*$/PermitRootLogin yes/' /etc/ssh/sshd_config"
+        rlRun "service sshd restart"
         rlRun "setsebool ssh_sysadm_login on"
         USER_NAME="toor"
         USER_SECRET="S3kr3t${RANDOM}"
@@ -78,6 +82,8 @@ rlJournalStart
         rlRun "./ssh.exp ${USER_NAME}/sysadm_r ${USER_SECRET} localhost perf record -o /dev/null echo test"
         rlRun "userdel -Z ${USER_NAME}"
         rlRun "setsebool ssh_sysadm_login off"
+        rlFileRestore
+        rlRun "service sshd restart"
     rlPhaseEnd
 
     rlPhaseStartCleanup
