@@ -1,0 +1,5 @@
+PURPOSE of /CoreOS/selinux-policy/Regression/tlp-and-similar
+Author: Milos Malik <mmalik@redhat.com>
+
+SELinux interferes with tlp and related programs.
+

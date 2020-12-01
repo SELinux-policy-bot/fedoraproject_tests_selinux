@@ -1,0 +1,5 @@
+path: /selinux-policy/tlp-and-similar
+summary: SELinux interferes with tlp and related programs
+description: |
+    Test coverage for SELinux AVC issues against tlp and related
+    programs. 
