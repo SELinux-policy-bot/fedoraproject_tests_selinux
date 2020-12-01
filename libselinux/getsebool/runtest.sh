@@ -46,10 +46,12 @@ rlJournalStart
 
     rlPhaseStartTest 
         rlRun "getsebool -a"
-        rlRun "umount ${SELINUX_FS_MOUNT}"
-        rlRun "getsebool -a 2>&1 | tee ${OUTPUT_FILE}"
-        rlAssertGrep "selinux.*disabled" ${OUTPUT_FILE} -i
-        rlRun "mount -t selinuxfs none ${SELINUX_FS_MOUNT}"
+        rlRun "umount --lazy ${SELINUX_FS_MOUNT}" 0,32
+        if [ $? -eq 0 ] ; then
+            rlRun "getsebool -a 2>&1 | tee ${OUTPUT_FILE}"
+            rlAssertGrep "selinux.*disabled" ${OUTPUT_FILE} -i
+            rlRun "mount -t selinuxfs none ${SELINUX_FS_MOUNT}"
+        fi
         rlRun "mkdir booleans"
         rlRun "mount --bind ./booleans ${SELINUX_FS_MOUNT}/booleans"
         rlRun "getsebool -a 2>&1 | tee ${OUTPUT_FILE}"

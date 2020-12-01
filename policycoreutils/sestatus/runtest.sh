@@ -75,12 +75,14 @@ rlJournalStart
         done
         rlFileRestore
         # pretend that SELinux is disabled
-        rlRun "umount ${SELINUX_FS_MOUNT}"
-        for OPTION in "" "-b" "-v" "-bv" ; do
-            rlRun "sestatus ${OPTION} 2>&1 | tee ${OUTPUT_FILE}"
-            rlAssertGrep "selinux status.*disabled" ${OUTPUT_FILE} -i
-        done
-        rlRun "mount -t selinuxfs none ${SELINUX_FS_MOUNT}"
+        rlRun "umount --lazy ${SELINUX_FS_MOUNT}" 0,32
+        if [ $? -eq 0 ] ; then
+            for OPTION in "" "-b" "-v" "-bv" ; do
+                rlRun "sestatus ${OPTION} 2>&1 | tee ${OUTPUT_FILE}"
+                rlAssertGrep "selinux status.*disabled" ${OUTPUT_FILE} -i
+            done
+            rlRun "mount -t selinuxfs none ${SELINUX_FS_MOUNT}"
+        fi
         # pretend that no booleans are defined
         rlRun "mkdir ./booleans"
         rlRun "mount --bind ./booleans ${SELINUX_FS_MOUNT}/booleans"

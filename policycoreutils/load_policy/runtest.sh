@@ -72,21 +72,23 @@ rlJournalStart
             # we assume that audit message has a different format now (does not contain "policy loaded")
             rlRun "ausearch -m MAC_POLICY_LOAD -i -ts ${START_DATE_TIME} | grep 'type=MAC_POLICY_LOAD'"
         fi
-        rlRun "umount ${SELINUX_FS_MOUNT}"
-        rlRun "grep -i selinux /proc/mounts" 1
-        START_DATE_TIME=`date "+%m/%d/%Y %T"`
-        sleep 1
-        rlRun "load_policy -i ${BINARY_POLICY}"
-        rlRun "grep -i selinux /proc/mounts"
-        sleep 1
-        if rlIsRHEL ; then
-            rlRun "ausearch -m MAC_POLICY_LOAD -i -ts ${START_DATE_TIME} | grep load_policy"
-        fi
-        if rlIsRHEL 5 6 7 ; then
-            rlRun "ausearch -m MAC_POLICY_LOAD -i -ts ${START_DATE_TIME} | grep 'policy loaded'"
-        else
-            # we assume that audit message has a different format now (does not contain "policy loaded")
-            rlRun "ausearch -m MAC_POLICY_LOAD -i -ts ${START_DATE_TIME} | grep 'type=MAC_POLICY_LOAD'"
+        rlRun "umount --lazy ${SELINUX_FS_MOUNT}" 0,32
+        if [ $? -eq 0 ] ; then
+            rlRun "grep -i selinux /proc/mounts" 1
+            START_DATE_TIME=`date "+%m/%d/%Y %T"`
+            sleep 1
+            rlRun "load_policy -i ${BINARY_POLICY}"
+            rlRun "grep -i selinux /proc/mounts"
+            sleep 1
+            if rlIsRHEL ; then
+                rlRun "ausearch -m MAC_POLICY_LOAD -i -ts ${START_DATE_TIME} | grep load_policy"
+            fi
+            if rlIsRHEL 5 6 7 ; then
+                rlRun "ausearch -m MAC_POLICY_LOAD -i -ts ${START_DATE_TIME} | grep 'policy loaded'"
+            else
+                # we assume that audit message has a different format now (does not contain "policy loaded")
+                rlRun "ausearch -m MAC_POLICY_LOAD -i -ts ${START_DATE_TIME} | grep 'type=MAC_POLICY_LOAD'"
+            fi
         fi
         rlRun "dmesg | grep -i selinux"
     rlPhaseEnd

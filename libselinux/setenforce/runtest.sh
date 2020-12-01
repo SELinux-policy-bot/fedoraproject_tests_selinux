@@ -64,12 +64,14 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "extreme cases"
-        rlRun "umount ${SELINUX_FS_MOUNT}"
-        for OPTION in 1 0 Enforcing Permissive ; do
-            rlRun "setenforce ${OPTION} 2>&1 | tee ${OUTPUT_FILE}"
-            rlAssertGrep "selinux.*disabled" ${OUTPUT_FILE} -i
-        done
-        rlRun "mount -t selinuxfs none ${SELINUX_FS_MOUNT}"
+        rlRun "umount --lazy ${SELINUX_FS_MOUNT}" 0,32
+        if [ $? -eq 0 ] ; then
+            for OPTION in 1 0 Enforcing Permissive ; do
+                rlRun "setenforce ${OPTION} 2>&1 | tee ${OUTPUT_FILE}"
+                rlAssertGrep "selinux.*disabled" ${OUTPUT_FILE} -i
+            done
+            rlRun "mount -t selinuxfs none ${SELINUX_FS_MOUNT}"
+        fi
         rlRun "touch ./enforce"
         rlRun "chattr +i ./enforce"
         rlRun "mount --bind ./enforce ${SELINUX_FS_MOUNT}/enforce"
