@@ -64,8 +64,12 @@ rlJournalStart
         rlSEMatchPathCon "/sys/power" "sysfs_t"
         rlSEMatchPathCon "/sys/power/state" "sysfs_t"
         rlSESearchRule "allow systemd_sleep_t swapfile_t : file { append getattr ioctl lock open read write } [ ]"
-        rlSESearchRule "allow systemd_sleep_t systemd_sleep_t : capability { sys_ptrace } [ ]"
+        rlSESearchRule "dontaudit systemd_sleep_t systemd_sleep_t : capability { sys_ptrace } [ ]"
         rlSESearchRule "allow systemd_sleep_t sysfs_t : dir { write } [ ]"
+        rlSESearchRule "allow systemd_sleep_t sysfs_t : file { getattr open write } [ ]"
+        rlSESearchRule "allow systemd_sleep_t systemd_sleep_t : capability { sys_resource } [ ]"
+        rlSESearchRule "allow systemd_sleep_t kmsg_device_t : chr_file { write } [ ]"
+        rlSESearchRule "allow systemd_sleep_t kernel_t : unix_dgram_socket { sendto } [ ]"
     rlPhaseEnd
 
     if rlIsFedora ; then
