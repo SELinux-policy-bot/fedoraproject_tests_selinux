@@ -59,8 +59,16 @@ rlJournalStart
 
     rlPhaseStartTest "bz#1865818"
         rlSEMatchPathCon "/usr/sbin/fapolicyd" ${FILE_CONTEXT}
-        rlSEMatchPathCon "/etc/resolv.conf" "net_conf_t"
-        rlSESearchRule "allow ${PROCESS_CONTEXT} net_conf_t : lnk_file { getattr read } [ ]"
+        if [ -L "/etc/resolv.conf" ]; then
+          rlSEMatchPathCon "/etc/resolv.conf" "etc_t"
+          LINK_PATH=`readlink -f "/etc/resolv.conf"`
+          rlSEMatchPathCon "$LINK_PATH" "net_conf_t"
+          rlSESearchRule "allow ${PROCESS_CONTEXT} etc_t : lnk_file { getattr read } [ ]"
+          rlSESearchRule "allow ${PROCESS_CONTEXT} net_conf_t : file { getattr read } [ ]"
+        else
+          rlSEMatchPathCon "/etc/resolv.conf" "net_conf_t"
+          rlSESearchRule "allow ${PROCESS_CONTEXT} net_conf_t : file { getattr read } [ ]"
+        fi
     rlPhaseEnd
 
     rlPhaseStartTest "bz#1874491"
