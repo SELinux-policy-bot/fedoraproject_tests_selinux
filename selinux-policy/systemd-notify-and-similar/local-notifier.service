@@ -1,0 +1,7 @@
+[Unit]
+Description=Local notifier service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/notifier.sh
+

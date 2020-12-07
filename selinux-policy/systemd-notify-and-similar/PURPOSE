@@ -1,0 +1,5 @@
+PURPOSE of /CoreOS/selinux-policy/Regression/systemd-notify-and-similar
+Author: Milos Malik <mmalik@redhat.com>
+
+SELinux interferes with systemd-notify and related programs.
+
