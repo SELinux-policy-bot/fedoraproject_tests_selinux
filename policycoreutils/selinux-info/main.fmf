@@ -4,5 +4,6 @@ description: |
     Test that output of sestatus matches information in /sys/fs/selinux.
     Test that avcstat works. Test getenforce. Warning: this tests runs
     setenforce.
-relevancy:
-    - "distro = rhel-4, rhel-5, rhel-6: False"
+adjust:
+-   enabled: false
+    when: distro ~= rhel-4, rhel-5, rhel-6

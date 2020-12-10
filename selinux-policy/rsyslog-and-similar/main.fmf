@@ -3,6 +3,6 @@ summary: Test rsyslog service and verify AVC denials
 description: |
     Test coverage for rsyslog service with different configurations and 
     verify related SELinux AVC issues.
-relevancy:
-    - "distro = rhel-4, rhel-5, rhel-6, rhel-7: False"
- 
+adjust:
+-   enabled: false
+    when: distro ~= rhel-4, rhel-5, rhel-6, rhel-7

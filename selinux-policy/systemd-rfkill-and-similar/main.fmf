@@ -1,2 +1,5 @@
 path: /selinux-policy/systemd-rfkill-and-similar
 tier: 2
+adjust:
+-   enabled: false
+    when: distro ~>= fedora-32

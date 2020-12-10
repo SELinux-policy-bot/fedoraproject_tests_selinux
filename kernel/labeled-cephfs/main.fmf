@@ -4,6 +4,7 @@ summary: Test for correct CephFS SELinux labeling
 description: |
     This TC verifies that CephFS security label support works as expected.
 duration: 30m
-relevancy:
-    - "distro < rhel-8: False"
 tier: 2
+adjust:
+-   enabled: false
+    when: distro ~< rhel-8

@@ -3,3 +3,6 @@ summary: SELinux interferes with tlp and related programs
 description: |
     Test coverage for SELinux AVC issues against tlp and related
     programs. 
+adjust:
+-   enabled: false
+    when: distro ~= rhel-4, rhel-5, rhel-6

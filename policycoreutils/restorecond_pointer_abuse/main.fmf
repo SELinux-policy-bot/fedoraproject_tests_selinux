@@ -10,7 +10,8 @@ description: |
     this test may result in SUCESS even if the issue being tested is present!
 
     Bugzilla link: https://bugzilla.redhat.com/show_bug.cgi?id=1626468
-relevancy:
-    - "distro = rhel-4, rhel-5, rhel-6: False"
-component: [ policycoreutils ]
-#requires: [/usr/sbin/restorecond, /usr/bin/chcon, /usr/sbin/sestatus, /usr/bin/systemctl, /usr/bin/journalctl]
+component:
+- policycoreutils
+adjust:
+-   enabled: false
+    when: distro ~= rhel-4, rhel-5, rhel-6

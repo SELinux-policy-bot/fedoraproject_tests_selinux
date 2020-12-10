@@ -1,3 +1,5 @@
 path: /selinux-policy/nfsdcld-and-similar
 tier: 2
-
+adjust:
+-   enabled: false
+    when: distro ~= rhel-4, rhel-5, rhel-6, rhel-7

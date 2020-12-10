@@ -6,8 +6,7 @@ description: |
     Tested tools: semodule, semanage
     Positive and negative cases are tested.
     Original information found at http://selinuxproject.org/page/PolicyValidate
-relevancy:
-    - "distro = rhel-4, rhel-5: False"
 tier: 1
-
-#requires+: [libsemanage]
+adjust:
+-   enabled: false
+    when: distro ~= rhel-4, rhel-5

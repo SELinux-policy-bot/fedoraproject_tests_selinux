@@ -6,6 +6,7 @@ description: |
     Module overriding using priorities and module disabling is also
     tested. This test requires policycoreutils and selinux-policy-devel
     packages.
-relevancy:
-    - "distro = rhel-4, rhel-5, rhel-6: False"
 duration: 10m
+adjust:
+-   enabled: false
+    when: distro ~= rhel-4, rhel-5, rhel-6

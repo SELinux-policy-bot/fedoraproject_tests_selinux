@@ -1,5 +1,5 @@
 path: /selinux-policy/systemd-userdbd-and-similar
 tier: 2
-relevancy:
-- "distro <= rhel-8: False"
-
+adjust:
+-   enabled: false
+    when: distro ~<= rhel-8

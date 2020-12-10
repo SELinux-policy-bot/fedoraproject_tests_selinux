@@ -3,3 +3,6 @@ summary: Test ladvd utility to verify AVC denials
 description: |
     Test coverage for SELinux AVC issues related ladvd service. This
     test suite primarily verifies two bugs ie bz1834325 and bz1855163. 
+adjust:
+-   enabled: false
+    when: distro ~<= rhel-8

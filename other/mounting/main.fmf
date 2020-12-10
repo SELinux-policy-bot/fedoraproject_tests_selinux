@@ -4,5 +4,6 @@ description: |
     Test the context and defcontext options of the mount command. Test
     different filesystems: ext2, ext3, ext4. XFS, FAT32. Requires
     e2fsprogs and dosfstools.
-relevancy:
-    - "distro = rhel-4, rhel-5, rhel-6: False"
+adjust:
+-   enabled: false
+    when: distro ~= rhel-4, rhel-5, rhel-6
