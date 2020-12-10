@@ -1,0 +1,5 @@
+path: /selinux-policy/kerberos-and-similar
+summary: SELinux interferes with various kerberos daemons and related programs.
+description: |
+    Test coverage for SELinux AVC issues against kerberos daemon and related
+    programs. 
