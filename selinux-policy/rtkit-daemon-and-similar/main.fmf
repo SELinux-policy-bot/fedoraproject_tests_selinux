@@ -1,0 +1,4 @@
+path: /selinux-policy/rtkit-daemon-and-similar
+summary: SELinux interferes with rtkit daemon and related programs 
+description: |
+    Test coverage for SELinux AVC issues against rtkit daemon and related programs. 
