@@ -1,0 +1,6 @@
+PURPOSE of /CoreOS/selinux-policy/Regression/fwupd-and-similar
+Author: Milos Malik <mmalik@redhat.com>
+
+SELinux interferes with fwupd and related programs.
+Standalone service and confined users are tested.
+
