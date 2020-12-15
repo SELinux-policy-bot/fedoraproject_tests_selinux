@@ -4,4 +4,4 @@ description: |
     Run fixfiles with -F and -B options and check /.autorelabel             
 adjust:
 -   enabled: false
-    when: distro ~= rhel-4, rhel-5, rhel-6
+    when: distro < rhel-7

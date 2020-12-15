@@ -5,4 +5,4 @@ description: |
     programs. 
 adjust:
 -   enabled: false
-    when: distro ~= rhel-4, rhel-5, rhel-6
+    when: distro < rhel-7

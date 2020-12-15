@@ -3,4 +3,4 @@ summary: Make sure usepasswd option in semanage.conf works properly
 tier: 2
 adjust:
 -   enabled: false
-    when: distro ~= rhel-4, rhel-5, rhel-6
+    when: distro < rhel-7

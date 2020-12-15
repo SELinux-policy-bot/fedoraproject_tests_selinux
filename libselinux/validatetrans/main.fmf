@@ -1,4 +1,4 @@
 path: /libselinux/validatetrans
 adjust:
 -   enabled: false
-    when: distro ~< fedora-32
+    when: distro < fedora-32

@@ -5,4 +5,4 @@ description: |
     tries to use selinux python module in a simple operation
 adjust:
 -   enabled: false
-    when: distro ~= rhel-4, rhel-5, rhel-6, rhel-7
+    when: distro < rhel-8
