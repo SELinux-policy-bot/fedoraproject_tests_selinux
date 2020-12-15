@@ -1,2 +1,5 @@
-path: /selinux-policy/getrlimit-and-similar
+path: /selinux-policy/getrlimit-permission
 tier: 2
+adjust:
+- enabled: false
+  when: distro < rhel-7
