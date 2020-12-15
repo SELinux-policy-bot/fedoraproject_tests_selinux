@@ -1,0 +1,5 @@
+PURPOSE of /CoreOS/selinux-policy/Sanity/getrlimit-permission
+Author: Milos Malik <mmalik@redhat.com>
+
+Is the getrlimit permission defined? Are { getrlimit } SELinux denials triggered when certain access happens?
+
