@@ -1,0 +1,25 @@
+summary: TCP SYN flood SELinux performance test
+description: |
+    Verify that SELinux hooks do not excessively slow down TCP SYN flood
+    handling.
+    https://bugzilla.redhat.com/show_bug.cgi?id=1904940
+contact: Ondrej Mosnacek <omosnace@redhat.com>
+component:
+- kernel
+framework: beakerlib
+require:
+- library(distribution/epel)
+- /usr/bin/nc
+- perf
+- git
+- perl-interpreter
+- perl-open
+recommend:
+- /usr/sbin/hping3
+duration: 10m
+tier: 3
+enabled: true
+adjust:
+    enabled: false
+    when: distro < rhel-8
+    because: The test doesn't work well on RHEL-7
