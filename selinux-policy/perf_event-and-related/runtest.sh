@@ -41,6 +41,7 @@ rlJournalStart
         rlAssertRpm ${PACKAGE}-targeted
         rlAssertRpm perf
 
+        rlRun "rm -f base.cil"
         rlRun "semodule -c -E base"
         if grep -q perf_event base.cil ; then
             rlLog "current SELinux policy already defines the perf_event class"
@@ -74,6 +75,7 @@ rlJournalStart
         rlRun "grep -i permit /etc/ssh/sshd_config"
         rlFileBackup /etc/ssh/sshd_config
         rlRun "sed -i 's/^.*PermitRootLogin.*$/PermitRootLogin yes/' /etc/ssh/sshd_config"
+        rlRun "sed -i 's/^.*PasswordAuthentication.*$/PasswordAuthentication yes/' /etc/ssh/sshd_config"
         rlRun "service sshd restart"
         rlRun "setsebool ssh_sysadm_login on"
         USER_NAME="toor"
@@ -81,7 +83,7 @@ rlJournalStart
         rlRun "useradd -o -u 0 -g 0 -Z sysadm_u ${USER_NAME}"
         rlRun "echo ${USER_SECRET} | passwd --stdin ${USER_NAME}"
         rlRun "./ssh.exp ${USER_NAME}/sysadm_r ${USER_SECRET} localhost perf record -o /dev/null echo test"
-        rlRun "userdel -Z ${USER_NAME}"
+        rlRun "userdel -rfZ ${USER_NAME}"
         rlRun "setsebool ssh_sysadm_login off"
         rlFileRestore
         rlRun "service sshd restart"
