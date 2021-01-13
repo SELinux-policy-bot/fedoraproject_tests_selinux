@@ -1,0 +1,5 @@
+path: /selinux-policy/pcp-daemons-and-similar
+summary: SELinux issues related to pcp deamons and related programs
+description: |
+   Test coverage for SELinux AVC issues against pcp and related programs.
+
