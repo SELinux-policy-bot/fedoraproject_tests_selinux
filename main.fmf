@@ -1,6 +1,7 @@
 test: ./runtest.sh
 tier: 2
 duration: 5m
+framework: beakerlib
 
 #contact: Petr Lautrbach <plautrba@redhat.com>
 #requires: [policycoreutils, libselinux-utils]
