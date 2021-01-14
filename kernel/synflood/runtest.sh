@@ -51,8 +51,9 @@ else
 
     rlPhaseStartCleanup
         rlRun "perf script -i perf.data | $FG_DIR/stackcollapse-perf.pl | $FG_DIR/flamegraph.pl > flamegraph.svg"
+        rlRun "xz -T0 perf.data"
 
-        rlFileSubmit "perf.data"
+        rlFileSubmit "perf.data.xz"
         rlFileSubmit "flamegraph.svg"
     rlPhaseEnd
 fi
