@@ -12,7 +12,12 @@ TEST_PORT=8080
 FG_URL="https://github.com/brendangregg/FlameGraph"
 FG_DIR="FlameGraph"
 
-LIMIT="1%"
+function isBefore() {
+    local target="$1"
+    local reference="$2"
+
+    grep -E "$target|$reference" | head -n 1 | grep -q "$target"
+}
 
 rlJournalStart
 if [ $(nproc) -lt 8 ]; then
@@ -42,19 +47,30 @@ else
         rlRun "perf record -o perf.data -ag -- sleep 10s" 0 \
             "Capture perf data for 10s"
         rlRun "kill \$(jobs -p)" 0 "Kill background processes"
-        rlRun "perf report -i perf.data -g none --pretty raw -F overhead,symbol | grep -E '\\[k\\] (selinux|security)_'"
-        top_percent="$(perf report -i perf.data -g none --pretty raw -F overhead,symbol | \
-            grep -E '\[k\] (selinux|security)_' | head -n 1 | awk '{ print $1 }')"
-        rlRun "[ \"\$({ echo \$top_percent; echo $LIMIT; } | sort -n | tail -n 1)\" = $LIMIT ]" 0 \
-            "Check that no SELinux function takes up more than $LIMIT of CPU time"
+        rlRun "perf report -i perf.data -g none --pretty raw -F overhead,symbol | \
+            grep -E '\\[k\\] (selinux|security)_' | tee perf-report.txt"
+
+        if grep -q selinux_peerlbl_enabled /proc/kallsyms; then
+            rlLog "selinux_peerlbl_enabled() found in /proc/kallsyms"
+            target_func=selinux_peerlbl_enabled
+        else
+            rlLog "selinux_peerlbl_enabled() NOT found in /proc/kallsyms (ergo it's inlined)"
+            # if selinux_peerlbl_enabled() is inlined, then the extra overhead
+            # shows up in selinux_ip_postroute() and selinux_socket_sock_rcv_skb()
+            target_func=selinux_ip_postroute
+        fi
+        rlRun "cat perf-report.txt | isBefore security_netlbl_sid_to_secattr $target_func" 0 \
+            "Check that $target_func() has lower impact than security_netlbl_sid_to_secattr()"
     rlPhaseEnd
 
     rlPhaseStartCleanup
         rlRun "perf script -i perf.data | $FG_DIR/stackcollapse-perf.pl | $FG_DIR/flamegraph.pl > flamegraph.svg"
         rlRun "xz -T0 perf.data"
 
-        rlFileSubmit "perf.data.xz"
-        rlFileSubmit "flamegraph.svg"
+        for file in "perf.data.xz" "flamegraph.svg" "perf-report.txt"; do
+            rlFileSubmit "$file"
+            rlRun "rm -f $file"
+        done
     rlPhaseEnd
 fi
 rlJournalPrintText
