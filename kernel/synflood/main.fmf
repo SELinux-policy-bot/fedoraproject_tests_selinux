@@ -16,7 +16,7 @@ require:
 - perl-open
 recommend:
 - /usr/sbin/hping3
-duration: 10m
+duration: 20m
 enabled: true
 tier: 3
 adjust:
