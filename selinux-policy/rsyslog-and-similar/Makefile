@@ -69,6 +69,7 @@ $(METADATA): Makefile
 	@echo "Requires:        setools" >> $(METADATA)
 	@echo "Requires:        setools-console" >> $(METADATA)
 	@echo "Requires:        shadow-utils" >> $(METADATA)
+	@echo "Requires:        /usr/sbin/semanage" >> $(METADATA)
 	@echo "RhtsRequires:    library(selinux-policy/common)" >> $(METADATA)
 	@echo "Priority:        Normal" >> $(METADATA)
 	@echo "License:         GPLv2" >> $(METADATA)
