@@ -24,4 +24,6 @@ adjust:
     enabled: false
     when: distro < rhel-8
     because: The test doesn't work well on RHEL-7
-extra-hardware: 'keyvalue = PROCESSORS >= 8'
+extra-hardware: |
+    keyvalue = PROCESSORS >= 64
+    hostrequire = <system><numanodes op="&gt;" value="1"/></system>

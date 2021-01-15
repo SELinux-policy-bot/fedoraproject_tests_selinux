@@ -20,9 +20,9 @@ function isBefore() {
 }
 
 rlJournalStart
-if [ $(nproc) -lt 8 ]; then
+if [ $(nproc) -lt 64 ]; then
     rlPhaseStartTest "SKIP"
-        rlLog "At least 8 cores needed to run this test, skipping..."
+        rlLog "At least 64 cores needed to run this test, skipping..."
     rlPhaseEnd
 else
     rlPhaseStartSetup
