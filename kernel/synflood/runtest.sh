@@ -44,8 +44,8 @@ else
             rlRun "hping3 $ip_address -q -p $TEST_PORT -S --flood &" 0 \
                 "Start TCP flood #$i"
         done
-        rlRun "perf record -o perf.data -ag -- sleep 10s" 0 \
-            "Capture perf data for 10s"
+        rlRun "perf record -o perf.data -ag -- sleep 5s" 0 \
+            "Capture perf data for 5s"
         rlRun "kill \$(jobs -p)" 0 "Kill background processes"
         rlRun "perf report -i perf.data -g none --pretty raw -F overhead,symbol | \
             grep -E '\\[k\\] (selinux|security)_' | tee perf-report.txt"

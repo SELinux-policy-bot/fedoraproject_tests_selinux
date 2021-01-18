@@ -17,7 +17,7 @@ require:
 - xz
 recommend:
 - /usr/sbin/hping3
-duration: 20m
+duration: 1h
 enabled: true
 tier: 3
 adjust:
