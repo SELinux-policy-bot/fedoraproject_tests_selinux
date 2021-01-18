@@ -93,9 +93,11 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "rsyslog omfile cannot append to custom file locations bz#1823672"
+        rlRun "setsebool logging_syslogd_append_public_content on"
         rlRun "cp -rv /etc/rsyslog.conf /etc/rsyslog.conf-orig"
         tst_Time="$(date '+%T')"
         rlRun "mkdir -p /my/custom/log"
+        rlRun "touch /my/custom/log/file"
         rlRun 'semanage fcontext -a -t public_content_rw_t "/my/custom(/.*)?"'
         rlRun "restorecon -Frv /my"
         rlRun "echo ' ' >> /etc/rsyslog.conf"
@@ -106,8 +108,9 @@ rlJournalStart
         rlRun "ausearch -m AVC --start $tst_Time" 1
         rlRun 'semanage fcontext -d -t public_content_rw_t "/my/custom(/.*)?"'
         rlRun "semodule -r rsyslog_imfile_policy"
-	rlRun "cp -rv /etc/rsyslog.conf-orig /etc/rsyslog.conf"
+        rlRun "cp -rv /etc/rsyslog.conf-orig /etc/rsyslog.conf"
         rlRun "systemctl restart rsyslog"
+        rlRun "setsebool logging_syslogd_append_public_content off"
     rlPhaseEnd
 
     rlPhaseStartCleanup
