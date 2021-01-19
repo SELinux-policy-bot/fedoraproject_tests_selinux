@@ -1,0 +1,5 @@
+PURPOSE of /CoreOS/selinux-policy/Sanity/capability2-class
+Author: Milos Malik <mmalik@redhat.com>
+
+Description: Does SELinux policy define new capabilities in capability2 class?
+
