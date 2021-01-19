@@ -1,0 +1,5 @@
+PURPOSE of /CoreOS/selinux-policy/Sanity/watch-permissions
+Author: Milos Malik <mmalik@redhat.com>
+
+Description: Are various watch permissions defined in SELinux policy?
+

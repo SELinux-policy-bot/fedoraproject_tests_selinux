@@ -1,0 +1,28 @@
+path: /selinux-policy/watch-permissions
+contact: Milos Malik <mmalik@redhat.com>
+test: ./runtest.sh
+framework: beakerlib
+component:
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - git
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - setools-console
+  - selinux-policy
+  - selinux-policy-targeted
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 15m
+enabled: true
+link:
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1915034
+adjust:
+  - enabled: false
+    when: distro = rhel-4, rhel-5, rhel-6, rhel-7, rhel-8
+    continue: false
+
