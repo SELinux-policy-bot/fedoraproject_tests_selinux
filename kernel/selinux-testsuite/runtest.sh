@@ -222,6 +222,7 @@ rlJournalStart
         else
             use_cil=y
         fi
+        make_vars="SELINUXFS=$selinuxfs SUPPORTS_CIL=$use_cil"
 
         # test turns this boolean off
         rlRun "BACKUP_allow_domain_fd_use=\$(boolGet allow_domain_fd_use)"
@@ -455,7 +456,6 @@ rlJournalStart
 
     rlPhaseStartTest
         rlRun "pushd selinux-testsuite"
-        make_vars="SELINUXFS=$selinuxfs SUPPORTS_CIL=$use_cil"
         rlRun "$TS_ENV make $make_vars" 0
         rlRun "cat results.log" 0
         $PIPEFAIL_ENABLE
@@ -477,7 +477,7 @@ rlJournalStart
         rlRun "pushd selinux-testsuite"
         # Submit report to beaker.
         rlFileSubmit "results.log" "selinux-testsuite.results.$(uname -r).txt"
-        rlRun "$TS_ENV make -s clean SELINUXFS=$selinuxfs" 0-2
+        rlRun "$TS_ENV make -s clean $make_vars" 0-2
         rlRun "popd"
 
         rlRun "semodule -r test_policy" 0,1
