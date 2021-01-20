@@ -477,10 +477,10 @@ rlJournalStart
         rlRun "pushd selinux-testsuite"
         # Submit report to beaker.
         rlFileSubmit "results.log" "selinux-testsuite.results.$(uname -r).txt"
+        rlRun "$TS_ENV make -s -C policy unload $make_vars" 0-2
         rlRun "$TS_ENV make -s clean $make_vars" 0-2
         rlRun "popd"
 
-        rlRun "semodule -r test_policy" 0,1
         rlRun "sleep 5" 0
         rlRun "dmesg | grep -i \"rcu_sched detected stalls\"" 1
         rlFileRestore
