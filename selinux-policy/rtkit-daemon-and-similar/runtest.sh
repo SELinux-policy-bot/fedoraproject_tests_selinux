@@ -91,6 +91,11 @@ rlJournalStart
     rlPhaseStartTest "bz#1873658"
         rlSESearchRule "allow rtkit_daemon_t rtkit_daemon_t : cap_userns { sys_ptrace } [ ]"
     rlPhaseEnd
+
+    rlPhaseStartTest "bz#1750024 + bz#1910507"
+        # this bug has many duplicates among Fedora bugs
+        rlSESearchRule "allow rtkit_daemon_t rtkit_daemon_t : cap_userns { sys_nice } [ ]"
+    rlPhaseEnd
     fi
 
     if ! rlIsRHEL 5 6 ; then
