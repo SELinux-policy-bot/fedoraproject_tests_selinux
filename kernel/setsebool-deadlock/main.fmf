@@ -1,0 +1,24 @@
+summary: Regression test for deadlock when changing booleans
+description: |
+    Verify that setting booleans with SELinux audit exclude rules present
+    doesn't deadlock itself.
+    WARNING: This test will lockup the machine if the bug is present!
+    https://bugzilla.redhat.com/show_bug.cgi?id=1924230
+contact: Ondrej Mosnacek <omosnace@redhat.com>
+component:
+- kernel
+framework: beakerlib
+require:
+- audit
+- policycoreutils
+duration: 5m
+tier: 3
+enabled: true
+adjust:
+    enabled: false
+    when: distro < fedora-34
+    because: some kernels on Fedora 33 and below don't have the fix
+adjust:
+    enabled: false
+    when: distro ~< rhel-8.4
+    because: not expected to be fixed in RHEL-8 below 8.4
