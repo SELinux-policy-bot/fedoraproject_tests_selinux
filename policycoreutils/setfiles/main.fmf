@@ -1,0 +1,16 @@
+summary: Basic sanity tests for setfiles
+description: Basic sanity tests for setfiles
+contact: Petr Lautrbach <plautrba@redhat.com>
+component:
+- policycoreutils
+framework: beakerlib
+require:
+- e2fsprogs
+- policycoreutils
+duration: 5m
+tier: 1
+enabled: true
+adjust:
+    enabled: false
+    when: distro ~< rhel-8.4
+    because: not expected to be fixed in RHEL-8 below 8.4
