@@ -66,23 +66,39 @@ EOF"
 
     rlPhaseStartTest "setfiles should not abort when it can't label a file - bz#1794518"
         USER=$(mktemp -u userXXXX)
-        USERTMP=$(mktemp -d)
+        USERTMP=$(mktemp -d -p /var/tmp)
         rlRun "useradd ${USER}"
+        rlRun "cat > ${USERTMP}/spec_file <<EOF
+/   -d system_u:object_r:default_t:s0
+/.*  system_u:object_r:default_t:s0
+EOF"
+        DIRS="${USERTMP}/1/1 ${USERTMP}/1/2 ${USERTMP}/2/2 ${USERTMP}/3/4 ${USERTMP}/5/6"
         rlRun "
-chown ${USER} ${USERTMP}
-mkdir -p ${USERTMP}/1/1 ${USERTMP}/1/2
-mkdir -p ${USERTMP}/2/1 ${USERTMP}/2/2
-mkdir -p ${USERTMP}/3/4
-mkdir -p ${USERTMP}/5/6
-touch ${USERTMP}/3/4/i
+for DIR in ${DIRS}; do
+    mkdir -p \${DIR}
+done
+touch ${USERTMP}/1/1/${USER} ${USERTMP}/3/4/chattr
 chown -R ${USER} ${USERTMP}
-chown root: ${USERTMP}/1/2
-chattr +i ${USERTMP}/3/4/i
+mkdir -p ${USERTMP}/2/1
+touch ${USERTMP}/2/1/root
+chattr +i ${USERTMP}/3/4/chattr
 " 0,1 "Prepare directory structure"
-        rlRun "su ${USER} -c '/usr/sbin/setfiles -v -r ${USERTMP} /etc/selinux/targeted/contexts/files/file_contexts ${USERTMP}'"
-        rlRun "userdel -r ${USER}"
-        chattr -i ${USERTMP}/3/4/i
+        rlRun "su ${USER} -c '/usr/sbin/setfiles -F -d -v -r ${USERTMP} ${USERTMP}/spec_file ${USERTMP}'" 0-255
+        for DIR in ${DIRS}; do
+            CONTEXT=$(secon --prompt --file ${DIR})
+            rlAssertEquals "${DIR}" ${CONTEXT} "system_u:object_r:default_t:s0"
+        done
+        CONTEXT=$(secon --prompt --file ${USERTMP}/1/1/${USER})
+        rlAssertEquals "${USERTMP}/1/1/${USER}" ${CONTEXT} "system_u:object_r:default_t:s0"
+        CONTEXT=$(secon --prompt --file ${USERTMP}/2/1)
+        rlAssertNotEquals "${USERTMP}/2/1" ${CONTEXT} "system_u:object_r:default_t:s0"
+        CONTEXT=$(secon --prompt --file ${USERTMP}/2/1/root)
+        rlAssertNotEquals "${USERTMP}/2/1/root" ${CONTEXT} "system_u:object_r:default_t:s0"
+        CONTEXT=$(secon --prompt --file ${USERTMP}/3/4/chattr)
+        rlAssertNotEquals "${USERTMP}/3/4/chattr" ${CONTEXT} "system_u:object_r:default_t:s0"
+        chattr -i ${USERTMP}/3/4/chattr
         rlRun "rm -rf ${USERTMP}"
+        rlRun "userdel -r ${USER}"
     rlPhaseEnd
     rlPhaseStartCleanup
         rlRun "popd"
