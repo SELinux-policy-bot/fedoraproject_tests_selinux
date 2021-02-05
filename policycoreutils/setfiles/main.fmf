@@ -1,6 +1,7 @@
 summary: Basic sanity tests for setfiles
 description: Basic sanity tests for setfiles
 contact: Petr Lautrbach <plautrba@redhat.com>
+path: /policycoreutils/setfiles
 component:
 - policycoreutils
 framework: beakerlib
