@@ -394,12 +394,20 @@ rlJournalStart
         rlRun "semodule -l | grep pcp"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         for SERVICE_NAME in pmcd pmie pmlogger pmproxy ; do
-            rlRun "chkconfig ${SERVICE_NAME} on"
+            if rlIsFedora '>=33' || rlIsRHEL ">=8.1" ; then
+                rlRun "systemctl enable ${SERVICE_NAME}"
+            else
+                rlRun "chkconfig ${SERVICE_NAME} on"
+            fi
         done
         for TRIPLET in ${TRIPLETSLIST} ; do
-            if ! rlSEDefined "${SEDEFINED}" ; then
-                # for RHELs where the SELinux domain does not exist yet
-                PROCESS_CONTEXT="initrc_t"
+            if rlIsFedora '<33' || rlIsRHEL "<8" ; then
+                if ! rlSEDefined "${SEDEFINED}" ; then
+                    # for RHELs where the SELinux domain does not exist yet
+                    PROCESS_CONTEXT="initrc_t"
+                else
+                   PROCESS_CONTEXT=`echo ${TRIPLET} | cut -d : -f 3`
+                fi
             else
                 PROCESS_CONTEXT=`echo ${TRIPLET} | cut -d : -f 3`
             fi
@@ -411,11 +419,15 @@ rlJournalStart
             rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status restart status" 1
         done
         for TRIPLET in ${TRIPLETSLIST} ; do
-            if ! rlSEDefined "${SEDEFINED}" ; then
-                # for RHELs where the SELinux domain does not exist yet
-                PROCESS_CONTEXT="initrc_t"
+            if rlIsFedora '<33' || rlIsRHEL "<8" ; then
+                if ! rlSEDefined "${SEDEFINED}" ; then
+                    # for RHELs where the SELinux domain does not exist yet
+                    PROCESS_CONTEXT="initrc_t"             
+                else
+                    PROCESS_CONTEXT=`echo ${TRIPLET} | cut -d : -f 3`
+                fi
             else
-                PROCESS_CONTEXT=`echo ${TRIPLET} | cut -d : -f 3`
+		PROCESS_CONTEXT=`echo ${TRIPLET} | cut -d : -f 3`
             fi
             PROCESS_NAME=`echo ${TRIPLET} | cut -d : -f 4`
             SERVICE_NAME=${PROCESS_NAME}
@@ -425,7 +437,11 @@ rlJournalStart
             rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "stop" 1
         done
         for SERVICE_NAME in pmcd pmie pmlogger pmproxy ; do
-            rlRun "chkconfig ${SERVICE_NAME} off"
+            if rlIsFedora '>=33' || rlIsRHEL ">=8.1" ; then
+                rlRun "systemctl disable ${SERVICE_NAME}"
+            else
+                rlRun "chkconfig ${SERVICE_NAME} off"
+            fi
         done
     rlPhaseEnd
 
