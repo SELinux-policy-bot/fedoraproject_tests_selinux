@@ -1,0 +1,18 @@
+policy_module(testpolicy,1.0)
+
+require {
+  type initrc_t;
+  type dmidecode_t;
+  type dmidecode_exec_t;
+  type console_device_t;
+  class file { getattr open read execute };
+  class process { transition };
+  class chr_file { read write };
+}
+
+allow initrc_t dmidecode_exec_t : file { getattr open read execute };
+type_transition initrc_t dmidecode_exec_t : process dmidecode_t;
+allow initrc_t dmidecode_t : process { transition };
+allow dmidecode_t initrc_t:process { sigchld };
+allow dmidecode_t console_device_t : chr_file { read write };
+
