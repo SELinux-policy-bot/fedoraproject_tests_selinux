@@ -1,0 +1,5 @@
+PURPOSE of /CoreOS/selinux-policy/Regression/policykit-general
+Author: Michal Trunecka <mtruneck@redhat.com>
+
+SELinux interferes with polkitd and related programs.
+
