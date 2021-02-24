@@ -88,6 +88,21 @@ rlJournalStart
         rlSESearchRule "allow fapolicyd_t rpm_var_lib_t : file { create } [ ]"
     rlPhaseEnd
 
+    if seinfo --common file -x | grep -q watch ; then
+    rlPhaseStartTest "bz#1932225"
+        rlSEMatchPathCon "/boot" "boot_t"
+        rlSEMatchPathCon "/" "root_t"
+        rlSEMatchPathCon "/dev/shm" "tmpfs_t"
+        rlSEMatchPathCon "/tmp" "tmp_t"
+        rlSEMatchPathCon "/run/user/0" "user_tmp_t"
+        rlSESearchRule "allow fapolicyd_t boot_t : dir { watch_mount watch_with_perm } [ ]"
+        rlSESearchRule "allow fapolicyd_t root_t : dir { watch_mount watch_with_perm } [ ]"
+        rlSESearchRule "allow fapolicyd_t tmpfs_t : dir { watch_mount watch_with_perm } [ ]"
+        rlSESearchRule "allow fapolicyd_t tmp_t : dir { watch_mount watch_with_perm } [ ]"
+        rlSESearchRule "allow fapolicyd_t user_tmp_t : dir { watch_mount watch_with_perm } [ ]"
+    rlPhaseEnd
+    fi
+
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
