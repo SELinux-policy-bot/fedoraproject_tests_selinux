@@ -35,7 +35,7 @@ PACKAGE="selinux-policy"
 # This should be updated as needed after verifying that the new version
 # doesn't break testing and after applying all necessary tweaks in the TC.
 # Run with GIT_BRANCH=master to run the latest upstream version.
-DEFAULT_COMMIT="24bb5c0090710767ff187f1682e5bf355166caa3"
+DEFAULT_COMMIT="9ef6c43a3ffa810c9a0061eb4625980dd178f60a"
 # Default pull requests to merge before running the test.
 # If non-empty, then after checking out GIT_BRANCH the listed upstream pull
 # requests (by number) are merged, creating a new temporary local branch.
@@ -180,7 +180,6 @@ rlJournalStart
             rdma-core-devel
             selinux-policy-devel
             setools-console
-            which
             xfsprogs-devel
         "
         rlRun "installDeps \$REQUIRES" 0 "Install requires"
