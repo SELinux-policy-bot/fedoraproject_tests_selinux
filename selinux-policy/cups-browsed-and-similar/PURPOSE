@@ -1,0 +1,5 @@
+PURPOSE of /CoreOS/selinux-policy/Regression/cups-browsed-and-similar
+Author: Milos Malik <mmalik@redhat.com>
+
+SELinux interferes with cups-browsed and related programs.
+
