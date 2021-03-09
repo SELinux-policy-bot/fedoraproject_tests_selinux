@@ -51,6 +51,10 @@ rlJournalStart
         rlRun "seinfo -c lockdown -x | grep integrity"
     rlPhaseEnd
 
+    rlPhaseStartTest "bz#1929332 + bz#1933134"
+        rlSESearchRule "allow unconfined_t unconfined_t : lockdown { integrity } [ ]"
+    rlPhaseEnd
+
     rlPhaseStartCleanup
         sleep 2
         rlSECheckAVC
