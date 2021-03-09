@@ -375,6 +375,11 @@ rlJournalStart
                 rlRun "sed -i 's/SCTP_SEND_FAILED_EVENT/SCTP_STREAM_CHANGE_EVENT + 1/g' tests/sctp/*.c" 0 \
                     "Fix SCTP test compilation on old RHEL kernels"
             fi
+            if kver_lt 5.12; then
+                # __NR_userfaultfd not defined in s390x headers on RHEL-7
+                # For now just disable it on kernels without the feature.
+                exclude_tests+=" userfaultfd"
+            fi
             # CONFIG_KEYS_DH_COMPUTE not enabled on RHEL-8 :(
             exclude_tests+=" keys"
 
