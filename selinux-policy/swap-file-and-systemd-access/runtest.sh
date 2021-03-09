@@ -79,6 +79,10 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    rlPhaseStartTest "bz#1912385 + bz#1926536 + bz#1928539"
+        rlSESearchRule "allow systemd_sleep_t fixed_disk_device_t : blk_file { getattr } [ ]"
+    rlPhaseEnd
+
     if ${REAL_SCENARIOS} ; then
     rlPhaseStartTest "real scenario"
         rlRun "rm -f /swapfile"
