@@ -1,0 +1,29 @@
+summary: Test genfscon fallback for fs_use_xattr when no xattr support
+description: |
+    Test that a fs_use_xattr filesystem mount falls back to genfscon when it
+    doesn't have xattr support.
+
+    See also:
+    https://lore.kernel.org/selinux/CAFqZXNsGabHBfV36nNAVLJgEzjkBev-O3YZ1vnmXyVoaDdjiHQ@mail.gmail.com/T/
+    https://lore.kernel.org/selinux/20210113123802.63563-1-omosnace@redhat.com/
+contact: Ondrej Mosnacek <omosnace@redhat.com>
+component:
+- kernel
+framework: beakerlib
+require:
+- policycoreutils
+duration: 5m
+tier: 2
+enabled: true
+adjust:
+    enabled: false
+    when: distro < rhel-8.5
+    because: RHEL-8.5 and below are not expected to support this
+adjust:
+    enabled: false
+    when: distro < fedora-35
+    because: This feature may not be supported on kernels in F34 and below
+link:
+- verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1899703
+- verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1915825
+- verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1937297
