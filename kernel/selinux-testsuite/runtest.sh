@@ -35,7 +35,7 @@ PACKAGE="selinux-policy"
 # This should be updated as needed after verifying that the new version
 # doesn't break testing and after applying all necessary tweaks in the TC.
 # Run with GIT_BRANCH=master to run the latest upstream version.
-DEFAULT_COMMIT="9ef6c43a3ffa810c9a0061eb4625980dd178f60a"
+DEFAULT_COMMIT="1defa850ae71bc27c9dd101d19f543a42abc9537"
 # Default pull requests to merge before running the test.
 # If non-empty, then after checking out GIT_BRANCH the listed upstream pull
 # requests (by number) are merged, creating a new temporary local branch.
@@ -374,11 +374,6 @@ rlJournalStart
                 # 3add2b6b02518 [net] sctp: add SCTP_SEND_FAILED_EVENT event
                 rlRun "sed -i 's/SCTP_SEND_FAILED_EVENT/SCTP_STREAM_CHANGE_EVENT + 1/g' tests/sctp/*.c" 0 \
                     "Fix SCTP test compilation on old RHEL kernels"
-            fi
-            if kver_lt 5.12; then
-                # __NR_userfaultfd not defined in s390x headers on RHEL-7
-                # For now just disable it on kernels without the feature.
-                exclude_tests+=" userfaultfd"
             fi
             # CONFIG_KEYS_DH_COMPUTE not enabled on RHEL-8 :(
             exclude_tests+=" keys"
