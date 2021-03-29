@@ -18,6 +18,8 @@ rlIsRHEL 5 && {
 rlJournalStart
     rlPhaseStartSetup
         rlRun "rlImport selinux-policy/common"
+        rlRun "uname -a"
+        rlRun "sestatus"
     rlPhaseEnd
 
     rlPhaseStartTest "rlSEBoolean test"
@@ -178,7 +180,7 @@ rlJournalStart
         rlSESearchRule "allow unconfined_t smbcontrol_t : fd use mls" 1
         rlSESearchRule "allow ftpd_t public_content_rw_t : dir { create write }"
         rlSESearchRule "allow ftpd_t public_content_rw_t : dir { create write } [ rsync_client ]" 1
-        rlSESearchRule "allow ftpd_t public_content_rw_t : dir { create write } [ allow_ftpd_anon_write ]" 0
+        rlSESearchRule "allow ftpd_t public_content_rw_t : dir { create write } [ ftpd_anon_write ]" 0
     rlPhaseEnd
 
     if rlIsRHEL '>=8'; then

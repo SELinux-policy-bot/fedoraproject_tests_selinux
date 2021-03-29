@@ -1,7 +1,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 #   Makefile of /CoreOS/selinux-policy/Library/common
-#   Description: Wrapper library for /CoreOS/selinux-policy/common
+#   Description: Common library for SELinux related components
 #   Author: David Spurek <dspurek@redhat.com>
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -43,7 +43,7 @@ $(METADATA): Makefile
 	@echo "Name:            $(TEST)" >> $(METADATA)
 	@echo "TestVersion:     $(TESTVERSION)" >> $(METADATA)
 	@echo "Path:            $(TEST_DIR)" >> $(METADATA)
-	@echo "Description:     Common library for SELinux" >> $(METADATA)
+	@echo "Description:     Common library for SELinux related components" >> $(METADATA)
 	@echo "Type:            Library" >> $(METADATA)
 	@echo "TestTime:        120m" >> $(METADATA)
 	@echo "Requires:        setools" >> $(METADATA)

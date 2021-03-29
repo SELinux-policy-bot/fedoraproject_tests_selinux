@@ -3,7 +3,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 #   lib.sh of /CoreOS/selinux-policy/Library/common
-#   Description: Common library for selinux-policy component
+#   Description: Common library for SELinux related components
 #   Authors: Milos Malik <mmalik@redhat.com>
 #            Michal Trunecka <mtruneck@redhat.com>
 #            David Spurek <dspurek@redhat.com>
@@ -29,7 +29,7 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #   library-prefix = rlSE
-#   library-version = 40
+#   library-version = 42
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 : <<'=cut'
@@ -49,7 +49,6 @@ selinux-policy/common - BeakerLib extension for managing SELinux
 =pod
 
 =head1 VARIABLES
-
 =over
 
 =item rlSE_CACHE_DIR
@@ -65,9 +64,6 @@ rlSE_CACHE_DIR="${rlSE_CACHE_DIR:-$__INTERNAL_PERSISTENT_TMP/BEAKERLIB-rlSE}"
 
 __INTERNAL_rlSE_CACHEFILE="$rlSE_CACHE_DIR/cache.db"
 __INTERNAL_rlSE_SUMFILE="$rlSE_CACHE_DIR/cache.policy-checksum"
-
-SETOOLS_MAJOR_VERSION=`sesearch --version 2>&1| sed -n 's/sesearch //;s/\..*$//p'`
-
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #   Functions
@@ -322,6 +318,7 @@ function rlSEMatchPathCon() {
     local FILE_PATH
     local LINK_PATH
     local REAL_TYPE=`rlSETranslateAlias $2`
+    rlLogDebug "$FUNCNAME(): REAL_TYPE=$REAL_TYPE"
 
     FILE_PATH=$1
     if ! rlIsRHEL '<6'; then
@@ -333,16 +330,22 @@ function rlSEMatchPathCon() {
         done
     fi
 
+    rlLogDebug "$FUNCNAME(): FILE_PATH=$FILE_PATH"
+
     local ec=0
     while [[ -n "$FILE_PATH" ]]; do
         if [ -L ${FILE_PATH} ] ; then
+            rlLogDebug "$FUNCNAME(): evaluating symlink"
             LINK_PATH=`readlink -f ${FILE_PATH}`
-            matchpathcon ${FILE_PATH} ${LINK_PATH}
-            matchpathcon ${FILE_PATH} ${LINK_PATH} | grep :${REAL_TYPE} > /dev/null
+            local out="$(matchpathcon ${FILE_PATH} ${LINK_PATH})"
+            echo "$out"
+            echo "$out" | grep -q ":${REAL_TYPE}:"
             rlAssert0 "Results of matchpathcon ${FILE_PATH} ${LINK_PATH} should contain ${REAL_TYPE}" $? || ec=1
         else
-            matchpathcon ${FILE_PATH}
-            matchpathcon ${FILE_PATH} | grep :${REAL_TYPE} > /dev/null
+            rlLogDebug "$FUNCNAME(): evaluating file"
+            local out="$(matchpathcon ${FILE_PATH})"
+            echo "$out"
+            echo "$out" | grep -q ":${REAL_TYPE}:"
             rlAssert0 "Result of matchpathcon ${FILE_PATH} should contain ${REAL_TYPE}" $? || ec=1
         fi
         FILE_PATH=( "${FILE_PATH[@]:1}" )
@@ -869,7 +872,7 @@ Pair functions to check AVC messages from the given moment. The starting timesta
 
 function rlSESetTimestamp() {
 
-    local STAMP=`date "+%m/%d/%Y %T"`
+    local STAMP=`LC_ALL=en_US.UTF-8 date "+%x %T"`
     local NAME="TIMESTAMP"
 
     [ -z "$1" ] || NAME="${NAME}_$1"
@@ -927,7 +930,7 @@ function rlSEAVCCheck() {
         return 1
     else
         rlLog "$FUNCNAME: Search for AVCs, USER_AVCs, SELINUX_ERRs, and USER_SELINUX_ERRs since timestamp '$NAME' [$STAMP]"
-        local ausearch_output=$(LC_TIME='en_US.UTF-8' ausearch -i -m AVC -m USER_AVC -m SELINUX_ERR -m USER_SELINUX_ERR -ts $STAMP 2>&1)
+        local ausearch_output=$(LC_ALL='en_US.UTF-8' ausearch --input-logs -i -m AVC -m USER_AVC -m SELINUX_ERR -m USER_SELINUX_ERR -ts $STAMP 2>&1)
         echo "$ausearch_output" >&2
         local res=0
         # filter out ignored patterns
@@ -1402,41 +1405,59 @@ Limitation: seinfo does not report aliases on RHEL-5 and RHEL-6 now.
 =cut
 
 function rlSETranslateAlias {
+    local res
     if rlIsRHEL 5 ; then
+        rlLogDebug "$FUNCNAME(): RHEL5 - no translation, using $1"
         echo $1
         return 0
     elif rlIsRHEL 6 ; then
+        rlLogDebug "$FUNCNAME(): RHEL6"
         if seinfo -t$1 2>&1 | grep -q "ERROR:" ; then
+            rlLogDebug "$FUNCNAME(): got an error - no translation, using $1"
             echo $1
             return 1
         elif seinfo -t$1 2>&1 | grep -q " $1" ; then
+            rlLogDebug "$FUNCNAME(): seinfo confirmed the name - no translation, using $1"
             echo $1
             return 0
-        else # the type should be used either as a source or as a target in an allow rule
-            ( sesearch -s $1 -A | tr -s ' ' | cut -d ' ' -f 3 ; sesearch -t $1 -A | tr -s ' ' | cut -d ' ' -f 4 ) | sort | uniq | grep "^.*_t$"
+        else
+            rlLogDebug "$FUNCNAME(): the type should be used either as a source or as a target in an allow rule"
+            res="$(( sesearch -s $1 -A | tr -s ' ' | cut -d ' ' -f 3 ; sesearch -t $1 -A | tr -s ' ' | cut -d ' ' -f 4 ) | sort | uniq | grep "^.*_t$")"
+            rlLogDebug "$FUNCNAME(): translated name: $res"
+            echo "$res"
             return 0
         fi
     else
+        rlLogDebug "$FUNCNAME(): RHEL>6 && Fedora"
+        rlLogDebug "$FUNCNAME(): setools version ${SETOOLS_MAJOR_VERSION}"
         local seinfo_out
         seinfo_out="$(seinfo -t$1 2>&1 )"
+        rlLogDebug "$FUNCNAME():  seinfo_out='$seinfo_out'"
         if echo "$seinfo_out" | grep -q "ERROR:" ; then
-            # the type was not recognized
+            rlLogDebug "$FUNCNAME(): the type was not recognized - no translation, using $1"
             echo $1
             return 1
         elif echo "$seinfo_out" | grep -q "TypeName " ; then
-            seinfo -t$1 2>/dev/null | grep TypeName | tr -s ' ' | cut -d ' ' -f 3
+            rlLogDebug "$FUNCNAME(): translation done using TypeName"
+            res="$(seinfo -t$1 2>/dev/null | grep TypeName | tr -s ' ' | cut -d ' ' -f 3)"
+            rlLogDebug "$FUNCNAME(): translated name: $res"
+            echo "$res"
             return 0
         elif echo "$seinfo_out" | grep -q "Types: 0" ; then
-            # cannot translate alias, if setools v.4 are used then BZ#1581761
+            rlLogDebug "$FUNCNAME(): # cannot translate alias, if setools v.4 are used then BZ#1581761 - no translation, using $1"
             echo $1
             return 1
         elif [[ ${SETOOLS_MAJOR_VERSION} == "4" ]] ; then
-            # setools v.4
-            seinfo -t$1 2>/dev/null | tail -n 1 | tr -s ' ' | cut -d ' ' -f 2
+            rlLogDebug "$FUNCNAME(): translation done using seinfo v.4 parsing"
+            res="$(seinfo -t$1 2>/dev/null | tail -n 1 | tr -s ' ' | cut -d ' ' -f 2)"
+            rlLogDebug "$FUNCNAME(): translated name: $res"
+            echo "$res"
             return 0
         else
-            # setools v.3
-            seinfo -t$1 2>/dev/null | head -n 1 | tr -s ' ' | cut -d ' ' -f 2
+            rlLogDebug "$FUNCNAME(): translation done using seinfo v.3 parsing"
+            res="$(seinfo -t$1 2>/dev/null | head -n 1 | tr -s ' ' | cut -d ' ' -f 2)"
+            rlLogDebug "$FUNCNAME(): translated name: $res"
+            echo "$res"
             return 0
         fi
     fi
@@ -1463,7 +1484,7 @@ function rlSEListServices() {
 
     SERVICES_ARRAY[21]='vsftpd proftpd pure-ftpd lighttpd' # FTP servers
     SERVICES_ARRAY[25]='exim postfix sendmail' # SMTP servers
-    SERVICES_ARRAY[53]='named named-sdb unbound yadifad nsd pdns' # DNS servers
+    SERVICES_ARRAY[53]='named named-sdb unbound yadifad nsd pdns systemd-resolved dnsmasq' # DNS servers
     SERVICES_ARRAY[80]='httpd cherokee lighttpd nginx thttpd' # HTTP servers
     SERVICES_ARRAY[123]='ntpd chronyd' # NTP servers
 
@@ -1495,6 +1516,8 @@ function rlSESetEnforce() {
     getenforce | grep Permissive && rlLogWarning "$FUNCNAME: The test is running in SELinux permissive mode."
 
 }
+
+
 
 
 
@@ -1742,7 +1765,7 @@ __INTERNAL_rlSEenable_full_auditing() {
   fi
   local final_rules=/etc/audit/audit.rules
   local config_file=/etc/audit/auditd.conf
-  local auditd_need_restart=0
+  local auditd_need_restart=1
   local rules="-D"$'\n'"-w /etc/shadow -p w"
   local res=0
   if ! diff -u <(grep -v -e '^$' -e '^#' $final_rules) <(echo "$rules") > /dev/null; then
@@ -1901,10 +1924,81 @@ __INTERNAL_rlSEcache_sesearch() {
     esac
 }
 
-rlSELibraryLoaded() {
-    return 0
-}
 
+rlSELibraryLoaded() {
+    __INTERNAL_SEMODULE_LISTING="semodule -lfull"
+    local tmp
+    eval tmp="\$($__INTERNAL_SEMODULE_LISTING 2>&1 )"
+    if [[ "$tmp" =~ invalid\ option ]]; then
+      __INTERNAL_SEMODULE_LISTING='semodule -l'
+    fi
+    rlLogInfo "SELinux: using '$__INTERNAL_SEMODULE_LISTING' to list modules"
+    __INTERNAL_POLICY_NAME="$(sestatus | grep -i 'Loaded policy name' | sed -r 's/.*:\s*([^:]+)\s*/\1/')"
+    __INTERNAL_POLICY_NAME="${__INTERNAL_POLICY_NAME:-$(sestatus | grep -i 'Policy from config file' | sed -r 's/.*:\s*([^:]+)\s*/\1/')}"
+    __INTERNAL_POLICY_NAME="${__INTERNAL_POLICY_NAME:-targeted}"
+    __INTERNAL_POLICY_ROOT="$(sestatus | grep -i 'SELinux root directory' | sed -r 's/.*:\s*([^:]+)\s*/\1/')"
+    __INTERNAL_POLICY_ROOT="${__INTERNAL_POLICY_ROOT:-/etc/selinux}"
+    __INTERNAL_POLICY_PATH="$__INTERNAL_POLICY_ROOT/$__INTERNAL_POLICY_NAME"
+    __INTERNAL_POLICY_FILE="$__INTERNAL_POLICY_PATH/policy/policy.$(ls -1 -d $__INTERNAL_POLICY_PATH/policy/policy.* | sed -r 's/[^.]*\.//' | sort -nr | head -n 1)"
+    __INTERNAL_POLICY_STORE_ROOT="/var/lib/selinux"
+    rlIsRHEL '<8' && __INTERNAL_POLICY_STORE_ROOT="/etc/selinux"
+    export rlSEpolicyRoot="$__INTERNAL_POLICY_ROOT"
+    export rlSEstoreRoot="$__INTERNAL_POLICY_STORE_ROOT"
+    export rlSEpolicyName="$__INTERNAL_POLICY_NAME"
+    rlLogInfo "Running with policy located in $__INTERNAL_POLICY_FILE"
+    if rlIsRHEL 4 5; then
+        rlSE_REQUIRES="setools expect policycoreutils"
+    elif rlIsRHEL 6 ; then
+        rlSE_REQUIRES="setools-console expect policycoreutils-python"
+    elif rlIsRHEL 7 ; then
+        rlSE_REQUIRES="setools-console expect policycoreutils-python selinux-policy-devel"
+    else
+        rlSE_REQUIRES="setools-console expect policycoreutils-python-utils selinux-policy-devel"
+    fi
+
+    __INTERNAL_rlSEenable_full_auditing
+
+    local t=$(date +%s)
+    rlLogInfo "SELinux related packages listing:"
+    rlLogInfo "$(rpm -qa | grep -e ^selinux-policy -e ^libsemanage -e ^policycoreutils -e ^setools -e ^libselinux -e ^libsepol -e ^checkpolicy -e ^mcstrans -e ^setroubleshoot | sort | sed 's/^/    /')"
+    rlLogInfo "  listing took $(($(date +%s)-$t)) second(s)"
+
+    if rlCheckRequirements $rlSE_REQUIRES; then
+        SETOOLS_MAJOR_VERSION=`sesearch --version 2>&1| sed -n 's/sesearch //;s/\..*$//p'`
+        rlLogDebug "FUNCNAME(): sesearch --version: $(sesearch --version 2>&1)"
+        rlLogDebug "FUNCNAME(): SETOOLS_MAJOR_VERSION=$SETOOLS_MAJOR_VERSION"
+        rlLogDebug "rlSE Library: Requires installed."
+        return 0
+    fi
+
+    if rlIsRHEL 7 ; then
+        if uname -r | grep -q x86_64 ; then
+            local LIBSEPOL_VER_REL=`rpm -q --queryformat "%{version},%{release}" libsepol`
+            local LIBSELINUX_VER_REL=`rpm -q --queryformat "%{version},%{release}" libselinux`
+            local SETOOLS_VER_REL=`rpm -q --queryformat "%{version},%{release}" setools-libs`
+            # remove all i686 setools* packages
+            rlRun "yum -y remove setools\*.i686"
+            # install necessary packages
+            rlRun "yum -y install setools-libs setools-console libsepol libselinux libselinux-python libselinux-utils -x \*.i686" 0,1
+        fi
+    fi
+
+    if rlIsRHEL; then
+        rlRun "yum -y --skip-broken install $rlSE_REQUIRES"
+    else
+        rlRun "dnf -y --skip-broken install $rlSE_REQUIRES"
+    fi
+    if rlCheckRequirements $rlSE_REQUIRES; then
+        SETOOLS_MAJOR_VERSION=`sesearch --version 2>&1| sed -n 's/sesearch //;s/\..*$//p'`
+        rlLogDebug "FUNCNAME(): sesearch --version: $(sesearch --version 2>&1)"
+        rlLogDebug "FUNCNAME(): SETOOLS_MAJOR_VERSION=$SETOOLS_MAJOR_VERSION"
+        rlLogDebug "rlSE Library: Requires installed."
+        return 0
+    fi
+
+    rlLogError "rlSE Library: Not all required packages installed."
+    return 1
+}
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #   Authors
