@@ -205,6 +205,15 @@ rlJournalStart
         rlRun "rm -rf /tmp/test"
     rlPhaseEnd
 
+    rlPhaseStartTest "semanage loses sys.stderr bz#1822100"
+        rlRun "semanage fcontext -l | egrep -s -q -e '^/home'" 0
+        # Capture Broken pipe error
+        rlRun "semanage fcontext -l 2> /tmp/output_file | egrep -s -q -e '^/home'"
+        rlAssertGrep "Broken pipe" /tmp/output_file
+        rlAssertNotGrep "lost sys.stderr" /tmp/output_file
+        rlRun "rm -f /tmp/output_file"
+    rlPhaseEnd
+
     rlPhaseStartCleanup
         rlRun "rm -rf stdout"
     rlPhaseEnd
