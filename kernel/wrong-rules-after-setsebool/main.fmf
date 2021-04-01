@@ -1,0 +1,20 @@
+summary: Regression test for broken rules after setting booleans
+description: |
+    Test that conditional rules are not broken after changing SELinux booleans.
+
+    Originally discovered in:
+    https://src.fedoraproject.org/tests/selinux/pull-request/203#comment-71053
+contact: Ondrej Mosnacek <omosnace@redhat.com>
+component:
+- kernel
+framework: beakerlib
+require:
+- policycoreutils
+- setools-console
+duration: 5m
+tier: 2
+enabled: true
+adjust:
+    enabled: false
+    when: distro < rhel-7
+    because: RHEL-6 and below are not worth supporting by this test
