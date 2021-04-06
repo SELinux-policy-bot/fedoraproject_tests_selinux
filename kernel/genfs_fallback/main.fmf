@@ -16,11 +16,10 @@ duration: 5m
 tier: 2
 enabled: true
 adjust:
-    enabled: false
+ -  enabled: false
     when: distro < rhel-8.5
     because: RHEL-8.5 and below are not expected to support this
-adjust:
-    enabled: false
+ -  enabled: false
     when: distro < fedora-35
     because: This feature may not be supported on kernels in F34 and below
 link:
