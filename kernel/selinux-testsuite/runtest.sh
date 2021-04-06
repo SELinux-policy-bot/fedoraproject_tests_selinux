@@ -324,6 +324,10 @@ rlJournalStart
             rlRun "sed -i 's/^corecmd_bin_entry_type(\(.*\))$/corecmd_bin_entry_type(\1)\ncorecmd_sbin_entry_type(\1)/' policy/*.te" 0
             rlRun "sed -i 's/^userdom_search_user_home_dirs(\(.*\))$/userdom_search_user_home_dirs(user, \1)/' policy/*.te" 0
         fi
+        if rlIsRHEL 8; then
+            # CONFIG_KEY_DH_OPERATIONS not enabled on RHEL-8 :(
+            exclude_tests+=" keys"
+        fi
         if rlIsRHEL "<8.2"; then
             rlRun "sed -i '/SUBDIRS += bpf/d;/export CFLAGS += -DHAVE_BPF/d' tests/Makefile" 0 \
                 "RHEL < 8.2 doesn't ship libbpf => disable BPF subtests"
@@ -375,8 +379,6 @@ rlJournalStart
                 rlRun "sed -i 's/SCTP_SEND_FAILED_EVENT/SCTP_STREAM_CHANGE_EVENT + 1/g' tests/sctp/*.c" 0 \
                     "Fix SCTP test compilation on old RHEL kernels"
             fi
-            # CONFIG_KEYS_DH_COMPUTE not enabled on RHEL-8 :(
-            exclude_tests+=" keys"
 
             # Needs:
             # e4cfa05e9bfe ("selinux: Add xfs quota command types")
