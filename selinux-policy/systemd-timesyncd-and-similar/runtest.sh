@@ -102,6 +102,13 @@ rlJournalStart
         rlSESearchRule "allow systemd_timedated_t efivarfs_t : file { getattr open read } [ ]"
     rlPhaseEnd
 
+    rlPhaseStartTest "bz#1949315"
+        rlSEMatchPathCon "/" "root_t"
+        rlSEMatchPathCon "/run" "var_run_t"
+        rlSESearchRule "allow systemd_timedated_t root_t : dir { watch } [ ]"
+        rlSESearchRule "allow systemd_timedated_t var_run_t : dir { watch } [ ]"
+    rlPhaseEnd
+
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
