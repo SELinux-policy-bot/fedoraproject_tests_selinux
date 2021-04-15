@@ -99,6 +99,12 @@ rlJournalStart
         rlSESearchRule "allow systemd_modules_load_t bin_t : file { execute execute_no_trans map } [ ]"
     rlPhaseEnd
 
+    rlPhaseStartTest "bz#1819161 + bz#1824196 + bz#1829700 + bz#1833502 + bz#1838933"
+        rlSEMatchPathCon "/sys/firmware/efi" "efivarfs_t"
+        rlSESearchRule "allow systemd_modules_load_t efivarfs_t : file { getattr open read } [ ]"
+        rlSESearchRule "allow systemd_resolved_t efivarfs_t : file { getattr open read } [ ]"
+    rlPhaseEnd
+
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         rlRun "echo ${KERNEL_MODULE} > /etc/modules-load.d/${KERNEL_MODULE}.conf"
