@@ -14,5 +14,5 @@ tier: 2
 enabled: true
 adjust:
     enabled: false
-    when: distro < rhel-7
-    because: RHEL-6 and below is too old...
+    when: distro < rhel-8.4
+    because: not fixed below RHEL 8.4...
