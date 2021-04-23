@@ -38,6 +38,12 @@ PROCESS_NAME="rpmdb"
 PROCESS_CONTEXT="rpmdb_t"
 
 rlJournalStart
+    if rlIsRHEL '<9' ; then
+        rlLog "Not applicable to this OS version."
+        rlJournalEnd
+        exit 0
+    fi
+
     rlLog "If this test fails, please contact mmalik or IRC #selinux"
     rlLog "This test should fail if tested bugs are NOT fixed yet"
     rlPhaseStartSetup
