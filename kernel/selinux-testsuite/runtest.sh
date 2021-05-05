@@ -379,16 +379,15 @@ rlJournalStart
                 rlRun "sed -i 's/SCTP_SEND_FAILED_EVENT/SCTP_STREAM_CHANGE_EVENT + 1/g' tests/sctp/*.c" 0 \
                     "Fix SCTP test compilation on old RHEL kernels"
             fi
-
-            # Needs:
-            # e4cfa05e9bfe ("selinux: Add xfs quota command types")
-            # (not backported to any RHEL at this point - TODO update the check once it is)
-            script1='s/\$test_count += 62;/$test_count = 55;/g'
-            script2='s/\$quota_checks += 1;/$quota_checks = 0;/g'
-            # for some reason this is needed for older RHEL 7 versions...
-            script3='s/\$test_count += 69;/$test_count = 55;/g'
-            rlRun "sed -i -E -e '$script1' -e '$script2' -e '$script3' tests/filesystem/test" 0 \
-                "Apply workaround for missing XFS quota checks"
+            if kver_lt 4.18.0-252; then
+                # 8a4d5985551b [security] selinux: Add xfs quota command types
+                script1='s/\$test_count += 62;/$test_count = 55;/g'
+                script2='s/\$quota_checks += 1;/$quota_checks = 0;/g'
+                # for some reason this is needed for older RHEL 7 versions...
+                script3='s/\$test_count += 69;/$test_count = 55;/g'
+                rlRun "sed -i -E -e '$script1' -e '$script2' -e '$script3' tests/filesystem/test" 0 \
+                    "Apply workaround for missing XFS quota checks"
+            fi
         fi
 
         # CKI mainline kernels don't ship with module build infrastructure
