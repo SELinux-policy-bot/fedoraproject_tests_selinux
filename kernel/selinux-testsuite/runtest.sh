@@ -324,13 +324,14 @@ rlJournalStart
             rlRun "sed -i 's/^corecmd_bin_entry_type(\(.*\))$/corecmd_bin_entry_type(\1)\ncorecmd_sbin_entry_type(\1)/' policy/*.te" 0
             rlRun "sed -i 's/^userdom_search_user_home_dirs(\(.*\))$/userdom_search_user_home_dirs(user, \1)/' policy/*.te" 0
         fi
-        if rlIsRHEL 8; then
-            # CONFIG_KEY_DH_OPERATIONS not enabled on RHEL-8 :(
-            exclude_tests+=" keys"
-        fi
         if rlIsRHEL "<8.2"; then
             rlRun "sed -i '/SUBDIRS += bpf/d;/export CFLAGS += -DHAVE_BPF/d' tests/Makefile" 0 \
                 "RHEL < 8.2 doesn't ship libbpf => disable BPF subtests"
+        fi
+        if rlIsRHEL "<9"; then
+            # CONFIG_KEY_DH_OPERATIONS not enabled on RHEL-8 :(
+            # on RHEL-7, KEYCTL_DH_COMPUTE is not defined in the header
+            exclude_tests+=" keys"
         fi
 
         rlRun "sed -i 's/tm\.tv_sec = [0-9]*;/tm.tv_sec = $NETWORK_TIMEOUT;/' ./tests/*/*.c" 0 \
