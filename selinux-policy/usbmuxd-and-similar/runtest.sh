@@ -80,6 +80,11 @@ rlJournalStart
         rlSESearchRule "allow usbmuxd_t sysfs_t : filesystem { getattr } [ ]"
     rlPhaseEnd
 
+    rlPhaseStartTest "bz#1936705"
+        rlSEMatchPathCon "/sys/fs/cgroup" "cgroup_t"
+        rlSESearchRule "allow usbmuxd_t cgroup_t : filesystem { getattr } [ ]"
+    rlPhaseEnd
+
     rlPhaseStartTest "real scenario"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
