@@ -75,6 +75,11 @@ rlJournalStart
         rlSESearchRule "allow usbmuxd_t udev_var_run_t : file { getattr open read } [ ]"
     rlPhaseEnd
 
+    rlPhaseStartTest "bz#1930992"
+        rlSEMatchPathCon "/sys" "sysfs_t"
+        rlSESearchRule "allow usbmuxd_t sysfs_t : filesystem { getattr } [ ]"
+    rlPhaseEnd
+
     rlPhaseStartTest "real scenario"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
