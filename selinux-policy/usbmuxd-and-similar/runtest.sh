@@ -85,6 +85,13 @@ rlJournalStart
         rlSESearchRule "allow usbmuxd_t cgroup_t : filesystem { getattr } [ ]"
     rlPhaseEnd
 
+    rlPhaseStartTest "bz#1959747"
+        rlRun "ls -dZ /proc/1 | grep :init_t"
+        rlRun "ls -Z /proc/1/environ | grep :init_t"
+        rlSESearchRule "dontaudit usbmuxd_t init_t : dir { search } [ ]"
+        rlSESearchRule "dontaudit usbmuxd_t init_t : file { getattr open read ioctl } [ ]"
+    rlPhaseEnd
+
     rlPhaseStartTest "real scenario"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
