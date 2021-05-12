@@ -1,0 +1,10 @@
+PURPOSE of /CoreOS/selinux-policy/Regression/pam_limits-and-related
+Author: Milos Malik <mmalik@redhat.com>
+
+Does SELinux cooperate with pam_limits.so?
+Confined and unconfined users are tested using SSH.
+
+This TC uses following parameters which can be overriden:
+ * ALLOWED_USERS - which SELinux users should be tested?
+ * DENIED_USERS - which SELinux users should NOT be tested?
+
