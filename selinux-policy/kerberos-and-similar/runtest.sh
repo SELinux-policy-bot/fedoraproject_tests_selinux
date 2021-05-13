@@ -67,10 +67,6 @@ rlJournalStart
     rlPhaseStartTest "bz#860666"
         rlSEMatchPathCon "/usr/sbin/krb5kdc" "krb5kdc_exec_t"
         rlSEMatchPathCon "/usr/sbin/kadmind" "kadmind_exec_t"
-        rlSESearchRule "allow krb5kdc_t anon_inodefs_t : file { getattr read write }"
-        rlSESearchRule "allow krb5kdc_t anon_inodefs_t : dir { getattr search }"
-        rlSESearchRule "allow kadmind_t anon_inodefs_t : file { getattr read write }"
-        rlSESearchRule "allow kadmind_t anon_inodefs_t : dir { getattr search }"
     rlPhaseEnd
 
     if ! rlIsRHEL 5 6 ; then
