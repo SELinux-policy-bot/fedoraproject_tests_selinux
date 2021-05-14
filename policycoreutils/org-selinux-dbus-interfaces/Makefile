@@ -63,3 +63,4 @@ $(METADATA): Makefile
 	@echo "Bug:             1754873" >> $(METADATA) # RHEL-8
 
 	rhts-lint $(METADATA)
+

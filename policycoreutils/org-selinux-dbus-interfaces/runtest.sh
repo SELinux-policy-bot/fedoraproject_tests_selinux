@@ -91,13 +91,16 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "org.selinux.change_default_policy"
+        # 1 argument is missing
         rlRun "dbus-send --system --print-reply --dest=org.selinux /org/selinux/object org.selinux.change_default_policy" 1
-        rlRun "dbus-send --system --print-reply --dest=org.selinux /org/selinux/object org.selinux.change_default_policy string:minimum"
-        rlRun "grep SELINUXTYPE=minimum /etc/selinux/config"
-        rlRun "dbus-send --system --print-reply --dest=org.selinux /org/selinux/object org.selinux.change_default_policy string:mls"
-        rlRun "grep SELINUXTYPE=mls /etc/selinux/config"
-        rlRun "dbus-send --system --print-reply --dest=org.selinux /org/selinux/object org.selinux.change_default_policy string:targeted"
-        rlRun "grep SELINUXTYPE=targeted /etc/selinux/config"
+        # test existing policies
+        for POLICY_KIND in minimum mls targeted ; do
+            if rpm -q selinux-policy-${POLICY_KIND} ; then
+                rlRun "dbus-send --system --print-reply --dest=org.selinux /org/selinux/object org.selinux.change_default_policy string:${POLICY_KIND}"
+                rlRun "grep SELINUXTYPE=${POLICY_KIND} /etc/selinux/config"
+            fi
+        done
+        # test a non-existent policy
         rlRun "dbus-send --system --print-reply --dest=org.selinux /org/selinux/object org.selinux.change_default_policy string:xyz" 1
     rlPhaseEnd
 
