@@ -82,6 +82,8 @@ rlJournalStart
     fi
 
     rlPhaseStartTest "real scenario -- confined users"
+        rlSEConfigureSSH
+
         rlRun "setsebool ssh_sysadm_login on"
         rlRun "setsebool selinuxuser_tcp_server on"
         rlLog "configuration says not to test SELinux users: ${DENIED_USERS}"
@@ -126,6 +128,7 @@ rlJournalStart
 
         rlFileRestore
         rlServiceRestore ${SERVICE_NAME}
+        rlRun "service sshd restart"
     rlPhaseEnd
 rlJournalPrintText
 rlJournalEnd

@@ -70,6 +70,8 @@ rlJournalStart
     fi
 
     rlPhaseStartTest "real scenario -- confined users"
+        rlSEConfigureSSH
+
         rlRun "setsebool ssh_sysadm_login on"
         rlRun "mkdir -p ${TIMESTAMP_DIR}"
         rlRun "touch ${TIMESTAMP_DIR}/_pam_timestamp_key"
@@ -99,7 +101,9 @@ rlJournalStart
         sleep 2
         rlSECheckAVC
         rlRun "rm -f ${TIMESTAMP_DIR}/_pam_timestamp_key"
+
         rlFileRestore
+        rlRun "service sshd restart"
     rlPhaseEnd
 rlJournalPrintText
 rlJournalEnd

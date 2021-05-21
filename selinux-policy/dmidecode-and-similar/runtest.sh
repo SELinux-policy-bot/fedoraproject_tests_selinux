@@ -109,10 +109,7 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "real scenario -- confined users"
-        rlFileBackup /etc/ssh/sshd_config
-        rlRun "sed -i 's/^.*PermitRootLogin.*$/PermitRootLogin yes/' /etc/ssh/sshd_config"
-        rlRun "sed -i 's/^.*PasswordAuthentication.*$/PasswordAuthentication yes/' /etc/ssh/sshd_config"
-        rlRun "service sshd restart"
+        rlSEConfigureSSH
 
         rlRun "setsebool ssh_sysadm_login on"
         rlLog "configuration says not to test SELinux users: ${DENIED_USERS}"

@@ -108,6 +108,8 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "real scenario -- confined users"
+        rlSEConfigureSSH
+
         rlRun "lpadmin -x cups-pdf" 0-255
         rlRun "lpadmin -p cups-pdf -v cups-pdf:/ -E -P /usr/share/cups/model/CUPS-PDF_opt.ppd"
         rlRun "setsebool ssh_sysadm_login on"
@@ -136,6 +138,7 @@ rlJournalStart
 
         rlFileRestore
         rlServiceRestore ${SERVICE_NAME}
+        rlRun "service sshd restart"
     rlPhaseEnd
 rlJournalPrintText
 rlJournalEnd

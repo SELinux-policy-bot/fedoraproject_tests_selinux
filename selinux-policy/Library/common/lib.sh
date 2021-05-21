@@ -1285,6 +1285,13 @@ function rlSERunWithContext() {
 
 }
 
+function rlSEConfigureSSH () {
+    rlFileBackup /etc/ssh/sshd_config
+    rlRun "sed -i 's/^.*PermitRootLogin.*$/PermitRootLogin yes/' /etc/ssh/sshd_config"
+    rlRun "sed -i 's/^.*PasswordAuthentication.*$/PasswordAuthentication yes/' /etc/ssh/sshd_config"
+    rlRun "service sshd restart"
+}
+
 true <<'=cut'
 =pod
 

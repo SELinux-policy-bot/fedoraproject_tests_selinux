@@ -130,6 +130,8 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "real scenario -- user session service"
+        rlSEConfigureSSH
+
         rlRun "setsebool ssh_sysadm_login on"
         rlRun "setsebool selinuxuser_tcp_server on"
         # TODO: guest_u, xguest_u cannot successfully run systemctl
@@ -161,6 +163,9 @@ rlJournalStart
         sleep 2
         rlSECheckAVC
         rm -f files.txt
+
+        rlFileRestore
+        rlRun "service sshd restart"
     rlPhaseEnd
     rlJournalPrintText
 rlJournalEnd

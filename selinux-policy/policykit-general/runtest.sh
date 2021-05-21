@@ -149,6 +149,8 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "real scenario -- confined users"
+        rlSEConfigureSSH
+
         rlRun "setsebool ssh_sysadm_login on"
         for SELINUX_USER in ${ALLOWED_USERS} ; do
             USER_NAME="user${RANDOM}"
@@ -169,6 +171,7 @@ rlJournalStart
 
         rlFileRestore
         rlServiceRestore ${SERVICE_NAME}
+        rlRun "service sshd restart"
     rlPhaseEnd
 rlJournalPrintText
 rlJournalEnd

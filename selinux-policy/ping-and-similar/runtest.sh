@@ -90,6 +90,8 @@ rlJournalStart
 
     # this phase is useful if you want to run some commands under confined users
     rlPhaseStartTest "real scenario -- confined users"
+        rlSEConfigureSSH
+
         rlRun "setsebool ssh_sysadm_login on"
         rlRun "setsebool user_ping on"
         for SELINUX_USER in staff_u user_u sysadm_u unconfined_u ; do
@@ -116,6 +118,7 @@ rlJournalStart
         rlSECheckAVC
 
         rlFileRestore
+        rlRun "service sshd restart"
     rlPhaseEnd
 rlJournalPrintText
 rlJournalEnd

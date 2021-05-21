@@ -72,11 +72,8 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "real scenario -- confined root sysadm_u"
-        rlRun "grep -i permit /etc/ssh/sshd_config"
-        rlFileBackup /etc/ssh/sshd_config
-        rlRun "sed -i 's/^.*PermitRootLogin.*$/PermitRootLogin yes/' /etc/ssh/sshd_config"
-        rlRun "sed -i 's/^.*PasswordAuthentication.*$/PasswordAuthentication yes/' /etc/ssh/sshd_config"
-        rlRun "service sshd restart"
+        rlSEConfigureSSH
+
         rlRun "setsebool ssh_sysadm_login on"
         USER_NAME="toor"
         USER_SECRET="S3kr3t${RANDOM}"
