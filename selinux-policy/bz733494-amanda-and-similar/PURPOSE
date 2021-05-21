@@ -1,0 +1,5 @@
+PURPOSE of /CoreOS/selinux-policy/Regression/bz733494-amanda-and-similar
+Author: Milos Malik <mmalik@redhat.com>
+
+SELinux interferes with amandad and related programs.
+
