@@ -83,6 +83,12 @@ rlJournalStart
         rlSESearchRule "allow systemd_sleep_t fixed_disk_device_t : blk_file { getattr } [ ]"
     rlPhaseEnd
 
+    rlPhaseStartTest "bz#1968610"
+        rlSEMatchPathCon "/sys/power" "sysfs_t"
+        rlSEMatchPathCon "/sys/power/state" "sysfs_t"
+        rlSESearchRule "allow systemd_sleep_t sysfs_t : dir { add_name create } [ ]"
+    rlPhaseEnd
+
     if ${REAL_SCENARIOS} ; then
     rlPhaseStartTest "real scenario"
         rlRun "rm -f /swapfile"
