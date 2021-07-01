@@ -86,7 +86,8 @@ rlJournalStart
     rlPhaseStartTest "bz#1968610"
         rlSEMatchPathCon "/sys/power" "sysfs_t"
         rlSEMatchPathCon "/sys/power/state" "sysfs_t"
-        rlSESearchRule "allow systemd_sleep_t sysfs_t : dir { add_name create } [ ]"
+        rlSESearchRule "allow systemd_sleep_t sysfs_t : dir { add_name write } [ ]"
+        rlSESearchRule "allow systemd_sleep_t sysfs_t : file { create } [ ]"
     rlPhaseEnd
 
     if ${REAL_SCENARIOS} ; then
