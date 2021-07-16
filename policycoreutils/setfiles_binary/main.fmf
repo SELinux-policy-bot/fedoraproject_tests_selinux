@@ -1,17 +1,18 @@
 summary: setfiles should allow checking given path against binary policy
-description: setfiles didn't allow using "-c" parameter (binary policy)
-when path was specified. Verify that setfiles now gives the same results
-regardless of weather binary policy was provided.
+description: >
+    setfiles didn't allow using "-c" parameter (binary policy) when path
+    was specified. Verify that setfiles now gives the same results
+    regardless of weather binary policy was provided.
 contact: Vit Mojzis <vmojzis@redhat.com>
 path: /policycoreutils/setfiles_binary
 component:
-- policycoreutils
+    - policycoreutils
 framework: beakerlib
 require:
-- e2fsprogs
-- policycoreutils
-- rpm
-- cpio
+    - e2fsprogs
+    - policycoreutils
+    - rpm
+    - cpio
 duration: 5m
 tier: 1
 enabled: true
