@@ -33,6 +33,11 @@
 PACKAGE="selinux-policy"
 
 rlJournalStart
+    if rlIsRHEL '<9' ; then
+        rlLog "Not applicable to this OS version."
+        rlJournalEnd
+        exit 0
+    fi
     rlPhaseStartSetup
         rlRun "rlImport 'selinux-policy/common'"
         rlSESatisfyRequires
@@ -61,4 +66,3 @@ rlJournalStart
     rlPhaseEnd
 rlJournalPrintText
 rlJournalEnd
-
