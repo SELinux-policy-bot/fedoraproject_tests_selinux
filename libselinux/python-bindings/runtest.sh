@@ -47,13 +47,14 @@ rlJournalStart
 
     rlPhaseStartTest "Import selinux module and try selinux.is_selinux_enabled()"
         rlRun "python3 -c 'import selinux'" 0
-	rlRun "python3 -c 'import selinux; rc = selinux.is_selinux_enabled(); sys.exit(rc)'" 0,1
-	rlRun "PYTHON_SELINUX_ENABLED=$?"
-	if selinuxenabled; then
-	    rlAssertEquals "SELinux is enabled" $PYTHON_SELINUX_ENABLED 1
-	else
-	    rlAssertNotEquals "SELinux is disabled" $PYTHON_SELINUX_ENABLED 0
-	fi
+        rlRun "python3 -c 'import selinux, sys; rc = selinux.is_selinux_enabled(); sys.exit(rc)'" 0,1
+
+        rlRun "PYTHON_SELINUX_ENABLED=$?"
+        if selinuxenabled; then
+            rlAssertEquals "SELinux is enabled" $PYTHON_SELINUX_ENABLED 1
+        else
+            rlAssertNotEquals "SELinux is disabled" $PYTHON_SELINUX_ENABLED 0
+        fi
     rlPhaseEnd
 
     rlPhaseStartCleanup
