@@ -117,6 +117,18 @@ rlJournalStart
         rlRun "rm -f /etc/modules-load.d/${KERNEL_MODULE}.conf"
     rlPhaseEnd
 
+    rlPhaseStartTest "bz#1942267"
+        tst_Time="$(date '+%T')"
+        # Install kernel-module matching the running kernel version
+        rlRun "dnf -y install kernel-modules-$(uname -r)"
+        rlRun "systemctl start rdma-load-modules@rdma.service"
+        rlRun "systemctl status rdma-load-modules@rdma.service"
+        rlRun "lsmod | grep rdma"
+        rlRun "ausearch -m AVC -m USER_AVC --start $tst_Time" 1
+        rlRun "systemctl stop rdma-load-modules@rdma.service"
+        rlSESearchRule "allow systemd_modules_load_t systemd_modules_load_t : lockdown { confidentiality } [ ]"
+    rlPhaseEnd
+
     rlPhaseStartCleanup
         sleep 2
         rlSECheckAVC
