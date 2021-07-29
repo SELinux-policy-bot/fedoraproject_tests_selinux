@@ -58,8 +58,8 @@ int main (int argc, char **argv) {
     }
 
     printf("calling avc_audit to call audit and log functions\n");
-    
-    avc_init("", NULL, NULL, NULL, NULL);
+
+    avc_open(NULL, 0);
     
     struct security_id ssid = { "asdf", 5 };
     struct security_id tsid = { "asdf", 5 };
@@ -99,11 +99,9 @@ int main (int argc, char **argv) {
 
     if (enforcing == 1) {
         security_setenforce(0);
-        security_setenforce(1);
     }
     else {
         security_setenforce(1);
-        security_setenforce(0);
     }
 
     // triggers callbacks
@@ -122,6 +120,15 @@ int main (int argc, char **argv) {
 
     // triggers callbacks
     avc_has_perm_noaudit(&ssid, &tsid, 0, 1, NULL, &avd);
+
+    printf("switch enforcing back to %d\n", enforcing);
+    enforcing = security_getenforce();
+    if (enforcing == 1) {
+        security_setenforce(0);
+    }
+    else {
+        security_setenforce(1);
+    }
 
     return exit_code;
 }
