@@ -34,8 +34,14 @@ rlJournalStart
     rlPhaseStartSetup
         rlAssertRpm $PACKAGE
         rlAssertRpm "git"
-        rlAssertRpm "ansible"
-
+        if ! rpm -q ansible; then
+            rlLog "There's no ansible rpm, trying: pip3 install ansible"
+            rlRun "dnf -y install python3-pip"
+            rlRun "pip3 install ansible"
+            rlRun "ansible-playbook --version" 0
+        else
+            rlAssertRpm "ansible"
+        fi
     rlPhaseEnd
 
     rlPhaseStartTest
