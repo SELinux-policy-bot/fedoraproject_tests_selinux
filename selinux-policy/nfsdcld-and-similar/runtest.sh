@@ -56,6 +56,7 @@ rlJournalStart
         sleep 2
     rlPhaseEnd
 
+    if ! rlIsRHEL 8 ; then
     rlPhaseStartTest "bz#1834234"
         rlSEMatchPathCon "/usr/sbin/nfsdcld" "rpcd_exec_t"
         rlSESearchRule "allow init_t rpcd_exec_t : file { getattr open read execute } [ ]"
@@ -63,6 +64,7 @@ rlJournalStart
         rlSESearchRule "allow init_t rpcd_t : process { transition } [ ]"
         rlSESearchRule "allow rpcd_t nfsd_fs_t : file { getattr open read } [ ]"
     rlPhaseEnd
+    fi
 
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"

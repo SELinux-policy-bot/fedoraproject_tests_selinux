@@ -52,6 +52,7 @@ rlJournalStart
         sleep 2
     rlPhaseEnd
 
+    if ! rlIsRHEL 8 ; then
     rlPhaseStartTest "bz#1958819"
         rlSESearchRule "allow init_t guest_t : process2 { nnp_transition } [ ]"
         rlSESearchRule "allow init_t staff_t : process2 { nnp_transition } [ ]"
@@ -60,6 +61,7 @@ rlJournalStart
         rlSESearchRule "allow init_t user_t : process2 { nnp_transition } [ ]"
         rlSESearchRule "allow init_t xguest_t : process2 { nnp_transition } [ ]"
     rlPhaseEnd
+    fi
 
     rlPhaseStartTest "real scenario -- confined users"
         rlRun "setsebool ssh_sysadm_login on"

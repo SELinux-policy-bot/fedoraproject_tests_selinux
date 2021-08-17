@@ -75,6 +75,7 @@ rlJournalStart
         rlSESearchRule "allow usbmuxd_t udev_var_run_t : file { getattr open read } [ ]"
     rlPhaseEnd
 
+    if ! rlIsRHEL 8 ; then
     rlPhaseStartTest "bz#1930992"
         rlSEMatchPathCon "/sys" "sysfs_t"
         rlSESearchRule "allow usbmuxd_t sysfs_t : filesystem { getattr } [ ]"
@@ -91,6 +92,7 @@ rlJournalStart
         rlSESearchRule "dontaudit usbmuxd_t init_t : dir { search } [ ]"
         rlSESearchRule "dontaudit usbmuxd_t init_t : file { getattr open read ioctl } [ ]"
     rlPhaseEnd
+    fi
 
     rlPhaseStartTest "real scenario"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"

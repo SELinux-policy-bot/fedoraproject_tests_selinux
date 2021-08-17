@@ -53,6 +53,7 @@ rlJournalStart
         sleep 2
     rlPhaseEnd
 
+    if ! rlIsRHEL 8 ; then
     rlPhaseStartTest "bz#1897388"
         rlSEMatchPathCon "/usr/sbin/dhclient-script" "dhcpc_exec_t"
         rlSEMatchPathCon "/usr/bin/chronyc" "chronyc_exec_t"
@@ -60,6 +61,7 @@ rlJournalStart
         rlSESearchRule "type_transition dhcpc_t chronyc_exec_t : process chronyc_t"
         rlSESearchRule "allow dhcpc_t chronyc_t : process { transition } [ ]"
     rlPhaseEnd
+    fi
 
     rlPhaseStartTest "real scenario"
         rlRun "dhclient"
