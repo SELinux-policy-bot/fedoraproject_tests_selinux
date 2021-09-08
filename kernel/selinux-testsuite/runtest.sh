@@ -389,6 +389,10 @@ rlJournalStart
                 rlRun "sed -i -E -e '$script1' -e '$script2' -e '$script3' tests/filesystem/test" 0 \
                     "Apply workaround for missing XFS quota checks"
             fi
+            if kver_lt 4.18.0-314; then
+                # a17f0671017f selinux: vsock: Set SID for socket returned by accept()
+                exclude_tests+=" vsock_socket"
+            fi
         fi
 
         # CKI mainline kernels don't ship with module build infrastructure
