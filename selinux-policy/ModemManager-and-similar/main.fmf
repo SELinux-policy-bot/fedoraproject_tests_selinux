@@ -1,0 +1,58 @@
+summary: SELinux interferes with ModemManager and related programs
+description: |+
+    SELinux interferes with ModemManager and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+test: ./runtest.sh
+framework: beakerlib
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - glib2
+  - ModemManager
+  - /usr/sbin/service
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 15m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - TIPpass_Security
+  - Tier2
+  - Tier2se
+  - f31friendly
+  - f32friendly
+  - targeted
+tier: '2'
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1120152
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1362273
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1365214
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1676810
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1697868
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1961571
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1996903
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1996905
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2000196
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2001141
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2001143
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2001144
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2001145
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2036582
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5
+    continue: false
+extra-nitrate: TC#0075515
+extra-summary: /CoreOS/selinux-policy/Regression/ModemManager-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/ModemManager-and-similar
