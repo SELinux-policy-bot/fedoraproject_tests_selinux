@@ -1,0 +1,40 @@
+summary: SELinux interferes with dhcpcd and related programs
+description: |+
+    SELinux interferes with dhcpcd and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - dhcpcd
+  - /usr/sbin/service
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - TIPfail_Security
+  - failinfedora
+  - targeted
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1585971
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1602343
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-alt-7, rhel-8, rhel-9
+    continue: false
+extra-nitrate: TC#0574611
+extra-summary: /CoreOS/selinux-policy/Regression/dhcpcd-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/dhcpcd-and-similar
