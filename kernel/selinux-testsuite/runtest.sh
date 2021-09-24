@@ -305,8 +305,11 @@ rlJournalStart
             "Harden tun_tap test against missing defs"
 
         # needed to avoid a flood of AVCs when run via restraint
-        rlRun "sed -i 's/type unconfined_t;/type unconfined_t, unconfined_service_t;/' policy/test_policy.if" 0
-        rlRun "sed -i 's/\\(allow \\\$1 initrc_t:fd use;\\)/\\1 allow \$1 unconfined_service_t:fd use;/' policy/test_policy.if" 0
+        # (RHEL-6 doesn't have unconfined_service_t)
+        if ! rlIsRHEL '<7'; then
+            rlRun "sed -i 's/type unconfined_t;/type unconfined_t, unconfined_service_t;/' policy/test_policy.if" 0
+            rlRun "sed -i 's/\\(allow \\\$1 initrc_t:fd use;\\)/\\1 allow \$1 unconfined_service_t:fd use;/' policy/test_policy.if" 0
+        fi
 
         exclude_tests=""
         force_tests=""
