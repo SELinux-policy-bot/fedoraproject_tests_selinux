@@ -30,7 +30,11 @@
 . /usr/share/beakerlib/beakerlib.sh || exit 1
 
 PACKAGE="selinux-policy"
-REAL_SCENARIOS=${REAL_SCENARIOS:-true}
+# The real scenario phase is not executed by default, because some
+# machines do not survive the start of systemd-hybrid-sleep or
+# systemd-hibernate services, even though their configuration contains
+# PrivateDevices=yes. Override is possible by setting REAL_SCENARIOS=true.
+REAL_SCENARIOS=${REAL_SCENARIOS:-false}
 
 rlJournalStart
     if ! seinfo -t | grep -q systemd_sleep ; then
