@@ -1,0 +1,8 @@
+path: /selinux-policy/anon_inode-and-similar
+summary: Test AVC issues related to tclass anon_inode
+description: |
+    Test coverage for cases verifying avc denial issues related to  
+    anon_inode tclass.
+adjust:
+-   enabled: false
+    when: distro < rhel-9

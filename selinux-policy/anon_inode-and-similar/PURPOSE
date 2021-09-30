@@ -1,0 +1,4 @@
+PURPOSE of /CoreOS/selinux-policy/Regression/anon_inode-and-similar
+Author: Amith Kumar <apeetham@redhat.com>
+
+SELinux denials affect processes that deals with anon_inode tclass.
