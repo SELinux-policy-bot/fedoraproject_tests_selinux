@@ -53,7 +53,7 @@ $(METADATA): Makefile
 	@echo "Type:            Sanity" >> $(METADATA)
 	@echo "TestTime:        5m" >> $(METADATA)
 	@echo "RunFor:          policycoreutils" >> $(METADATA)
-	@echo "Requires:        policycoreutils" >> $(METADATA)
+	@echo "Requires:        /usr/sbin/semodule /usr/sbin/semanage" >> $(METADATA)
 	@echo "Priority:        Normal" >> $(METADATA)
 	@echo "License:         GPLv2" >> $(METADATA)
 	@echo "Confidential:    no" >> $(METADATA)

@@ -31,14 +31,18 @@
 . /usr/share/beakerlib/beakerlib.sh || exit 1
 
 PACKAGE="policycoreutils"
+PACKAGE_VERSION=`rpm -q --queryformat '%{version}' ${PACKAGE}`
 
 rlJournalStart
     rlPhaseStartSetup
         rlAssertRpm $PACKAGE
         rlRun "echo '()' > empty.cil"
+        rlRun "echo '( auditallow init_t security_t ( security ( setsecparam )))' > valid.cil"
         rlRun "echo '(())' > invalid.cil"
     rlPhaseEnd
 
+    # version 3.3 of SELinux user-space does not accept empty CIL module
+    if echo "${PACKAGE_VERSION} < 3.3" | bc | grep -q 1 ; then
     rlPhaseStartTest "empty CIL module"
         rlRun "semodule -lfull | grep '400.*empty.*cil'" 1
         rlRun "semodule -i empty.cil"
@@ -50,6 +54,20 @@ rlJournalStart
         rlRun "semanage module -l | grep 'empty.*400.*cil'"
         rlRun "semanage module -r empty"
         rlRun "semanage module -l | grep 'empty.*400.*cil'" 1
+    rlPhaseEnd
+    fi
+
+    rlPhaseStartTest "valid CIL module"
+        rlRun "semodule -lfull | grep '400.*valid.*cil'" 1
+        rlRun "semodule -i valid.cil"
+        rlRun "semodule -lfull | grep '400.*valid.*cil'"
+        rlRun "semodule -r valid"
+        rlRun "semodule -lfull | grep '400.*valid.*cil'" 1
+        rlRun "semanage module -l | grep 'valid.*400.*cil'" 1
+        rlRun "semanage module -a valid.cil"
+        rlRun "semanage module -l | grep 'valid.*400.*cil'"
+        rlRun "semanage module -r valid"
+        rlRun "semanage module -l | grep 'valid.*400.*cil'" 1
     rlPhaseEnd
 
     rlPhaseStartTest "invalid CIL module"
@@ -66,7 +84,7 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartCleanup
-        rlRun "rm -f empty.cil invalid.cil"
+        rlRun "rm -f empty.cil valid.cil invalid.cil"
     rlPhaseEnd
 rlJournalPrintText
 rlJournalEnd
