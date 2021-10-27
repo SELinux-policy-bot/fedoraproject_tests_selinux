@@ -99,7 +99,7 @@ rlJournalStart
     rlPhaseStartTest "bz#1614236"
         rlSEMatchPathCon "/usr/bin/dbus-daemon" "dbusd_exec_t"
         rlSEMatchPathCon "/dev/nvme0n1p1" "nvme_device_t"
-        rlSESearchRule "allow system_dbusd_t nvme_device_t : blk_file { getattr open read }"
+        rlSESearchRule "allow system_dbusd_t nvme_device_t : blk_file { read } [ ]"
     rlPhaseEnd
     fi
 
@@ -161,7 +161,7 @@ rlJournalStart
 
     rlPhaseStartCleanup
         sleep 2
-        rlSECheckAVC
+        rlSECheckAVC --ignore 'type=AVC .* create .*systemd .*:user_t:.*:user_tmp_t:.*tclass=dir'
         rm -f files.txt
 
         rlFileRestore
