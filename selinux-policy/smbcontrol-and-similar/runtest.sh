@@ -86,6 +86,13 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    if ! rlIsRHEL 5 6 7 ; then
+    rlPhaseStartTest "bz#2025931 + bz#2027740 + bz#2027751"
+        rlSESearchRule "allow smbcontrol_t smbcontrol_t : netlink_route_socket { create bind getattr nlmsg_read} [ ]"
+        rlSESearchRule "allow smbcontrol_t smbcontrol_t : udp_socket { create ioctl } [ ]"
+    rlPhaseEnd
+    fi
+
     rlPhaseStartTest "real scenario"
         if ! rlIsRHEL 5 6 ; then
             rlRun "ls -Z /var/lib/samba/lock"
