@@ -27,7 +27,6 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # Include Beaker environment
-. /usr/bin/rhts-environment.sh || exit 1
 . /usr/share/beakerlib/beakerlib.sh || exit 1
 
 PACKAGE="selinux-policy"
@@ -59,6 +58,13 @@ rlJournalStart
         sleep 2
     rlPhaseEnd
 
+    rlPhaseStartTest "bz#192216"
+        rlSEMatchPathCon "/usr/lib/cups/daemon/cups-lpd" "cupsd_lpd_exec_t"
+        rlSEMatchPathCon "/var/run/cups" "cupsd_var_run_t"
+        rlSESearchRule "allow cupsd_lpd_t cupsd_var_run_t : dir { search } [ ]"
+        rlSESearchRule "allow cupsd_lpd_t cupsd_lpd_t : netlink_route_socket { create } [ ]"
+    rlPhaseEnd
+
     rlPhaseStartTest "bz#1004198"
         if rlIsRHEL 5 ; then
             SOURCE_TYPE="inetd_t" # xinetd runs the process
@@ -78,24 +84,34 @@ rlJournalStart
         fi
     rlPhaseEnd
 
-    rlPhaseStartTest "bz#1554118"
+    rlPhaseStartTest "bz#1420522 + bz#1554118"
         rlSEMatchPathCon "/usr/lib/cups/daemon/cups-lpd" "cupsd_lpd_exec_t"
         rlSESearchRule "allow init_t cupsd_lpd_t : tcp_socket { create setopt bind listen }"
     rlPhaseEnd
 
-    rlPhaseStartTest "bz#1919399"
+    rlPhaseStartTest "bz#1919399 + bz#1947397"
         rlSEMatchPathCon "/usr/lib/cups/daemon/cups-lpd" "cupsd_lpd_exec_t"
         rlSEMatchPathCon "/run/cups/cups.sock" "cupsd_var_run_t"
         rlSESearchRule "allow cupsd_lpd_t cupsd_var_run_t : sock_file { read } [ ]"
     rlPhaseEnd
 
-    rlPhaseStartTest "real scenario -- BZ#1919399"
+    if ! rlIsRHEL 5 6 7 8 ; then
+    rlPhaseStartTest "bz#2020531"
+        rlSEMatchPathCon "/usr/lib/cups/daemon/cups-lpd" "cupsd_lpd_exec_t"
+        rlRun "ls -Z /proc/1/environ | grep :init_t"
+        rlSESearchRule "dontaudit cupsd_lpd_t init_t : dir { search } [ ]"
+    rlPhaseEnd
+    fi
+
+    rlPhaseStartTest "real scenario -- bz#1919399 + bz#1947397"
         rlRun "systemctl start cups.service"
         rlRun "systemctl enable cups-lpd.socket"
         rlRun "systemctl start cups-lpd.socket"
-        rlRun "lpadmin -p test -E"
+        sleep 2
+        rlRun "lpadmin -p test -o printer-is-shared=true -E"
         rlRun "DEVICE_URI=lpd://127.0.0.1/test /usr/lib/cups/backend/lpd 1 user test 1 '' /etc/fstab"
         sleep 5
+        rlRun "lpadmin -x test"
         rlRun "systemctl stop cups-lpd.socket"
         rlRun "systemctl disable cups-lpd.socket"
         rlRun "systemctl stop cups.service"

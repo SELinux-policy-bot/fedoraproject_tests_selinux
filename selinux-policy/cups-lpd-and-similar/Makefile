@@ -55,7 +55,7 @@ $(METADATA): Makefile
 	@echo "TestTime:        20m" >> $(METADATA)
 	@echo "RunFor:          selinux-policy" >> $(METADATA)
 	@echo "RunFor:          cups" >> $(METADATA)
-	@echo "Requires:        audit expect policycoreutils-python-utils selinux-policy-devel libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted setools setools-console xinetd nmap-ncat nc net-tools cups-lpd chkconfig initscripts" >> $(METADATA)
+	@echo "Requires:        audit expect policycoreutils-python-utils selinux-policy-devel libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted setools setools-console xinetd nmap-ncat nc net-tools cups-lpd chkconfig /usr/sbin/service" >> $(METADATA)
 	@echo "RhtsRequires:    library(selinux-policy/common)" >> $(METADATA)
 	@echo "Priority:        Normal" >> $(METADATA)
 	@echo "License:         GPLv2" >> $(METADATA)
@@ -63,9 +63,13 @@ $(METADATA): Makefile
 	@echo "Destructive:     no" >> $(METADATA)
 	@echo "Environment:     AVC_ERROR=+no_avc_check" >> $(METADATA)
 	@echo "Releases:        -RHEL4" >> $(METADATA)
+	@echo "Bug:             192216" >> $(METADATA) # Fedora 5
 	@echo "Bug:             1004198" >> $(METADATA) # RHEL-7
+	@echo "Bug:             1420522" >> $(METADATA) # Fedora 24
 	@echo "Bug:             1554118" >> $(METADATA) # RHEL-8
 	@echo "Bug:             1919399" >> $(METADATA) # RHEL-8
+	@echo "Bug:             1947397" >> $(METADATA) # RHEL-9
+	@echo "Bug:             2020531" >> $(METADATA) # Fedora 35
 
 	rhts-lint $(METADATA)
 
