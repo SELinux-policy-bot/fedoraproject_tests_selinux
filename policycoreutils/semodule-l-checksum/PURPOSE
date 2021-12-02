@@ -1,0 +1,3 @@
+PURPOSE of /CoreOS/policycoreutils/Sanity/bz1731501-Test-semodule-l-checksum
+Description: Test semodule -l --checksum
+Author: Petr Lautrbach <plautrba@redhat.com>

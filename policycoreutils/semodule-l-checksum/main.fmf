@@ -1,0 +1,8 @@
+path: /policycoreutils/semodule-l-checksum
+summary: Test semodule -l --checksum
+description: |
+    semodule -l --checksum shows sha256 checksum of loaded modules and this test is supposed to test it
+duration: 10m
+adjust:
+-   enabled: false
+    when: distro < rhel-8
