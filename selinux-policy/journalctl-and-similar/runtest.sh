@@ -90,6 +90,15 @@ rlJournalStart
         rlSESearchRule "allow journalctl_t journalctl_t : process { setrlimit } [ ]"
     rlPhaseEnd
 
+    if ! rlIsFedora ; then
+    rlPhaseStartTest "bz#2017838"
+        rlSEMatchPathCon "/run/log/journal/somehash/system.journal" "syslogd_var_run_t"
+        rlSEMatchPathCon "/var/lib/systemd/catalog/database" "init_var_lib_t"
+        rlSESearchRule "allow user_t init_var_lib_t : file { open read map } [ ]"
+        rlSESearchRule "allow user_t syslogd_var_run_t : file { open read map } [ ]"
+    rlPhaseEnd
+    fi
+
     rlPhaseStartTest "real scenario -- confined users"
         rlSEConfigureSSH
 
@@ -103,6 +112,8 @@ rlJournalStart
             rlRun "usermod -G systemd-journal ${USER_NAME}"
             rlRun "./ssh.exp ${USER_NAME} ${USER_SECRET} localhost journalctl -n 10 --no-pager --user"
             rlRun "./ssh.exp ${USER_NAME} ${USER_SECRET} localhost journalctl -n 10 --no-pager --system"
+            USER_ID=`id -u ${USER_NAME}`
+            rlRun "./ssh.exp ${USER_NAME} ${USER_SECRET} localhost systemctl status user@${USER_ID}"
             rlRun "userdel -rfZ ${USER_NAME}"
             sleep 10
         done
@@ -114,7 +125,7 @@ rlJournalStart
 
     rlPhaseStartCleanup
         sleep 2
-        rlSECheckAVC
+        rlSECheckAVC --ignore 'type=AVC .* create .*systemd.* scontext=.*:user_t:.* tcontext=.*:user_tmp_t:.* tclass=dir'
     rlPhaseEnd
 rlJournalPrintText
 rlJournalEnd
