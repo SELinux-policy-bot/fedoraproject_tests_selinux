@@ -91,6 +91,11 @@ rlJournalStart
         rlSESearchRule "allow smbcontrol_t smbcontrol_t : netlink_route_socket { create bind getattr nlmsg_read} [ ]"
         rlSESearchRule "allow smbcontrol_t smbcontrol_t : udp_socket { create ioctl } [ ]"
     rlPhaseEnd
+
+    rlPhaseStartTest "bz#2033873"
+        rlSEMatchPathCon "/proc/net/unix" "proc_net_t"
+        rlSESearchRule "allow smbcontrol_t proc_net_t : file { getattr open read } [ ]"
+    rlPhaseEnd
     fi
 
     rlPhaseStartTest "real scenario"
