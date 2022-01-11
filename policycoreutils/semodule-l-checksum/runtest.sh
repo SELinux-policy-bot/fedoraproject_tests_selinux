@@ -70,6 +70,13 @@ EOF"
         rlAssertEquals "Is the loaded module checksum same as the file checksum? " ${module[3]} ${sha256[0]}
     rlPhaseEnd
 
+    rlPhaseStartTest "is the checksum option listed?"
+        rlRun "man semodule | col -b | grep checksum"
+        rlRun "man semodule | col -b | grep 'SHA256.*checksum'"
+        rlRun "semodule --help | grep checksum"
+        rlRun "semodule --help | grep 'checksum.*SHA256'"
+    rlPhaseEnd
+
     rlPhaseStartCleanup
         rlRun "semodule -X 500 -r test_module"
         rlRun "popd"
