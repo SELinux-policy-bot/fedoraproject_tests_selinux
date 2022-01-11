@@ -44,7 +44,7 @@ DEFAULT_PULLS=""
 DEFAULT_PATCHES=""
 
 # Optional test parameter - location of testuite git.
-GIT_URL=${GIT_URL:-"git://github.com/SELinuxProject/selinux-testsuite"}
+GIT_URL=${GIT_URL:-"https://github.com/SELinuxProject/selinux-testsuite"}
 
 # Optional test parameter - timeout for detecting lost packets
 NETWORK_TIMEOUT=${NETWORK_TIMEOUT:-4}
@@ -70,22 +70,14 @@ else
     PIPEFAIL_DISABLE=""
 fi
 
-if rlIsRHEL 5 ; then
-    # On RHEL-5 sort -V doesn't work, so just pretend we have the oldest kernel
-    function kver_ge() { false; }
-    function kver_lt() { true;  }
-    function kver_le() { true;  }
-    function kver_gt() { false; }
-else
-    function version_le() {
-        { echo "$1"; echo "$2"; } | sort -V | tail -n 1 | grep -qx "$2"
-    }
+function version_le() {
+    { echo "$1"; echo "$2"; } | sort -V | tail -n 1 | grep -qx "$2"
+}
 
-    function kver_ge() { version_le "$1" "$(uname -r)"; }
-    function kver_lt() { ! kver_ge "$1"; }
-    function kver_le() { version_le "$(uname -r)" "$1"; }
-    function kver_gt() { ! kver_le "$1"; }
-fi
+function kver_ge() { version_le "$1" "$(uname -r)"; }
+function kver_lt() { ! kver_ge "$1"; }
+function kver_le() { version_le "$(uname -r)" "$1"; }
+function kver_gt() { ! kver_le "$1"; }
 
 function installDepsYum() {
     local yum="$1"; shift
@@ -201,14 +193,12 @@ rlJournalStart
         # rlRun "TmpDir=\$(mktemp -d)" 0 "Creating tmp directory"
         # rlRun "pushd $TmpDir"
 
-        if ! rlIsRHEL 5 ; then
-            # version_le() sanity check:
-            rlRun "version_le 4.10 4.10"
-            rlRun "version_le 4.10 4.10.0"
-            rlRun "version_le 4.10 4.10.1"
-            rlRun "! version_le 4.10 4.9"
-            rlRun "! version_le 4.10.0 4.10"
-        fi
+        # version_le() sanity check:
+        rlRun "version_le 4.10 4.10"
+        rlRun "version_le 4.10 4.10.0"
+        rlRun "version_le 4.10 4.10.1"
+        rlRun "! version_le 4.10 4.9"
+        rlRun "! version_le 4.10.0 4.10"
 
         if [ -d /sys/fs/selinux ]; then
             selinuxfs=/sys/fs/selinux
@@ -317,20 +307,6 @@ rlJournalStart
             rlRun "sed -i 's/3.18/3.9/' $file" 0 \
                 "Fix up kernel version in nnp test"
         done
-        if rlIsRHEL 5 ; then
-            rlRun "sed -i '/unconfined_devpts_t/d' policy/test_policy.if" 0
-
-            rlRun "sed -i 's/read_file_perms/r_file_perms/'  policy/*.te" 0
-            rlRun "sed -i 's/mmap_file_perms/rx_file_perms/' policy/*.te" 0
-            rlRun "sed -i 's/list_dir_perms/r_dir_perms/'    policy/*.te" 0
-            rlRun "sed -i 's/ open / /'                      policy/*.te" 0
-
-            rlRun "sed -i 's/^sysadm_bin_spec_domtrans_to/userdom_sysadm_bin_spec_domtrans_to/' policy/*.te" 0
-
-            rlRun "sed -i 's/^corecmd_exec_bin(\(.*\))$/corecmd_exec_bin(\1)\ncorecmd_exec_sbin(\1)/' policy/*.te" 0
-            rlRun "sed -i 's/^corecmd_bin_entry_type(\(.*\))$/corecmd_bin_entry_type(\1)\ncorecmd_sbin_entry_type(\1)/' policy/*.te" 0
-            rlRun "sed -i 's/^userdom_search_user_home_dirs(\(.*\))$/userdom_search_user_home_dirs(user, \1)/' policy/*.te" 0
-        fi
         if rlIsRHEL "<8.2"; then
             rlRun "sed -i '/SUBDIRS += bpf/d;/export CFLAGS += -DHAVE_BPF/d' tests/Makefile" 0 \
                 "RHEL < 8.2 doesn't ship libbpf => disable BPF subtests"

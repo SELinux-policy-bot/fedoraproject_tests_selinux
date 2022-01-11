@@ -11,6 +11,6 @@ tier: 1
 enabled: true
 adjust:
 - enabled: false
-  when: distro < rhel-5
+  when: distro < rhel-6
 - enabled: false
   when: arch = i386
