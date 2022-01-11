@@ -92,8 +92,8 @@ rlJournalStart
         rlSESearchRule "allow smbcontrol_t smbcontrol_t : udp_socket { create ioctl } [ ]"
     rlPhaseEnd
 
-    rlPhaseStartTest "bz#2033873"
-        rlSEMatchPathCon "/proc/net/unix" "proc_net_t"
+    rlPhaseStartTest "bz#2033873 + bz#2038157 + bz#2038963"
+        rlRun "ls -Z /proc/net/unix | grep :proc_net_t"
         rlSESearchRule "allow smbcontrol_t proc_net_t : file { getattr open read } [ ]"
     rlPhaseEnd
     fi
