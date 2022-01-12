@@ -110,7 +110,7 @@ expect -f  - <<<'
 }
 
 rlJournalStart
-    if rlIsRHEL '<9' ; then
+    if [ ! -f /usr/lib/systemd/systemd-homed ] ; then
         rlLog "Not applicable to this OS version."
         rlJournalEnd
         exit 0
