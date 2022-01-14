@@ -1,0 +1,22 @@
+summary: Regression test for ocontext kernel structure race condition
+description: |
+    Test that a race condition around the kernel's ocontext structures
+    doesn't cause an incorrect label to be assigned to files/mounts.
+contact: Ondrej Mosnacek <omosnace@redhat.com>
+component:
+- kernel
+framework: beakerlib
+require:
+- attr
+duration: 15m
+tier: 2
+enabled: true
+adjust:
+    enabled: false
+    when: distro < rhel-7
+    because: RHEL-6 and below are not worth supporting by this test
+extra-hardware: |
+    keyvalue = PROCESSORS >= 4
+link:
+- verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1969344
+- verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2040196
