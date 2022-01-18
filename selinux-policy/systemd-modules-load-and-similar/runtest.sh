@@ -100,7 +100,7 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "bz#1819161 + bz#1824196 + bz#1829700 + bz#1833502 + bz#1838933 + bz#1972372"
-        rlSEMatchPathCon "/sys/firmware/efi/efivarfs" "efivarfs_t"
+        rlSEMatchPathCon "/sys/firmware/efi/efivars" "efivarfs_t"
         rlSESearchRule "allow systemd_modules_load_t efivarfs_t : file { getattr open read } [ ]"
         rlSESearchRule "allow systemd_resolved_t efivarfs_t : file { getattr open read } [ ]"
     rlPhaseEnd
