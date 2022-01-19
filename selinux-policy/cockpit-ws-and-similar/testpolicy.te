@@ -1,0 +1,17 @@
+policy_module(testpolicy,1.0)
+
+require {
+  type initrc_t;
+  type cockpit_session_exec_t;
+  type cockpit_session_t;
+  type user_devpts_t;
+  class file { getattr open read execute entrypoint };
+  class process { transition };
+  class chr_file { getattr open read write append };
+}
+
+allow initrc_t cockpit_session_exec_t : file { getattr open read execute entrypoint };
+allow initrc_t cockpit_session_t : process { transition };
+type_transition initrc_t cockpit_session_exec_t : process cockpit_session_t;
+allow cockpit_session_t user_devpts_t : chr_file { getattr open read write append };
+

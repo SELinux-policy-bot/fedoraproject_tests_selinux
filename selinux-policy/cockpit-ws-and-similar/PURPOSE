@@ -1,0 +1,5 @@
+PURPOSE of /CoreOS/selinux-policy/Regression/cockpit-ws-and-similar
+Author: Milos Malik <mmalik@redhat.com>
+
+SELinux interferes with cockpit-ws, cockpit-ssh, cockpit-session and related programs.
+
