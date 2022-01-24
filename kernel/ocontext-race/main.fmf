@@ -12,9 +12,12 @@ duration: 15m
 tier: 2
 enabled: true
 adjust:
-    enabled: false
-    when: distro < rhel-7
-    because: RHEL-6 and below are not worth supporting by this test
+- enabled: false
+  when: distro < rhel-7
+  because: RHEL-6 and below are not worth supporting by this test
+- enabled: false
+  when: arch = s390x
+  because: No machines likely available with required HW configuration
 extra-hardware: |
     keyvalue = PROCESSORS >= 4
 link:
