@@ -134,6 +134,7 @@ rlJournalStart
 
         rlRun "setsebool ssh_sysadm_login on"
         rlRun "setsebool selinuxuser_tcp_server on"
+        CREATED_USERS=""
         # TODO: guest_u, xguest_u cannot successfully run systemctl
         for SELINUX_USER in user_u staff_u sysadm_u unconfined_u ; do
             USER_NAME="user${RANDOM}"
@@ -151,8 +152,10 @@ rlJournalStart
                 rlRun "grep \"${SELINUX_USER}:object_r:session_dbusd_tmp_t:.* services\" files.txt"
             fi
             rlRun "./ssh.exp ${USER_NAME} ${USER_SECRET} localhost /usr/bin/busctl --user --no-pager"
+            CREATED_USERS="${USER_NAME} ${CREATED_USERS}"
+        done
+        for USER_NAME in ${CREATED_USERS} ; do
             rlRun "userdel -rfZ ${USER_NAME}"
-            sleep 10
         done
         rlRun "setsebool selinuxuser_tcp_server off"
         rlRun "setsebool ssh_sysadm_login off"
