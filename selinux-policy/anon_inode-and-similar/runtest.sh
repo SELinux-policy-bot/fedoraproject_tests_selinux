@@ -33,6 +33,12 @@
 PACKAGE="selinux-policy"
 
 rlJournalStart
+    if ! seinfo -c anon_inode | grep -q anon_inode ; then
+        rlLog "Not applicable to this OS version."
+        rlJournalEnd
+        exit 0
+    fi
+
     rlPhaseStartSetup
         rlRun "rlImport 'selinux-policy/common'"
         rlSESatisfyRequires
