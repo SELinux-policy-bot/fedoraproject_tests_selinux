@@ -72,10 +72,11 @@ rlJournalStart
 
     if rlIsFedora ; then
     rlPhaseStartTest "bz#1649671"
-        rlSEMatchPathCon "/run/systemd/timesync" "init_var_run_t"
-        rlSEMatchPathCon "/run/systemd/timesync/synchronized" "init_var_run_t"
+        rlSEMatchPathCon "/run/systemd/timesync" "systemd_timedated_var_run_t"
+        rlSEMatchPathCon "/run/systemd/timesync/synchronized" "systemd_timedated_var_run_t"
         rlSESearchRule "allow systemd_timedated_t init_var_run_t : dir { write add_name } [ ]"
-        rlSESearchRule "allow systemd_timedated_t init_var_run_t : file { create write open } [ ]"
+        rlSESearchRule "allow systemd_timedated_t systemd_timedated_var_run_t : dir { write add_name } [ ]"
+        rlSESearchRule "allow systemd_timedated_t systemd_timedated_var_run_t : file { create write open } [ ]"
     rlPhaseEnd
 
     rlPhaseStartTest "bz#1694272"
