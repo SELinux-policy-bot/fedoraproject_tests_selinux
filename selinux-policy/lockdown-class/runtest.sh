@@ -33,7 +33,7 @@
 PACKAGE="selinux-policy"
 
 rlJournalStart
-    if rlIsRHEL '<9' ; then
+    if ! seinfo -c | grep -q lockdown ; then
         rlLog "Not applicable to this OS version."
         rlJournalEnd
         exit 0
