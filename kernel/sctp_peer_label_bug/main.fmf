@@ -1,0 +1,25 @@
+summary: Verify that two-way SCTP association setup doesn't trigger AVCs
+description: |
+    Verify that two-way SCTP association setup doesn't trigger AVCs.
+contact: Ondrej Mosnacek <omosnace@redhat.com>
+component:
+  - kernel
+framework: beakerlib
+require:
+  - make
+  - gcc
+  - lksctp-tools-devel
+  - audit
+  - kernel-modules
+recommend:
+  - kernel-modules-extra
+duration: 10m
+tier: 2
+enabled: true
+adjust:
+  - enabled: false
+    when: distro < rhel-8
+    because: RHEL-7 and below don't have SCTP SELinux support
+link:
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2048251
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2015525
