@@ -46,7 +46,7 @@ rlJournalStart
     rlPhaseStartTest
         rlRun "audit_ts=\"\$(check_avc_begin)\""
 
-        rlRun "./sctp_bz2048251_server -f flag -4 9999 &" 0 "Start the server"
+        rlRun "timeout 30 ./sctp_bz2048251_server -f flag -4 9999 &" 0 "Start the server"
         rlRun "read -t 5 <>flag" 0 "Wait for the server to start listening"
         rlRun "./sctp_bz2048251_client 127.0.0.1 9999" 0 "Run the client"
         rlRun "wait" 0 "Wait for the server to exit"
