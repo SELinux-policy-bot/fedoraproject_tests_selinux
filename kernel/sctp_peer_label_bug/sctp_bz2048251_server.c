@@ -92,6 +92,13 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
+	/* Subscribe to assoc_id events */
+	result = set_subscr_events(sock, off, on, off, off);
+	if (result < 0) {
+		perror("Client setsockopt: SCTP_EVENTS");
+		return 1;
+	}
+
 	if (flag_file) {
 		FILE *f = fopen(flag_file, "w");
 		if (!f) {
@@ -100,13 +107,6 @@ int main(int argc, char **argv)
 		}
 		fprintf(f, "listening\n");
 		fclose(f);
-	}
-
-	/* Subscribe to assoc_id events */
-	result = set_subscr_events(sock, off, on, off, off);
-	if (result < 0) {
-		perror("Client setsockopt: SCTP_EVENTS");
-		return 1;
 	}
 
 	result = receive_assoc(sock, &sin, &sinlen, verbose);
