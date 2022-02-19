@@ -67,7 +67,7 @@ EOF"
         sha256=($(sha256sum test_module.cil))
         rlAssertEquals "Is the module name 'test_module'?" ${module[1]} "test_module"
         rlAssertEquals "Is the module priority '500'?" ${module[0]} "500"
-        rlAssertEquals "Is the loaded module checksum same as the file checksum? " ${module[3]} ${sha256[0]}
+        rlAssertEquals "Is the loaded module checksum same as the file checksum? " ${module[3]} "sha256:${sha256[0]}"
     rlPhaseEnd
 
     rlPhaseStartTest "is the checksum option listed?"
