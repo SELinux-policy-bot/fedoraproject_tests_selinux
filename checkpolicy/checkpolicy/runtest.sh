@@ -35,6 +35,7 @@ PACKAGE="checkpolicy"
 rlJournalStart
     rlPhaseStartSetup
         rlAssertRpm ${PACKAGE}
+        rlRun "yum -y install selinux-policy-minimum selinux-policy-mls selinux-policy-targeted"
         rlAssertRpm selinux-policy-minimum
         rlAssertRpm selinux-policy-mls
         rlAssertRpm selinux-policy-targeted
