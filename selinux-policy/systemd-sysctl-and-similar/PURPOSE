@@ -1,0 +1,5 @@
+PURPOSE of /CoreOS/selinux-policy/Regression/systemd-sysctl-and-similar
+Author: Milos Malik <mmalik@redhat.com>
+
+Does the systemd-sysctl work correctly under SELinux confinement?
+
