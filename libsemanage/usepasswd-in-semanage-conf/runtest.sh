@@ -61,9 +61,9 @@ rlJournalStart
         rlRun "semodule -B" # rebuild file_contexts.homedirs
         rlRun "semanage fcontext -l 2>&1 > ${OUTPUT_FILE}" # file context with new selinux login
         rlRun "diff -u ${CMP_FILE} ${OUTPUT_FILE}" 0
-        rlRun "userdel duck-home"
-        rlRun "userdel duck-tmp"
-        rlRun "userdel duck-var-lib"
+        rlRun "userdel -f duck-home"
+        rlRun "userdel -f duck-tmp"
+        rlRun "userdel -f duck-var-lib"
 
         rlLog "SELinux users with home in / shoud not trigger a policy change"
         rlRun "useradd -Z unconfined_u -d /tmp duck-tmp"
@@ -71,8 +71,8 @@ rlJournalStart
         rlRun "semodule -B" # rebuild file_contexts.homedirs
         rlRun "semanage fcontext -l 2>&1 > ${OUTPUT_FILE}" # file context with new selinux login
         rlRun "diff -u ${CMP_FILE} ${OUTPUT_FILE}" 0
-        rlRun "userdel -Z duck-tmp"
-        rlRun "userdel -Z duck-var"
+        rlRun "userdel -fZ duck-tmp"
+        rlRun "userdel -fZ duck-var"
 
         rlLog "Other SELinux users should trigger a policy change"
         rlRun "useradd -Z unconfined_u duck-home"
@@ -80,8 +80,8 @@ rlJournalStart
         rlRun "semodule -B" # rebuild file_contexts.homedirs
         rlRun "semanage fcontext -l 2>&1 > ${OUTPUT_FILE}" # file context with new selinux login
         rlRun "diff -u ${CMP_FILE} ${OUTPUT_FILE} | grep -E 'duck-(home|var-home)'" 0
-        rlRun "userdel -Z duck-home"
-        rlRun "userdel -Z duck-var-home"
+        rlRun "userdel -fZ duck-home"
+        rlRun "userdel -fZ duck-var-home"
 
         rlFileRestore
     rlPhaseEnd
@@ -98,14 +98,14 @@ rlJournalStart
         rlRun "semodule -B" # rebuild file_contexts.homedirs
         rlRun "semanage fcontext -l 2>&1 > ${OUTPUT_FILE}" # file context with new selinux login
         rlRun "diff -u ${CMP_FILE} ${OUTPUT_FILE}" 0
-        rlRun "userdel duck-home"
+        rlRun "userdel -f duck-home"
 
         rlLog "Standard users with home in directory like /var/home should trigger a policy change"
         rlRun "useradd -d /var/home/duck duck-var-home"
         rlRun "semodule -B" # rebuild file_contexts.homedirs
         rlRun "semanage fcontext -l 2>&1 > ${OUTPUT_FILE}" # file context with new selinux login
         rlRun "diff -u ${CMP_FILE} ${OUTPUT_FILE} | grep -E '/var/home/'" 0
-        rlRun "userdel duck-var-home"
+        rlRun "userdel -f duck-var-home"
 
         rlLog "Standard users with home in / shoud not trigger a policy change"
         rlRun "useradd -d /tmp duck-tmp"
@@ -113,8 +113,8 @@ rlJournalStart
         rlRun "semodule -B" # rebuild file_contexts.homedirs
         rlRun "semanage fcontext -l 2>&1 > ${OUTPUT_FILE}" # file context with new selinux login
         rlRun "diff -u ${CMP_FILE} ${OUTPUT_FILE}" 0
-        rlRun "userdel -Z duck-tmp"
-        rlRun "userdel -Z duck-var"
+        rlRun "userdel -fZ duck-tmp"
+        rlRun "userdel -fZ duck-var"
 
         rlLog "SELinux users with home in / shoud not trigger a policy change"
         rlRun "useradd -Z unconfined_u -d /tmp duck-tmp"
@@ -122,8 +122,8 @@ rlJournalStart
         rlRun "semodule -B" # rebuild file_contexts.homedirs
         rlRun "semanage fcontext -l 2>&1 > ${OUTPUT_FILE}" # file context with new selinux login
         rlRun "diff -u ${CMP_FILE} ${OUTPUT_FILE}" 0
-        rlRun "userdel -Z duck-tmp"
-        rlRun "userdel -Z duck-var"
+        rlRun "userdel -fZ duck-tmp"
+        rlRun "userdel -fZ duck-var"
 
         rlLog "Other SELinux users should trigger a policy change"
         rlRun "useradd -Z unconfined_u duck-home"
@@ -131,8 +131,8 @@ rlJournalStart
         rlRun "semodule -B" # rebuild file_contexts.homedirs
         rlRun "semanage fcontext -l 2>&1 > ${OUTPUT_FILE}" # file context with new selinux login
         rlRun "diff -u ${CMP_FILE} ${OUTPUT_FILE} | grep -E 'duck-(home|var-home)'" 0
-        rlRun "userdel -Z duck-home"
-        rlRun "userdel -Z duck-var-home"
+        rlRun "userdel -fZ duck-home"
+        rlRun "userdel -fZ duck-var-home"
 
         rlFileRestore
     rlPhaseEnd
