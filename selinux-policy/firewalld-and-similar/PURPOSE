@@ -1,0 +1,5 @@
+PURPOSE of /CoreOS/selinux-policy/Regression/firewalld-and-similar
+Author: Milos Malik <mmalik@redhat.com>
+
+SELinux interferes with firewalld and related programs.
+
