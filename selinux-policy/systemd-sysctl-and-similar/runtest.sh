@@ -51,6 +51,7 @@ rlJournalStart
         sleep 2
     rlPhaseEnd
 
+    if ! rlIsRHEL 8 ; then
     rlPhaseStartTest "bz#2056207 + bz#2056999"
         rlSEMatchPathCon "/usr/lib/systemd/systemd-sysctl" "systemd_sysctl_exec_t"
         rlRun "ls -Z /proc/sys/fs/suid_dumpable | grep :proc_security_t"
@@ -59,6 +60,7 @@ rlJournalStart
         rlRun "ls -Z /proc/sys/kernel/kptr_restrict | grep :proc_security_t"
         rlSESearchRule "allow systemd_sysctl_t proc_security_t : file { read } [ ]"
     rlPhaseEnd
+    fi
 
     rlPhaseStartTest "real scenario"
         rlSEService - ${SERVICE_NAME} - ${PROCESS_CONTEXT} "start status" 1
