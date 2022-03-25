@@ -40,6 +40,12 @@ PROCESS_NAME="nasd"
 PROCESS_CONTEXT="soundd_t"
 
 rlJournalStart
+    if rlIsRHEL ; then
+        rlLog "Not applicable to this OS version."
+        rlJournalEnd
+        exit 0
+    fi
+
     rlPhaseStartSetup
         rlRun "rlImport 'selinux-policy/common'"
         rlSESatisfyRequires
