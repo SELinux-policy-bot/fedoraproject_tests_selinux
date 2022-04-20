@@ -189,9 +189,8 @@ rlJournalStart
         rlAssertRpm ${PACKAGE}
         rlAssertRpm audit
         rlFileBackup /etc/selinux/semanage.conf
-        # running the testsuite in /tmp causes permission denied messages
-        # rlRun "TmpDir=\$(mktemp -d)" 0 "Creating tmp directory"
-        # rlRun "pushd $TmpDir"
+        # run the testsuite in /root to avoid problems with other paths
+        rlRun "pushd /root"
 
         # version_le() sanity check:
         rlRun "version_le 4.10 4.10"
@@ -468,6 +467,8 @@ rlJournalStart
 
         rlRun "sleep 5" 0
         rlRun "dmesg | grep -i \"rcu_sched detected stalls\"" 1
+
+        rlRun "popd" 0 "Leave /root"
         rlFileRestore
     rlPhaseEnd
 rlJournalPrintText
