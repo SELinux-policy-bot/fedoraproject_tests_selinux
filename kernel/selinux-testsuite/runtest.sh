@@ -35,7 +35,7 @@ PACKAGE="selinux-policy"
 # This should be updated as needed after verifying that the new version
 # doesn't break testing and after applying all necessary tweaks in the TC.
 # Run with GIT_BRANCH=master to run the latest upstream version.
-DEFAULT_COMMIT="b2d0f3c5f946e58e3e6f8f1fff81d8435b005f92"
+DEFAULT_COMMIT="b11701a55614eeb20e85fee9829d1699cc13c39a"
 # Default pull requests to merge before running the test.
 # If non-empty, then after checking out GIT_BRANCH the listed upstream pull
 # requests (by number) are merged, creating a new temporary local branch.
@@ -304,7 +304,7 @@ rlJournalStart
         exclude_tests=""
         force_tests=""
         for file in ./tests/nnp*/execnnp.c; do
-            rlRun "sed -i 's/3.18/3.9/' $file" 0 \
+            rlRun "sed -i 's/3\.18/3.9/' $file" 0 \
                 "Fix up kernel version in nnp test"
         done
         if rlIsRHEL "<8.2"; then
@@ -376,6 +376,21 @@ rlJournalStart
                 # a17f0671017f selinux: vsock: Set SID for socket returned by accept()
                 exclude_tests+=" vsock_socket"
             fi
+
+            sctp_client_peeloff=0
+            if kver_ge 4.18.0-305.39.1 && kver_lt 4.18.0-306; then
+                sctp_client_peeloff=1
+            fi
+            if kver_ge 4.18.0-348.19.1 && kver_lt 4.18.0-349; then
+                sctp_client_peeloff=1
+            fi
+            if kver_ge 4.18.0-372.1.1 && kver_lt 5.14; then
+                sctp_client_peeloff=1
+            fi
+            if [ "$sctp_client_peeloff" -eq 1 ]; then
+                rlRun "sed -i 's/5\.18/4.18/g' tests/sctp/test" 0 \
+                    "Fix up kernel version in sctp test"
+            fi
         fi
 
         # CKI mainline kernels don't ship with module build infrastructure
@@ -402,24 +417,6 @@ rlJournalStart
             rlRun "sed -i '/^[^[:space:]]*:\(\| .*\)\$/i SUBDIRS:=\$(filter-out $force_tests, \$(SUBDIRS))\nSUBDIRS += $force_tests' tests/Makefile" 0 \
                 "Force applicable tests: $force_tests"
         fi
-
-        if ! modprobe sctp 2>/dev/null; then
-            script1='s/runcon -t test_sctp_socket_t/true/g'
-            script2='s/runcon -t test_no_sctp_socket_t/false/g'
-            rlRun "sed -i -e '$script1' -e '$script2' ./tests/extended_socket_class/test" 0 \
-                "No SCTP support => fix up extended_socket_class test"
-        fi
-
-        # on aarch64 and s390x the kernel support for Bluetooth is turned
-        # off so we disable the Bluetooth socket tests there
-        case "$(rlGetPrimaryArch)" in
-            aarch64|s390x)
-                script1='s/runcon -t test_bluetooth_socket_t/true/g'
-                script2='s/runcon -t test_no_bluetooth_socket_t/false/g'
-                rlRun "sed -i -e '$script1' -e '$script2' ./tests/extended_socket_class/test" 0 \
-                    "No Bluetooth support => fix up extended_socket_class test"
-                ;;
-        esac
 
         # Initialize report.
         rlRun "echo 'Remote: $GIT_URL' >results.log" 0
