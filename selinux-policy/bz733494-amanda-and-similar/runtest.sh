@@ -39,6 +39,12 @@ PROCESS_NAME="amandad"
 PROCESS_CONTEXT="amanda_t"
 
 rlJournalStart
+    if ! rpm -q amanda amanda-client amanda-server ; then
+        rlLog "Required packages are not available/installed."
+        rlJournalEnd
+        exit 0
+    fi
+
     rlPhaseStartSetup
         rlRun "rlImport 'selinux-policy/common'"
         rlSESatisfyRequires

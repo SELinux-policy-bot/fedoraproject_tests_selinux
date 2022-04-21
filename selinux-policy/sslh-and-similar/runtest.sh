@@ -40,6 +40,12 @@ PROCESS_NAME="sslh"
 PROCESS_CONTEXT="sslh_t"
 
 rlJournalStart
+    if ! rpm -q ${SERVICE_PACKAGE} ; then
+        rlLog "Required packages are not available/installed."
+        rlJournalEnd
+        exit 0
+    fi
+
     rlPhaseStartSetup
         rlRun "rlImport 'selinux-policy/common'"
         rlSESatisfyRequires
