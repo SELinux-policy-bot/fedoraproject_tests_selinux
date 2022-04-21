@@ -2,3 +2,24 @@ path: /selinux-policy/rtkit-daemon-and-similar
 summary: SELinux interferes with rtkit daemon and related programs 
 description: |
     Test coverage for SELinux AVC issues against rtkit daemon and related programs. 
+component:
+  - selinux-policy
+framework: beakerlib
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux-utils
+  - policycoreutils
+  - rtkit
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - /usr/sbin/service
+duration: 15m
+tier: '2'
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5
+    continue: false
+

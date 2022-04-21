@@ -1,7 +1,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 #   Makefile of /CoreOS/selinux-policy/Regression/rtkit-daemon-and-similar
-#   Description: the service was running as initrc_t, now it is confined by SELinux
+#   Description: SELinux interferes with rtkit daemon and related programs
 #   Author: Milos Malik <mmalik@redhat.com>
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
