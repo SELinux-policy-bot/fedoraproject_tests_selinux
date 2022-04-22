@@ -1,0 +1,42 @@
+policy_module(test_self_tt_good,1.0)
+
+attribute test_attrib_1;
+
+type test_a_t, test_attrib_1;
+type test_b_t, test_attrib_1;
+type test_c_t, test_attrib_1;
+type test_d_t;
+type test_e_t;
+type test_f_t;
+type test_g_t;
+type test_h_t;
+
+type_transition test_d_t self:{ file dir } test_e_t;
+type_transition test_d_t self:{ file dir } test_f_t "filename1";
+type_transition test_d_t self:{ file dir } test_g_t "filename2";
+
+# duplicate equivalent rules should be allowed
+type_transition test_d_t test_d_t:{ file dir } test_e_t;
+# ...but not for _filename_ transitions ¯\_(ツ)_/¯
+#type_transition test_d_t test_d_t:{ file dir } test_f_t "filename1";
+#type_transition test_d_t test_d_t:{ file dir } test_g_t "filename2";
+
+type_transition test_attrib_1 self:{ file dir } test_e_t;
+type_transition test_attrib_1 self:{ file dir } test_f_t "filename1";
+type_transition test_attrib_1 self:{ file dir } test_g_t "filename2";
+
+# check this fancy syntax as well
+type_transition test_h_t { test_d_t test_attrib_1 self }:{ file dir } test_e_t;
+type_transition test_h_t { test_d_t test_attrib_1 self }:{ file dir } test_f_t "filename1";
+type_transition test_h_t { test_d_t test_attrib_1 self }:{ file dir } test_g_t "filename2";
+
+# test type_change and type_member as well
+type_change test_d_t self:{ file dir } test_e_t;
+type_change test_d_t test_d_t:{ file dir } test_e_t;
+type_change test_attrib_1 self:{ file dir } test_e_t;
+type_change test_h_t { test_d_t test_attrib_1 self }:{ file dir } test_e_t;
+
+type_member test_d_t self:{ file dir } test_e_t;
+type_member test_d_t test_d_t:{ file dir } test_e_t;
+type_member test_attrib_1 self:{ file dir } test_e_t;
+type_member test_h_t { test_d_t test_attrib_1 self }:{ file dir } test_e_t;

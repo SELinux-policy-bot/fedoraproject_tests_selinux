@@ -1,0 +1,56 @@
+(typeattribute  test_attrib_1)
+
+(type test_a_t)
+(type test_b_t)
+(type test_c_t)
+(type test_d_t)
+(type test_e_t)
+(type test_f_t)
+(type test_g_t)
+(type test_h_t)
+
+(typeattributeset test_attrib_1 (test_a_t test_b_t test_c_t))
+
+(classmap file_dir (set_1))
+(classmapping file_dir set_1 (file (all)))
+(classmapping file_dir set_1 (dir (all)))
+
+(typetransition test_d_t self file_dir test_e_t)
+(typetransition test_d_t self file_dir "filename1" test_f_t)
+(typetransition test_d_t self file_dir "filename2" test_g_t)
+
+; duplicate equivalent rules should be allowed
+(typetransition test_d_t test_d_t file_dir test_e_t)
+(typetransition test_d_t test_d_t file_dir "filename1" test_f_t)
+(typetransition test_d_t test_d_t file_dir "filename2" test_g_t)
+
+(typetransition test_attrib_1 self file_dir test_e_t)
+(typetransition test_attrib_1 self file_dir "filename1" test_f_t)
+(typetransition test_attrib_1 self file_dir "filename2" test_g_t)
+
+; CIL doesn't support inline type sets, so just add these rules
+; to match the TE version
+(typetransition test_h_t test_d_t file_dir test_e_t)
+(typetransition test_h_t test_attrib_1 file_dir test_e_t)
+(typetransition test_h_t self file_dir test_e_t)
+(typetransition test_h_t test_d_t file_dir "filename1" test_f_t)
+(typetransition test_h_t test_attrib_1 file_dir "filename1" test_f_t)
+(typetransition test_h_t self file_dir "filename1" test_f_t)
+(typetransition test_h_t test_d_t file_dir "filename2" test_g_t)
+(typetransition test_h_t test_attrib_1 file_dir "filename2" test_g_t)
+(typetransition test_h_t self file_dir "filename2" test_g_t)
+
+; test typechange and typemember as well
+(typechange test_d_t self file_dir test_e_t)
+(typechange test_d_t test_d_t file_dir test_e_t)
+(typechange test_attrib_1 self file_dir test_e_t)
+(typechange test_h_t test_d_t file_dir test_e_t)
+(typechange test_h_t test_attrib_1 file_dir test_e_t)
+(typechange test_h_t self file_dir test_e_t)
+
+(typemember test_d_t self file_dir test_e_t)
+(typemember test_d_t test_d_t file_dir test_e_t)
+(typemember test_attrib_1 self file_dir test_e_t)
+(typemember test_h_t test_d_t file_dir test_e_t)
+(typemember test_h_t test_attrib_1 file_dir test_e_t)
+(typemember test_h_t self file_dir test_e_t)

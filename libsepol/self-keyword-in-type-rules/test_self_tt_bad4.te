@@ -1,0 +1,11 @@
+policy_module(test_self_tt_bad4,1.0)
+
+attribute test_attrib_1;
+
+type test_a_t, test_attrib_1;
+type test_b_t, test_attrib_1;
+type test_c_t;
+type test_d_t;
+
+type_transition test_a_t self:file test_c_t;
+type_transition test_attrib_1 test_attrib_1:file test_d_t;

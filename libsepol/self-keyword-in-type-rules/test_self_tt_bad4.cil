@@ -1,0 +1,11 @@
+(typeattribute  test_attrib_1)
+
+(type test_a_t)
+(type test_b_t)
+(type test_c_t)
+(type test_d_t)
+
+(typeattributeset test_attrib_1 (test_a_t test_b_t))
+
+(typetransition test_a_t self file test_b_t)
+(typetransition test_attrib_1 test_attrib_1 file test_c_t)

@@ -1,0 +1,8 @@
+policy_module(test_self_tt_bad2,1.0)
+
+type test_a_t;
+type test_b_t;
+type test_c_t;
+
+type_transition test_a_t self:file test_b_t;
+type_transition test_a_t test_a_t:file test_c_t;

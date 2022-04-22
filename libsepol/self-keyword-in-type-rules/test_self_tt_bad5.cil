@@ -1,0 +1,6 @@
+(type test_a_t)
+(type test_b_t)
+(type test_c_t)
+
+(typetransition test_a_t self file "filename" test_b_t)
+(typetransition test_a_t self file "filename" test_c_t)

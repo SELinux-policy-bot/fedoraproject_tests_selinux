@@ -1,0 +1,27 @@
+summary: Test support for self keyword in type rules
+description: |
+  Verifies that libsepol/checkmodule supports the self keyword in type rules.
+contact: Ondrej Mosnacek <omosnace@redhat.com>
+component:
+  - libsepol
+  - checkpolicy
+framework: beakerlib
+require:
+  - policycoreutils
+  - checkpolicy
+  - setools-console
+  - selinux-policy
+  - selinux-policy-devel
+  - diffutils
+duration: 15m
+tier: 2
+enabled: true
+adjust:
+  - enabled: false
+    when: distro < rhel-9.1
+    because: RHEL-8 and below are not expected to support this
+  - enabled: false
+    when: distro < fedora-37
+    because: This feature may not be available in F36 and below
+link:
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2069718
