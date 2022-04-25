@@ -1,1 +1,29 @@
-path: /libselinux/setenforce
+summary: Does setenforce work as expected? Does it produce correct audit messages?
+description: |+
+    Does setenforce work as expected? Does it produce correct audit messages?
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - libselinux
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - e2fsprogs
+enabled: true
+tag:
+  - CI-Tier-1
+  - NoRHEL4
+  - NoRHEL5
+  - TIPpass_Security
+  - TierCandidatesPASS
+  - f32friendly
+  - f33friendly
+  - targeted
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5
+    continue: false
+extra-nitrate: TC#0543754
+extra-summary: /CoreOS/libselinux/Sanity/setenforce
+extra-task: /CoreOS/libselinux/Sanity/setenforce

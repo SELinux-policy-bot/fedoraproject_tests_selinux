@@ -1,1 +1,27 @@
-path: /libselinux/selinux_boolean_sub-function
+summary: Test selinux_boolean_sub function
+description: ''
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - libselinux
+recommend:
+  - libselinux
+  - libselinux-devel
+  - glibc
+  - gcc
+enabled: true
+tag:
+  - CI-Tier-1
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - TIPpass_Security
+  - TierCandidatesPASS
+  - f32friendly
+  - f33friendly
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6
+    continue: false
+extra-nitrate: TC#0544857
+extra-summary: /CoreOS/libselinux/Sanity/selinux_boolean_sub-function
+extra-task: /CoreOS/libselinux/Sanity/selinux_boolean_sub-function

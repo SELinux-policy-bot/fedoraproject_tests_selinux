@@ -1,8 +1,10 @@
-path: /libselinux/python-bindings
 summary: Import selinux python module, check its metadata
-description: |
-    The test compares rpm version with python module metadata version and
-    tries to use selinux python module in a simple operation
-adjust:
--   enabled: false
-    when: distro < rhel-8
+description: ''
+contact: Petr Lautrbach <plautrba@redhat.com>
+component:
+  - libselinux
+recommend:
+  - python3-libselinux
+  - python3-pip
+extra-summary: /CoreOS/libselinux/Sanity/python-bindings
+extra-task: /CoreOS/libselinux/Sanity/python-bindings

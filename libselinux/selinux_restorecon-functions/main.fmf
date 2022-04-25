@@ -1,1 +1,26 @@
-path: /libselinux/selinux_restorecon-functions
+summary: Test functions in selinux_restorecon.c
+description: ''
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - libselinux
+recommend:
+  - libselinux
+  - libselinux-devel
+  - glibc
+  - strace
+enabled: true
+tag:
+  - CI-Tier-1
+  - NoRHEL4
+  - NoRHEL5
+  - TIPpass_Security
+  - TierCandidatesPASS
+  - failinfedora
+  - targeted
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6
+    continue: false
+extra-nitrate: TC#0535421
+extra-summary: /CoreOS/libselinux/Sanity/selinux_restorecon-functions
+extra-task: /CoreOS/libselinux/Sanity/selinux_restorecon-functions

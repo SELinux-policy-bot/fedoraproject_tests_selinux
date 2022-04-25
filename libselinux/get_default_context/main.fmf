@@ -1,2 +1,35 @@
-path: /libselinux/get_default_context
-tier: 1
+summary: Does get_default_context_with_rolelevel work as expected?
+description: |
+    Perform lookup of a default context for system_u:system_r:crond_t. This should
+    return context derived from "system_r:system_cronjob_t", but fails,
+    because of a kernel bug, when libselinux uses security_compute_user
+    (deprecated).
+    See https://bugzilla.redhat.com/show_bug.cgi?id=1879368
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - libselinux
+recommend:
+  - python3
+  - python3-libselinux
+  - libselinux
+  - libselinux-utils
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - targeted
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1879368
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1884282
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7
+    continue: false
+extra-nitrate: TC#0608317
+extra-summary: /CoreOS/libselinux/Regression/get_default_context
+extra-task: /CoreOS/libselinux/Regression/get_default_context

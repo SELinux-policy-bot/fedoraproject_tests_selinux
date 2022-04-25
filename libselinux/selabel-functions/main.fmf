@@ -1,1 +1,28 @@
-path: /libselinux/selabel-functions
+summary: Test selabel functions
+description: ''
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - libselinux
+recommend:
+  - libselinux
+  - libselinux-devel
+  - glibc
+  - gcc
+enabled: true
+tag:
+  - CI-Tier-1
+  - NoRHEL4
+  - NoRHEL5
+  - TIPpass_Security
+  - TierCandidatesPASS
+  - f33friendly
+  - targeted
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1390909
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5
+    continue: false
+extra-nitrate: TC#0536014
+extra-summary: /CoreOS/libselinux/Sanity/selabel-functions
+extra-task: /CoreOS/libselinux/Sanity/selabel-functions

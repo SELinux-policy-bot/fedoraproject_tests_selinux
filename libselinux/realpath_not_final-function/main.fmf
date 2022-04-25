@@ -1,1 +1,29 @@
-path: /libselinux/realpath_not_final-function
+summary: Test realpath_not_final function
+description: ''
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - libselinux
+recommend:
+  - libselinux
+  - libselinux-devel
+  - glibc
+  - gcc
+enabled: true
+tag:
+  - CI-Tier-1
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - TIPpass_Security
+  - TierCandidatesPASS
+  - f32friendly
+  - f33friendly
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1404644
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6
+    continue: false
+extra-nitrate: TC#0544859
+extra-summary: /CoreOS/libselinux/Sanity/realpath_not_final-function
+extra-task: /CoreOS/libselinux/Sanity/realpath_not_final-function

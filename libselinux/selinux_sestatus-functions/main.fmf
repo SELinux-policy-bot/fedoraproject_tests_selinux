@@ -1,1 +1,30 @@
-path: /libselinux/selinux_sestatus-functions
+summary: Test sestatus.c functions
+description: ''
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - libselinux
+recommend:
+  - libselinux
+  - libselinux-devel
+  - glibc
+enabled: true
+tag:
+  - CI-Tier-1
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - TIPpass_Security
+  - Tier1
+  - Tier1se
+  - TierCandidatesPASS
+  - f32friendly
+  - f33friendly
+  - targeted
+tier: '1'
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6
+    continue: false
+extra-nitrate: TC#0535409
+extra-summary: /CoreOS/libselinux/Sanity/selinux_sestatus-functions
+extra-task: /CoreOS/libselinux/Sanity/selinux_sestatus-functions

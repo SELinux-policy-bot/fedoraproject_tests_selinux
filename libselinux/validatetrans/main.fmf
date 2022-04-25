@@ -1,4 +1,42 @@
-path: /libselinux/validatetrans
+summary: Does the validatetrans tool work as expected?
+description: |+
+    Does the validatetrans tool work as expected?
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - libselinux
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - Tier1
+  - f33friendly
+  - targeted
+tier: '1'
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2008965
 adjust:
--   enabled: false
-    when: distro < fedora-32
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8
+    continue: false
+  - enabled: false
+    when: distro < Fedora-32
+    continue: false
+extra-nitrate: TC#0606254
+extra-summary: /CoreOS/libselinux/Sanity/validatetrans
+extra-task: /CoreOS/libselinux/Sanity/validatetrans

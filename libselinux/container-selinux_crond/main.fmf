@@ -1,2 +1,19 @@
-path: /libselinux/container-selinux_crond
-tier: 2
+summary: Does installing container-selinux break crond?
+description: |
+    Does installing container-selinux break crond?
+    See https://bugzilla.redhat.com/show_bug.cgi?id=1862823
+    and https://bugzilla.redhat.com/show_bug.cgi?id=1879368
+contact: Vit Mojzis <vmojzis@redhat.com>
+component:
+  - libselinux
+recommend:
+  - cronie
+  - container-selinux
+  - libselinux-utils
+  - policycoreutils
+duration: 10m
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1862823
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1879368
+extra-summary: /CoreOS/libselinux/Regression/container-selinux_crond
+extra-task: /CoreOS/libselinux/Regression/container-selinux_crond
