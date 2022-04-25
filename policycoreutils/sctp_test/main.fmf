@@ -1,12 +1,16 @@
-path: /policycoreutils/sctp_test
-summary: Is SCTP supported by "semanage port"?
-description: |
-    Simulates a use case where a user wants to confine a client-server application communicating over SCTP
-    Bug summary: semanage port does not support SCTP protocol
-    Bugzilla link: https://bugzilla.redhat.com/show_bug.cgi?id=1563742
-component:
-- policycoreutils
-- libsemanage
-adjust:
--   enabled: false
-    when: distro < rhel-8
+summary: Test for BZ#1563742 (RFE add SCTP protocol support to semanage port)
+contact: vmojzis <vmojzis@redhat.com>
+recommend:
+  - git
+  - libselinux-utils
+  - policycoreutils
+  - lksctp-tools
+  - psmisc
+  - /usr/sbin/semanage
+  - /usr/sbin/semodule
+duration: 10m
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1563742
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1770238
+extra-summary: /selinux/policycoreutils/sctp_test
+extra-task: /selinux/policycoreutils/sctp_test

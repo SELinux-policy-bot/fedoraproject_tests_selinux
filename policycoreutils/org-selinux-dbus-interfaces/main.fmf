@@ -1,9 +1,33 @@
-path: /policycoreutils/org-selinux-dbus-interfaces
 summary: Do the D-bus interfaces/methods of /org/selinux/object work as expected?
-description: |
-    Do the D-bus interfaces/methods of /org/selinux/object work as expected?
+description: ''
+contact: Milos Malik <mmalik@redhat.com>
 component:
-- policycoreutils
+  - policycoreutils
+recommend:
+  - dbus-tools
+  - policycoreutils-dbus
+  - selinux-policy-minimum
+  - selinux-policy-mls
+  - selinux-policy-targeted
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - TIPfail
+  - TIPfail_Security
+  - TierCandidatesPASS
+  - f32friendly
+  - f33friendly
+  - targeted
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1415988
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1754873
 adjust:
--   enabled: false
-    when: distro < rhel-8
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6
+    continue: false
+extra-nitrate: TC#0546187
+extra-summary: /CoreOS/policycoreutils/Sanity/org-selinux-dbus-interfaces
+extra-task: /CoreOS/policycoreutils/Sanity/org-selinux-dbus-interfaces

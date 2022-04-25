@@ -1,1 +1,39 @@
-path: /policycoreutils/sepolicy-generate
+summary: sepolicy generate sanity test
+description: ''
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - policycoreutils
+recommend:
+  - policycoreutils
+  - policycoreutils-devel
+  - rpm-build
+duration: 115m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - TIPpass_FIPS
+  - TIPpass_Security
+  - Tier3
+  - Tier3se
+  - TipWaived7
+  - f31friendly
+  - f32friendly
+  - targeted
+tier: '3'
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1271324
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=924686
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1512590
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=924696
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=962752
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=924107
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=924121
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6
+    continue: false
+extra-nitrate: TC#0248603
+extra-summary: /CoreOS/policycoreutils/Sanity/sepolicy-generate
+extra-task: /CoreOS/policycoreutils/Sanity/sepolicy-generate

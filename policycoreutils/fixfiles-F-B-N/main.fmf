@@ -1,7 +1,7 @@
-path: /policycoreutils/fixfiles-F-B-N
-summary: Test fixfiles [-F] [-B] onboot
-description: |
-    Run fixfiles with -F and -B options and check /.autorelabel             
-adjust:
--   enabled: false
-    when: distro < rhel-7
+summary: Tests fixfiles -F | -B | -N options
+description: ''
+contact: Petr Lautrbach <plautrba@redhat.com>
+component:
+  - policycoreutils
+extra-summary: /CoreOS/policycoreutils/Sanity/fixfiles-F-B-N
+extra-task: /CoreOS/policycoreutils/Sanity/fixfiles-F-B-N

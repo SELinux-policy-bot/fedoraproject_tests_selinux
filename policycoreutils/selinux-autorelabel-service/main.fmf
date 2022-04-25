@@ -1,2 +1,34 @@
-path: /policycoreutils/selinux-autorelabel-service
-tier: 2
+summary: incorrectly set StandardInput and StandardOutput of selinux-autorelabel service
+description: |+
+    Description: incorrectly set StandardInput and StandardOutput of selinux-autorelabel service
+
+    Bugzilla links:
+     * https://bugzilla.redhat.com/show_bug.cgi?id=1766578
+     * https://bugzilla.redhat.com/show_bug.cgi?id=1778094
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - policycoreutils
+recommend:
+  - policycoreutils
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - TIPpass
+  - TIPpass_Security
+  - f32friendly
+  - f33friendly
+  - targeted
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1766578
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1778094
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7
+    continue: false
+extra-nitrate: TC#0605819
+extra-summary: /CoreOS/policycoreutils/Regression/selinux-autorelabel-service
+extra-task: /CoreOS/policycoreutils/Regression/selinux-autorelabel-service

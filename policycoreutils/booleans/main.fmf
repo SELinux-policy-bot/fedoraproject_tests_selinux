@@ -1,9 +1,25 @@
-path: /policycoreutils/booleans
-summary: Test basic operations with booleans
-description: |
-    The test defines its own booleans and tests setting it on and off
-    using setsebool and semanage boolean.
-tier: 1
+summary: Basic operations with booleans
+description: ''
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - policycoreutils
+recommend:
+  - policycoreutils
+enabled: true
+tag:
+  - CI-Tier-1
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - TIPpass_Security
+  - TierCandidatesPASS
+  - f32friendly
+  - f33friendly
+  - targeted
 adjust:
--   enabled: false
-    when: distro < rhel-7
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6
+    continue: false
+extra-nitrate: TC#0571350
+extra-summary: /CoreOS/policycoreutils/Sanity/booleans
+extra-task: /CoreOS/policycoreutils/Sanity/booleans

@@ -1,2 +1,55 @@
-path: /policycoreutils/restorecon
-tier: 1
+summary: does restorecon work correctly ?
+description: |
+    Does restorecon work correctly?
+
+
+    Description: does restorecon work correctly ?
+
+    Author: Milos Malik <mmalik@redhat.com>
+
+    Bugzilla link: https://bugzilla.redhat.com/show_bug.cgi?id=736153
+
+    Description:
+    touch test
+    chcon -u staff_u -t shadow_t -l s0:c1 test
+    restorecon test
+    ls -lZ test
+    You should still see the user as staff_u and the level as s0:c1 but the type should be changed.
+    restorecon -F test
+    You should see the user become system_u and the level become s0
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - policycoreutils
+recommend:
+  - policycoreutils
+  - grep
+  - e2fsprogs
+  - libselinux
+  - selinux-policy-devel
+  - libselinux-utils
+duration: 15m
+enabled: true
+tag:
+  - CI-Tier-1
+  - NoRHEL4
+  - TIPpass_Security
+  - Tier1
+  - Tier1se
+  - f31friendly
+  - f32friendly
+  - targeted
+tier: '1'
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=739587
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=767568
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=741555
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=736153
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=741371
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=740669
+adjust:
+  - enabled: false
+    when: distro == rhel-4
+    continue: false
+extra-nitrate: TC#0111587
+extra-summary: /CoreOS/policycoreutils/Sanity/restorecon
+extra-task: /CoreOS/policycoreutils/Sanity/restorecon

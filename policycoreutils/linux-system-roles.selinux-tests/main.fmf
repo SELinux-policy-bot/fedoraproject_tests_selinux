@@ -1,2 +1,14 @@
-path: /policycoreutils/linux-system-roles.selinux-tests
-tags: [fedora]
+summary: Run linux-system-roles.selinux (https://github.com/linux-system-roles/selinux.git)
+    Ansible role tests
+description: |
+    Run linux-system-roles.selinux (https://github.com/linux-system-roles/selinux.git) Ansible role tests
+contact: Petr Lautrbach <plautrba@redhat.com>
+component:
+  - policycoreutils
+recommend:
+  - policycoreutils
+  - ansible
+  - git
+duration: 10m
+extra-summary: linux-system-roles.selinux-tests
+extra-task: linux-system-roles.selinux-tests

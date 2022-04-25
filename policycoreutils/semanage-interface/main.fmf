@@ -1,1 +1,32 @@
-path: /policycoreutils/semanage-interface
+summary: Does semanage interface ... work correctly?
+description: ''
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - policycoreutils
+recommend:
+  - policycoreutils
+  - policycoreutils-python-utils
+  - grep
+  - selinux-policy-minimum
+  - selinux-policy-mls
+  - selinux-policy-targeted
+duration: 20m
+enabled: true
+tag:
+  - CI-Tier-1
+  - NoRHEL4
+  - TIPpass_Security
+  - TierCandidatesPASS
+  - f32friendly
+  - f33friendly
+  - rhel-7.0
+  - targeted
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=953826
+adjust:
+  - enabled: false
+    when: distro == rhel-4
+    continue: false
+extra-nitrate: TC#0092119
+extra-summary: /CoreOS/policycoreutils/Regression/semanage-interface
+extra-task: /CoreOS/policycoreutils/Regression/semanage-interface

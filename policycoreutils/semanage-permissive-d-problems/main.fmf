@@ -1,1 +1,18 @@
-path: /policycoreutils/semanage-permissive-d-problems
+summary: semanage permissive -d accepts more than domain types, its behavior is not
+    reliable
+description: |+
+    Does semanage permissive work correctly?
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - policycoreutils
+recommend:
+  - policycoreutils
+  - policycoreutils-python-utils
+  - policycoreutils-devel
+  - selinux-policy-devel
+  - grep
+  - coreutils
+duration: 20m
+extra-summary: /CoreOS/policycoreutils/Regression/semanage-permissive-d-problems
+extra-task: /CoreOS/policycoreutils/Regression/semanage-permissive-d-problems

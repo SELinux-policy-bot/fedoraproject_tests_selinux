@@ -1,8 +1,12 @@
-path: /policycoreutils/semodule-l-checksum
 summary: Test semodule -l --checksum
-description: |
-    semodule -l --checksum shows sha256 checksum of loaded modules and this test is supposed to test it
-duration: 10m
-adjust:
--   enabled: false
-    when: distro < rhel-8
+description: ''
+contact: Petr Lautrbach <plautrba@redhat.com>
+component:
+  - policycoreutils
+recommend:
+  - policycoreutils
+  - selinux-policy-devel
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1731501
+extra-summary: /CoreOS/policycoreutils/Sanity/bz1731501-Test-semodule-l-checksum
+extra-task: /CoreOS/policycoreutils/Sanity/bz1731501-Test-semodule-l-checksum

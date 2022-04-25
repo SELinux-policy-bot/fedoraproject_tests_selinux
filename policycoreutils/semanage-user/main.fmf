@@ -1,1 +1,35 @@
-path: /policycoreutils/semanage-user
+summary: Does semanage user ... work correctly?
+description: ''
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - policycoreutils
+recommend:
+  - policycoreutils
+  - policycoreutils-python-utils
+  - grep
+  - selinux-policy-devel
+  - selinux-policy-minimum
+  - selinux-policy-mls
+  - selinux-policy-targeted
+  - selinux-policy-devel
+duration: 20m
+enabled: true
+tag:
+  - CI-Tier-1
+  - NoRHEL4
+  - TIPpass_Security
+  - TierCandidatesPASS
+  - f32friendly
+  - f33friendly
+  - rhel-7.0
+  - targeted
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=953826
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=987444
+adjust:
+  - enabled: false
+    when: distro == rhel-4
+    continue: false
+extra-nitrate: TC#0092120
+extra-summary: /CoreOS/policycoreutils/Regression/semanage-user
+extra-task: /CoreOS/policycoreutils/Regression/semanage-user

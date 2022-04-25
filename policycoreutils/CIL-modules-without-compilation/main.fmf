@@ -1,1 +1,31 @@
-path: /policycoreutils/CIL-modules-without-compilation
+summary: What the test does
+description: |+
+    Is it possible to manage policy modules written in CIL without any compilation? Does semanage and semodule understand them?
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - policycoreutils
+recommend:
+  - /usr/sbin/semodule
+  - /usr/sbin/semanage
+enabled: true
+tag:
+  - CI-Tier-1
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - TIPpass_Security
+  - Tier1
+  - Tier1se
+  - TierCandidatesPASS
+  - f32friendly
+  - f33friendly
+  - targeted
+tier: '1'
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6
+    continue: false
+extra-nitrate: TC#0535087
+extra-summary: /CoreOS/policycoreutils/Sanity/CIL-modules-without-compilation
+extra-task: /CoreOS/policycoreutils/Sanity/CIL-modules-without-compilation

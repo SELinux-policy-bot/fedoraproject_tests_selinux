@@ -1,1 +1,44 @@
-path: /policycoreutils/setsebool
+summary: does setsebool work correctly ?
+description: |+
+    Does setsebool work as expected? Does it produce correct audit messages?
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - policycoreutils
+recommend:
+  - audit
+  - policycoreutils
+  - libselinux-utils
+  - shadow-utils
+  - grep
+duration: 45m
+enabled: true
+tag:
+  - CI-Tier-1
+  - NoRHEL4
+  - TIPpass
+  - TIPpass_FIPS
+  - TIPpass_Security
+  - Tier1
+  - Tier1se
+  - TipWaived7
+  - f31friendly
+  - f33friendly
+  - failinrhel8ci
+  - targeted
+tier: '1'
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1002529
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=856550
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1029965
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=953917
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=825176
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=666365
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=998974
+adjust:
+  - enabled: false
+    when: distro == rhel-4
+    continue: false
+extra-nitrate: TC#0078073
+extra-summary: /CoreOS/policycoreutils/Sanity/setsebool
+extra-task: /CoreOS/policycoreutils/Sanity/setsebool

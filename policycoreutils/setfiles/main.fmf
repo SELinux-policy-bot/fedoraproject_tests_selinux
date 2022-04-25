@@ -1,17 +1,29 @@
 summary: Basic sanity tests for setfiles
-description: Basic sanity tests for setfiles
-contact: Petr Lautrbach <plautrba@redhat.com>
-path: /policycoreutils/setfiles
+description: ''
+contact: Milos Malik <mmalik@redhat.com>
 component:
-- policycoreutils
-framework: beakerlib
-require:
-- e2fsprogs
-- policycoreutils
-duration: 5m
-tier: 1
+  - policycoreutils
+recommend:
+  - policycoreutils
+duration: 30m
 enabled: true
-adjust:
-    enabled: false
-    when: distro ~< rhel-8.4
-    because: not expected to be fixed in RHEL-8 below 8.4
+tag:
+  - CI-Tier-1
+  - TIPfail_Security
+  - Tier1
+  - Tier1se
+  - f31friendly
+  - f32friendly
+  - targeted
+tier: '1'
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1098062
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1086572
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1086456
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1271326
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1271327
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1584116
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1794518
+extra-nitrate: TC#0392756
+extra-summary: /CoreOS/policycoreutils/Sanity/setfiles
+extra-task: /CoreOS/policycoreutils/Sanity/setfiles

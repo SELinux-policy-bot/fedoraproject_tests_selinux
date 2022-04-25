@@ -1,1 +1,18 @@
-path: /policycoreutils/semanage-port-add-delete-problems
+summary: semanage accepts invalid port numbers and then cannot delete them
+description: |+
+    semanage accepts invalid port numbers and then cannot delete them
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - policycoreutils
+recommend:
+  - policycoreutils
+  - policycoreutils-python-utils
+  - setools-console
+  - libselinux
+  - libselinux-utils
+  - coreutils
+  - grep
+duration: 15m
+extra-summary: /CoreOS/policycoreutils/Regression/semanage-port-add-delete-problems
+extra-task: /CoreOS/policycoreutils/Regression/semanage-port-add-delete-problems
