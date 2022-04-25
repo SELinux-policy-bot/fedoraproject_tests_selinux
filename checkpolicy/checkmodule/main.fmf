@@ -1,1 +1,39 @@
-path: /checkpolicy/checkmodule
+summary: runs checkmodule with various options to find out if it behaves correctly
+description: |+
+    This TC runs checkmodule with various options to find out if it behaves correctly.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - checkpolicy
+recommend:
+  - checkpolicy
+  - man
+  - grep
+  - mktemp
+  - policycoreutils
+  - policycoreutils-devel
+duration: 10m
+enabled: true
+tag:
+  - CI-Tier-1
+  - NoRHEL4
+  - TIPpass_Security
+  - Tier1
+  - Tier1se
+  - f31friendly
+  - f32friendly
+  - targeted
+tier: '1'
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1329217
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=533796
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=588294
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1392394
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1064603
+adjust:
+  - enabled: false
+    when: distro == rhel-4
+    continue: false
+extra-nitrate: TC#0062301
+extra-summary: /CoreOS/checkpolicy/Sanity/checkmodule
+extra-task: /CoreOS/checkpolicy/Sanity/checkmodule
