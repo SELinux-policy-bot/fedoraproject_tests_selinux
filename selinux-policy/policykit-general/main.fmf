@@ -1,0 +1,60 @@
+summary: Test for BZ#962791 (SELinux is preventing /usr/lib/polkit-1/polkitd)
+description: |+
+    SELinux interferes with polkitd and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - polkit
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - selinux-policy
+  - polkit
+  - glib2
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - setools-console
+  - psmisc
+  - shadow-utils
+  - expect
+  - openssh-clients
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 20m
+enabled: true
+tag:
+  - CI-Tier-1
+  - NoRHEL4
+  - NoRHEL5
+  - TIPpass
+  - TIPpass_FIPS
+  - TIPpass_Security
+  - Tier2
+  - Tier2se
+  - TipWaived7
+  - f31friendly
+  - f32friendly
+  - targeted
+tier: '2'
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=960669
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=962791
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=965143
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1003799
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1301561
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1364513
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1574389
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1583082
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1727902
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1951114
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1878094
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5
+    continue: false
+extra-nitrate: TC#0267065
+extra-summary: /CoreOS/selinux-policy/Regression/policykit-general
+extra-task: /CoreOS/selinux-policy/Regression/policykit-general

@@ -1,5 +1,61 @@
-path: /selinux-policy/kerberos-and-similar
-summary: SELinux interferes with various kerberos daemons and related programs.
-description: |
-    Test coverage for SELinux AVC issues against kerberos daemon and related
-    programs. 
+summary: SELinux interferes with kerberos programs
+description: |+
+    SELinux interferes with various kerberos daemons and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+  - krb5
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - krb5-server
+  - krb5-libs
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 30m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - TIPpass_Security
+  - Tier2
+  - Tier2se
+  - TipWaived6
+  - TipWaived7
+  - targeted
+tier: '2'
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=698923
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=713218
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=860666
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=910837
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1041629
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1065460
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1153561
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1210421
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1220691
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1220763
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1319933
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1337895
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1368492
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1452215
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1600705
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1601004
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1619252
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1664983
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1669975
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5
+    continue: false
+extra-nitrate: TC#0230498
+extra-summary: /CoreOS/selinux-policy/Regression/kerberos-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/kerberos-and-similar

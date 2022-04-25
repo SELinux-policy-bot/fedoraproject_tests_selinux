@@ -1,2 +1,55 @@
-path: /selinux-policy/dmidecode-and-similar
-tier: 2
+summary: SELinux interferes with dmidecode and related programs
+description: |+
+    SELinux interferes with dmidecode and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+  - dmidecode
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools
+  - setools-console
+  - dmidecode
+  - selinux-policy-devel
+  - shadow-utils
+  - openssh-clients
+  - expect
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 15m
+enabled: true
+tag:
+  - CI-Tier-1
+  - NoRHEL4
+  - TIPpass_Security
+  - Tier2
+  - Tier2se
+  - TierCandidatesFAIL
+  - f31friendly
+  - f32friendly
+  - targeted
+tier: '2'
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=263141
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1289274
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1300799
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1608480
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1926696
+adjust:
+  - enabled: false
+    when: distro == rhel-4
+    continue: false
+  - enabled: false
+    when: arch != aarch64 and arch != i386 and arch != x86_64
+    continue: false
+extra-nitrate: TC#0550595
+extra-summary: /CoreOS/selinux-policy/Regression/dmidecode-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/dmidecode-and-similar

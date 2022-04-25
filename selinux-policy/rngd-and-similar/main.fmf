@@ -1,2 +1,70 @@
-path: /selinux-policy/rngd-and-similar
-tier: 2
+summary: SELinux interferes with rngd and related programs
+description: |+
+    SELinux interferes with rngd and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - rng-tools
+  - initscripts
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 15m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - TIPpass
+  - TIPpass_Security
+  - Tier2
+  - Tier2se
+  - TierCandidatesPASS
+  - f31friendly
+  - f32friendly
+  - targeted
+tier: '2'
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=869810
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=869813
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1451735
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1452629
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1496260
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1609466
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1611413
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1612456
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1653872
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1655079
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1656054
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1657250
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1658234
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1698575
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1699278
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1700222
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1787663
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1789902
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1787661
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1928572
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1929360
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1929366
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1931450
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6
+    continue: false
+  - enabled: false
+    when: arch == s390x
+    continue: false
+extra-nitrate: TC#0300433
+extra-summary: /CoreOS/selinux-policy/Regression/rngd-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/rngd-and-similar

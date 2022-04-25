@@ -1,2 +1,58 @@
-path: /selinux-policy/systemd-timesyncd-and-similar
-tier: 2
+summary: SELinux interferes with systemd-timesyncd and related programs
+description: |+
+    SELinux interferes with systemd-timesyncd and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+  - systemd
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - systemd-udev
+  - initscripts
+  - systemd-timesyncd
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - TIPpass
+  - TIPpass_Security
+  - Tier2
+  - Tier2se
+  - epel
+  - rhel8-epel
+  - rhel9-epel
+  - targeted
+tier: '2'
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1640801
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1649257
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1649668
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1649671
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1653050
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1666222
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1694272
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1822131
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1869979
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1949315
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1970865
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-alt-7
+    continue: false
+extra-nitrate: TC#0606395
+extra-summary: /CoreOS/selinux-policy/Regression/systemd-timesyncd-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/systemd-timesyncd-and-similar

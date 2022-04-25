@@ -1,3 +1,73 @@
-path: /selinux-policy/accounts-daemon-and-similar
-tier: 2
+summary: SELinux interferes with accounts daemon and related programs
+description: |+
+    SELinux interferes with accounts daemon and related programs.
 
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - accountsservice
+  - glib2
+  - procps-ng
+  - realmd
+  - initscripts
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - TIPpass
+  - TIPpass_Security
+  - Tier3
+  - Tier3se
+  - TierCandidatesPASS
+  - failinfedora
+  - targeted
+tier: '3'
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1456760
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1507089
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1518211
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1595667
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1792895
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1806126
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1811407
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1815312
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1818696
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1819040
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1820978
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1820992
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1821156
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1828809
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1829013
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1829075
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1829128
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1935232
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1933842
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1933687
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1928546
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1934573
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1928565
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1928567
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6
+    continue: false
+  - enabled: false
+    when: arch == aarch64, s390x
+    continue: false
+extra-nitrate: TC#0075208
+extra-summary: /CoreOS/selinux-policy/Regression/accounts-daemon-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/accounts-daemon-and-similar

@@ -1,2 +1,60 @@
-path: /selinux-policy/systemd-modules-load-and-similar
-tier: 2
+summary: SELinux interferes with the systemd-modules-load service and related programs
+description: |+
+    SELinux interferes with the systemd-modules-load service and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - initscripts
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - rdma-core
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - openssh-clients
+  - systemd-udev
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - f33friendly
+  - targeted
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1358526
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1358960
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1360157
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1360488
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1437153
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1438253
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1490015
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1493293
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1697632
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1698200
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1699559
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1819161
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1823246
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1824196
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1829700
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1833502
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1838933
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1942267
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1972372
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1850953
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-alt-7
+    continue: false
+extra-nitrate: TC#0607299
+extra-summary: /CoreOS/selinux-policy/Regression/systemd-modules-load-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/systemd-modules-load-and-similar

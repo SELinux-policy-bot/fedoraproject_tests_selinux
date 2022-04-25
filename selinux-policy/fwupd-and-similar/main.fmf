@@ -1,2 +1,55 @@
-path: /selinux-policy/fwupd-and-similar
-tier: 2
+summary: SELinux interferes with fwupd and related programs
+description: |+
+    SELinux interferes with fwupd and related programs.
+    Standalone service and confined users are tested.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - glib2
+  - fwupd
+  - initscripts
+  - expect
+environment:
+    AVC_ERROR: +no_avc_check
+    ALLOWED_USERS: staff_u user_u sysadm_u unconfined_u
+    DENIED_USERS: guest_u xguest_u
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - TIPfail
+  - TIPfail_Security
+  - Tier3
+  - Tier3se
+  - TierCandidatesPASS
+  - failinfedora
+  - targeted
+tier: '3'
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1772619
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1832231
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1832234
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1832772
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1851932
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1860924
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1878094
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6
+    continue: false
+extra-nitrate: TC#0563429
+extra-summary: /CoreOS/selinux-policy/Regression/fwupd-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/fwupd-and-similar

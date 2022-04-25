@@ -1,5 +1,39 @@
-path: /selinux-policy/nfsdcld-and-similar
-tier: 2
+summary: SELinux interferes with the nfsdcld service and related programs
+description: |+
+    SELinux interferes with the nfsdcld service and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - /usr/sbin/service
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - nfs-utils
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - targeted
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1834234
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2026588
 adjust:
--   enabled: false
-    when: distro < rhel-8
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7
+    continue: false
+extra-nitrate: TC#0608104
+extra-summary: /CoreOS/selinux-policy/Regression/nfsdcld-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/nfsdcld-and-similar

@@ -1,25 +1,59 @@
-path: /selinux-policy/rtkit-daemon-and-similar
-summary: SELinux interferes with rtkit daemon and related programs 
-description: |
-    Test coverage for SELinux AVC issues against rtkit daemon and related programs. 
+summary: SELinux interferes with rtkit-daemon and related programs
+description: |+
+    SELinux interferes with rtkit daemon and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
 component:
   - selinux-policy
-framework: beakerlib
 require:
   - library(selinux-policy/common)
 recommend:
   - audit
+  - initscripts
+  - libselinux
   - libselinux-utils
   - policycoreutils
-  - rtkit
   - selinux-policy
   - selinux-policy-targeted
+  - glib2
   - setools-console
-  - /usr/sbin/service
-duration: 15m
+  - rtkit
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - CI-Tier-1
+  - NoRHEL4
+  - NoRHEL5
+  - TIP_fedora_fail
+  - TIPfail
+  - TIPpass_FIPS
+  - TIPpass_Security
+  - Tier2
+  - Tier2se
+  - TierCandidatesPASS
+  - f31friendly
+  - f32friendly
+  - targeted
 tier: '2'
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1626982
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1703241
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1720546
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1750024
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1752583
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1754408
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1755572
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1756755
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1758097
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1760214
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1873658
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1910507
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5
     continue: false
-
+extra-nitrate: TC#0300678
+extra-summary: /CoreOS/selinux-policy/Regression/rtkit-daemon-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/rtkit-daemon-and-similar

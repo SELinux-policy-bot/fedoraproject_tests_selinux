@@ -1,3 +1,45 @@
-path: /selinux-policy/rpmdb-and-similar
-tier: 2
+summary: SELinux interferes with rpmdb program, rpmdb-rebuild service and related
+    programs
+description: |+
+    SELinux interferes with rpmdb program, rpmdb-rebuild service and related programs.
 
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - initscripts
+  - sssd
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - targeted
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1898298
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1899548
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1900383
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1900386
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1900388
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1900390
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1900391
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8
+    continue: false
+extra-nitrate: TC#0609732
+extra-summary: /CoreOS/selinux-policy/Regression/rpmdb-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/rpmdb-and-similar

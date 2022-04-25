@@ -1,10 +1,24 @@
-path: /selinux-policy/systemd-homed
-summary: Test homectl utility and its sub-commands to verify AVC denials
-description: |
-    Test coverage for SELinux AVC issues associated with systemd-homed 
-    service. The homectl program calls the systemd-homed service, which 
-    is not yet confined, but it triggers SELinux denials. This test suite
-    covers command homectl with its subcommands and checks for avc denials.
-adjust:
--   enabled: false
-    when: distro < rhel-9
+summary: Tests for systemd-homed service
+contact: Amith Kumar <apeetham@redhat.com>
+component:
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - expect
+  - initscripts
+  - systemd
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 1h
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1809878
+extra-summary: /CoreOS/selinux-policy/Regression/systemd-homed
+extra-task: /CoreOS/selinux-policy/Regression/systemd-homed

@@ -1,3 +1,53 @@
-path: /selinux-policy/cups-browsed-and-similar
-tier: 2
+summary: SELinux interferes with cups-browsed and related programs
+description: |+
+    SELinux interferes with cups-browsed and related programs.
 
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - cups
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - cups-filters
+  - cups
+  - initscripts
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 15m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - RHEL8
+  - TIP_fedora_pass
+  - TIPfail_infra
+  - TIPpass
+  - TIPpass_FIPS
+  - TIPpass_Security
+  - Tier1
+  - Tier1security
+  - Tier2se
+  - f32friendly
+  - targeted
+tier: '1'
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1395801
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1401634
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1719754
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1929329
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6
+    continue: false
+extra-nitrate: TC#0300676
+extra-summary: /CoreOS/selinux-policy/Regression/cups-browsed-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/cups-browsed-and-similar

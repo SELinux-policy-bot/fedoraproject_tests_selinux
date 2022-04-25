@@ -1,2 +1,50 @@
-path: /selinux-policy/bz481628-send-msg-to-dbus
-tier: 2
+summary: checks if dbus daemon is able to send message to hal daemon and vice versa
+description: |+
+    SELinux interferes with D-bus daemon and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - dbus
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools
+  - setools-console
+  - expect
+  - openssh-clients
+  - dbus-daemon
+  - shadow-utils
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - CI-Tier-1
+  - NoRHEL4
+  - TIPfail_Security
+  - TIPpass
+  - TierCandidatesPASS
+  - failinfedora
+  - targeted
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=463267
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=481628
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1546721
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1614236
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1688671
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1727887
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1754476
+adjust:
+  - enabled: false
+    when: distro == rhel-4
+    continue: false
+extra-nitrate: TC#0057414
+extra-summary: /CoreOS/selinux-policy/Regression/bz481628-send-msg-to-dbus
+extra-task: /CoreOS/selinux-policy/Regression/bz481628-send-msg-to-dbus

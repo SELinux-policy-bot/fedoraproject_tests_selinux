@@ -1,5 +1,54 @@
-path: /selinux-policy/systemd-rfkill-and-similar
-tier: 2
+summary: SELinux interferes with systemd-rfkill and related programs
+description: |+
+    SELinux interferes with systemd-rfkill service and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+  - systemd
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - systemd-udev
+  - initscripts
+  - procps-ng
+  - kernel-modules
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - TIPpass
+  - Tier2
+  - Tier2se
+  - f32friendly
+  - f33friendly
+  - targeted
+tier: '2'
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1290255
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1309839
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1319499
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1388669
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1543650
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1554838
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1557595
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1638981
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1661724
 adjust:
--   enabled: false
-    when: distro ~>= fedora-32
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-alt-7
+    continue: false
+extra-nitrate: TC#0606118
+extra-summary: /CoreOS/selinux-policy/Regression/systemd-rfkill-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/systemd-rfkill-and-similar

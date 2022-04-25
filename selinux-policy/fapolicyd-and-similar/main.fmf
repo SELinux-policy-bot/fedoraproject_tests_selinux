@@ -1,3 +1,44 @@
-path: /selinux-policy/fapolicyd-and-similar
-tier: 2
-component: disabled
+summary: SELinux interferes with fapolicyd and related programs
+description: |+
+    SELinux interferes with fapolicyd and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - fapolicyd
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - initscripts
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - fapolicyd
+  - fapolicyd-selinux
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - fedora-wanted
+  - targeted
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1865818
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1874491
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1876538
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1932225
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7
+    continue: false
+extra-nitrate: TC#0608224
+extra-summary: /CoreOS/selinux-policy/Regression/fapolicyd-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/fapolicyd-and-similar

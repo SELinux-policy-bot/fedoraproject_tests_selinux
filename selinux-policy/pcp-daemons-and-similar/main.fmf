@@ -1,5 +1,68 @@
-path: /selinux-policy/pcp-daemons-and-similar
-summary: SELinux issues related to pcp deamons and related programs
-description: |
-   Test coverage for SELinux AVC issues against pcp and related programs.
+summary: the services were running as initrc_t, now they are confined by SELinux
+description: |+
+    SELinux interferes with various PCP services and related programs.
 
+contact: jkurik@redhat.com
+component:
+  - selinux-policy
+  - pcp
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools
+  - setools-console
+  - glib2
+  - pcp
+  - pcp-manager
+  - pcp-pmda-dm
+  - pcp-webapi
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 90m
+enabled: true
+tag:
+  - NoRHEL4
+  - TIPfail_FIPS
+  - TIPpass
+  - TIPpass_Security
+  - TipWaived7
+  - f32friendly
+  - failinfedora
+  - targeted
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1028598
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1061159
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1064233
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1072785
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1089912
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1130606
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1130934
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1167825
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1196926
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1203153
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1206525
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1211520
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1213709
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1213740
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1252341
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1261811
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1271998
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1286234
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1309883
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1379371
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1770123
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1886369
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1309454
+adjust:
+  - enabled: false
+    when: distro == rhel-4
+    continue: false
+extra-nitrate: TC#0075517
+extra-summary: /CoreOS/selinux-policy/Regression/pcp-daemons-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/pcp-daemons-and-similar

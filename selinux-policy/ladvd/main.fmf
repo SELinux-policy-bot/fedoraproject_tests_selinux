@@ -1,8 +1,30 @@
-path: /selinux-policy/ladvd
-summary: Test ladvd utility to verify AVC denials
-description: |
-    Test coverage for SELinux AVC issues related ladvd service. This
-    test suite primarily verifies two bugs ie bz1834325 and bz1855163. 
-adjust:
--   enabled: false
-    when: distro <= rhel-8
+summary: Tests for ladvd service
+description: |+
+    Test coverage for SELinux AVC issues related to ladvd service.
+
+contact: Amith Kumar <apeetham@redhat.com>
+component:
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - initscripts
+  - kernel-headers
+  - ladvd
+  - ladvd-selinux
+  - libpcap
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 1h
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1834325
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1855163
+extra-summary: /CoreOS/selinux-policy/Regression/ladvd
+extra-task: /CoreOS/selinux-policy/Regression/ladvd

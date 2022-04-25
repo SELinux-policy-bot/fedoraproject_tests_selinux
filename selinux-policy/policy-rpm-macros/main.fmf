@@ -1,2 +1,42 @@
-path: /selinux-policy/policy-rpm-macros
-tier: 1
+summary: Are necessary RPM macros defined for various policy actions?
+description: |+
+    Are necessary RPM macros defined for various policy actions? Are they defined correctly?
+
+    More information at:
+     * https://plautrba.fedorapeople.org/blok/Fedora-SELinux-module-packaging.html
+     * https://github.com/fedora-selinux/selinux-policy-macros/blob/master/README.adoc
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+recommend:
+  - git
+  - selinux-policy
+  - /usr/sbin/semanage
+duration: 15m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - TIPpass_Security
+  - Tier1
+  - Tier1se
+  - f32friendly
+  - targeted
+tier: '1'
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1380854
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1415694
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1518609
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1488402
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1633198
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1631814
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1465824
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-8
+    continue: false
+extra-nitrate: TC#0546229
+extra-summary: /CoreOS/selinux-policy/Sanity/policy-rpm-macros
+extra-task: /CoreOS/selinux-policy/Sanity/policy-rpm-macros

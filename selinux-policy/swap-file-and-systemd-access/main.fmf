@@ -1,2 +1,49 @@
-path: /selinux-policy/swap-file-and-systemd-access
-tier: 2
+summary: SELinux interferes with systemd when accessing a swap file
+description: |+
+    SELinux interferes with systemd when accessing swap files or swap partitions.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+  - systemd
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - setools-console
+  - systemd
+  - util-linux
+  - binutils
+environment:
+    AVC_ERROR: +no_avc_check
+    REAL_SCENARIOS: 'false'
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - TIPpass
+  - targeted
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1367279
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1797543
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1798872
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1845594
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1850177
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1912385
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1926536
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1928539
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1968610
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1890884
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7
+    continue: false
+extra-nitrate: TC#0605834
+extra-summary: /CoreOS/selinux-policy/Regression/swap-file-and-systemd-access
+extra-task: /CoreOS/selinux-policy/Regression/swap-file-and-systemd-access

@@ -1,2 +1,38 @@
-path: /selinux-policy/systemd-sysctl-and-similar
-tier: 2
+summary: Does the systemd-sysctl work correctly under SELinux confinement?
+description: |+
+    Does the systemd-sysctl work correctly under SELinux confinement?
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+  - systemd
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - setools-console
+  - systemd
+  - /usr/sbin/service
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - targeted
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2056207
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2056999
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7
+    continue: false
+extra-nitrate: TC#0613033
+extra-summary: /CoreOS/selinux-policy/Regression/systemd-sysctl-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/systemd-sysctl-and-similar

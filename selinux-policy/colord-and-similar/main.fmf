@@ -1,2 +1,57 @@
-path: /selinux-policy/colord-and-similar
-tier: 2
+summary: SELinux interferes with colord and related programs
+description: |+
+    SELinux interferes with colord and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - glib2
+  - setools-console
+  - colord
+  - initscripts
+  - expect
+environment:
+    AVC_ERROR: +no_avc_check
+    ALLOWED_USERS: staff_u user_u sysadm_u unconfined_u
+    DENIED_USERS: guest_u xguest_u
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - RHEL8
+  - TIPpass
+  - TIPpass_FIPS
+  - TIPpass_Security
+  - Tier2
+  - Tier2se
+  - f31friendly
+  - f32friendly
+  - targeted
+tier: '2'
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1373082
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1381579
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1398030
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1421247
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1460480
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1772669
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1951114
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1878094
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6
+    continue: false
+extra-nitrate: TC#0276310
+extra-summary: /CoreOS/selinux-policy/Regression/colord-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/colord-and-similar

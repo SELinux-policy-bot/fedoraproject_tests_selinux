@@ -1,2 +1,50 @@
-path: /selinux-policy/smbcontrol-and-similar
-tier: 2
+summary: SELinux interferes with smbcontrol and related programs
+description: |+
+    SELinux interferes with smbcontrol and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - samba-common
+  - samba-common-tools
+duration: 15m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - TIPpass_Security
+  - Tier3
+  - Tier3se
+  - TierCandidatesPASS
+  - f31friendly
+  - f32friendly
+  - targeted
+tier: '3'
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1326371
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1326621
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1574518
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1574521
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2025931
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2027740
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2027751
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2033873
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2038157
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2038963
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5
+    continue: false
+extra-nitrate: TC#0522115
+extra-summary: /CoreOS/selinux-policy/Regression/smbcontrol-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/smbcontrol-and-similar

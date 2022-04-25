@@ -1,2 +1,54 @@
-path: /selinux-policy/boltd-and-similar
-tier: 2
+summary: SELinux interferes with boltd and related programs.
+description: |+
+    SELinux interferes with boltd and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - initscripts
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - glib2
+  - expect
+  - openssh-clients
+  - bolt
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 30m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - TIPfail_Security
+  - Tier2
+  - Tier2se
+  - TierCandidatesPASS
+  - f31friendly
+  - f32friendly
+  - failinfedora
+  - targeted
+tier: '2'
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1589086
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1625786
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1684103
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1685591
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1702243
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1704766
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1951114
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6
+    continue: false
+extra-nitrate: TC#0575292
+extra-summary: /CoreOS/selinux-policy/Regression/boltd-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/boltd-and-similar

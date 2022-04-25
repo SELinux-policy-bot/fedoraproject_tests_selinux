@@ -1,2 +1,70 @@
-path: /selinux-policy/firewalld-and-similar
-tier: 2
+summary: SELinux interferes with firewalld and related programs
+description: |+
+    SELinux interferes with firewalld and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+  - firewalld
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - firewalld
+  - glib2
+  - nftables
+  - procps-ng
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 30m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - TIP_fedora_pass
+  - TIPfail_fedora
+  - TIPpass
+  - TIPpass_FIPS
+  - TIPpass_Security
+  - Tier3
+  - Tier3se
+  - TierCandidatesPASS
+  - f32friendly
+  - f33friendly
+  - targeted
+tier: '3'
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=907902
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=989922
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1067494
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1214853
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1221326
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1243403
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1284902
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1304721
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1304723
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1342235
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1342587
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1346316
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1375576
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1418391
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1438708
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1573501
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1593687
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1600903
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1759010
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1989641
+adjust:
+  - enabled: false
+    when: distro < rhel-7
+    continue: false
+extra-nitrate: TC#0175059
+extra-summary: /CoreOS/selinux-policy/Regression/firewalld-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/firewalld-and-similar

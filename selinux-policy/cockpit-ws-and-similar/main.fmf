@@ -1,3 +1,65 @@
-path: /selinux-policy/cockpit-ws-and-similar
-tier: 2
+summary: SELinux interferes with cockpit-ws and related programs
+description: |+
+    SELinux interferes with cockpit-ws, cockpit-ssh, cockpit-session and related programs.
 
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - glib2
+  - cockpit-ws
+  - net-tools
+  - nmap-ncat
+  - cockpit-dashboard
+  - cockpit-bridge
+  - psmisc
+  - selinux-policy-devel
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - TIPfail_Security
+  - TierCandidatesPASS
+  - failinfedora
+  - targeted
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1100808
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1214223
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1279429
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1283955
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1374572
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1381914
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1402316
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1402495
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1413509
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1561053
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1584167
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1609929
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1613638
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1615318
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1629678
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1718814
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1979182
+adjust:
+  - enabled: false
+    when: arch != x86_64
+    continue: false
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6
+    continue: false
+extra-nitrate: TC#0419451
+extra-summary: /CoreOS/selinux-policy/Regression/cockpit-ws-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/cockpit-ws-and-similar

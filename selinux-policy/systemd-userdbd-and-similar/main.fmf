@@ -1,5 +1,47 @@
-path: /selinux-policy/systemd-userdbd-and-similar
-tier: 2
+summary: SELinux interferes with systemd-userdbd and related programs
+description: |+
+    SELinux interferes with systemd-userdbd and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+  - systemd
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - expect
+  - openssh-clients
+  - systemd
+  - initscripts
+  - shadow-utils
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - NoRHEL8
+  - failinfedora
+  - targeted
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1835630
 adjust:
--   enabled: false
-    when: distro <= rhel-8
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-alt-7, rhel-8, rhel-9
+    continue: false
+  - enabled: false
+    when: distro == fedora-30, fedora-31
+    continue: false
+extra-nitrate: TC#0606124
+extra-summary: /CoreOS/selinux-policy/Regression/systemd-userdbd-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/systemd-userdbd-and-similar

@@ -1,2 +1,24 @@
-path: /selinux-policy/nasd-and-similar
-tier: 2
+summary: SELinux interferes with the nasd service and related programs
+description: |+
+    SELinux interferes with the nasd service and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - nas
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - nas
+  - /usr/sbin/service
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+extra-summary: /CoreOS/selinux-policy/Regression/nasd-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/nasd-and-similar

@@ -1,8 +1,43 @@
-path: /selinux-policy/rsyslog-and-similar
-summary: Test rsyslog service and verify AVC denials
-description: |
-    Test coverage for rsyslog service with different configurations and 
-    verify related SELinux AVC issues.
+summary: SELinux AVCs with rsyslog in various configurations
+description: |+
+    SELinux interferes with rsyslogd and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - rsyslog
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - initscripts
+  - libselinux
+  - libselinux-utils
+  - logwatch
+  - policycoreutils
+  - policycoreutils-devel
+  - rsyslog
+  - rsyslog-gnutls
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools
+  - setools-console
+  - shadow-utils
+  - /usr/sbin/semanage
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 30m
+enabled: true
+tag:
+  - NoRHEL4
+  - targeted
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1823669
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1823672
 adjust:
--   enabled: false
-    when: distro < rhel-8
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-alt-7
+    continue: false
+extra-nitrate: TC#0609007
+extra-summary: /CoreOS/selinux-policy/Regression/rsyslog-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/rsyslog-and-similar

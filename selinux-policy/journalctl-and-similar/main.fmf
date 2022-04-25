@@ -1,2 +1,51 @@
-path: /selinux-policy/journalctl-and-similar
-tier: 2
+summary: SELinux interferes with journalctl executed by various users
+description: |+
+    SELinux interferes with journalctl executed by various users.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+  - systemd
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - expect
+  - openssh-clients
+  - systemd
+  - shadow-utils
+environment:
+    AVC_ERROR: +no_avc_check
+    ALLOWED_USERS: staff_u user_u sysadm_u unconfined_u
+    DENIED_USERS: guest_u xguest_u
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - TIPfail
+  - TIPfail_Security
+  - TIPfail_systemd
+  - failinfedora
+  - targeted
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1176713
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1288255
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1685689
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1825894
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2017838
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1703241
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6
+    continue: false
+extra-nitrate: TC#0597884
+extra-summary: /CoreOS/selinux-policy/Regression/journalctl-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/journalctl-and-similar

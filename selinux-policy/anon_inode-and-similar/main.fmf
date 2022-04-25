@@ -1,8 +1,37 @@
-path: /selinux-policy/anon_inode-and-similar
-summary: Test AVC issues related to tclass anon_inode
+summary: SELinux AVC issues related to anon_inode tclass policies.
 description: |
-    Test coverage for cases verifying avc denial issues related to  
-    anon_inode tclass.
+    SELinux denials affect processes that deals with anon_inode tclass.
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - libselinux
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - gcc
+  - glibc-headers
+  - setools-console
+  - audit
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 30m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - targeted
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1974559
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2027660
 adjust:
--   enabled: false
-    when: distro < rhel-9
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8
+    continue: false
+extra-nitrate: TC#0612643
+extra-summary: /CoreOS/selinux-policy/Regression/anon_inode-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/anon_inode-and-similar

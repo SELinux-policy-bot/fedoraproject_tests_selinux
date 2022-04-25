@@ -1,2 +1,54 @@
-path: /selinux-policy/cups-pdf-and-similar
-tier: 2
+summary: SELinux interferes with cups-pdf and related programs
+description: |+
+    SELinux interferes with cups-pdf and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - cups
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - expect
+  - openssh-clients
+  - shadow-utils
+  - cups
+  - cups-pdf
+  - cups-client
+  - cups-filters
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - TIPfail_infra
+  - failinfedora
+  - targeted
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=560220
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=563977
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=570782
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1516282
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1517509
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1532043
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1594271
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1700442
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1832521
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-alt-7, rhel-8
+    continue: false
+extra-nitrate: TC#0607292
+extra-summary: /CoreOS/selinux-policy/Regression/cups-pdf-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/cups-pdf-and-similar

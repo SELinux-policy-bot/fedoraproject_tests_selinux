@@ -1,2 +1,47 @@
-path: /selinux-policy/pam_limits-and-related
-tier: 2
+summary: Does SELinux cooperate with pam_limits.so?
+description: |+
+    Does SELinux cooperate with pam_limits.so?
+    Confined and unconfined users are tested using SSH.
+
+    This TC uses following parameters which can be overriden:
+     * ALLOWED_USERS - which SELinux users should be tested?
+     * DENIED_USERS - which SELinux users should NOT be tested?
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - pam
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - expect
+  - openssh-clients
+  - pam
+  - shadow-utils
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - targeted
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1958819
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2039453
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7
+    continue: false
+extra-nitrate: TC#0612789
+extra-summary: /CoreOS/selinux-policy/Regression/pam_limits-and-related
+extra-task: /CoreOS/selinux-policy/Regression/pam_limits-and-related

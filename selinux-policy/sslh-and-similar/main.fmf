@@ -1,3 +1,45 @@
-path: /selinux-policy/sslh-and-similar
-tier: 2
+summary: SELinux interferes with sslh and related programs
+description: |+
+    SELinux interferes with sslh and related programs.
 
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools
+  - setools-console
+  - sslh
+  - initscripts
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - TIPpass_Security
+  - TierCandidatesPASS
+  - f32friendly
+  - f33friendly
+  - targeted
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1534624
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6
+    continue: false
+  - enabled: false
+    when: arch == s390x
+    continue: false
+extra-nitrate: TC#0563428
+extra-summary: /CoreOS/selinux-policy/Regression/sslh-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/sslh-and-similar

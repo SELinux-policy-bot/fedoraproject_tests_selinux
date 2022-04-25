@@ -1,2 +1,54 @@
-path: /selinux-policy/acpid-and-similar
-tier: 2
+summary: SELinux interferes with acpid and related programs
+description: |+
+    SELinux interferes with acpid and related programs
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+  - acpid
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools
+  - setools-console
+  - acpid
+  - initscripts
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 30m
+enabled: true
+tag:
+  - NoRHEL4
+  - TIPfail_infra
+  - TIPpass
+  - TIPpass_Security
+  - Tier2
+  - Tier2se
+  - f31friendly
+  - f32friendly
+  - targeted
+tier: '2'
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=995898
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1358478
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1468548
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1622417
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1623342
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1932294
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1919167
+adjust:
+  - enabled: false
+    when: distro == rhel-4
+    continue: false
+  - enabled: false
+    when: arch == ia64, ppc64, ppc64le, s390, s390x
+    continue: false
+extra-nitrate: TC#0075209
+extra-summary: /CoreOS/selinux-policy/Regression/acpid-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/acpid-and-similar

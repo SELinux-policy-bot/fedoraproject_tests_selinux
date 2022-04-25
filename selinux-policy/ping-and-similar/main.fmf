@@ -1,2 +1,46 @@
-path: /selinux-policy/ping-and-similar
-tier: 2
+summary: the service was running as initrc_t or init_t, now it is confined by SELinux
+description: |+
+    SELinux interferes with ping and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - expect
+  - openssh-clients
+  - iputils
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - CI-Tier-1
+  - NoRHEL4
+  - TIPpass
+  - TIPpass_Security
+  - TierCandidatesPASS
+  - failinfedora
+  - targeted
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1552128
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1596065
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1803759
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1810403
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1848929
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2070870
+adjust:
+  - enabled: false
+    when: distro == rhel-4
+    continue: false
+extra-nitrate: TC#0564077
+extra-summary: /CoreOS/selinux-policy/Regression/ping-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/ping-and-similar

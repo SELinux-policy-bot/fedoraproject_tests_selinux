@@ -1,2 +1,40 @@
-path: /selinux-policy/rrdcached-service-and-related
-tier: 2
+summary: Basic test for rrdcached service
+description: ''
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - initscripts
+  - libselinux-utils
+  - policycoreutils
+  - rrdtool
+  - selinux-policy
+  - setools-console
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - CI-Tier-1
+  - NoFedora30
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - TIPpass
+  - TIPpass_Security
+  - f32friendly
+  - f33friendly
+  - targeted
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1726255
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7
+    continue: false
+extra-nitrate: TC#0604406
+extra-summary: /CoreOS/selinux-policy/Regression/rrdcached-service-and-related
+extra-task: /CoreOS/selinux-policy/Regression/rrdcached-service-and-related

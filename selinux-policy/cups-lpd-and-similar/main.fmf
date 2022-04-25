@@ -1,3 +1,64 @@
-path: /selinux-policy/cups-lpd-and-similar
-tier: 2
+summary: SELinux interferes with cups-lpd and related programs
+description: |+
+    SELinux interferes with cups-lpd and related programs.
 
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - cups
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - expect
+  - policycoreutils-python-utils
+  - selinux-policy-devel
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools
+  - setools-console
+  - xinetd
+  - nmap-ncat
+  - nc
+  - net-tools
+  - cups-lpd
+  - chkconfig
+  - /usr/sbin/service
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 20m
+enabled: true
+tag:
+  - NoRHEL4
+  - RHEL8
+  - TIPfail
+  - TIPfail_infra
+  - TIPpass_Security
+  - Tier2
+  - Tier2se
+  - TierCandidatesFAIL
+  - customer_scenario
+  - f32friendly
+  - rhel9-buildroot
+  - targeted
+tier: '2'
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=192216
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1004198
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1420522
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1554118
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1919399
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1947397
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2020531
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2039449
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1919173
+adjust:
+  - enabled: false
+    when: distro == rhel-4
+    continue: false
+extra-nitrate: TC#0305784
+extra-summary: /CoreOS/selinux-policy/Regression/cups-lpd-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/cups-lpd-and-similar

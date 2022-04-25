@@ -1,5 +1,44 @@
-path: /selinux-policy/getrlimit-permission
-tier: 2
+summary: Is the getrlimit permission defined? Are appropriate checks applied?
+description: |+
+    Is the getrlimit permission defined? Are { getrlimit } SELinux denials triggered when certain access happens?
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - util-linux
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - CI-Tier-1
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - TIPfail_Security
+  - Tier1
+  - Tier1se
+  - f33friendly
+  - targeted
+tier: '1'
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1549691
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1549772
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2008965
 adjust:
-- enabled: false
-  when: distro < rhel-7
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-alt-7
+    continue: false
+extra-nitrate: TC#0574397
+extra-summary: /CoreOS/selinux-policy/Sanity/getrlimit-permission
+extra-task: /CoreOS/selinux-policy/Sanity/getrlimit-permission

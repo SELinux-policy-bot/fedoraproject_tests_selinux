@@ -1,2 +1,57 @@
-path: /selinux-policy/hostapd-and-similar
-tier: 2
+summary: SELinux interferes with hostapd and related programs
+description: |+
+    SELinux interferes with hostapd and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - hostapd
+  - /usr/sbin/service
+  - kernel-modules-internal
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL8
+  - TIPpass_Security
+  - failinfedora
+  - targeted
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1224405
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1225245
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1237343
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1266068
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1273570
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1278569
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1282179
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1334021
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1343683
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1977676
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1979968
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1784253
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2032277
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2064688
+adjust:
+  - enabled: false
+    when: arch == s390x
+    continue: false
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6
+    continue: false
+extra-nitrate: TC#0602539
+extra-summary: /CoreOS/selinux-policy/Regression/hostapd-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/hostapd-and-similar

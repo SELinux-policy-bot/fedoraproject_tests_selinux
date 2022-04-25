@@ -1,3 +1,61 @@
-path: /selinux-policy/bz624405-pcsc-and-similar
-tier: 2
+summary: SELinux interferes with pcscd
+description: |+
+    SELinux interferes with pcscd and related programs.
 
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - pcsc-lite
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - expect
+  - grep
+  - initscripts
+  - libselinux
+  - libselinux-utils
+  - pcsc-lite
+  - policycoreutils
+  - procps
+  - selinux-policy
+  - selinux-policy-mls
+  - selinux-policy-targeted
+  - setools
+  - setools-console
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 15m
+enabled: true
+tag:
+  - NoRHEL4
+  - TIPpass
+  - TIPpass_FIPS
+  - TIPpass_Security
+  - Tier3
+  - Tier3se
+  - f31friendly
+  - f32friendly
+  - targeted
+tier: '3'
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=624405
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=752453
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1605641
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1802423
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1805719
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1806129
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1816787
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1818759
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1825182
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1825188
+adjust:
+  - enabled: false
+    when: arch == s390, s390x
+    continue: false
+  - enabled: false
+    when: distro == rhel-4
+    continue: false
+extra-nitrate: TC#0057525
+extra-summary: /CoreOS/selinux-policy/Regression/bz624405-pcsc-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/bz624405-pcsc-and-similar

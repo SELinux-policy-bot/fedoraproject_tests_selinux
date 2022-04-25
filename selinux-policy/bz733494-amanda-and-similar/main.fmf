@@ -1,3 +1,66 @@
-path: /selinux-policy/bz733494-amanda-and-similar
-tier: 2
+summary: SELinux interferes with amanda and related tools
+description: |+
+    SELinux interferes with amandad and related programs.
 
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - amanda
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - amanda
+  - amanda-client
+  - amanda-server
+  - audit
+  - initscripts
+  - libselinux
+  - libselinux-utils
+  - nc
+  - net-tools
+  - nmap-ncat
+  - policycoreutils
+  - procps-ng
+  - krb5-workstation
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools
+  - setools-console
+  - xinetd
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 15m
+enabled: true
+tag:
+  - NoRHEL4
+  - TIP_fedora_fail
+  - TIPfail_Apps
+  - TIPfail_Security
+  - TIPfail_fedora
+  - TIPpass
+  - TierCandidatesFAIL
+  - f32friendly
+  - failinfedora
+  - rhel9-buildroot
+  - targeted
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=283971
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=498596
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=729361
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=733494
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=965140
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1371561
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1452444
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1623052
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1630963
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1739137
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1960513
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1065002
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1572696
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-9
+    continue: false
+extra-nitrate: TC#0114575
+extra-summary: /CoreOS/selinux-policy/Regression/bz733494-amanda-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/bz733494-amanda-and-similar

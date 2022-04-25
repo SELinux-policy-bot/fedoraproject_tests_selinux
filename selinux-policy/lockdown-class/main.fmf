@@ -1,3 +1,26 @@
-path: /selinux-policy/lockdown-class
-tier: 2
+summary: Is the lockdown class + its permissions defined in SELinux policy?
+description: |+
+    Description: Is the lockdown class + its permissions defined in SELinux policy?
 
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1915184
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1929332
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1933134
+extra-summary: /CoreOS/selinux-policy/Sanity/lockdown-class
+extra-task: /CoreOS/selinux-policy/Sanity/lockdown-class

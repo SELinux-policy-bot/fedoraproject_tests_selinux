@@ -1,2 +1,27 @@
-path: /selinux-policy/dhclient-and-similar
-tier: 2
+summary: SELinux interferes with dhclient and related programs
+description: |+
+    SELinux interferes with dhclient and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - psmisc
+  - chrony
+  - dhcp-client
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1897388
+extra-summary: /CoreOS/selinux-policy/Regression/dhclient-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/dhclient-and-similar
