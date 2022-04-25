@@ -1,1 +1,47 @@
-path: /libsemanage/sanity-tests
+summary: Test libsemanage functions
+description: ''
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - libsemanage
+recommend:
+  - libsemanage
+  - libsemanage-devel
+  - gcc
+  - CUnit
+  - CUnit-devel
+  - checkpolicy
+  - policycoreutils-python-utils
+duration: 60m
+enabled: true
+tag:
+  - CI-Tier-1
+  - NoRHEL4
+  - NoRHEL5
+  - TIPfail_Security
+  - Tier1
+  - Tier1se
+  - f31friendly
+  - f32friendly
+  - notip
+  - rhel8-buildroot
+  - rhel8-crb
+  - rhel9-buildroot
+  - targeted
+tier: '1'
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1642305
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1781097
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1636973
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5
+    continue: false
+  - enabled: false
+    when: distro == rhel-7 and arch == s390x
+    continue: false
+  - enabled: false
+    when: distro == rhel-alt-7 and arch == s390x
+    continue: false
+extra-nitrate: TC#0547810
+extra-summary: /CoreOS/libsemanage/Sanity/sanity-tests
+extra-task: /CoreOS/libsemanage/Sanity/sanity-tests

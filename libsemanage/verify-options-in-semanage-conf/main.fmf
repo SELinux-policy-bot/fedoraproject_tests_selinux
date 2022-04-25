@@ -1,12 +1,39 @@
-path: /libsemanage/verify-options-in-semanage-conf
 summary: Are the verify options in semanage.conf honored?
-description: |
+description: |+
     Are the verify options in semanage.conf honored?
     Tested options: verify kernel, verify module, verify linked
     Tested tools: semodule, semanage
     Positive and negative cases are tested.
     Original information found at http://selinuxproject.org/page/PolicyValidate
-tier: 1
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - libsemanage
+recommend:
+  - libselinux
+  - libselinux-utils
+  - libsemanage
+  - policycoreutils
+  - policycoreutils-python
+  - selinux-policy
+  - selinux-policy-devel
+duration: 10m
+enabled: true
+tag:
+  - CI-Tier-1
+  - NoRHEL4
+  - NoRHEL5
+  - TIPpass_Security
+  - TierCandidatesFAIL
+  - f32friendly
+  - f33friendly
+  - targeted
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1400705
 adjust:
--   enabled: false
-    when: distro < rhel-6
+  - enabled: false
+    when: distro == rhel-4, rhel-5
+    continue: false
+extra-nitrate: TC#0540246
+extra-summary: /CoreOS/libsemanage/Sanity/verify-options-in-semanage-conf
+extra-task: /CoreOS/libsemanage/Sanity/verify-options-in-semanage-conf

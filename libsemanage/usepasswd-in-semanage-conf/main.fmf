@@ -1,6 +1,33 @@
-path: /libsemanage/usepasswd-in-semanage-conf
 summary: Make sure usepasswd option in semanage.conf works properly
-tier: 2
+description: |+
+    Bugzilla link: https://bugzilla.redhat.com/show_bug.cgi?id=1871786
+
+    Make sure usepasswd option in semanage.conf works properly
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - libsemanage
+recommend:
+  - libselinux
+  - libselinux-utils
+  - libsemanage
+  - policycoreutils
+  - policycoreutils-python-utils
+  - selinux-policy
+  - selinux-policy-devel
+  - shadow-utils
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - targeted
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1871786
 adjust:
--   enabled: false
-    when: distro < rhel-7
+  - enabled: false
+    when: distro == rhel-4, rhel-5
+    continue: false
+extra-nitrate: TC#0609005
+extra-summary: /CoreOS/libsemanage/Sanity/usepasswd-in-semanage-conf
+extra-task: /CoreOS/libsemanage/Sanity/usepasswd-in-semanage-conf
