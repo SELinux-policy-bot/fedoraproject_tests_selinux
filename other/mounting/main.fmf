@@ -1,9 +1,25 @@
-path: /other/mounting
-summary: Mount various filesystems, test context options
-description: |
-    Test the context and defcontext options of the mount command. Test
-    different filesystems: ext2, ext3, ext4. XFS, FAT32. Requires
-    e2fsprogs and dosfstools.
+summary: Mount various filesystems, test context options.
+description: ''
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+recommend:
+  - selinux-policy
+  - util-linux
+  - e2fsprogs
+  - dosfstools
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - TIPfail_Security
+  - failinfedora
+  - targeted
 adjust:
--   enabled: false
-    when: distro < rhel-7
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6
+    continue: false
+extra-nitrate: TC#0571362
+extra-summary: /CoreOS/selinux-policy/Sanity/mounting
+extra-task: /CoreOS/selinux-policy/Sanity/mounting
