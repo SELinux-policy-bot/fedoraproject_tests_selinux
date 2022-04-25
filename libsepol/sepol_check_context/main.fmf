@@ -1,2 +1,28 @@
-path: /libsepol/sepol_check_context
-tier: 1
+summary: Does sepol_check_context() work as expected?
+description: |+
+    Does sepol_check_context() work as expected?
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - libsepol
+recommend:
+  - libsepol
+  - libsepol-devel
+  - gcc
+  - policycoreutils
+  - selinux-policy-devel
+enabled: true
+tag:
+  - CI-Tier-1
+  - NoRHEL4
+  - NoRHEL5
+  - f32friendly
+  - f33friendly
+  - targeted
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5
+    continue: false
+extra-nitrate: TC#0554157
+extra-summary: /CoreOS/libsepol/Sanity/sepol_check_context
+extra-task: /CoreOS/libsepol/Sanity/sepol_check_context

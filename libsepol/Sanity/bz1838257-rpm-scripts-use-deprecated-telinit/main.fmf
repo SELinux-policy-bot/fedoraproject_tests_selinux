@@ -1,2 +1,26 @@
-path: /libsepol/Sanity/bz1838257-rpm-scripts-use-deprecated-telinit
-tier: 1
+summary: The rpm scripts from libsepol uses out of date commands like telinit
+description: |
+    Description: libsepol rpm scripts use deprecated telinit command
+
+    Author: Amith Kumar <apeetham@redhat.com>
+
+    Bugzilla links:
+    https://bugzilla.redhat.com/show_bug.cgi?id=1838257
+
+    Description of problem:
+    The rpm scripts from the rpm is using out of date commands like telinit.
+contact: Amith Kumar <apeetham@redhat.com>
+component:
+  - libsepol
+recommend:
+  - libsepol
+  - libsepol-devel
+  - libselinux
+  - libselinux-devel
+  - libsemanage
+  - libsemanage-devel
+  - pkgconfig
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1838257
+extra-summary: /CoreOS/libsepol/Sanity/bz1838257-rpm-scripts-use-deprecated-telinit
+extra-task: /CoreOS/libsepol/Sanity/bz1838257-rpm-scripts-use-deprecated-telinit
