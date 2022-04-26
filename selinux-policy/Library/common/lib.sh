@@ -1995,6 +1995,13 @@ rlSELibraryLoaded() {
     else
         rlRun "dnf -y --skip-broken install $rlSE_REQUIRES"
     fi
+
+    # make sure that restorecon does not change SELinux contexts under /var/ARTIFACTS
+    # otherwise SELinux context of backed up files/directories will be affected
+    if matchpathcon /var/ARTIFACTS/something | grep -q :var_t: ; then
+        semanage fcontext -a -e /proc /var/ARTIFACTS
+    fi
+
     if rlCheckRequirements $rlSE_REQUIRES; then
         SETOOLS_MAJOR_VERSION=`sesearch --version 2>&1| sed -n 's/sesearch //;s/\..*$//p'`
         rlLogDebug "FUNCNAME(): sesearch --version: $(sesearch --version 2>&1)"
