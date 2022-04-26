@@ -3,7 +3,6 @@
 # This is a test file
 
 # Include rhts environment
-. /usr/bin/rhts-environment.sh
 . /usr/share/beakerlib/beakerlib.sh
 
 list_booleans() {
