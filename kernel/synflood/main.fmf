@@ -18,7 +18,8 @@ require:
 recommend:
 - /usr/sbin/hping3
 duration: 1h
-enabled: true
+# currently disabled due to being unreliable
+enabled: false
 tier: 3
 adjust:
   - enabled: false
