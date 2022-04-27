@@ -14,3 +14,5 @@ adjust:
   when: distro < rhel-6
 - enabled: false
   when: arch = i386
+environment:
+  AVC_ERROR: +no_avc_check
