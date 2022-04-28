@@ -48,6 +48,7 @@ rlJournalStart
 
         rlServiceStop ${SERVICE_NAME}
         rlFileBackup /etc/shadow
+        rlFileBackup /etc/sysconfig/rngd
 
         rlSESetEnforce
         rlSEStatus
@@ -145,6 +146,15 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    DROP_PRIV=false
+    if rngd --help | grep -qi 'drop.*priv' ; then
+        DROP_PRIV=true
+        rlPhaseStartTest "bz#2076641 + bz#2076642"
+            rlSESearchRule "allow rngd_t rngd_t : capability { setgid setuid } [ ]"
+            rlSESearchRule "allow rngd_t rngd_t : process { setcap } [ ]"
+        rlPhaseEnd
+    fi
+
     rlPhaseStartTest "real scenario"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         rlRun "modprobe tpm-rng" 0,1
@@ -159,7 +169,18 @@ rlJournalStart
         rlRun "setsebool daemons_use_tty on"
         rlRun "runcon system_u:system_r:initrc_t:s0 bash -c 'rngd -l'" 0-255
         rlRun "setsebool daemons_use_tty off"
-        rlRun "restorecon -Rv /run /var"
+        rlRun "restorecon -Rv /run /var" 0-255
+        rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status" 1
+        if ${DROP_PRIV} ; then
+            rlLog "modifying the /etc/sysconfig/rngd file"
+            if ! grep -q '^RNGD_ARGS.*daemon:daemon' /etc/sysconfig/rngd ; then
+                sed -i 's/^\(RNGD_ARGS=.*\)"$/\1 -D daemon:daemon"/' /etc/sysconfig/rngd
+            fi
+            if ! grep -q '^RNGD_ARGS.*jitter' /etc/sysconfig/rngd ; then
+                sed -i 's/^\(RNGD_ARGS=.*\)"$/\1 -x jitter"/' /etc/sysconfig/rngd
+            fi
+        fi
+        rlRun "grep ^RNGD_ARGS= /etc/sysconfig/rngd"
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
 

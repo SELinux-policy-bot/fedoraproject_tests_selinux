@@ -55,7 +55,7 @@ $(METADATA): Makefile
 	@echo "TestTime:        15m" >> $(METADATA)
 	@echo "RunFor:          selinux-policy" >> $(METADATA)
 	@echo "RunFor:          rng-tools" >> $(METADATA)
-	@echo "Requires:        audit libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted setools-console rng-tools initscripts" >> $(METADATA)
+	@echo "Requires:        audit libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted setools-console rng-tools /usr/sbin/service" >> $(METADATA)
 	@echo "RhtsRequires:    library(selinux-policy/common)" >> $(METADATA)
 	@echo "Priority:        Normal" >> $(METADATA)
 	@echo "License:         GPLv2" >> $(METADATA)
@@ -85,6 +85,9 @@ $(METADATA): Makefile
 	@echo "Bug:             1928572" >> $(METADATA) # Fedora 33
 	@echo "Bug:             1929360" >> $(METADATA) # Fedora 33
 	@echo "Bug:             1929366" >> $(METADATA) # Fedora 33
+	@echo "Bug:             2058914" >> $(METADATA) # Fedora 36
+	@echo "Bug:             2076641" >> $(METADATA) # RHEL-8
+	@echo "Bug:             2076642" >> $(METADATA) # RHEL-9
 
 	rhts-lint $(METADATA)
 
