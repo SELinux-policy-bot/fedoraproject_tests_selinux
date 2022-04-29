@@ -1,0 +1,30 @@
+summary: Does rebuild of policy affect layered containers?
+description: |+
+    Does rebuild of policy affect layered containers?
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - libsemanage
+recommend:
+  - libsemanage
+  - podman
+  - policycoreutils
+  - selinux-policy
+  - libselinux-utils
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - targeted
+link:
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2068085
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7
+    continue: false
+extra-summary: /CoreOS/libsemanage/Regression/cross-device-link-in-containers
+extra-task: /CoreOS/libsemanage/Regression/cross-device-link-in-containers
+extra-nitrate: TC#0613557
