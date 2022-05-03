@@ -85,11 +85,11 @@ rlJournalStart
 
     rlPhaseStartTest "incomplete or invalid parameters"
         # first context incomplete
-        rlRun "validatetrans unconfined_u:object_r:bin_t: unconfined_u:unconfined_r:unconfined_t:s0 file unconfined_u:object_r:swapfile_t:s0 2>&1 | grep -i 'invalid argument'"
+        rlRun "validatetrans unconfined_u:object_r:bin_t: unconfined_u:unconfined_r:unconfined_t:s0 file unconfined_u:object_r:swapfile_t:s0 2>&1 | grep -i -e 'invalid argument' -e 'invalid source context'"
         # second context incomplete
-        rlRun "validatetrans unconfined_u:object_r:bin_t:s0 unconfined_u:unconfined_r:unconfined_t: file unconfined_u:object_r:swapfile_t:s0 2>&1 | grep -i 'invalid argument'"
+        rlRun "validatetrans unconfined_u:object_r:bin_t:s0 unconfined_u:unconfined_r:unconfined_t: file unconfined_u:object_r:swapfile_t:s0 2>&1 | grep -i -e 'invalid argument' -e 'invalid target context'"
         # third context incomplete
-        rlRun "validatetrans unconfined_u:object_r:bin_t:s0 unconfined_u:unconfined_r:unconfined_t:s0 file unconfined_u:object_r:swapfile_t: 2>&1 | grep -i 'invalid argument'"
+        rlRun "validatetrans unconfined_u:object_r:bin_t:s0 unconfined_u:unconfined_r:unconfined_t:s0 file unconfined_u:object_r:swapfile_t: 2>&1 | grep -i -e 'invalid argument' -e 'invalid new context'"
         # invalid target class
         rlRun "validatetrans unconfined_u:object_r:bin_t:s0 unconfined_u:unconfined_r:unconfined_t:s0 xyz unconfined_u:object_r:swapfile_t:s0 2>&1 | grep -i 'invalid class'"
     rlPhaseEnd
