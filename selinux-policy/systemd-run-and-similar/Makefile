@@ -1,0 +1,68 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+#   Makefile of /CoreOS/selinux-policy/Regression/systemd-run-and-similar
+#   Description: SELinux interferes with systemd-run and related programs
+#   Author: Milos Malik <mmalik@redhat.com>
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+#   Copyright (c) 2022 Red Hat, Inc.
+#
+#   This program is free software: you can redistribute it and/or
+#   modify it under the terms of the GNU General Public License as
+#   published by the Free Software Foundation, either version 2 of
+#   the License, or (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be
+#   useful, but WITHOUT ANY WARRANTY; without even the implied
+#   warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+#   PURPOSE.  See the GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program. If not, see http://www.gnu.org/licenses/.
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+export TEST=/CoreOS/selinux-policy/Regression/systemd-run-and-similar
+export TESTVERSION=1.0
+
+BUILT_FILES=
+
+FILES=$(METADATA) runtest.sh Makefile PURPOSE
+
+.PHONY: all install download clean
+
+run: $(FILES) build
+	./runtest.sh
+
+build: $(BUILT_FILES)
+	test -x runtest.sh || chmod a+x runtest.sh
+
+clean:
+	rm -f *~ $(BUILT_FILES)
+
+include /usr/share/rhts/lib/rhts-make.include
+
+$(METADATA): Makefile
+	@echo "Owner:           Milos Malik <mmalik@redhat.com>" > $(METADATA)
+	@echo "Name:            $(TEST)" >> $(METADATA)
+	@echo "TestVersion:     $(TESTVERSION)" >> $(METADATA)
+	@echo "Path:            $(TEST_DIR)" >> $(METADATA)
+	@echo "Description:     SELinux interferes with systemd-run and related programs" >> $(METADATA)
+	@echo "Type:            Regression" >> $(METADATA)
+	@echo "TestTime:        10m" >> $(METADATA)
+	@echo "RunFor:          selinux-policy" >> $(METADATA)
+	@echo "Requires:        audit libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted setools-console systemd" >> $(METADATA)
+	@echo "RhtsRequires:    library(selinux-policy/common)" >> $(METADATA)
+	@echo "Priority:        Normal" >> $(METADATA)
+	@echo "License:         GPLv2+" >> $(METADATA)
+	@echo "Confidential:    no" >> $(METADATA)
+	@echo "Destructive:     no" >> $(METADATA)
+	@echo "Environment:     AVC_ERROR=+no_avc_check" >> $(METADATA)
+	@echo "Releases:        -RHEL4 -RHEL5 -RHEL6 -RHEL7" >> $(METADATA)
+	@echo "Bug:             1559409" >> $(METADATA) # Fedora 27
+	@echo "Bug:             1647162" >> $(METADATA) # Fedora 29
+	@echo "Bug:             1980241" >> $(METADATA) # Fedora 34
+
+	rhts-lint $(METADATA)
+
