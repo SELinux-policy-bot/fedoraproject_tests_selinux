@@ -48,22 +48,22 @@ rlJournalStart
                 "Make sure policy store is in a consistent state initially"
 
             rlLog "Inject a new module into the store"
-            rlRun "mkdir -p \"\$TEST_MODULE_DIR\""
-            rlRun "echo -n cil >\"\$TEST_MODULE_DIR/lang_ext\""
-            rlRun "echo '(type test_module_type_t)' >\"\$TEST_MODULE_DIR/cil\""
+            rlRun "mkdir -p '$TEST_MODULE_DIR'"
+            rlRun "echo -n cil >'$TEST_MODULE_DIR/lang_ext'"
+            rlRun "echo '(type test_module_type_t)' >'$TEST_MODULE_DIR/cil'"
             rlRun "semodule -N --rebuild-if-modules-changed" 0 \
                 "Do a conditional rebuild"
             rlRun "semodule -l | grep test_module" 0 \
                 "Verify that the module has been picked up"
-            rlRun "seinfo -t test_module_type_t \"\$STORE_POLICY\" | grep test_module_type_t" 0 \
+            rlRun "seinfo -t test_module_type_t '$STORE_POLICY' | grep test_module_type_t" 0 \
                 "Verify that the new type is included in the built policy"
 
             rlLog "Now remove the module"
-            rlRun "rm -rf \"\$TEST_MODULE_DIR\""
+            rlRun "rm -rf '$TEST_MODULE_DIR'"
             rlRun "semodule -N --rebuild-if-modules-changed"
             rlRun "semodule -l | grep test_module" 1 \
                 "Verify that the module has been removed"
-            rlRun "seinfo -t test_module_type_t \"\$STORE_POLICY\" | grep test_module_type_t" 1 \
+            rlRun "seinfo -t test_module_type_t '$STORE_POLICY' | grep test_module_type_t" 1 \
                 "Verify that the new type is NOT included in the built policy"
 
             # Make sure policy is restored regardless of any previous failures
