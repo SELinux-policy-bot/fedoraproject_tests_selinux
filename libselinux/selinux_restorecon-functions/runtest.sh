@@ -111,8 +111,8 @@ rlJournalStart
 
         rlRun "strace -ostrace.out -s 64 ./test_restorecon $TmpDir" 0 "Calling selinux_restorecon"
 
-        rlLogInfo "Checking lgetxattr calls"
-        rlRun "grep lgetxattr strace.out | grep security.selinux > strace_xattr.out"
+        rlLogInfo "Checking getxattr calls"
+        rlRun "grep getxattr strace.out | grep security.selinux > strace_xattr.out"
 
         rlRun "grep \"\\\"$TmpDir\\\"\"             strace_xattr.out | grep var_log_t"
         rlRun "grep \"\\\"$TmpDir/a\\\"\"           strace_xattr.out | grep var_log_t" 1
@@ -121,8 +121,8 @@ rlJournalStart
         rlRun "grep \"\\\"$TmpDir/a/bfile\\\"\"     strace_xattr.out | grep var_log_t" 1
         rlRun "grep \"\\\"$TmpDir/a/b/cfile\\\"\"   strace_xattr.out | grep var_log_t" 1
         
-        rlLogInfo "Checking lsetxattr calls"
-        rlRun "grep lsetxattr strace.out | grep security.selinux > strace_xattr.out"
+        rlLogInfo "Checking setxattr calls"
+        rlRun "grep setxattr strace.out | grep security.selinux > strace_xattr.out"
 
         rlRun "grep \"\\\"$TmpDir\\\"\"             strace_xattr.out | grep user_home_t"
         rlRun "grep \"\\\"$TmpDir/a\\\"\"           strace_xattr.out | grep user_home_t" 1
@@ -143,8 +143,8 @@ rlJournalStart
 
         rlRun "strace -ostrace.out -s 64 ./test_restorecon $TmpDir RECURSE" 0 "Calling selinux_restorecon with RECURSE flag"
 
-        rlLogInfo "Checking lgetxattr calls"
-        rlRun "grep lgetxattr strace.out | grep security.selinux > strace_xattr.out"
+        rlLogInfo "Checking getxattr calls"
+        rlRun "grep getxattr strace.out | grep security.selinux > strace_xattr.out"
 
         rlRun "grep \"\\\"$TmpDir\\\"\"             strace_xattr.out | grep var_log_t"
         rlRun "grep \"\\\"$TmpDir/a\\\"\"           strace_xattr.out | grep var_log_t"
@@ -153,8 +153,8 @@ rlJournalStart
         rlRun "grep \"\\\"$TmpDir/a/bfile\\\"\"     strace_xattr.out | grep var_log_t"
         rlRun "grep \"\\\"$TmpDir/a/b/cfile\\\"\"   strace_xattr.out | grep var_log_t"
 
-        rlLogInfo "Checking lsetxattr calls"
-        rlRun "grep lsetxattr strace.out | grep security.selinux > strace_xattr.out"
+        rlLogInfo "Checking setxattr calls"
+        rlRun "grep setxattr strace.out | grep security.selinux > strace_xattr.out"
 
         rlRun "grep \"\\\"$TmpDir\\\"\"             strace_xattr.out | grep user_home_t"
         rlRun "grep \"\\\"$TmpDir/a\\\"\"           strace_xattr.out | grep user_home_t"
@@ -175,8 +175,8 @@ rlJournalStart
 
         rlRun "strace -ostrace.out -s 64 ./test_restorecon $TmpDir RECURSE NOCHANGE" 0 "Calling selinux_restorecon with NOCHANGE flag"
 
-        rlLogInfo "Checking lsetxattr calls"
-        rlRun "grep lsetxattr strace.out" 1
+        rlLogInfo "Checking setxattr calls"
+        rlRun "grep setxattr strace.out" 1
 
         rlRun "rm -f strace.out"
 
@@ -203,8 +203,8 @@ rlJournalStart
         # run restorecon first time
         rlRun "strace -ostrace.out -s 64 ./test_restorecon $TmpDir RECURSE" 0 "Calling selinux_restorecon for the first time"
 
-        rlLogInfo "Checking lgetxattr calls"
-        rlRun "grep lgetxattr strace.out | grep security.selinux > strace_xattr.out"
+        rlLogInfo "Checking getxattr calls"
+        rlRun "grep getxattr strace.out | grep security.selinux > strace_xattr.out"
 
         rlRun "grep \"\\\"$TmpDir\\\"\"             strace_xattr.out"
         rlRun "grep \"\\\"$TmpDir/a\\\"\"           strace_xattr.out"
@@ -216,8 +216,8 @@ rlJournalStart
         # run restorecon second time
         rlRun "strace -ostrace.out -s 64 ./test_restorecon $TmpDir RECURSE" 0 "Calling selinux_restorecon for the second time"
 
-        rlLogInfo "Checking lgetxattr calls"
-        rlRun "grep lgetxattr strace.out | grep security.selinux" 1
+        rlLogInfo "Checking getxattr calls"
+        rlRun "grep getxattr strace.out | grep security.selinux" 1
 
         rlRun "rm -f strace.out"
         rlRun "rm -f strace_xattr.out"
@@ -231,8 +231,8 @@ rlJournalStart
         # run restorecon first time
         rlRun "strace -ostrace.out -s 64 ./test_restorecon $TmpDir RECURSE" 0 "Calling selinux_restorecon for the first time"
 
-        rlLogInfo "Checking lgetxattr calls"
-        rlRun "grep lgetxattr strace.out | grep security.selinux > strace_xattr.out"
+        rlLogInfo "Checking getxattr calls"
+        rlRun "grep getxattr strace.out | grep security.selinux > strace_xattr.out"
 
         rlRun "grep \"\\\"$TmpDir\\\"\"             strace_xattr.out"
         rlRun "grep \"\\\"$TmpDir/a\\\"\"           strace_xattr.out"
@@ -244,8 +244,8 @@ rlJournalStart
         # run restorecon second time
         rlRun "strace -ostrace.out -s 64 ./test_restorecon $TmpDir RECURSE IGNORE_DIGEST" 0 "Calling selinux_restorecon for the second time"
 
-        rlLogInfo "Checking lgetxattr calls"
-        rlRun "grep lgetxattr strace.out | grep security.selinux > strace_xattr.out"
+        rlLogInfo "Checking getxattr calls"
+        rlRun "grep getxattr strace.out | grep security.selinux > strace_xattr.out"
 
         rlRun "grep \"\\\"$TmpDir\\\"\"             strace_xattr.out"
         rlRun "grep \"\\\"$TmpDir/a\\\"\"           strace_xattr.out"
@@ -266,8 +266,8 @@ rlJournalStart
         # empty exclude list
         rlRun "strace -ostrace.out -s 64 ./test_exclude_list EMPTY $TmpDir" 0 "Calling selinux_restorecon_set_exclude_list with empty list"
 
-        rlLogInfo "Checking lgetxattr calls"
-        rlRun "grep lgetxattr strace.out | grep security.selinux > strace_xattr.out"
+        rlLogInfo "Checking getxattr calls"
+        rlRun "grep getxattr strace.out | grep security.selinux > strace_xattr.out"
 
         rlRun "grep \"\\\"$TmpDir\\\"\"             strace_xattr.out"
         rlRun "grep \"\\\"$TmpDir/a\\\"\"           strace_xattr.out"
@@ -279,8 +279,8 @@ rlJournalStart
         # exclude $TmpDir/a
         rlRun "strace -ostrace.out -s 64 ./test_exclude_list $TmpDir/a $TmpDir" 0 "Calling selinux_restorecon_set_exclude_list"
 
-        rlLogInfo "Checking lgetxattr calls"
-        rlRun "grep lgetxattr strace.out | grep security.selinux > strace_xattr.out"
+        rlLogInfo "Checking getxattr calls"
+        rlRun "grep getxattr strace.out | grep security.selinux > strace_xattr.out"
 
         rlRun "grep \"\\\"$TmpDir\\\"\"             strace_xattr.out"
         rlRun "grep \"\\\"$TmpDir/a\\\"\"           strace_xattr.out" 1
@@ -301,8 +301,8 @@ rlJournalStart
         # default sehandle
         rlRun "strace -ostrace.out -s 64 ./test_sehandle DEFAULT $TmpDir" 0 "Calling selinux_restorecon_set_sehandle with default handle"
 
-        rlLogInfo "Checking lgetxattr calls"
-        rlRun "grep lgetxattr strace.out | grep security.selinux > strace_xattr.out"
+        rlLogInfo "Checking getxattr calls"
+        rlRun "grep getxattr strace.out | grep security.selinux > strace_xattr.out"
 
         rlRun "grep \"\\\"$TmpDir\\\"\"             strace_xattr.out"
         rlRun "grep \"\\\"$TmpDir/a\\\"\"           strace_xattr.out"
@@ -314,8 +314,8 @@ rlJournalStart
         # custom sehandle
         rlRun "strace -ostrace.out -s 64 ./test_sehandle CUSTOM $TmpDir" 0 "Calling selinux_restorecon_set_sehandle with custom handle"
 
-        rlLogInfo "Checking lgetxattr calls"
-        rlRun "grep lgetxattr strace.out | grep security.selinux > strace_xattr.out"
+        rlLogInfo "Checking getxattr calls"
+        rlRun "grep getxattr strace.out | grep security.selinux > strace_xattr.out"
 
         rlRun "grep \"\\\"$TmpDir\\\"\"             strace_xattr.out"
         rlRun "grep \"\\\"$TmpDir/a\\\"\"           strace_xattr.out"
