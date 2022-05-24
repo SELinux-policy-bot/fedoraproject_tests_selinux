@@ -11,7 +11,11 @@ STORE_ROOT=/var/lib/selinux
 STORE_TYPE=targeted
 MODULES_ROOT="$STORE_ROOT/$STORE_TYPE/active/modules"
 STORE_POLICY="$STORE_ROOT/$STORE_TYPE/active/policy.kern"
+STORE_BOOLS="$STORE_ROOT/$STORE_TYPE/active/booleans.local"
 TEST_MODULE_DIR="$MODULES_ROOT/400/test_module"
+TEST_BOOLEAN="xguest_exec_content"
+TEST_BOOLEAN_VALUE="0"
+TEST_BOOLEAN_VALUE_TEXT="false"
 
 CHECKSUM_CMD=sha256sum
 
@@ -31,27 +35,46 @@ rlJournalStart
         if [ "$policyvers" -lt "$policyvers_kernel" ]; then
             policyvers="$policyvers_kernel"
         fi
+
+        rlRun "semodule -N -B" 0 \
+            "Make sure policy store is in a consistent state initially"
+
+        refresh_opt=""
+        for opt in --refresh --rebuild-if-modules-changed; do
+            if semodule --help | grep -q -- "$opt"; then
+                refresh_opt="$opt"
+                rlLog "$opt command-line option detected for semodule"
+                break
+            fi
+        done
     rlPhaseEnd
 
-    rlPhaseStartTest
-        if semodule --help | grep -q -- --rebuild-if-modules-changed; then
-            rlRun "semodule -N -B" 0 \
-                "Make sure policy store is in a consistent state initially"
+    if [ -n "$refresh_opt" ]; then
+        rlPhaseStartTest "No change behavior"
+            # The resulting binary policy will be different (albeit
+            # equivalent) after a full rebuild vs. when only local
+            # changes are applied to existing policy.linked file, so
+            # toggle a boolean twice to get the expected binary form.
+            rlRun "setsebool -P xguest_exec_content $TEST_BOOLEAN_VALUE"
+            rlRun "setsebool -P xguest_exec_content $(( ! $TEST_BOOLEAN_VALUE ))"
 
             checksum_before="$(policy_checksum "$policyvers")"
-            rlRun "semodule -N --rebuild-if-modules-changed"
+            rlRun "semodule -N $refresh_opt"
             checksum_after="$(policy_checksum "$policyvers")"
             rlAssertEquals "Binary policy must not change after rebuild" \
                 "$checksum_before" "$checksum_after"
 
+            # Make sure policy is restored regardless of any previous failures
             rlRun "semodule -N -B" 0 \
-                "Make sure policy store is in a consistent state initially"
+                "Force a rebuild to clean things up"
+        rlPhaseEnd
 
+        rlPhaseStartTest "Module injected"
             rlLog "Inject a new module into the store"
             rlRun "mkdir -p '$TEST_MODULE_DIR'"
             rlRun "echo -n cil >'$TEST_MODULE_DIR/lang_ext'"
             rlRun "echo '(type test_module_type_t)' >'$TEST_MODULE_DIR/cil'"
-            rlRun "semodule -N --rebuild-if-modules-changed" 0 \
+            rlRun "semodule -N $refresh_opt" 0 \
                 "Do a conditional rebuild"
             rlRun "semodule -l | grep test_module" 0 \
                 "Verify that the module has been picked up"
@@ -60,7 +83,7 @@ rlJournalStart
 
             rlLog "Now remove the module"
             rlRun "rm -rf '$TEST_MODULE_DIR'"
-            rlRun "semodule -N --rebuild-if-modules-changed"
+            rlRun "semodule -N $refresh_opt"
             rlRun "semodule -l | grep test_module" 1 \
                 "Verify that the module has been removed"
             rlRun "seinfo -t test_module_type_t '$STORE_POLICY' | grep test_module_type_t" 1 \
@@ -69,14 +92,33 @@ rlJournalStart
             # Make sure policy is restored regardless of any previous failures
             rlRun "semodule -N -B" 0 \
                 "Force a rebuild to clean things up"
-            #rlRun "setsebool -NP daemons_use_tty=on"
-            # TODO test changing booleans (persistently)
-        else
-            rlLog "--rebuild-if-modules-changed command-line option not supported; skipping tests..."
-        fi
-    rlPhaseEnd
+        rlPhaseEnd
 
-    rlPhaseStartCleanup
-    rlPhaseEnd
+        # --refresh option implies fixed boolean/etc. behavior
+        if [ "$refresh_opt" = "--refresh" ]; then
+            rlPhaseStartTest "Boolean setting injected"
+                rlLog "Inject a boolean setting into the store"
+                rlRun "echo '$TEST_BOOLEAN=$TEST_BOOLEAN_VALUE' >'$STORE_BOOLS'"
+                rlRun "semodule -N $refresh_opt" 0 \
+                    "Do a conditional rebuild"
+                rlRun "seinfo -xb '$TEST_BOOLEAN' '$STORE_POLICY' | grep -F -- '$TEST_BOOLEAN_VALUE_TEXT;'" 0 \
+                    "Verify that the boolean setting has been picked up"
+
+                rlLog "Now remove the setting"
+                rlRun "rm -f '$STORE_BOOLS'"
+                rlRun "semodule -N $refresh_opt"
+                rlRun "seinfo -xb '$TEST_BOOLEAN' '$STORE_POLICY' | grep -F -- '$TEST_BOOLEAN_VALUE_TEXT;'" 1 \
+                    "Verify that the boolean setting has been reset back"
+
+                # Make sure policy is restored regardless of any previous failures
+                rlRun "semodule -N -B" 0 \
+                    "Force a rebuild to clean things up"
+            rlPhaseEnd
+        fi
+    else
+        rlPhaseStartTest "Test skipped"
+            rlLog "--rebuild-if-modules-changed/--refresh command-line option not supported; skipping tests..."
+        rlPhaseEnd
+    fi
 rlJournalPrintText
 rlJournalEnd
