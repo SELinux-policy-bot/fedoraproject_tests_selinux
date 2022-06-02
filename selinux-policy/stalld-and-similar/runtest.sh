@@ -73,25 +73,34 @@ rlJournalStart
         rlSESearchRule "allow ${PROCESS_CONTEXT} debugfs_t : file { getattr open read } [ ]"
     rlPhaseEnd
 
+    rlPhaseStartTest "bz#2092864"
+        rlSESearchRule "allow stalld_t stalld_t : capability { sys_nice } [ ]"
+        rlSESearchRule "allow stalld_t stalld_t : process { setsched } [ ]"
+    rlPhaseEnd
+
     rlPhaseStartTest "real scenario -- standalone service"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
             PROCESS_CONTEXT="unconfined_service_t"
         fi
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
         rlRun "sed -i 's/^LOGGING=.*$/LOGGING=--log_syslog/' /etc/sysconfig/stalld"
+        rlRun "journalctl -u ${SERVICE_NAME} > before.txt"
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status" 1
         rlRun "sed -i 's/^LOGGING=.*$/LOGGING=--log_kmsg/' /etc/sysconfig/stalld"
+        rlRun "journalctl -u ${SERVICE_NAME} > after.txt"
         rlRun "setsebool domain_can_write_kmsg on"
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status" 1
         rlRun "restorecon -Rv /run /var" 0-255
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "stop status" 1
         rlRun "setsebool domain_can_write_kmsg off"
+        rlRun "diff before.txt after.txt | grep -i -e 'operation not permitted' -e 'permission denied'" 1
     rlPhaseEnd
 
     rlPhaseStartCleanup
         sleep 2
         rlSECheckAVC
 
+        rm -f before.txt after.txt
         rlFileRestore
         rlServiceRestore ${SERVICE_NAME}
     rlPhaseEnd
