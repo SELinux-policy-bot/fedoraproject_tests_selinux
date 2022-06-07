@@ -35,13 +35,13 @@ PACKAGE="selinux-policy"
 # This should be updated as needed after verifying that the new version
 # doesn't break testing and after applying all necessary tweaks in the TC.
 # Run with GIT_BRANCH=master to run the latest upstream version.
-DEFAULT_COMMIT="b11701a55614eeb20e85fee9829d1699cc13c39a"
+DEFAULT_COMMIT="3e93ece73da162fe58f9ec7d16b01915a4568c11"
 # Default pull requests to merge before running the test.
 # If non-empty, then after checking out GIT_BRANCH the listed upstream pull
 # requests (by number) are merged, creating a new temporary local branch.
 DEFAULT_PULLS=""
 # Default SELinux Patchwork series to apply before running the test.
-DEFAULT_PATCHES="634066"
+DEFAULT_PATCHES=""
 
 # Optional test parameter - location of testuite git.
 GIT_URL=${GIT_URL:-"https://github.com/SELinuxProject/selinux-testsuite"}
