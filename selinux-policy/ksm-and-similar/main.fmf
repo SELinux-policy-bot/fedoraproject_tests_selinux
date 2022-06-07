@@ -1,6 +1,6 @@
 summary: SELinux interferes with ksm and related programs
 description: |+
-    SELinux interferes with ksm and related programs.
+    SELinux interferes with the ksm service (the ksmctl program) and related programs.
 
 contact: Milos Malik <mmalik@redhat.com>
 component:
@@ -26,12 +26,19 @@ tag:
   - NoRHEL5
   - NoRHEL6
   - NoRHEL7
+  - Tier2
+  - Tier2se
   - targeted
+tier: '2'
 link:
-  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2021131
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2021131
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2091416
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2091417
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2091418
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7
     continue: false
+extra-nitrate: TC#0613684
 extra-summary: /CoreOS/selinux-policy/Regression/ksm-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/ksm-and-similar

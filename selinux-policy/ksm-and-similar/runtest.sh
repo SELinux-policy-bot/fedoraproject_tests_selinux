@@ -69,6 +69,14 @@ rlJournalStart
         rlSESearchRule "type_transition ${SOURCE_TYPE} ${FILE_CONTEXT} : process ${PROCESS_CONTEXT} $BOOLEANS"
         rlSESearchRule "allow ${PROCESS_CONTEXT} sysfs_t : dir { write } [ ]"
     rlPhaseEnd
+
+    rlPhaseStartTest "bz#2091416 + bz#2091417 + bz#2091418"
+        rlSEMatchPathCon "/usr/libexec/ksmctl" "ksm_exec_t"
+        rlSEMatchPathCon "/sys/kernel/mm/ksm" "sysfs_t"
+        rlSEMatchPathCon "/sys/kernel/mm/ksm/run" "sysfs_t"
+        rlSESearchRule "allow ksm_t sysfs_t : dir { write add_name } [ ]"
+        rlSESearchRule "allow ksm_t sysfs_t : file { create } [ ]"
+    rlPhaseEnd
     fi
 
     rlPhaseStartTest "real scenario -- standalone service"
