@@ -41,7 +41,7 @@ rlJournalStart
     rlPhaseEnd
 
     # version 3.3 of SELinux user-space does not accept empty CIL module
-    if echo "${PACKAGE_VERSION} < 3.3" | bc | grep -q 1 ; then
+    if rlTestVersion "${PACKAGE_VERSION}" "<" "3.3" ; then
     rlPhaseStartTest "empty CIL module"
         rlRun "semodule -lfull | grep '400.*empty.*cil'" 1
         rlRun "semodule -i empty.cil"
