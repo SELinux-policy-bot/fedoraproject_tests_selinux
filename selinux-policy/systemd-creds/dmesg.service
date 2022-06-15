@@ -1,0 +1,4 @@
+[Service]
+ExecStart=/usr/bin/dmesg
+LoadCredentialEncrypted=bar:/bar
+

@@ -1,0 +1,9 @@
+PURPOSE of /CoreOS/selinux-policy/Regression/systemd-creds
+Author: Milos Malik <mmalik@redhat.com>
+
+SELinux interferes with services which use credentials:
+ * LoadCredential=
+ * LoadCredentialEncrypted=
+
+More about this systemd feature can be found at https://systemd.io/CREDENTIALS/
+

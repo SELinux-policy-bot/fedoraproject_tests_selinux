@@ -1,0 +1,36 @@
+summary: SELinux interferes with services which use credentials
+description: |+
+    SELinux interferes with services which use credentials
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - systemd
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - Tier2
+  - Tier2se
+tier: '2'
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8
+    because: the systemd-creds program is not available there
+link:
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2096857
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2097681
+extra-nitrate: TC#0613921
+extra-summary: /CoreOS/selinux-policy/Regression/systemd-creds
+extra-task: /CoreOS/selinux-policy/Regression/systemd-creds
