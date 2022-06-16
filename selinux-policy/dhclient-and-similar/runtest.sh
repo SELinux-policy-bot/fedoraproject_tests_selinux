@@ -30,7 +30,6 @@
 . /usr/share/beakerlib/beakerlib.sh || exit 1
 
 PACKAGE="selinux-policy"
-ROOT_PASSWORD="redhat"
 SERVICE_PACKAGE="chrony"
 SERVICE_NAME="chronyd"
 
@@ -45,6 +44,7 @@ rlJournalStart
         rlAssertRpm ${SERVICE_PACKAGE}
 
         rlServiceStart ${SERVICE_NAME}
+        rlFileBackup /run/chrony-dhcp
 
         rlSESetEnforce
         rlSEStatus
@@ -60,19 +60,31 @@ rlJournalStart
         rlSESearchRule "type_transition dhcpc_t chronyc_exec_t : process chronyc_t"
         rlSESearchRule "allow dhcpc_t chronyc_t : process { transition } [ ]"
     rlPhaseEnd
+
+    rlPhaseStartTest "bz#2035117 + bz#2093709 + bz#2094155"
+        rlSEMatchPathCon "/usr/sbin/dhclient-script" "dhcpc_exec_t"
+        rlSEMatchPathCon "/run/chrony-dhcp" "chronyd_var_run_t"
+        rlSEMatchPathCon "/run/chrony-dhcp/eth0.sources" "chronyd_var_run_t"
+        rlSESearchRule "type_transition dhcpc_t var_run_t : dir chronyd_var_run_t chrony-dhcp"
+        rlSESearchRule "allow dhcpc_t chronyd_var_run_t : dir { read write } [ ]"
+        rlSESearchRule "allow dhcpc_t chronyd_var_run_t : file { create getattr append } [ ]"
+    rlPhaseEnd
     fi
 
     rlPhaseStartTest "real scenario"
+        rlRun "rm -rf /run/chrony-dhcp"
         rlRun "dhclient"
         DHCLIENT_PID=`pgrep dhclient`
         rlRun "ps -efZ | grep dhclient"
         rlRun "ps -efZ | grep ':dhcpc_t:.*dhclient'"
+        rlRun "ls -alZ /run/chrony-dhcp"
     rlPhaseEnd
 
     rlPhaseStartCleanup
         sleep 2
         rlSECheckAVC
         kill ${DHCLIENT_PID}
+        rlFileRestore
         rlServiceRestore ${SERVICE_NAME}
     rlPhaseEnd
 rlJournalPrintText
