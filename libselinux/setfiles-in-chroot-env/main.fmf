@@ -1,0 +1,21 @@
+summary: Does setfiles work correctly in chroot environment?
+description: |
+    Does setfiles work correctly in chroot environment?
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - libselinux
+test: ./runtest.sh
+framework: beakerlib
+recommend:
+  - libselinux
+  - policycoreutils
+duration: 15m
+enabled: true
+tag:
+  - targeted
+link:
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2094683
+extra-summary: /CoreOS/libselinux/Regression/setfiles-in-chroot-env
+extra-task: /CoreOS/libselinux/Regression/setfiles-in-chroot-env
+

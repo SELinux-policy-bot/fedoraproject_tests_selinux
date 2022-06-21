@@ -1,0 +1,5 @@
+PURPOSE of /CoreOS/libselinux/Regression/setfiles-in-chroot-env
+Author: Milos Malik <mmalik@redhat.com>
+
+Does setfiles work correctly in chroot environment?
+
