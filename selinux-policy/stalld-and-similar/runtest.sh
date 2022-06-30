@@ -82,6 +82,10 @@ rlJournalStart
         rlSESearchRule "allow stalld_t kernel_t : process { getsched } [ ]"
     rlPhaseEnd
 
+    rlPhaseStartTest "bz#2102224"
+        rlSESearchRule "allow stalld_t kernel_t : process { setsched } [ ]"
+    rlPhaseEnd
+
     rlPhaseStartTest "real scenario -- standalone service"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
             PROCESS_CONTEXT="unconfined_service_t"
