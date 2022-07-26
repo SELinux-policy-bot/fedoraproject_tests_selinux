@@ -1,0 +1,19 @@
+summary: Can semanage import SELinux port definitions correctly?
+test: ./test.sh
+contact: Milos Malik <mmalik@redhat.com>
+framework: beakerlib
+component:
+  - policycoreutils
+recommend:
+  - policycoreutils
+  - /usr/sbin/semanage
+duration: 10m
+enabled: true
+tier: 1
+link:
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2063353
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2108174
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6
+    because: the test is not relevant there
