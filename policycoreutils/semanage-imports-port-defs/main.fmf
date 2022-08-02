@@ -1,5 +1,8 @@
 summary: Can semanage import SELinux port definitions correctly?
-test: ./test.sh
+description: |+
+    Can semanage import SELinux port definitions correctly?
+
+test: ./runtest.sh
 contact: Milos Malik <mmalik@redhat.com>
 framework: beakerlib
 component:
@@ -17,3 +20,4 @@ adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6
     because: the test is not relevant there
+extra-nitrate: TC#0614161

@@ -1,5 +1,13 @@
 #!/bin/bash
 # vim: dict+=/usr/share/beakerlib/dictionary.vim cpt=.,w,b,u,t,i,k
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+#   runtest.sh of /CoreOS/policycoreutils/Regression/semanage-imports-port-defs
+#   Description: Can semanage import SELinux port definitions correctly?
+#   Author: Milos Malik <mmalik@redhat.com>
+#
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 . /usr/share/beakerlib/beakerlib.sh || exit 1
 
 rlJournalStart
