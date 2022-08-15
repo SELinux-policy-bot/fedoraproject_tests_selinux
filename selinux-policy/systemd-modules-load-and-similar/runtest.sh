@@ -130,6 +130,16 @@ rlJournalStart
         fi
     rlPhaseEnd
 
+    if ! rlIsRHEL 8 ; then
+    rlPhaseStartTest "bz#2088257 + bz#2088258"
+        rlSEMatchPathCon "/usr/lib/systemd/systemd-modules-load" "systemd_modules_load_exec_t"
+        rlSEMatchPathCon "/dev/kmsg" "kmsg_device_t"
+        rlSEMatchPathCon "/run/systemd/journal/socket" "syslogd_var_run_t"
+        rlSESearchRule "allow systemd_modules_load_t syslogd_t : unix_dgram_socket { sendto } [ ]"
+        rlSESearchRule "allow systemd_modules_load_t kmsg_device_t : chr_file { write } [ ]"
+    rlPhaseEnd
+    fi
+
     rlPhaseStartCleanup
         sleep 2
         rlSECheckAVC
