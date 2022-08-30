@@ -246,24 +246,23 @@ rlJournalStart
             for pull in $GIT_PULLS; do
                 ref="refs/pull/$pull/head"
                 if ! rlRun "git fetch origin $ref:$ref" 0; then
-                    rlRun "git checkout $GIT_BRANCH" 0
-                    rlLogWarning "PR merge failed, falling back to GIT_BRANCH"
-                    break
+                    rlLogFatal "PR merge failed!"
+                    rlPhaseEnd
+                    exit 127
                 fi
                 if ! rlRun "git merge --no-edit $ref" 0; then
-                    rlRun "git merge --abort" 0
-                    rlRun "git checkout $GIT_BRANCH" 0
-                    rlLogWarning "PR merge failed, falling back to GIT_BRANCH"
-                    break
+                    rlLogFatal "PR merge failed!"
+                    rlPhaseEnd
+                    exit 127
                 fi
             done
             $PIPEFAIL_ENABLE
             for pwseries in $GIT_PATCHES; do
                 url="https://patchwork.kernel.org/series/$pwseries/mbox/"
                 if ! rlRun "curl $url | git am -"; then
-                    rlRun "git checkout $GIT_BRANCH" 0
-                    rlLogWarning "Applying patch failed, falling back to GIT_BRANCH"
-                    break
+                    rlLogFatal "Applying patch failed!"
+                    rlPhaseEnd
+                    exit 127
                 fi
             done
             $PIPEFAIL_DISABLE
