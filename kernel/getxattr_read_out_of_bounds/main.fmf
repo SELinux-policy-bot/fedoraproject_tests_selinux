@@ -1,0 +1,23 @@
+summary: Reproducer for an out-of-bounds read on getxattr(2)
+description: |
+  Verifies that it is not possible to trigger an out-of-bounds read by
+  setting the security.selinux xattr to a value containing a null character
+  and then trying to read back the xattr.
+
+  See also: https://git.kernel.org/torvalds/c/efe3de79e0b5
+contact: Ondrej Mosnacek <omosnace@redhat.com>
+component:
+  - kernel
+framework: beakerlib
+require:
+  - coreutils
+  - policycoreutils
+  - attr
+duration: 5m
+tier: 2
+enabled: true
+link:
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1584307
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1595706
+environment:
+  AVC_ERROR: +no_avc_check

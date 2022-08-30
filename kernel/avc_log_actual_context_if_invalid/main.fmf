@@ -1,0 +1,27 @@
+summary: Test logging of actual context in AVCs if it is invalid
+description: |
+  Verify that SELinux logs the actual source/target context in a separate
+  AVC record field in case it is invalid.
+contact: Ondrej Mosnacek <omosnace@redhat.com>
+component:
+  - kernel
+framework: beakerlib
+require:
+  - library(selinux-policy/common)
+  - attr
+  - audit
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+duration: 15m
+tier: 2
+enabled: true
+adjust:
+  - enabled: false
+    when: distro < rhel-8.1
+    because: RHEL-8.0 and below is not expected to support this
+link:
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1670039
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1719666
+environment:
+  AVC_ERROR: +no_avc_check

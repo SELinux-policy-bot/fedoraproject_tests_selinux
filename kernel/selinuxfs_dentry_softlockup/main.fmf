@@ -1,0 +1,18 @@
+summary: Test soft lockup on selinuxfs dentry lookup
+description: |
+  Verifies that traversing selinuxfs while policy is being reloaded doesn't
+  cause a deadlock in the kernel.
+contact: Ondrej Mosnacek <omosnace@redhat.com>
+component:
+  - kernel
+framework: beakerlib
+require:
+  - policycoreutils
+  - findutils
+duration: 5m
+tier: 2
+enabled: true
+link:
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1510603
+extra-hardware: |
+    keyvalue = PROCESSORS >= 2

@@ -1,0 +1,25 @@
+summary: Test connect(AF_UNSPEC) behavior
+description: |
+  Ensure that connect(AF_UNSPEC) (should disconnect a connected socket)
+  works correctly under SELinux.
+contact: Ondrej Mosnacek <omosnace@redhat.com>
+component:
+  - kernel
+framework: beakerlib
+require:
+  - gcc
+  - nc
+  - strace
+duration: 5m
+tier: 2
+enabled: true
+adjust:
+  - enabled: false
+    when: distro ~< rhel-8.1
+    because: RHEL-8.0 is not expected to have the bug fixed
+  - enabled: false
+    when: distro ~< rhel-7.9
+    because: RHEL-7.8 and below are not expected to have the bug fixed
+link:
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1707828
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1886305

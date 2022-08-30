@@ -1,0 +1,18 @@
+summary: Test SELinux labeling before initial policy load
+description: |
+  Regression test for a bug where SELinux may have printed uninitialized
+  kernel memory instead of a valid source/target context in AVC denials.
+contact: Ondrej Mosnacek <omosnace@redhat.com>
+component:
+  - kernel
+framework: beakerlib
+require:
+  - memcached
+  - policycoreutils
+duration: 5m
+tier: 2
+enabled: true
+link:
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1758086
+environment:
+  AVC_ERROR: +no_avc_check
