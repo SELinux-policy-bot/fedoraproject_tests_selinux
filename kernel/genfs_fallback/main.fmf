@@ -12,6 +12,7 @@ component:
 framework: beakerlib
 require:
 - policycoreutils
+- dosfstools
 duration: 5m
 tier: 2
 enabled: true

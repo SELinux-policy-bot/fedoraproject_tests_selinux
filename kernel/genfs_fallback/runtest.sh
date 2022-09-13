@@ -11,21 +11,29 @@ rlJournalStart
     rlPhaseStartSetup
         rlRun "uname -r"
 
-        rlRun "echo '(fsuse xattr ramfs (system_u object_r fs_t ((s0) (s0))))' >ramfs_xattr.cil"
-        rlRun "semodule -i ramfs_xattr.cil"
-        rlRun "mkdir /mnt/test-ramfs"
+        rlRun "dd if=/dev/zero of=diskfile bs=4M count=1"
+        rlRun "mkfs.vfat diskfile"
+        DEVICE="$(losetup -f)"
+        rlRun "losetup $DEVICE diskfile"
+
+        rlRun "echo '(fsuse xattr vfat (system_u object_r fs_t ((s0) (s0))))' >vfat_xattr.cil"
+        rlRun "semodule -i vfat_xattr.cil"
+        rlRun "mkdir /mnt/test-vfat"
     rlPhaseEnd
 
     rlPhaseStartTest
-        rlRun "mount -t ramfs none /mnt/test-ramfs"
-        rlRun "[ \"\$(secon -t -f /mnt/test-ramfs)\" = ramfs_t ]"
+        rlRun "mount -t vfat $DEVICE /mnt/test-vfat"
+        rlRun "[ \"\$(secon -t -f /mnt/test-vfat)\" = dosfs_t ]"
     rlPhaseEnd
 
     rlPhaseStartCleanup
-        rlRun "umount /mnt/test-ramfs" 0-1
-        rlRun "rmdir /mnt/test-ramfs"
-        rlRun "semodule -r ramfs_xattr"
-        rlRun "rm -f ramfs_xattr.cil"
+        rlRun "umount /mnt/test-vfat" 0-1
+        rlRun "rmdir /mnt/test-vfat"
+        rlRun "semodule -r vfat_xattr" 0-1
+        rlRun "rm -f vfat_xattr.cil"
+
+        rlRun "losetup -d $DEVICE" 0-1
+        rlRun "rm -f diskfile"
     rlPhaseEnd
 rlJournalPrintText
 rlJournalEnd
