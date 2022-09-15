@@ -40,7 +40,7 @@ fi
     rlPhaseStartCleanup
         rlRun "rm -f /etc/labeldump /etc/testfile"
         rlRun "rm -rf /usr/lib/dracut/modules.d/97bz1777525"
-        rlRun "dracut -f"
+        rlRun "dracut --regenerate-all -f"
     rlPhaseEnd
 rlJournalPrintText
 rlJournalEnd
