@@ -1,0 +1,32 @@
+summary: SELinux interferes with caddy services and related programs
+description: |+
+    SELinux interferes with caddy services and related programs
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - caddy
+  - /usr/sbin/semanage
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8
+    because: the caddy package is not available there
+link:
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1706651
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2122886
+extra-summary: /CoreOS/selinux-policy/Regression/caddy-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/caddy-and-similar
