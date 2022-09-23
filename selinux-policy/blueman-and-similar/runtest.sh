@@ -83,13 +83,22 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    rlPhaseStartTest "bz#2027044"
+        rlSEMatchPathCon "/usr/libexec/blueman-mechanism" "blueman_exec_t"
+        rlSEMatchPathCon "/root/.local/lib/python3.10/site-packages" "gconf_home_t"
+        rlSESearchRule "allow blueman_t gconf_home_t : dir { read } [ ]"
+    rlPhaseEnd
+
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
             # for RHELs where the SELinux domain does not exist yet
             PROCESS_CONTEXT="initrc_t"
         fi
-        rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status restart status stop status" 1
+        rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
+        PYTHON_VERSION=`python --version | tr -d ' ' | cut -d . -f 1,2 | tr '[:upper:]' '[:lower:]'`
+        rlRun "mkdir -p ~/.local/lib/${PYTHON_VERSION}/site-packages/"
+        rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
 
     rlPhaseStartCleanup

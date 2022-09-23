@@ -32,6 +32,7 @@ tag:
   - targeted
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1470501
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2027044
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-alt-7, rhel-8, rhel-9
