@@ -1,0 +1,41 @@
+summary: SELinux interferes with systemd-machined and related programs
+description: |+
+    SELinux interferes with systemd-machined and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+  - systemd
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - systemd-container
+  - /usr/sbin/service
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - targeted
+link:
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1847545
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1900869
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1900888
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-alt-7
+    because: the systemd-machined program is not available there
+extra-summary: /CoreOS/selinux-policy/Regression/systemd-machined-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/systemd-machined-and-similar
+extra-nitrate: TC#0614355

@@ -1,0 +1,5 @@
+PURPOSE of /CoreOS/selinux-policy/Regression/systemd-machined-and-similar
+Author: Milos Malik <mmalik@redhat.com>
+
+SELinux interferes with systemd-machined and related programs.
+
