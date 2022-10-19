@@ -62,6 +62,15 @@ rlJournalStart
         fi
     rlPhaseEnd
 
+    rlPhaseStartTest "bz#2118784"
+        rlSEMatchPathCon "/var/lib" "var_lib_t"
+        rlSEMatchPathCon "/var/lib/myservice0" "var_lib_t"
+        rlSESearchRule "allow init_t var_lib_t : lnk_file { getattr read } [ ]"
+        rlRun "systemd-run -p DynamicUser=yes -p StateDirectory=myservice0  touch /var/lib/myservice0/foo"
+        rlRun "systemd-run -p DynamicUser=yes -p StateDirectory=myservice0 --pipe wc -c /var/lib/myservice0/foo"
+        rlRun "ls -alZ /var/lib/myservice0 /var/lib/private/myservice0"
+    rlPhaseEnd
+
     rlPhaseStartCleanup
         sleep 2
         rlSECheckAVC
