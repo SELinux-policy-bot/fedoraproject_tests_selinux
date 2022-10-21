@@ -1,0 +1,12 @@
+summary: Can libsepol handle users declared in modules?
+test: ./test.sh
+framework: beakerlib
+component:
+  - libsepol
+require:
+  - libsepol-devel
+  - selinux-policy-devel
+tier: 1
+enabled: true
+link:
+  - https://bugzilla.redhat.com/show_bug.cgi?id=2136212
