@@ -1,0 +1,29 @@
+summary: Harden tools to avoid loading of unchecked python modules.
+description: Tools like semanage must be hardened to avoid loading rogue python modules that could lead to unexpected failures.
+contact: Amith Kumar <apeetham@redhat.com>
+
+component:
+  - policycoreutils
+test: ./runtest.sh
+framework: beakerlib
+recommend:
+  - policycoreutils
+  - /usr/sbin/semanage
+duration: 1m
+enabled: true
+tag:
+  - CI-Tier-1
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - TIPpass_Security
+  - TierCandidatesPASS
+  - f32friendly
+  - f33friendly
+  - targeted
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2128976
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6
+    continue: false
