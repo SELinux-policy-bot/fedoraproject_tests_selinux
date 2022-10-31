@@ -1,0 +1,11 @@
+summary: Tier2 test plan
+adjust:
+- when: trigger == commit
+  enabled: false
+  because: do not run this plan on changes caused by a PR/MR
+discover:
+  how: fmf
+  filter: tier:2
+execute:
+  how: tmt
+
