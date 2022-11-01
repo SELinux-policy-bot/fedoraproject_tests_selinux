@@ -38,7 +38,7 @@ rlJournalStart
         rlAssertRpm "dosfstools"
 
         # create a loopback device
-        rlRun "fallocate -l 100M loop_file"
+        rlRun "fallocate -l 400M loop_file"
         rlRun "losetup -f loop_file"
         rlRun "losetup -l | grep loop_file"
         DEV="$(losetup -l | tail -n 1 | cut -f1 -d' ')"
