@@ -10,3 +10,4 @@ tier: 1
 enabled: true
 link:
   - https://bugzilla.redhat.com/show_bug.cgi?id=2136212
+extra-nitrate: TC#0614379

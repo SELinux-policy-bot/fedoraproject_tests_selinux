@@ -34,7 +34,7 @@ FILES=$(METADATA) test.sh foo.te Makefile
 .PHONY: all install download clean
 
 run: $(FILES) build
-	./runtest.sh
+	./test.sh
 
 build: $(BUILT_FILES)
 	test -x test.sh || chmod a+x test.sh
