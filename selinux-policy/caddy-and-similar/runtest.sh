@@ -40,6 +40,9 @@ rlJournalStart
         rlSESatisfyRequires
         rlAssertRpm ${PACKAGE}
         rlAssertRpm ${PACKAGE}-targeted
+        if ! rpm -q ${SERVICE_PACKAGE} ; then
+            rlRun "yum -y install ${SERVICE_PACKAGE} --enablerepo epel"
+        fi
         rlAssertRpm ${SERVICE_PACKAGE}
 
         rlServiceStop caddy caddy-api
