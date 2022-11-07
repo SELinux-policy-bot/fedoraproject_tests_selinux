@@ -91,6 +91,11 @@ rlJournalStart
         rlRun "sesearch -s stalld_t -t domain -c process -p setsched -A -ds -dt | grep allow"
     rlPhaseEnd
 
+    rlPhaseStartTest "bz#2140673"
+        rlRun "ls -Z /sys/kernel/security/lockdown | grep :security_t"
+        rlSESearchRule "allow stalld_t security_t : file { getattr open read } [ ]"
+    rlPhaseEnd
+
     rlPhaseStartTest "real scenario -- standalone service"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
             PROCESS_CONTEXT="unconfined_service_t"
