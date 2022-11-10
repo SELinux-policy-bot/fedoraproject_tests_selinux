@@ -9,6 +9,6 @@ recommend:
   - policycoreutils
   - ansible
   - git
-duration: 10m
+duration: 20m
 extra-summary: linux-system-roles.selinux-tests
 extra-task: linux-system-roles.selinux-tests
