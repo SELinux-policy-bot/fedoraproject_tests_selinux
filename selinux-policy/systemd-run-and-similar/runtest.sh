@@ -49,9 +49,11 @@ rlJournalStart
         rlSESearchRule "allow init_t user_devpts_t : chr_file { setattr open } [ ]"
     rlPhaseEnd
 
+    if seinfo --common file -x | grep -q watch ; then
     rlPhaseStartTest "bz#1980241"
         rlSESearchRule "allow init_t user_devpts_t : chr_file { watch watch_reads } [ ]"
     rlPhaseEnd
+    fi
 
     rlPhaseStartTest "real scenario"
         rlWatchdog "systemd-run -p IPAddressDeny=127.0.0.1 -t /bin/sh" 10
