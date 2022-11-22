@@ -41,7 +41,7 @@ PROCESS_CONTEXT="cupsd_lpd_t"
 rlJournalStart
     rlPhaseStartSetup
         rlRun "rlImport 'selinux-policy/common'"
-        # rlSESatisfyRequires
+        rlSESatisfyRequires
         rlAssertRpm ${PACKAGE}
         rlAssertRpm ${PACKAGE}-targeted
         rlAssertRpm ${SERVICE_PACKAGE}

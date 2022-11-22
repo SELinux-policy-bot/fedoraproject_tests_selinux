@@ -1524,9 +1524,39 @@ function rlSESetEnforce() {
 
 }
 
+true <<'=cut'
+=pod
 
+=head2 rlSESatisfyRequires
 
+The function attempts to install all packages required in Makefile and all packa
+ges given as arguments.
+The function will be used to install packages from any repository we want.
 
+=cut
+
+function rlSESatisfyRequires() {
+    local FILE_NAME="./Makefile"
+    local PACKAGE_LIST
+    local PACKAGE_LIST2
+
+    if [ "x$COLLECTIONS" != "x" ] ; then
+        # do not install any packages when running in RHSCL environment
+        # because that would most likely break the environment or fail
+        return
+    fi
+    if [ $# -gt 0 ] ; then
+        PACKAGE_LIST2="$*"
+    fi
+    PACKAGE_LIST=`grep '"Requires:' ${FILE_NAME} | cut -d : -f 2 | cut -d '"' -f 1 | tr '\n' ' ' | tr -s ' '`
+    # check if all required packages are really installed
+    if rpm -q ${PACKAGE_LIST} ${PACKAGE_LIST2} >& /dev/null ; then
+        rlPass "all required packages are really installed"
+        return 0
+    fi
+
+    rlRun "epelyum -y --nobest --nogpgcheck --skip-broken install ${PACKAGE_LIST} ${PACKAGE_LIST2}" 0,1
+}
 
 __INTERNAL_rlSEModuleList() {
   local semodule_list
