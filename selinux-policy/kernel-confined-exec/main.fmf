@@ -1,0 +1,25 @@
+summary: Test that kernel cannot execute arbitrary helper binaries
+description: |
+  Ensures that the kernel is not allowed to execute unauthorized binaries
+  and that a transition to a confined domain is enforced on those that it
+  can execute, so that overwriting usermode helper paths doesn't lead to
+  an exploitable privilege escalation.
+contact: Ondrej Mosnacek <omosnace@redhat.com>
+component:
+  - selinux-policy
+framework: beakerlib
+require:
+  - library(selinux-policy/common)
+  - policycoreutils
+  - gcc
+environment:
+  AVC_ERROR: +no_avc_check
+duration: 20m
+tier: 2
+enabled: true
+adjust:
+  - enabled: false
+    when: distro < fedora-38
+    because: This hardening applies only to F38+
+link:
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2068579
