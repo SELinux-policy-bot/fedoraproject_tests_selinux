@@ -40,6 +40,12 @@ PROCESS_CONTEXT="dhcpc_t"
 
 rlJournalStart
     rlPhaseStartSetup
+        if rlIsRHEL ; then
+            rlLog "Not applicable to this OS version."
+            rlJournalEnd
+            exit 0
+        fi
+
         rlRun "rlImport 'selinux-policy/common'"
         rlSESatisfyRequires
         rlAssertRpm ${PACKAGE}

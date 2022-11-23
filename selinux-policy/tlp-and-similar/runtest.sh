@@ -39,12 +39,6 @@ PROCESS_NAME="tlp"
 PROCESS_CONTEXT="tlp_t"
 
 rlJournalStart
-    if ! rlIsRHEL 7 8 && ! rlIsFedora ; then
-        rlLog "Not applicable to this OS version."
-        rlJournalEnd
-        exit 0
-    fi
-
     rlPhaseStartSetup
         rlRun "rlImport 'selinux-policy/common'"
         rlSESatisfyRequires
