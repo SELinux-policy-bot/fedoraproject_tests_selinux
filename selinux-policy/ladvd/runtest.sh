@@ -52,7 +52,7 @@ rlJournalStart
     rlPhaseStartTest "ladvd service selinux denials, bz#1834325"
         rlServiceStart ladvd
         sleep 2
-        rlRun "ausearch -m AVC -c ladvd --raw > /tmp/avcfile" 1
+        rlRun "ausearch -m AVC -c ladvd --raw --input-logs > /tmp/avcfile" 1
         if grep "tclass=process2" /tmp/avcfile; then
             grep "tclass=process2" /tmp/avcfile > /tmp/avc_class_file
             rlAssertNotGrep "denied  { nnp_transition }" /tmp/avc_class_file
@@ -74,7 +74,7 @@ rlJournalStart
     rlPhaseStartTest "ladvd selinux denials due to libpcap, bz#1855163"
         rlServiceStart ladvd
         sleep 2
-        rlRun "ausearch -m AVC -c 'ladvd' --raw > /tmp/avcfile" 1
+        rlRun "ausearch -m AVC -c ladvd --raw --input-logs > /tmp/avcfile" 1
         if grep "tclass=netlink_rdma_socket" /tmp/avcfile; then
             grep "tclass=netlink_rdma_socket" /tmp/avcfile > /tmp/avc_class_file
             rlAssertNotGrep "denied  { create }" /tmp/avc_class_file

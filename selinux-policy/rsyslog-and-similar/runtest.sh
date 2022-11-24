@@ -86,7 +86,7 @@ rlJournalStart
         rlRun "update_rsys"
         rlRun "systemctl restart rsyslog"
         sleep 3
-        rlRun "ausearch -m AVC --start $tst_Time" 1
+        rlRun "ausearch -m AVC --start $tst_Time --input-logs" 1
         rlRun "cp -rv /etc/rsyslog.conf-orig /etc/rsyslog.conf"
         rlRun "systemctl restart rsyslog"
     rlPhaseEnd
@@ -104,7 +104,7 @@ rlJournalStart
         rlRun "echo ' ' >> /etc/rsyslog.conf"
         rlRun "systemctl restart rsyslog"
         sleep 3
-        rlRun "ausearch -m AVC --start $tst_Time" 1
+        rlRun "ausearch -m AVC --start $tst_Time --input-logs" 1
         rlRun 'semanage fcontext -d -t public_content_rw_t "/my/custom(/.*)?"'
         rlRun "semodule -r rsyslog_imfile_policy"
         rlRun "cp -rv /etc/rsyslog.conf-orig /etc/rsyslog.conf"

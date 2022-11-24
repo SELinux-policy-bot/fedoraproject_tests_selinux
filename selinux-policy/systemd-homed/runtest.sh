@@ -129,8 +129,8 @@ rlJournalStart
 
     rlPhaseStartTest "homectl create"
         rlRun "create_u"
-        rlRun "ausearch -m AVC -m USER_AVC -c systemd-homed -f mail" 1
-        rlRun "ausearch -m AVC -m USER_AVC -c systemd-homewor" 1
+        rlRun "ausearch -m AVC -m USER_AVC -c systemd-homed -f mail --input-logs" 1
+        rlRun "ausearch -m AVC -m USER_AVC -c systemd-homewor --input-logs" 1
     rlPhaseEnd
 
     rlPhaseStartTest "homectl list"
@@ -138,7 +138,7 @@ rlJournalStart
         tst_Time="$(date '+%T')"
         rlRun "homectl list"
         sleep 5
-        rlRun "ausearch -m AVC -m USER_AVC --start $tst_Time" 1
+        rlRun "ausearch -m AVC -m USER_AVC --start $tst_Time --input-logs" 1
     rlPhaseEnd
 
     rlPhaseStartTest "homectl activate"
@@ -146,7 +146,7 @@ rlJournalStart
         tst_Time="$(date '+%T')"
         rlRun "activate_u"
         sleep 5
-        rlRun "ausearch -m AVC -m USER_AVC --start $tst_Time" 1
+        rlRun "ausearch -m AVC -m USER_AVC --start $tst_Time --input-logs" 1
     rlPhaseEnd
 
     rlPhaseStartTest "homectl inspect"
@@ -154,7 +154,7 @@ rlJournalStart
         tst_Time="$(date '+%T')"
         rlRun "homectl inspect test_u"
         sleep 5
-        rlRun "ausearch -m AVC -m USER_AVC --start $tst_Time" 1
+        rlRun "ausearch -m AVC -m USER_AVC --start $tst_Time --input-logs" 1
     rlPhaseEnd
 
     rlPhaseStartTest "homectl update"
@@ -162,7 +162,7 @@ rlJournalStart
         tst_Time="$(date '+%T')"
         rlRun "homectl update test_u --email-address=test_u@redhat.com"
         sleep 5
-        rlRun "ausearch -m AVC -m USER_AVC --start $tst_Time" 1
+        rlRun "ausearch -m AVC -m USER_AVC --start $tst_Time --input-logs" 1
     rlPhaseEnd
 
     rlPhaseStartTest "homectl lock"
@@ -170,7 +170,7 @@ rlJournalStart
         tst_Time="$(date '+%T')"
         rlRun "homectl lock test_u"
         sleep 5
-        rlRun "ausearch -m AVC -m USER_AVC --start $tst_Time" 1
+        rlRun "ausearch -m AVC -m USER_AVC --start $tst_Time --input-logs" 1
     rlPhaseEnd
 
     rlPhaseStartTest "homectl unlock"
@@ -178,7 +178,7 @@ rlJournalStart
         tst_Time="$(date '+%T')"
         rlRun "unlock_u"
         sleep 5
-        rlRun "ausearch -m AVC -m USER_AVC --start $tst_Time" 1
+        rlRun "ausearch -m AVC -m USER_AVC --start $tst_Time --input-logs" 1
     rlPhaseEnd
 
     rlPhaseStartTest "homectl passwd"
@@ -186,7 +186,7 @@ rlJournalStart
         tst_Time="$(date '+%T')"
         rlRun "passwd_u"
         sleep 5
-        rlRun "ausearch -m AVC -m USER_AVC --start $tst_Time" 1
+        rlRun "ausearch -m AVC -m USER_AVC --start $tst_Time --input-logs" 1
     rlPhaseEnd
 
     rlPhaseStartTest "homectl authenticate"
@@ -194,7 +194,7 @@ rlJournalStart
         tst_Time="$(date '+%T')"
         rlRun "auth_u"
         sleep 5
-        rlRun "ausearch -m AVC -m USER_AVC --start $tst_Time" 1
+        rlRun "ausearch -m AVC -m USER_AVC --start $tst_Time --input-logs" 1
     rlPhaseEnd
 
     rlPhaseStartTest "homectl deactivate and resize"
@@ -204,7 +204,7 @@ rlJournalStart
         sleep 60
         rlRun "resize_u"
         sleep 5
-        rlRun "ausearch -m AVC -m USER_AVC --start $tst_Time" 1
+        rlRun "ausearch -m AVC -m USER_AVC --start $tst_Time --input-logs" 1
     rlPhaseEnd
 
     rlPhaseStartTest "homectl remove"
@@ -212,7 +212,7 @@ rlJournalStart
         tst_Time="$(date '+%T')"
         rlRun "homectl remove test_u"
         sleep 5
-        rlRun "ausearch -m AVC -m USER_AVC --start $tst_Time" 1
+        rlRun "ausearch -m AVC -m USER_AVC --start $tst_Time --input-logs" 1
     rlPhaseEnd
 
     rlPhaseStartCleanup

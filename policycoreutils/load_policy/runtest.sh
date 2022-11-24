@@ -63,13 +63,13 @@ rlJournalStart
         rlRun "grep -i selinux /proc/mounts"
         sleep 1
         if rlIsRHEL ; then
-            rlRun "ausearch -m MAC_POLICY_LOAD -i -ts ${START_DATE_TIME} | grep load_policy"
+            rlRun "ausearch -m MAC_POLICY_LOAD -i -ts ${START_DATE_TIME} --input-logs | grep load_policy"
         fi
         if rlIsRHEL 5 6 7 ; then
-            rlRun "ausearch -m MAC_POLICY_LOAD -i -ts ${START_DATE_TIME} | grep 'policy loaded'"
+            rlRun "ausearch -m MAC_POLICY_LOAD -i -ts ${START_DATE_TIME} --input-logs | grep 'policy loaded'"
         else
             # we assume that audit message has a different format now (does not contain "policy loaded")
-            rlRun "ausearch -m MAC_POLICY_LOAD -i -ts ${START_DATE_TIME} | grep 'type=MAC_POLICY_LOAD'"
+            rlRun "ausearch -m MAC_POLICY_LOAD -i -ts ${START_DATE_TIME} --input-logs | grep 'type=MAC_POLICY_LOAD'"
         fi
         rlRun "umount --lazy ${SELINUX_FS_MOUNT}" 0,32
         if [ $? -eq 0 ] ; then
@@ -80,13 +80,13 @@ rlJournalStart
             rlRun "grep -i selinux /proc/mounts"
             sleep 1
             if rlIsRHEL ; then
-                rlRun "ausearch -m MAC_POLICY_LOAD -i -ts ${START_DATE_TIME} | grep load_policy"
+                rlRun "ausearch -m MAC_POLICY_LOAD -i -ts ${START_DATE_TIME} --input-logs | grep load_policy"
             fi
             if rlIsRHEL 5 6 7 ; then
-                rlRun "ausearch -m MAC_POLICY_LOAD -i -ts ${START_DATE_TIME} | grep 'policy loaded'"
+                rlRun "ausearch -m MAC_POLICY_LOAD -i -ts ${START_DATE_TIME} --input-logs | grep 'policy loaded'"
             else
                 # we assume that audit message has a different format now (does not contain "policy loaded")
-                rlRun "ausearch -m MAC_POLICY_LOAD -i -ts ${START_DATE_TIME} | grep 'type=MAC_POLICY_LOAD'"
+                rlRun "ausearch -m MAC_POLICY_LOAD -i -ts ${START_DATE_TIME} --input-logs | grep 'type=MAC_POLICY_LOAD'"
             fi
         fi
         rlRun "dmesg | grep -i selinux"

@@ -128,10 +128,10 @@ rlJournalStart
         rlRun "setsebool ${BOOLEAN} off"
         rlRun "setsebool ${BOOLEAN} on"
         sleep 1
-        rlRun "ausearch -m MAC_CONFIG_CHANGE -i -ts ${START_DATE_TIME} | grep \"type=MAC_CONFIG_CHANGE.*bool=${BOOLEAN} val=1 old_val=0\""
-        rlRun "ausearch -m MAC_CONFIG_CHANGE -i -ts ${START_DATE_TIME} | grep \"type=MAC_CONFIG_CHANGE.*bool=${BOOLEAN} val=0 old_val=1\""
+        rlRun "ausearch -m MAC_CONFIG_CHANGE -i -ts ${START_DATE_TIME} --input-logs | grep \"type=MAC_CONFIG_CHANGE.*bool=${BOOLEAN} val=1 old_val=0\""
+        rlRun "ausearch -m MAC_CONFIG_CHANGE -i -ts ${START_DATE_TIME} --input-logs | grep \"type=MAC_CONFIG_CHANGE.*bool=${BOOLEAN} val=0 old_val=1\""
         if rlIsRHEL ; then
-            rlRun "ausearch -m MAC_CONFIG_CHANGE -i -ts ${START_DATE_TIME} | grep \"type=SYSCALL.*comm=setsebool\""
+            rlRun "ausearch -m MAC_CONFIG_CHANGE -i -ts ${START_DATE_TIME} --input-logs | grep \"type=SYSCALL.*comm=setsebool\""
         fi
     rlPhaseEnd
 

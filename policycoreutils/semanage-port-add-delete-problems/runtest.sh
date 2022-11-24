@@ -82,7 +82,7 @@ rlJournalStart
         sleep 2
 
         # Check for MAC_POLICY_LOAD
-        rlRun "ausearch -m MAC_POLICY_LOAD -ts ${START_DATE_TIME}" 0
+        rlRun "ausearch -m MAC_POLICY_LOAD -ts ${START_DATE_TIME} --input-logs" 0
 
         # deleting a port number from a type
         START_DATE_TIME=`date "+%m/%d/%Y %T"`
@@ -91,7 +91,7 @@ rlJournalStart
         sleep 2
 
         # Check for MAC_POLICY_LOAD
-        rlRun "ausearch -m MAC_POLICY_LOAD -ts ${START_DATE_TIME}" 0
+        rlRun "ausearch -m MAC_POLICY_LOAD -ts ${START_DATE_TIME} --input-logs" 0
     rlPhaseEnd
     fi
 

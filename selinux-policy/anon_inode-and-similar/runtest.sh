@@ -55,7 +55,7 @@ rlJournalStart
         tst_Time="$(date '+%T')"
         rlRun "./reproducer"
         sleep 3
-        rlRun "ausearch -m AVC -m USER_AVC --start $tst_Time" 1
+        rlRun "ausearch -m AVC -m USER_AVC --start $tst_Time --input-logs" 1
         rlSESearchRule "allow unconfined_t unconfined_t : anon_inode { write }"
         rlRun "rm -f reproducer"
     rlPhaseEnd
