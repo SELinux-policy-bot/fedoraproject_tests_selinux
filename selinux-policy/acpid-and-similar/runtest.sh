@@ -98,6 +98,14 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    if seinfo --common file -x | grep -q watch ; then
+    rlPhaseStartTest "bz#1932294"
+        rlSEMatchPathCon "/usr/sbin/acpid" "apmd_exec_t"
+        rlSEMatchPathCon "/dev/input" "device_t"
+        rlSESearchRule "allow apmd_t device_t : dir { watch } [ ]"
+    rlPhaseEnd
+    fi
+
     rlPhaseStartTest "real scenario"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
@@ -108,7 +116,7 @@ rlJournalStart
             fi
         fi
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
-        rlRun "restorecon -Rv /var /run"
+        rlRun "restorecon -Rv /run /var -e /var/ARTIFACTS" 0-255
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
 

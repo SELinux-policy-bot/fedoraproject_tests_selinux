@@ -69,6 +69,7 @@ $(METADATA): Makefile
 	@echo "Bug:             1468548" >> $(METADATA) # RHEL-7
 	@echo "Bug:             1622417" >> $(METADATA) # RHEL-7
 	@echo "Bug:             1623342" >> $(METADATA) # RHEL-7
+	@echo "Bug:             1932294" >> $(METADATA) # RHEL-9
 
 	rhts-lint $(METADATA)
 

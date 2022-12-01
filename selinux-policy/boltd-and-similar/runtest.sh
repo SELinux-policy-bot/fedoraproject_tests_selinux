@@ -126,13 +126,12 @@ rlJournalStart
             fi
         fi
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
-        rlRun "restorecon -Rv /run /var"
+        rlRun "restorecon -Rv /run /var -e /var/ARTIFACTS" 0-255
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
 
     rlPhaseStartTest "real scenario -- confined users"
-        rlSEConfigureSSH
-
+        CREATED_USERS=""
         rlRun "setsebool ssh_sysadm_login on"
         rlLog "configuration says not to test SELinux users: ${DENIED_USERS}"
         for SELINUX_USER in ${ALLOWED_USERS} ; do
@@ -143,10 +142,12 @@ rlJournalStart
             rlRun "restorecon -RvF /home/${USER_NAME}"
             rlRun "./ssh.exp ${USER_NAME} ${USER_SECRET} localhost boltctl list"
             sleep 2
-            rlRun "userdel -rfZ ${USER_NAME}"
-            sleep 10
+            CREATED_USERS="${USER_NAME} ${CREATED_USERS}"
         done
         rlRun "setsebool ssh_sysadm_login off"
+        for USER_NAME in ${CREATED_USERS} ; do
+            rlRun "userdel -rfZ ${USER_NAME}"
+        done
     rlPhaseEnd
 
     rlPhaseStartCleanup
@@ -154,7 +155,6 @@ rlJournalStart
         rlSECheckAVC
 
         rlFileRestore
-        rlRun "service sshd restart"
         rlServiceRestore ${SERVICE_NAME}
     rlPhaseEnd
 rlJournalPrintText

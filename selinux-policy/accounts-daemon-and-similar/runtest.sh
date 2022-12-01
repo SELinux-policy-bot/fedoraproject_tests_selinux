@@ -119,6 +119,14 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    if seinfo --common file -x | grep -q watch ; then
+    rlPhaseStartTest "bz#1928546 + bz#1933842 + bz#1935232"
+        rlSEMatchPathCon "/usr/libexec/accounts-daemon" "accountsd_exec_t"
+        rlSEMatchPathCon "/etc/gdm" "xdm_etc_t"
+        rlSESearchRule "allow accountsd_t xdm_etc_t : dir { watch } [ ]"
+    rlPhaseEnd
+    fi
+
     rlPhaseStartTest "real scenario"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then

@@ -107,8 +107,7 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "real scenario -- confined users"
-        rlSEConfigureSSH
-
+        CREATED_USERS=""
         rlRun "lpadmin -x cups-pdf" 0-255
         rlRun "lpadmin -p cups-pdf -v cups-pdf:/ -E -P /usr/share/cups/model/CUPS-PDF_opt.ppd"
         rlRun "setsebool ssh_sysadm_login on"
@@ -123,12 +122,14 @@ rlJournalStart
             rlRun "./ssh.exp ${USER_NAME} ${USER_SECRET} localhost lpr -P cups-pdf /usr/share/cups/data/testprint"
             sleep 5
             rlRun "find /home/${USER_NAME} -type f | grep testprint-job"
-            rlRun "userdel -rfZ ${USER_NAME}"
-            sleep 10
+            CREATED_USERS="${USER_NAME} ${CREATED_USERS}"
         done
         rlRun "setsebool selinuxuser_tcp_server off"
         rlRun "setsebool ssh_sysadm_login off"
         rlRun "lpadmin -x cups-pdf"
+        for USER_NAME in ${CREATED_USERS} ; do
+            rlRun "userdel -rfZ ${USER_NAME}"
+        done
     rlPhaseEnd
 
     rlPhaseStartCleanup
@@ -137,7 +138,6 @@ rlJournalStart
 
         rlFileRestore
         rlServiceRestore ${SERVICE_NAME}
-        rlRun "service sshd restart"
     rlPhaseEnd
 rlJournalPrintText
 rlJournalEnd

@@ -73,8 +73,7 @@ rlJournalStart
 
     if ! rlIsRHEL 5 6 7 ; then
     rlPhaseStartTest "real scenario -- user session service"
-        rlSEConfigureSSH
-
+        CREATED_USERS=""
         rlRun "setsebool ssh_sysadm_login on"
         rlLog "configuration says not to test SELinux users: ${DENIED_USERS}"
         for SELINUX_USER in ${ALLOWED_USERS} ; do
@@ -86,10 +85,13 @@ rlJournalStart
             rlRun "./ssh.exp ${USER_NAME} ${USER_SECRET} localhost /usr/bin/systemctl --user --no-pager status colord-session"
             rlRun "./ssh.exp ${USER_NAME} ${USER_SECRET} localhost /usr/bin/systemctl --user --no-pager start colord-session"
             rlRun "./ssh.exp ${USER_NAME} ${USER_SECRET} localhost /usr/bin/systemctl --user --no-pager stop colord-session"
-            rlRun "userdel -rfZ ${USER_NAME}"
-            sleep 10
+            sleep 2
+            CREATED_USERS="${USER_NAME} ${CREATED_USERS}"
         done
         rlRun "setsebool ssh_sysadm_login off"
+        for USER_NAME in ${CREATED_USERS} ; do
+            rlRun "userdel -rfZ ${USER_NAME}"
+        done
     rlPhaseEnd
 
     rlPhaseStartTest "bz#1772669"
@@ -105,6 +107,7 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "real scenario -- bz#1772669"
+        CREATED_USERS=""
         rlRun "setsebool ssh_sysadm_login on"
         rlLog "configuration says not to test SELinux users: ${DENIED_USERS}"
         for SELINUX_USER in ${ALLOWED_USERS} ; do
@@ -115,10 +118,12 @@ rlJournalStart
             rlRun "restorecon -RvF /home/${USER_NAME}"
             rlRun "./ssh.exp ${USER_NAME} ${USER_SECRET} localhost colormgr get-devices"
             sleep 2
-            rlRun "userdel -rfZ ${USER_NAME}"
-            sleep 10
+            CREATED_USERS="${USER_NAME} ${CREATED_USERS}"
         done
         rlRun "setsebool ssh_sysadm_login off"
+        for USER_NAME in ${CREATED_USERS} ; do
+            rlRun "userdel -rfZ ${USER_NAME}"
+        done
     rlPhaseEnd
     fi
 
@@ -132,7 +137,7 @@ rlJournalStart
             fi
         fi
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
-        rlRun "restorecon -Rv /run /var"
+        rlRun "restorecon -Rv /run /var -e /var/ARTIFACTS" 0-255
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
 
@@ -141,7 +146,6 @@ rlJournalStart
         rlSECheckAVC
 
         rlFileRestore
-        rlRun "service sshd restart"
         rlServiceRestore ${SERVICE_NAME}
     rlPhaseEnd
 rlJournalPrintText

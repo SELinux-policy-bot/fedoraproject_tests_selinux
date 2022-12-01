@@ -55,7 +55,7 @@ $(METADATA): Makefile
 	@echo "TestTime:        10m" >> $(METADATA)
 	@echo "RunFor:          accountsservice" >> $(METADATA)
 	@echo "RunFor:          selinux-policy" >> $(METADATA)
-	@echo "Requires:        audit libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted setools-console accountsservice glib2 procps-ng realmd initscripts" >> $(METADATA)
+	@echo "Requires:        audit libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted setools-console accountsservice glib2 procps-ng realmd initscripts gdm" >> $(METADATA)
 	@echo "RhtsRequires:    library(selinux-policy/common)" >> $(METADATA)
 	@echo "Priority:        Normal" >> $(METADATA)
 	@echo "License:         GPLv2" >> $(METADATA)
@@ -80,6 +80,13 @@ $(METADATA): Makefile
 	@echo "Bug:             1829013" >> $(METADATA) # Fedora 32
 	@echo "Bug:             1829075" >> $(METADATA) # Fedora 32
 	@echo "Bug:             1829128" >> $(METADATA) # Fedora 32
+	@echo "Bug:             1928546" >> $(METADATA) # Fedora 34
+	@echo "Bug:             1928565" >> $(METADATA) # Fedora 34
+	@echo "Bug:             1928567" >> $(METADATA) # Fedora 34
+	@echo "Bug:             1933687" >> $(METADATA) # Fedora 34
+	@echo "Bug:             1933842" >> $(METADATA) # RHEL-9
+	@echo "Bug:             1934573" >> $(METADATA) # Fedora 34
+	@echo "Bug:             1935232" >> $(METADATA) # RHEL-9
 
 	rhts-lint $(METADATA)
 

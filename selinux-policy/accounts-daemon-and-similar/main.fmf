@@ -5,6 +5,8 @@ description: |+
 contact: Milos Malik <mmalik@redhat.com>
 component:
   - selinux-policy
+test: ./runtest.sh
+framework: beakerlib
 require:
   - library(selinux-policy/common)
 recommend:
@@ -20,6 +22,7 @@ recommend:
   - procps-ng
   - realmd
   - initscripts
+  - gdm
 environment:
     AVC_ERROR: +no_avc_check
 duration: 10m
@@ -54,13 +57,13 @@ link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1829013
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1829075
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1829128
-  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1935232
-  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1933842
-  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1933687
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1928546
-  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1934573
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1928565
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1928567
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1933687
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1933842
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1934573
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1935232
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6

@@ -108,8 +108,7 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "real scenario -- confined users"
-        rlSEConfigureSSH
-
+        CREATED_USERS=""
         rlRun "setsebool ssh_sysadm_login on"
         rlLog "configuration says not to test SELinux users: ${DENIED_USERS}"
         for SELINUX_USER in ${ALLOWED_USERS} ; do
@@ -131,11 +130,12 @@ rlJournalStart
                 rlRun "./ssh.exp ${USER_NAME} ${USER_SECRET} localhost /usr/sbin/ownership"
             fi
             sleep 2
-            rlRun "userdel -rfZ ${USER_NAME}"
+            CREATED_USERS="${USER_NAME} ${CREATED_USERS}"
         done
         rlRun "setsebool ssh_sysadm_login off"
-        rlFileRestore
-        rlRun "service sshd restart"
+        for USER_NAME in ${CREATED_USERS} ; do
+            rlRun "userdel -rfZ ${USER_NAME}"
+        done
     rlPhaseEnd
 
     rlPhaseStartCleanup
