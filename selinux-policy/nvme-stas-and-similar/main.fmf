@@ -1,0 +1,41 @@
+summary: SELinux interferes with NVME sta* services
+description: |+
+    SELinux interferes with NVME sta* services
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - nvme-stas
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - avahi
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - /usr/sbin/service
+  - nvme-stas
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - NoRHEL8
+  - targeted
+link:
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2111414
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8
+    because: the nvme-stas package is not available there
+extra-summary: /CoreOS/selinux-policy/Regression/nvme-stas-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/nvme-stas-and-similar
+extra-nitrate: TC#0614621
