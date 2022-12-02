@@ -47,6 +47,7 @@ rlJournalStart
         rlAssertRpm ${SERVICE_PACKAGE}
         rlRun "rpm -qa kernel\*"
         rlRun "uname -r"
+        rlRun "yum -y install kernel-modules-`uname -r`"
 
         rlServiceStop ${SERVICE_NAME}
         rlFileBackup /etc/shadow
@@ -101,6 +102,12 @@ rlJournalStart
         rlSESearchRule "allow systemd_rfkill_t syslogd_t : unix_dgram_socket { sendto } [ ]"
     rlPhaseEnd
 
+    if [ -f /sys/fs/selinux/class/capability2/perms/bpf ] ; then
+    rlPhaseStartTest "bz#2149390"
+        rlSESearchRule "allow systemd_rfkill_t systemd_rfkill_t : capability2 { bpf } [ ]"
+    rlPhaseEnd
+    fi
+
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
@@ -111,7 +118,7 @@ rlJournalStart
         fi
         rlRun "modprobe rfkill"
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
-        rlRun "restorecon -Rv /run /var" 0-255
+        rlRun "restorecon -Rv /run /var -e /var/ARTIFACTS" 0-255
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
 
