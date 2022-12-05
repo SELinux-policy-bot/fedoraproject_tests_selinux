@@ -62,13 +62,9 @@ $(METADATA): Makefile
 	@echo "Confidential:    no" >> $(METADATA)
 	@echo "Destructive:     no" >> $(METADATA)
 	@echo "Releases:        -RHEL4 -RHEL5 -RHEL6 -RHEL7 -RHEL8" >> $(METADATA)
-	@echo "Bug:             1898298" >> $(METADATA) # Fedora 33
+	@echo "Bug:             1461313" >> $(METADATA) # Fedora 32
 	@echo "Bug:             1899548" >> $(METADATA) # Fedora 33
-	@echo "Bug:             1900383" >> $(METADATA) # Fedora 33
-	@echo "Bug:             1900386" >> $(METADATA) # Fedora 33
-	@echo "Bug:             1900388" >> $(METADATA) # Fedora 33
-	@echo "Bug:             1900390" >> $(METADATA) # Fedora 33
-	@echo "Bug:             1900391" >> $(METADATA) # Fedora 33
+	@echo "Bug:             2023163" >> $(METADATA) # Fedora 35
 
 	rhts-lint $(METADATA)
 

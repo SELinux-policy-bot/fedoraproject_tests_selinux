@@ -62,26 +62,9 @@ rlJournalStart
         sleep 2
     rlPhaseEnd
 
-    rlPhaseStartTest "bz#1898298"
-        rlSEMatchPathCon "/usr/bin/rpmdb" "rpmdb_exec_t"
-        rlSEMatchPathCon "/etc/resolv.conf" "net_conf_t"
-        rlSESearchRule "allow rpmdb_t net_conf_t : lnk_file { getattr read } [ ]"
-    rlPhaseEnd
-
     rlPhaseStartTest "bz#1899548"
-        # also covers duplicates: 1900383, 1900386, 1900388, 1900389, 1900390, 1900391
         rlSEMatchPathCon "/usr/bin/rpmdb" "rpmdb_exec_t"
-        rlSEMatchPathCon "/var/lib/sss/mc/passwd" "sssd_public_t"
-        rlSEMatchPathCon "/var/lib/sss/pipes/nss" "sssd_var_lib_t"
-        rlSEMatchPathCon "/run/dbus/system_bus_socket" "system_dbusd_var_run_t"
         rlSESearchRule "allow rpmdb_t user_devpts_t : chr_file { read write } [ ]"
-        rlSESearchRule "dontaudit rpmdb_t sssd_public_t : file { getattr open map } [ ]"
-        rlSESearchRule "dontaudit rpmdb_t sssd_var_lib_t : sock_file { write } [ ]"
-        rlSESearchRule "dontaudit rpmdb_t sssd_t : unix_stream_socket { connectto } [ ]"
-        rlSESearchRule "dontaudit rpmdb_t system_dbusd_var_run_t : sock_file { write } [ ]"
-        rlSESearchRule "dontaudit rpmdb_t system_dbusd_t : unix_stream_socket { connectto } [ ]"
-        rlSESearchRule "dontaudit rpmdb_t system_dbusd_t : dbus { send_msg } [ ]"
-        rlSESearchRule "dontaudit system_dbusd_t rpmdb_t : dbus { send_msg } [ ]"
     rlPhaseEnd
 
     rlPhaseStartTest "real scenario -- standalone service"
