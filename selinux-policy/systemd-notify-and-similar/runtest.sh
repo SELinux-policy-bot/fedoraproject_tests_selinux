@@ -31,6 +31,11 @@
 
 PACKAGE="selinux-policy"
 SERVICE_PACKAGE="systemd"
+#ALLOWED_USERS="guest_u xguest_u user_u staff_u sysadm_u unconfined_u"
+ALLOWED_USERS="sysadm_u unconfined_u"
+SYSTEMD_SYSTEM_SERVICE="/etc/systemd/system/local-notifier.service"
+SYSTEMD_USER_SERVICE="/etc/systemd/user/local-notifier.service"
+SYSTEMD_PAGER=""
 
 rlJournalStart
     rlLog "If this test fails, please contact mmalik on IRC #selinux"
@@ -49,11 +54,12 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "bz#1903305"
-        rlSEMatchPathCon "/usr/bin/systemd-notify" "systemd_notify_exec_t"
+        if rlIsFedora ">36"; then
+            rlSEMatchPathCon "/usr/bin/systemd-notify" "bin_t"
+        else # Fedora up to 36 and RHEL
+            rlSEMatchPathCon "/usr/bin/systemd-notify" "systemd_notify_exec_t"
+        fi
         rlSESearchRule "allow init_t unconfined_t : fifo_file { write } [ ]"
-        rlSESearchRule "allow systemd_notify_t user_devpts_t : chr_file { read write append } [ ]"
-        rlSESearchRule "allow systemd_notify_t systemd_notify_t : capability { net_admin } [ ]"
-        rlSESearchRule "allow systemd_notify_t kernel_t : unix_dgram_socket { sendto } [ ]"
     rlPhaseEnd
 
     rlPhaseStartTest "real scenario -- bz#1903305"
@@ -62,21 +68,36 @@ rlJournalStart
         rlRun "NOTIFY_SOCKET=/run/systemd/notify systemd-notify --ready"
     rlPhaseEnd
 
-    rlPhaseStartTest "real scenario -- runcon under root"
-        rlRun "NOTIFY_SOCKET=/run/systemd/notify runcon system_u:system_r:initrc_t:s0 bash -c 'systemd-notify --ready'"
-        sleep 1
-        rlRun "NOTIFY_SOCKET=/run/systemd/notify runcon system_u:system_r:initrc_t:s0 bash -c 'systemd-notify --ready'"
-    rlPhaseEnd
-
-    rlPhaseStartTest "real scenario -- unconfined service uses systemd-notify"
+    rlPhaseStartTest "real scenario -- unconfined or user services use systemd-notify"
         rlRun "cp -f notifier.sh /usr/local/bin/"
-        rlRun "cp -f local-notifier.service /usr/lib/systemd/system/"
-        rlRun "restorecon -v /usr/local/bin/notifier.sh /usr/lib/systemd/system/local-notifier.service"
+        rlRun "cp -f local-notifier.service /etc/systemd/system/"
+        rlRun "cp -f local-notifier.service /etc/systemd/user/"
+        rlRun "restorecon -v /usr/local/bin/notifier.sh ${SYSTEMD_SYSTEM_SERVICE} ${SYSTEMD_USER_SERVICE}"
         rlRun "systemctl daemon-reload"
-        rlRun "service local-notifier start"
+        # run the local-notifier service as a system service
+        rlRun "systemctl start local-notifier"
         sleep 2
-        rlRun "service local-notifier status"
-        rlRun "rm -f /usr/lib/systemd/system/local-notifier.service /usr/local/bin/notifier.sh"
+        rlRun "systemctl status local-notifier"
+        # run the same service as a user service
+        rlRun "setsebool ssh_sysadm_login on"
+        CREATED_USERS=""
+        for SELINUX_USER in ${ALLOWED_USERS} ; do
+            USER_NAME="user${RANDOM}"
+            USER_SECRET="S3kr3t${RANDOM}"
+            rlRun "useradd -Z ${SELINUX_USER} ${USER_NAME}"
+            rlRun "echo ${USER_SECRET} | passwd --stdin ${USER_NAME}"
+            rlRun "restorecon -Rv /home/${USER_NAME}"
+            rlRun "./ssh.exp ${USER_NAME} ${USER_SECRET} localhost systemctl --no-pager --user start local-notifier"
+            rlRun "./ssh.exp ${USER_NAME} ${USER_SECRET} localhost systemctl --no-pager --user status local-notifier"
+            rlRun "./ssh.exp ${USER_NAME} ${USER_SECRET} localhost journalctl --no-pager --user -u local-notifier"
+            CREATED_USERS="${USER_NAME} ${CREATED_USERS}"
+        done
+        rlRun "setsebool ssh_sysadm_login off"
+        for USER_NAME in ${CREATED_USERS} ; do
+            rlRun "userdel -rfZ ${USER_NAME}"
+        done
+        # cleanup
+        rlRun "rm -f /usr/local/bin/notifier.sh ${SYSTEMD_SYSTEM_SERVICE} ${SYSTEMD_USER_SERVICE}"
         rlRun "systemctl daemon-reload"
     rlPhaseEnd
 
