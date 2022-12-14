@@ -41,7 +41,19 @@ link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1685689
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1825894
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2017838
-  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1703241
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2075527
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2124427
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2125762
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2137323
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2139623
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2143157
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2143746
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2144150
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2149093
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2149346
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2152544
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2152588
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2152823
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6
