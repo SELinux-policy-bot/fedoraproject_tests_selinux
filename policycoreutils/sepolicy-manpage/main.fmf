@@ -6,14 +6,16 @@ component:
 framework: beakerlib
 recommend:
   - /usr/bin/sepolicy
-duration: 10m
+duration: 20m
 enabled: true
 tier: 3
 link:
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1416372
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1854639
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1989840
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6
     because: the sepolicy command is not available there
+extra-nitrate: TC#0614751
 

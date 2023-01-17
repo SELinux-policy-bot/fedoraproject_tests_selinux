@@ -7,6 +7,15 @@ rlJournalStart
         rlRun "rpm -qa | grep policycoreutils"
     rlPhaseEnd
 
+    rlPhaseStartTest "bz#1416372"
+        rlRun -s "sepolicy manpage -a"
+        rlRun "grep -i -e invalid -e error -e traceback ${rlRun_LOG}" 1
+        rm -f ${rlRun_LOG}
+        rlRun -s "sepolicy manpage -d crond_t"
+        rlRun "grep -i -e invalid -e error -e traceback ${rlRun_LOG}" 1
+        rm -f ${rlRun_LOG}
+    rlPhaseEnd
+
     rlPhaseStartTest "sepolicy manpage --web, bz#1854639 + bz#1989840"
         rlRun "sepolicy manpage --web -d zebra_t"
         if rlIsRHEL 7 8 ; then
