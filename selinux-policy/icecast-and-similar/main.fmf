@@ -1,0 +1,44 @@
+summary: SELinux interferes with icecast and related programs
+description: |+
+    SELinux interferes with icecast and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+test: ./runtest.sh
+framework: beakerlib
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - /usr/sbin/service
+  - icecast
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - TIPpass_Security
+  - TierCandidatesPASS
+  - f31friendly
+  - f32friendly
+  - targeted
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=894387
+adjust:
+  - enabled: false
+    when: arch == i386, ppc, ppc64, s390
+    continue: false
+  - enabled: false
+    when: distro == rhel-4, rhel-8, rhel-9
+    continue: false
+extra-nitrate: TC#0388472
+extra-summary: /CoreOS/selinux-policy/Regression/icecast-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/icecast-and-similar
