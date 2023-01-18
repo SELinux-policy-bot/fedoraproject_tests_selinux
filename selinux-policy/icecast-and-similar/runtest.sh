@@ -79,6 +79,14 @@ rlJournalStart
             rlSESearchRule "dontaudit icecast_t tmp_t : dir { read }"
         fi
     rlPhaseEnd
+
+    rlPhaseStartTest "bz#2156763"
+        rlSEMatchPathCon "/usr/bin/icecast" "icecast_exec_t"
+        rlSEMatchPathCon "/var/log/icecast" "icecast_log_t"
+        rlSEMatchPathCon "/var/log/icecast/error.log" "icecast_log_t"
+        rlSESearchRule "allow icecast_t icecast_log_t : dir { remove_name } [ ]"
+        rlSESearchRule "allow icecast_t icecast_log_t : file { rename } [ ]"
+    rlPhaseEnd
     fi
 
     rlPhaseStartTest "real scenario -- bz#894387"
@@ -96,7 +104,12 @@ rlJournalStart
                 PROCESS_CONTEXT="unconfined_service_t"
             fi
         fi
-        rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status restart status stop status" 1
+        rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
+        rlRun "sed -i 's|^\(.*logsize>\).*\(</logsize.*\)$|\11\2|' /etc/icecast.xml"
+        rlRun "grep logsize /etc/icecast.xml"
+        rlRun "sed -i 's|^.*\(<logarchive.*logarchive>\).*$|\1|' /etc/icecast.xml"
+        rlRun "grep logarchive /etc/icecast.xml"
+        rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
         if rlIsRHEL 5 6 ; then
             rlRun "setsebool icecast_connect_any off"
         else

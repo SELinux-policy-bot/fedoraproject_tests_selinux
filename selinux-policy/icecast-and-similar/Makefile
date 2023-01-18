@@ -64,6 +64,7 @@ $(METADATA): Makefile
 	@echo "Releases:        -RHEL4 -RHEL8 -RHEL9" >> $(METADATA)
 	@echo "Architectures:   aarch64 ppc64le s390x x86_64" >> $(METADATA)
 	@echo "Bug:             894387" >> $(METADATA) # RHEL-6
+	@echo "Bug:             2156763" >> $(METADATA) # Fedora 36
 
 	rhts-lint $(METADATA)
 
