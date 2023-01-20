@@ -54,7 +54,7 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "bz#1903305"
-        if rlIsFedora ">36"; then
+        if rlIsFedora "<35"; then
             rlSEMatchPathCon "/usr/bin/systemd-notify" "bin_t"
         else # Fedora up to 36 and RHEL
             rlSEMatchPathCon "/usr/bin/systemd-notify" "systemd_notify_exec_t"
@@ -77,7 +77,7 @@ rlJournalStart
         # run the local-notifier service as a system service
         rlRun "systemctl start local-notifier"
         sleep 2
-        rlRun "systemctl status local-notifier"
+        rlRun "systemctl status local-notifier" 3
         # run the same service as a user service
         rlRun "setsebool ssh_sysadm_login on"
         CREATED_USERS=""

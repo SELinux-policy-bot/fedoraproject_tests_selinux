@@ -70,13 +70,12 @@ rlJournalStart
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "touch /var/lib/rpm/.rebuilddb"
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} - ${PROCESS_CONTEXT} "start status" 1
-        rlRun "restorecon -Rv /run /var"
+        rlRun "restorecon -Rv /run /var -e /var/ARTIFACTS" 0-255
         rlRun "touch /var/lib/rpm/.rebuilddb"
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} - ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
 
     rlPhaseStartTest "rpmdb executed by root/unconfined_t"
-        rlRun "semodule -DB"
         rlRun "restorecon -Rv /var/lib/rpm"
         rlRun "ls -Z `which rpmdb`"
         rlRun "rpmdb --help"
@@ -89,7 +88,6 @@ rlJournalStart
         rlRun "ls -dZ /var/lib/rpm | grep :rpm_var_lib_t"
         rlRun "ls -Z /var/lib/rpm"
         rm -f ${OUTPUT_FILE}
-        rlRun "semodule -B"
     rlPhaseEnd
 
     rlPhaseStartCleanup

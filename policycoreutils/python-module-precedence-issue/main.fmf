@@ -1,7 +1,6 @@
 summary: Harden tools to avoid loading of unchecked python modules.
 description: Tools like semanage must be hardened to avoid loading rogue python modules that could lead to unexpected failures.
 contact: Amith Kumar <apeetham@redhat.com>
-
 component:
   - policycoreutils
 test: ./runtest.sh
@@ -27,3 +26,4 @@ adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6
     continue: false
+extra-nitrate: TC#0614726

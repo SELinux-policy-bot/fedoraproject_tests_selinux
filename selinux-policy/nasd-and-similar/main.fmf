@@ -16,9 +16,15 @@ recommend:
   - selinux-policy-targeted
   - setools-console
   - nas
+  - perl-Perl4-CoreLibs
   - /usr/sbin/service
 environment:
     AVC_ERROR: +no_avc_check
 duration: 10m
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8
+    because: the nas package is not available there
 extra-summary: /CoreOS/selinux-policy/Regression/nasd-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/nasd-and-similar
+extra-nitrate: TC#0614607

@@ -26,5 +26,10 @@ duration: 1h
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1834325
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1855163
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8, rhel-9
+    because: the ladvd package is not available there
 extra-summary: /CoreOS/selinux-policy/Regression/ladvd
 extra-task: /CoreOS/selinux-policy/Regression/ladvd
+extra-nitrate: TC#0614606

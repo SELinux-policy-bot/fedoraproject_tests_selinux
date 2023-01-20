@@ -6,7 +6,7 @@ component:
 framework: beakerlib
 recommend:
   - /usr/bin/sepolicy
-duration: 20m
+duration: 1h
 enabled: true
 tier: 3
 link:

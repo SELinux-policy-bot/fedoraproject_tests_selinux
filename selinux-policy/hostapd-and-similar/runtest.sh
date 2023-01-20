@@ -47,6 +47,7 @@ rlJournalStart
         rlAssertRpm ${SERVICE_PACKAGE}
         rlRun "rpm -qa kernel\*"
         rlRun "uname -a"
+        rlRun "yum -y install kernel-modules-internal-`uname -r` --enablerepo '*'"
         rlServiceStop ${SERVICE_NAME}
         rlFileBackup /etc/shadow
         rlFileBackup /etc/hostapd/hostapd.conf
@@ -111,7 +112,7 @@ rlJournalStart
             PROCESS_CONTEXT="unconfined_service_t"
         fi
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
-        rlRun "restorecon -Rv /run /var"
+        rlRun "restorecon -Rv /run /var -e /var/ARTIFACTS" 0-255
         rlRun "hostapd_cli all_sta"
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd

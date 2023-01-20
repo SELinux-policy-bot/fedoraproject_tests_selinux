@@ -20,5 +20,10 @@ environment:
 duration: 1h
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1809878
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8, rhel-9
+    because: the systemd-homed program is not available there
 extra-summary: /CoreOS/selinux-policy/Regression/systemd-homed
 extra-task: /CoreOS/selinux-policy/Regression/systemd-homed
+extra-nitrate: TC#0614608

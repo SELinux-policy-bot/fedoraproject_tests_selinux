@@ -11,6 +11,7 @@ require:
   - library(selinux-policy/common)
 recommend:
   - audit
+  - expect
   - libselinux
   - libselinux-utils
   - policycoreutils

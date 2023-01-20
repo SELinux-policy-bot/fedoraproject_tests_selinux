@@ -55,14 +55,14 @@ $(METADATA): Makefile
 	@echo "TestTime:        10m" >> $(METADATA)
 	@echo "RunFor:          nas" >> $(METADATA)
 	@echo "RunFor:          selinux-policy" >> $(METADATA)
-	@echo "Requires:        audit libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted setools-console nas /usr/sbin/service" >> $(METADATA)
+	@echo "Requires:        audit libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted setools-console nas /usr/sbin/service perl-Perl4-CoreLibs" >> $(METADATA)
 	@echo "RhtsRequires:    library(selinux-policy/common)" >> $(METADATA)
 	@echo "Environment:     AVC_ERROR=+no_avc_check" >> $(METADATA)
 	@echo "Priority:        Normal" >> $(METADATA)
 	@echo "License:         GPLv2" >> $(METADATA)
 	@echo "Confidential:    no" >> $(METADATA)
 	@echo "Destructive:     no" >> $(METADATA)
-	@echo "Releases:        -RHEL4 -RHEL5 -RHEL6 -RHEL7" >> $(METADATA)
+	@echo "Releases:        -RHEL4 -RHEL5 -RHEL6 -RHEL7 -RHEL8" >> $(METADATA)
 
 	rhts-lint $(METADATA)
 
