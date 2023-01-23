@@ -80,7 +80,7 @@ rlJournalStart
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "sed -i 's/^\(include.*\)$/# \1/' /etc/bgpd.conf"
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
-        rlRun "restorecon -Rv /run /var" 0-255
+        rlRun "restorecon -Rv /run /var -e /var/ARTIFACTS" 0-255
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
 

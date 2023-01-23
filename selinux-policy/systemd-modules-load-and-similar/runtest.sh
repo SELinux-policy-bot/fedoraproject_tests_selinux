@@ -110,7 +110,7 @@ rlJournalStart
         rlRun "lsmod"
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} - ${PROCESS_CONTEXT} "start status" 1
         rlRun "lsmod | grep ${KERNEL_MODULE}"
-        rlRun "restorecon -Rv /run /var" 0-255
+        rlRun "restorecon -Rv /run /var -e /var/ARTIFACTS" 0-255
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} - ${PROCESS_CONTEXT} "stop status" 1
         rlRun "lsmod"
         rlRun "rm -f /etc/modules-load.d/${KERNEL_MODULE}.conf"

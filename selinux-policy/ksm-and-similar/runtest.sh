@@ -86,7 +86,7 @@ rlJournalStart
         rlRun "sed -i 's/^ConditionVirtualization=.*$//' /usr/lib/systemd/system/ksm.service"
         rlRun "systemctl daemon-reload"
         rlSEService - ${SERVICE_NAME} - ${PROCESS_CONTEXT} "start status" 1
-        rlRun "restorecon -Rv /etc /run /var" 0-255
+        rlRun "restorecon -Rv /etc /run /var -e /var/ARTIFACTS" 0-255
         rlSEService - ${SERVICE_NAME} - ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
 

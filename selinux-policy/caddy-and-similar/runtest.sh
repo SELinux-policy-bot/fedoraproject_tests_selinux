@@ -72,7 +72,7 @@ rlJournalStart
         rlRun "semanage fcontext -l -C | grep caddy"
         for SERVICE_NAME in caddy caddy-api ; do
             rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
-            rlRun "restorecon -Rv /run /var" 0-255
+            rlRun "restorecon -Rv /run /var -e /var/ARTIFACTS" 0-255
             rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
         done
     rlPhaseEnd
