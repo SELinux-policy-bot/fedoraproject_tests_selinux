@@ -125,6 +125,7 @@ rlJournalStart
         rlSEStatus
         rlSESetTimestamp
         sleep 2
+        rlRun "systemctl enable systemd-homed"
     rlPhaseEnd
 
     rlPhaseStartTest "homectl create"
@@ -216,6 +217,7 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartCleanup
+        rlRun "systemctl disable systemd-homed"
         sleep 2
         rlSECheckAVC
         rlRun "rm -f /tmp/avcfile"
