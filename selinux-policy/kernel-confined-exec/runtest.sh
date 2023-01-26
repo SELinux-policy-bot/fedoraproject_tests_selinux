@@ -39,12 +39,16 @@ rlJournalStart
     rlPhaseStartTest "Policy rules"
         rlLog "kernel_t shouldn't be allowed to execute any file without transition"
 
+        # Only check execute_no_trans and a couple of unexpected type
+        # transitions. Plain 'execute' has to be allowed broadly due to
+        # overlayfs mounter checks. (Think overlayfs mounted before policy
+        # is loaded.)
         rlSESearchRule "allow kernel_t file_type:file { execute_no_trans } []" 1 \
             "kernel_t shouldn't be allowed to execute any file without transition"
-        rlSESearchRule "allow kernel_t user_home_t:file { execute entrypoint }" 1 \
-            "kernel_t shouldn't be allowed to execute files in user home directories"
-        rlSESearchRule "allow kernel_t user_tmp_t:file { execute entrypoint }" 1 \
-            "kernel_t shouldn't be allowed to execute user temporary files"
+        rlSESearchRule "type_transition kernel_t user_home_t:process domain;" 1 \
+            "kernel_t shouldn't have any transition defined over files in user home directories"
+        rlSESearchRule "type_transition kernel_t user_tmp_t:process domain;" 1 \
+            "kernel_t shouldn't have any transition defined over user temporary files"
     rlPhaseEnd
 
     rlPhaseStartTest "Legit modprobe"
