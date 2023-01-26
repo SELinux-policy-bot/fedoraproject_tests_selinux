@@ -51,8 +51,8 @@ rlJournalStart
 
     rlPhaseStartTest "bz#2096857 + bz#2097681"
         rlSEMatchPathCon "/usr/bin/systemd-creds" "bin_t"
-        rlRun "seinfo --genfscon | grep :ramfs_t"
-        rlSESearchRule "allow init_t ramfs_t : file { read write open setattr rename create } [ ]"
+        rlSEMatchPathCon "/dev/shm" "tmpfs_t"
+        rlSESearchRule "allow init_t tmpfs_t : file { read write open setattr rename create } [ ]"
     rlPhaseEnd
 
     rlPhaseStartTest "a systemd service loading credentials"

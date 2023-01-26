@@ -23,6 +23,7 @@ enabled: true
 tag:
   - Tier2
   - Tier2se
+  - targeted
 tier: '2'
 adjust:
   - enabled: false
