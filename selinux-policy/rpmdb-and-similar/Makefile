@@ -54,7 +54,7 @@ $(METADATA): Makefile
 	@echo "Type:            Regression" >> $(METADATA)
 	@echo "TestTime:        10m" >> $(METADATA)
 	@echo "RunFor:          selinux-policy" >> $(METADATA)
-	@echo "Requires:        audit libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted setools-console initscripts sssd" >> $(METADATA)
+	@echo "Requires:        audit libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted setools-console /usr/sbin/service sssd" >> $(METADATA)
 	@echo "RhtsRequires:    library(selinux-policy/common)" >> $(METADATA)
 	@echo "Environment:     AVC_ERROR=+no_avc_check" >> $(METADATA)
 	@echo "Priority:        Normal" >> $(METADATA)
@@ -65,6 +65,7 @@ $(METADATA): Makefile
 	@echo "Bug:             1461313" >> $(METADATA) # Fedora 32
 	@echo "Bug:             1899548" >> $(METADATA) # Fedora 33
 	@echo "Bug:             2023163" >> $(METADATA) # Fedora 35
+	@echo "Bug:             2164752" >> $(METADATA) # Fedora 37
 
 	rhts-lint $(METADATA)
 

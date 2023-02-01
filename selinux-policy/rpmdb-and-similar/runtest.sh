@@ -30,7 +30,6 @@
 . /usr/share/beakerlib/beakerlib.sh || exit 1
 
 PACKAGE="selinux-policy"
-ROOT_PASSWORD="redhat"
 SERVICE_PACKAGE="rpm"
 SERVICE_NAME="rpmdb-rebuild"
 PROCESS_NAME="rpmdb"
@@ -69,10 +68,10 @@ rlJournalStart
 
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "touch /var/lib/rpm/.rebuilddb"
-        rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} - ${PROCESS_CONTEXT} "start status" 1
+        rlSEService - ${SERVICE_NAME} - ${PROCESS_CONTEXT} "start status" 1
         rlRun "restorecon -Rv /run /var -e /var/ARTIFACTS" 0-255
         rlRun "touch /var/lib/rpm/.rebuilddb"
-        rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} - ${PROCESS_CONTEXT} "restart status stop status" 1
+        rlSEService - ${SERVICE_NAME} - ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
 
     rlPhaseStartTest "rpmdb executed by root/unconfined_t"
@@ -88,6 +87,25 @@ rlJournalStart
         rlRun "ls -dZ /var/lib/rpm | grep :rpm_var_lib_t"
         rlRun "ls -Z /var/lib/rpm"
         rm -f ${OUTPUT_FILE}
+    rlPhaseEnd
+
+    rlPhaseStartTest "bz#2164752"
+        rlSEMatchPathCon "/usr/bin/rpm" "rpm_exec_t"
+        rlSEMatchPathCon "/usr/lib/rpm/rpmdb_migrate" "rpmdb_exec_t"
+        rlSEMatchPathCon "/var/lib/rpm" "rpm_var_lib_t"
+        rlSEMatchPathCon "/var/lib/rpm/.migratedb" "rpm_var_lib_t"
+        rlSESearchRule "allow rpmdb_t shell_exec_t : file { map execute } [ ]"
+        rlSESearchRule "allow rpmdb_t rpm_exec_t : file { getattr open read map execute } [ ]"
+        rlSESearchRule "allow rpmdb_t bin_t : file { getattr open read execute execute_no_trans } [ ]"
+        rlSESearchRule "allow rpmdb_t rpm_var_lib_t : lnk_file { getattr read } [ ]"
+    rlPhaseEnd
+
+    rlPhaseStartTest "real scenario -- rpmdb-migrate service"
+        rlRun "touch /var/lib/rpm/.migratedb"
+        rlSEService - rpmdb-migrate - rpmdb_t "start status" 1
+        rlRun "restorecon -Rv /run /var -e /var/ARTIFACTS" 0-255
+        rlRun "touch /var/lib/rpm/.migratedb"
+        rlSEService - rpmdb-migrate - rpmdb_t "restart status stop status" 1
     rlPhaseEnd
 
     rlPhaseStartCleanup

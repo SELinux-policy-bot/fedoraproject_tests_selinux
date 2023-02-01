@@ -16,7 +16,7 @@ recommend:
   - selinux-policy
   - selinux-policy-targeted
   - setools-console
-  - initscripts
+  - /usr/sbin/service
   - sssd
 environment:
     AVC_ERROR: +no_avc_check
@@ -32,6 +32,7 @@ link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1461313
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1899548
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2023163
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2164752
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8
