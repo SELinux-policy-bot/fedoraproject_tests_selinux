@@ -1,0 +1,4 @@
+PURPOSE of /CoreOS/selinux-policy/Regression/rpc.idmapd-and-similar
+Description: SELinux interferes with rpc.idmapd and related programs
+Author: Milos Malik <mmalik@redhat.com>
+
