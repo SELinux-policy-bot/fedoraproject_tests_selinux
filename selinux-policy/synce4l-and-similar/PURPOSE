@@ -1,0 +1,4 @@
+PURPOSE of /CoreOS/selinux-policy/Regression/synce4l-and-similar
+Description: SELinux interferes with synce4l service and related programs
+Author: Milos Malik <mmalik@redhat.com>
+
