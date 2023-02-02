@@ -1,0 +1,6 @@
+PURPOSE of /CoreOS/selinux-policy/Regression/bootupd-and-similar
+Description: SELinux interferes with the bootupd service and related programs
+Author: Milos Malik <mmalik@redhat.com>
+
+The TC needs a machine with EFI for successful run.
+

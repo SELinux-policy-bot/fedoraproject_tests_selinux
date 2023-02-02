@@ -1,0 +1,45 @@
+summary: SELinux interferes with the bootupd service and related programs
+description: |+
+    SELinux interferes with the bootupd service and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - /usr/sbin/service
+  - bootupd
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - Tier3
+  - Tier3se
+  - targeted
+tier: '3'
+link:
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2029478
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2044508
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7
+    because: the package is not available there
+  - enabled: false
+    when: arch == ppc64, ppc64le, s390x
+    because: the package is not built for all architectures
+extra-summary: /CoreOS/selinux-policy/Regression/bootupd-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/bootupd-and-similar
+extra-nitrate: TC#0614833
