@@ -106,8 +106,6 @@ rlJournalStart
     fi
 
     rlPhaseStartTest "real scenario -- confined users"
-        rlSEConfigureSSH
-
         rlRun "setsebool ssh_sysadm_login on"
         rlLog "configuration says not to test SELinux users: ${DENIED_USERS}"
         for SELINUX_USER in ${ALLOWED_USERS} ; do
@@ -124,9 +122,20 @@ rlJournalStart
             sleep 10
         done
         rlRun "setsebool ssh_sysadm_login off"
+    rlPhaseEnd
 
-        rlFileRestore
-        rlRun "service sshd restart"
+    rlPhaseStartTest "bz#2136189 + bz#2153782"
+        rlSESearchRule "allow journalctl_t journalctl_t : capability { sys_resource } [ ]"
+        rlSESearchRule "allow journalctl_t journalctl_t : process { setrlimit } [ ]"
+
+        rlRun "setsebool ssh_sysadm_login on"
+        USER_NAME="toor"
+        USER_SECRET="S3kr3t${RANDOM}"
+        rlRun "useradd -o -u 0 -g 0 -Z sysadm_u ${USER_NAME}"
+        rlRun "echo ${USER_SECRET} | passwd --stdin ${USER_NAME}"
+        rlRun "./ssh.exp ${USER_NAME} ${USER_SECRET} localhost journalctl -l --pager"
+        rlRun "userdel -rfZ ${USER_NAME}"
+        rlRun "setsebool ssh_sysadm_login off"
     rlPhaseEnd
 
     rlPhaseStartCleanup
