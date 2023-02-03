@@ -134,6 +134,12 @@ rlJournalStart
         rlSESearchRule "allow modemmanager_t modem_device_t : chr_file { getattr open read write ioctl } [ ]"
         rlSESearchRule "allow modemmanager_t unconfined_t : unix_stream_socket { connectto } [ ]"
     rlPhaseEnd
+
+    rlPhaseStartTest "bz#2145005 + bz#2149560 + bz#2149954"
+        rlSESearchRule "allow modemmanager_t modemmanager_t : netlink_route_socket { create getopt getattr nlmsg_write } [ ]"
+        rlSESearchRule "allow modemmanager_t sysfs_t : dir { write add_name } [ ]"
+        rlSESearchRule "allow modemmanager_t sysfs_t : file { create } [ ]"
+    rlPhaseEnd
     fi
 
     rlPhaseStartCleanup

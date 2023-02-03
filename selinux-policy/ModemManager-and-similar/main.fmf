@@ -49,6 +49,9 @@ link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2001144
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2001145
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2036582
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2145005
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2149560
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2149954
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5
