@@ -16,9 +16,9 @@ recommend:
   - selinux-policy
   - selinux-policy-targeted
   - setools-console
-  - cups-filters
+  - /usr/sbin/cups-browsed
   - cups
-  - initscripts
+  - /usr/sbin/service
 environment:
     AVC_ERROR: +no_avc_check
 duration: 15m
