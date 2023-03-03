@@ -55,8 +55,7 @@ $(METADATA): Makefile
 	@echo "TestTime:        10m" >> $(METADATA)
 	@echo "RunFor:          selinux-policy" >> $(METADATA)
 	@echo "RunFor:          systemd" >> $(METADATA)
-	@echo "Requires:        audit libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted setools-console systemd-udev initscripts" >> $(METADATA)
-	@echo "Requires:        systemd-timesyncd" >> $(METADATA) # EPEL
+	@echo "Requires:        audit libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted setools-console /usr/sbin/service /usr/lib/systemd/systemd-timesyncd" >> $(METADATA) # EPEL
 	@echo "RhtsRequires:    library(selinux-policy/common)" >> $(METADATA)
 	@echo "Environment:     AVC_ERROR=+no_avc_check" >> $(METADATA)
 	@echo "Priority:        Normal" >> $(METADATA)
@@ -74,6 +73,7 @@ $(METADATA): Makefile
 	@echo "Bug:             1822131" >> $(METADATA) # Fedora 32
 	@echo "Bug:             1869979" >> $(METADATA) # RHEL-8
 	@echo "Bug:             1949315" >> $(METADATA) # Fedora 34
+	@echo "Bug:             2175137" >> $(METADATA) # RHEL-9
 
 	rhts-lint $(METADATA)
 

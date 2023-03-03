@@ -33,7 +33,7 @@ PACKAGE="selinux-policy"
 ROOT_PASSWORD="redhat"
 FILE_PATH="/usr/lib/systemd/systemd-timesyncd"
 FILE_CONTEXT="systemd_timedated_exec_t"
-SERVICE_PACKAGE="systemd-udev"
+SERVICE_PACKAGE=`rpm -qf ${FILE_PATH}`
 SERVICE_NAME="systemd-timesyncd"
 PROCESS_NAME="systemd-timesyncd"
 PROCESS_CONTEXT="systemd_timedated_t"
@@ -109,9 +109,15 @@ rlJournalStart
         rlSESearchRule "allow systemd_timedated_t root_t : dir { watch } [ ]"
         rlSESearchRule "allow systemd_timedated_t var_run_t : dir { watch } [ ]"
     rlPhaseEnd
+
+    rlPhaseStartTest "bz#2175137"
+        rlSEMatchPathCon "/usr/lib/systemd/systemd-timesyncd" "systemd_timedated_exec_t"
+        rlSEMatchPathCon "/run/systemd/" "init_var_run_t"
+        rlSESearchRule "allow systemd_timedated_t init_var_run_t : dir { watch } [ ]"
+    rlPhaseEnd
     fi
 
-    if systemctl list-units | grep -q ${SERVICE_NAME} ; then
+    if systemctl list-unit-files | grep -q ${SERVICE_NAME} ; then
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then

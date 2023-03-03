@@ -16,9 +16,8 @@ recommend:
   - selinux-policy
   - selinux-policy-targeted
   - setools-console
-  - systemd-udev
-  - initscripts
-  - systemd-timesyncd
+  - /usr/sbin/service
+  - /usr/lib/systemd/systemd-timesyncd
 environment:
     AVC_ERROR: +no_avc_check
 duration: 10m
@@ -49,9 +48,13 @@ link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1869979
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1949315
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1970865
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2175137
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-alt-7
+    because: the systemd-timesyncd service is not available there
+  - enabled: false
+    when: arch == i386, ppc64, s390
     continue: false
 extra-nitrate: TC#0606395
 extra-summary: /CoreOS/selinux-policy/Regression/systemd-timesyncd-and-similar
