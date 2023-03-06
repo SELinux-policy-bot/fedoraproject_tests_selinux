@@ -35,7 +35,7 @@ PACKAGE="selinux-policy"
 # This should be updated as needed after verifying that the new version
 # doesn't break testing and after applying all necessary tweaks in the TC.
 # Run with GIT_BRANCH=master to run the latest upstream version.
-DEFAULT_COMMIT="3389abeaa3bb6fdf23a0f2d8b1550fae69f9c52e"
+DEFAULT_COMMIT="5fc5dc9f5964aae3a6dce57178b25ddc49d21415"
 # Default pull requests to merge before running the test.
 # If non-empty, then after checking out GIT_BRANCH the listed upstream pull
 # requests (by number) are merged, creating a new temporary local branch.
@@ -345,6 +345,12 @@ rlJournalStart
                 rlRun "cat >>policy/test_ipc.te <<<'allow_map(ipcdomain, tmpfs_t, file)'"
                 rlRun "cat >>policy/test_mmap.te <<<'allow_map(test_execmem_t, tmpfs_t, file)'"
                 rlRun "cat >>policy/test_mmap.te <<<'allow_map(test_no_execmem_t, tmpfs_t, file)'"
+            fi
+
+            # work around non-functional ext4 native quota support on
+            # RHEL-7
+            if kver_lt 4.18; then
+                rlRun "sed -i 's/3.6/4.18/g' tests/{fs_,}filesystem/test"
             fi
 
             if kver_ge 4.18; then
