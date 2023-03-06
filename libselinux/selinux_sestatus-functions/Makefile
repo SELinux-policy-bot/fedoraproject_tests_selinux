@@ -41,7 +41,6 @@ build: $(BUILT_FILES)
 clean:
 	rm -f *~ $(BUILT_FILES)
 
-
 include /usr/share/rhts/lib/rhts-make.include
 
 $(METADATA): Makefile
@@ -53,7 +52,7 @@ $(METADATA): Makefile
 	@echo "Type:            Sanity" >> $(METADATA)
 	@echo "TestTime:        5m" >> $(METADATA)
 	@echo "RunFor:          libselinux" >> $(METADATA)
-	@echo "Requires:        libselinux libselinux-devel glibc" >> $(METADATA)
+	@echo "Requires:        libselinux libselinux-devel glibc gcc" >> $(METADATA)
 	@echo "Priority:        Normal" >> $(METADATA)
 	@echo "License:         GPLv2+" >> $(METADATA)
 	@echo "Confidential:    no" >> $(METADATA)
@@ -61,3 +60,4 @@ $(METADATA): Makefile
 	@echo "Releases:        -RHEL4 -RHELClient5 -RHELServer5 -RHEL6" >> $(METADATA)
 
 	rhts-lint $(METADATA)
+

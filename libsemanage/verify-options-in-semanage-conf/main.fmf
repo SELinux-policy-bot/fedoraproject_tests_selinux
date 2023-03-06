@@ -14,7 +14,7 @@ recommend:
   - libselinux-utils
   - libsemanage
   - policycoreutils
-  - policycoreutils-python
+  - policycoreutils-python-utils
   - selinux-policy
   - selinux-policy-devel
 duration: 10m

@@ -8,6 +8,7 @@ recommend:
   - libselinux-devel
   - glibc
   - strace
+  - gcc
 enabled: true
 tag:
   - CI-Tier-1

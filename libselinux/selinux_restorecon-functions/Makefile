@@ -53,7 +53,7 @@ $(METADATA): Makefile
 	@echo "Type:            Sanity" >> $(METADATA)
 	@echo "TestTime:        5m" >> $(METADATA)
 	@echo "RunFor:          libselinux" >> $(METADATA)
-	@echo "Requires:        libselinux libselinux-devel glibc strace" >> $(METADATA)
+	@echo "Requires:        libselinux libselinux-devel glibc strace gcc" >> $(METADATA)
 	@echo "Priority:        Normal" >> $(METADATA)
 	@echo "License:         GPLv2+" >> $(METADATA)
 	@echo "Confidential:    no" >> $(METADATA)

@@ -1,1 +1,30 @@
-path: /libselinux/selinux_set_callback
+summary: Test selinux_set_callback function
+description: ''
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - libselinux
+test: ./runtest.sh
+framework: beakerlib
+recommend:
+  - libselinux
+  - gcc
+  - glibc
+  - libselinux-devel
+duration: 5m
+enabled: true
+tag:
+  - CI-Tier-1
+  - NoRHEL4
+  - NoRHEL5
+  - TIPpass_Security
+  - TierCandidatesPASS
+  - f32friendly
+  - f33friendly
+  - targeted
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5
+    continue: false
+extra-nitrate: TC#0540241
+extra-summary: /CoreOS/libselinux/Sanity/selinux_set_callback
+extra-task: /CoreOS/libselinux/Sanity/selinux_set_callback
