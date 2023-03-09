@@ -12,6 +12,7 @@ STORE_TYPE=targeted
 MODULES_ROOT="$STORE_ROOT/$STORE_TYPE/active/modules"
 STORE_POLICY="$STORE_ROOT/$STORE_TYPE/active/policy.kern"
 STORE_BOOLS="$STORE_ROOT/$STORE_TYPE/active/booleans.local"
+STORE_DISABLE_DONTAUDIT="$STORE_ROOT/$STORE_TYPE/active/disable_dontaudit"
 TEST_MODULE_DIR="$MODULES_ROOT/400/test_module"
 TEST_BOOLEAN="xguest_exec_content"
 TEST_BOOLEAN_VALUE="0"
@@ -29,6 +30,7 @@ rlJournalStart
     rlPhaseStartSetup
         rlAssertRpm "libsemanage"
         rlAssertRpm "policycoreutils"
+        rlAssertRpm "selinux-policy"
 
         policyvers="$(checkpolicy -V | cut -f 1 -d ' ')"
         policyvers_kernel="$(cat /sys/fs/selinux/policyvers)"
@@ -114,6 +116,29 @@ rlJournalStart
                 rlRun "semodule -N -B" 0 \
                     "Force a rebuild to clean things up"
             rlPhaseEnd
+
+            if  { rlIsRHEL 9 && rlIsRHEL '<9.3'; } || \
+                { rlIsRHEL 8 && rlIsRHEL '<8.9'; }
+            then
+                rlPhaseStartTest "Disable dontaudit injected"
+                    rlLog "Inject disable_dontaudit flag into the store"
+                    rlRun "touch '$STORE_DISABLE_DONTAUDIT'"
+                    rlRun "semodule -N $refresh_opt" 0 \
+                        "Do a conditional rebuild"
+                    rlRun "test \$(sesearch --dontaudit '$STORE_POLICY' | wc -l) -eq 0" 0 \
+                        "Verify that the flag has been picked up"
+
+                    rlLog "Now remove the flag"
+                    rlRun "rm -f '$STORE_DISABLE_DONTAUDIT'"
+                    rlRun "semodule -N $refresh_opt"
+                    rlRun "test \$(sesearch --dontaudit '$STORE_POLICY' | wc -l) -gt 0" 0 \
+                        "Verify that the dontaudit rules are back"
+
+                    # Make sure policy is restored regardless of any previous failures
+                    rlRun "semodule -N -B" 0 \
+                        "Force a rebuild to clean things up"
+                rlPhaseEnd
+            fi
         fi
     else
         rlPhaseStartTest "Test skipped"

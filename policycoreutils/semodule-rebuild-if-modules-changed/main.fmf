@@ -26,3 +26,4 @@ link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2049189
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2049191
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2049193
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2173959
