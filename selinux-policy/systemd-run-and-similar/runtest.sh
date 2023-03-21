@@ -37,6 +37,7 @@ rlJournalStart
         rlAssertRpm ${PACKAGE}
         rlAssertRpm ${PACKAGE}-targeted
         rlAssertRpm systemd
+        rlRun "setsebool daemons_use_tty on"
 
         rlSESetEnforce
         rlSEStatus
@@ -76,6 +77,7 @@ rlJournalStart
     rlPhaseStartCleanup
         sleep 2
         rlSECheckAVC
+        rlRun "setsebool daemons_use_tty off"
     rlPhaseEnd
 rlJournalPrintText
 rlJournalEnd

@@ -56,6 +56,7 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "a systemd service loading credentials"
+        rlRun "setsebool daemons_use_tty on"
         rlRun "echo hello > /foo"
         rlRun "ls -alZ /foo"
         rlRun "systemd-creds encrypt /foo /bar"
@@ -66,6 +67,7 @@ rlJournalStart
         rlRun "systemctl status dmesg.service" 0-255
         rlRun "rm -f /foo /bar"
         rlRun "systemd-run -P --wait -p LoadCredential=abc:/etc/hosts systemd-creds cat abc"
+        rlRun "setsebool daemons_use_tty off"
     rlPhaseEnd
 
     rlPhaseStartCleanup
