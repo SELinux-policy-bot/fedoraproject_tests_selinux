@@ -39,6 +39,12 @@ PROCESS_NAME="usbmuxd"
 PROCESS_CONTEXT="usbmuxd_t"
 
 rlJournalStart
+    if rlIsRHEL && ! rlIsRHEL 7 8 ; then
+        rlLog "Not applicable to this OS version."
+        rlJournalEnd
+        exit 0
+    fi
+
     rlPhaseStartSetup
         rlRun "rlImport 'selinux-policy/common'"
         rlSESatisfyRequires

@@ -59,8 +59,8 @@ link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1572696
 adjust:
   - enabled: false
-    when: distro == rhel-4, rhel-9
-    continue: false
+    when: distro >= rhel-9
+    because: the amanda package is not available there
 extra-nitrate: TC#0114575
 extra-summary: /CoreOS/selinux-policy/Regression/bz733494-amanda-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/bz733494-amanda-and-similar

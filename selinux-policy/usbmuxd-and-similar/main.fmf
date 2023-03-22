@@ -43,8 +43,8 @@ link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1973886
 adjust:
   - enabled: false
-    when: distro == rhel-4, rhel-5, rhel-6
-    continue: false
+    when: distro >= rhel-9
+    because: the usbmuxd package is not available there
   - enabled: false
     when: arch == aarch64, s390x
     continue: false

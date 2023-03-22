@@ -35,11 +35,11 @@ link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1534624
 adjust:
   - enabled: false
-    when: distro == rhel-4, rhel-5, rhel-6
-    continue: false
+    when: distro >= rhel-9
+    because: the sslh package is not available there
   - enabled: false
-    when: arch == s390x
-    continue: false
+    when: arch == i386, ppc, s390, s390x
+    because: the sslh package is not available for all architectures
 extra-nitrate: TC#0563428
 extra-summary: /CoreOS/selinux-policy/Regression/sslh-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/sslh-and-similar

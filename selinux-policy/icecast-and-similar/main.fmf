@@ -36,10 +36,10 @@ link:
 adjust:
   - enabled: false
     when: arch == i386, ppc, ppc64, s390
-    continue: false
+    because: the icecast package is not available for all architectures
   - enabled: false
-    when: distro == rhel-4, rhel-8, rhel-9
-    continue: false
+    when: distro >= rhel-8
+    because: the icecast package is not available there
 extra-nitrate: TC#0388472
 extra-summary: /CoreOS/selinux-policy/Regression/icecast-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/icecast-and-similar
