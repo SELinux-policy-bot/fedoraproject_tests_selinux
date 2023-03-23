@@ -5,6 +5,7 @@ description: |
 contact: Ondrej Mosnacek <omosnace@redhat.com>
 component:
   - policycoreutils
+  - libsemanage
 framework: beakerlib
 require:
   - policycoreutils
