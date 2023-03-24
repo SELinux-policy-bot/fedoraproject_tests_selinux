@@ -89,6 +89,7 @@ rlJournalStart
         rm -f ${OUTPUT_FILE}
     rlPhaseEnd
 
+    if [ -f /usr/lib/systemd/system/rpmdb-migrate.service ] ; then
     rlPhaseStartTest "bz#2164752"
         rlSEMatchPathCon "/usr/bin/rpm" "rpm_exec_t"
         rlSEMatchPathCon "/usr/lib/rpm/rpmdb_migrate" "rpmdb_exec_t"
@@ -107,6 +108,7 @@ rlJournalStart
         rlRun "touch /var/lib/rpm/.migratedb"
         rlSEService - rpmdb-migrate - rpmdb_t "restart status stop status" 1
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2
