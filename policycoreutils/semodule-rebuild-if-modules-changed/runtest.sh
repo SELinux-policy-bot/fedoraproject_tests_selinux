@@ -117,8 +117,8 @@ rlJournalStart
                     "Force a rebuild to clean things up"
             rlPhaseEnd
 
-            if  { rlIsRHEL 9 && rlIsRHEL '>=9.3'; } || \
-                { rlIsRHEL 8 && rlIsRHEL '>=8.9'; }
+            if  ! { rlIsRHEL 9 && rlIsRHEL '<9.3'; } && \
+                ! { rlIsRHEL 8 && rlIsRHEL '<8.9'; }
             then
                 rlPhaseStartTest "Disable dontaudit injected"
                     rlLog "Inject disable_dontaudit flag into the store"
