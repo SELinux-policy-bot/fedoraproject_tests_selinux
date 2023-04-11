@@ -1,0 +1,45 @@
+summary: setfscreatecon with invalid context can mistakenly succeed
+description: |+
+    Description: setfscreatecon with invalid context can mistakenly succeed
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - mcstrans
+test: ./runtest.sh
+framework: beakerlib
+recommend:
+  - mcstrans
+  - /usr/sbin/service
+  - selinux-policy
+  - selinux-policy-targeted
+  - libselinux
+  - libselinux-utils
+  - mktemp
+  - grep
+  - audit
+  - policycoreutils
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 5m
+enabled: true
+tag:
+  - CI-Tier-1
+  - NoRHEL4
+  - TIPpass_Security
+  - Tier3
+  - Tier3se
+  - f31friendly
+  - f32friendly
+  - failinrhel8ci
+  - targeted
+tier: '3'
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=442327
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=800470
+adjust:
+  - enabled: false
+    when: distro == rhel-4
+    continue: false
+extra-nitrate: TC#0062266
+extra-summary: /CoreOS/mcstrans/Regression/bz442327-setfscreatecon-with-invalid-context
+extra-task: /CoreOS/mcstrans/Regression/bz442327-setfscreatecon-with-invalid-context

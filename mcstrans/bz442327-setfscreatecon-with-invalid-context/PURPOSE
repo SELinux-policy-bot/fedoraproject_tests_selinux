@@ -1,0 +1,5 @@
+PURPOSE of /CoreOS/mcstrans/Regression/bz442327-setfscreatecon-with-invalid-context
+Author: Milos Malik <mmalik@redhat.com>
+
+Description: setfscreatecon with invalid context can mistakenly succeed
+

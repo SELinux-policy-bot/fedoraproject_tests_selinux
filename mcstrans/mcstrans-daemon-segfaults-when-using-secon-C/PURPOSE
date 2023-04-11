@@ -1,0 +1,5 @@
+PURPOSE of /CoreOS/mcstrans/Regression/mcstrans-daemon-segfaults-when-using-secon-C
+Author: Milos Malik <mmalik@redhat.com>
+
+Description: mcstrans daemon segfaults when secon -C asks for incomplete context
+

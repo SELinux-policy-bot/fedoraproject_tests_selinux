@@ -1,0 +1,37 @@
+summary: Wrapper for internal examples used as testsuite
+description: |+
+    Internal examples and scripts are used as mcstrans testsuite.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - mcstrans
+test: ./runtest.sh
+framework: beakerlib
+recommend:
+  - mcstrans
+  - selinux-policy-targeted
+  - libselinux-python
+  - sed
+  - platform-python-devel
+  - python3-libselinux
+  - /usr/sbin/service
+duration: 10m
+enabled: true
+tier: 1
+tag:
+  - CI-Tier-1
+  - NoRHEL4
+  - NoRHEL5
+  - TIPpass_Security
+  - f32friendly
+  - f33friendly
+  - targeted
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1656304
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5
+    continue: false
+extra-nitrate: TC#0520362
+extra-summary: /CoreOS/mcstrans/Sanity/internal-examples-testsuite
+extra-task: /CoreOS/mcstrans/Sanity/internal-examples-testsuite

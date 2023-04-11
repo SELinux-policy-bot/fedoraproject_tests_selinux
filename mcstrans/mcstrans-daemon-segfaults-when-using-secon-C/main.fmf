@@ -1,0 +1,38 @@
+summary: mcstrans daemon segfaults when secon -C asks for incomplete context
+description: |+
+    Description: mcstrans daemon segfaults when secon -C asks for incomplete context
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - mcstrans
+test: ./runtest.sh
+framework: beakerlib
+recommend:
+  - mcstrans
+  - selinux-policy-targeted
+  - policycoreutils
+  - libselinux-python
+  - python3-libselinux
+  - /usr/sbin/service
+duration: 10m
+enabled: true
+tier: 1
+tag:
+  - CI-Tier-1
+  - NoRHEL4
+  - NoRHEL5
+  - TIPpass_Security
+  - f32friendly
+  - f33friendly
+  - targeted
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1315996
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1316680
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1699784
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5
+    continue: false
+extra-nitrate: TC#0520380
+extra-summary: /CoreOS/mcstrans/Regression/mcstrans-daemon-segfaults-when-using-secon-C
+extra-task: /CoreOS/mcstrans/Regression/mcstrans-daemon-segfaults-when-using-secon-C
