@@ -126,6 +126,20 @@ rlJournalStart
             "Reset kernel.core_pattern to default"
     rlPhaseEnd
 
+    rlPhaseStartTest "Core pattern set to |/usr/bin/false"
+        rlLog "Should work with no AVCs"
+
+        rlRun "sysctl kernel.core_pattern='|/usr/bin/false'" 0 \
+            "Set kernel.core_pattern to |/usr/bin/false"
+        rlSESetTimestamp
+        sleep 1
+        rlRun "./trigger_segfault" 139
+        sleep 2
+        rlSECheckAVC
+        rlRun "sysctl kernel.core_pattern=\"\$original_core_pattern\"" 0 \
+            "Reset kernel.core_pattern to default"
+    rlPhaseEnd
+
     rlPhaseStartCleanup
         rlRun "rm -f trigger_segfault"
     rlPhaseEnd
