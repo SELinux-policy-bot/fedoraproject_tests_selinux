@@ -30,7 +30,6 @@
 . /usr/share/beakerlib/beakerlib.sh || exit 1
 
 PACKAGE="selinux-policy"
-ROOT_PASSWORD="redhat"
 FILE_PATH="/bin/ping"
 FILE_CONTEXT="ping_exec_t"
 SERVICE_PACKAGE="iputils"
@@ -46,6 +45,7 @@ rlJournalStart
         rlAssertRpm ${SERVICE_PACKAGE}
 
         rlFileBackup /etc/shadow
+        rlSEConfigureSSH
 
         rlSESetEnforce
         rlSEStatus
@@ -89,8 +89,6 @@ rlJournalStart
 
     # this phase is useful if you want to run some commands under confined users
     rlPhaseStartTest "real scenario -- confined users"
-        rlSEConfigureSSH
-
         rlRun "setsebool ssh_sysadm_login on"
         rlRun "setsebool user_ping on"
         for SELINUX_USER in staff_u user_u sysadm_u unconfined_u ; do

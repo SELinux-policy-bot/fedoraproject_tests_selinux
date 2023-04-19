@@ -50,6 +50,8 @@ rlJournalStart
         rlAssertRpm ${PACKAGE}-targeted
         rlAssertRpm ${SERVICE_PACKAGE}
 
+        rlSEConfigureSSH
+
         rlSESetEnforce
         rlSEStatus
         rlSESetTimestamp
@@ -129,8 +131,6 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "real scenario -- user session service"
-        rlSEConfigureSSH
-
         rlRun "setsebool ssh_sysadm_login on"
         rlRun "setsebool selinuxuser_tcp_server on"
         CREATED_USERS=""

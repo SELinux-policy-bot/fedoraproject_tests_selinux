@@ -30,7 +30,6 @@
 . /usr/share/beakerlib/beakerlib.sh || exit 1
 
 PACKAGE="selinux-policy"
-ROOT_PASSWORD="redhat"
 SERVICE_PACKAGE="pam"
 DENIED_USERS=${DENIED_USERS:-"guest_u xguest_u"}
 ALLOWED_USERS=${ALLOWED_USERS:-"staff_u user_u sysadm_u unconfined_u"}
@@ -46,6 +45,7 @@ rlJournalStart
 
         rlFileBackup /etc/shadow
         rlFileBackup ${TIMESTAMP_DIR}/_pam_timestamp_key
+        rlSEConfigureSSH
 
         rlSESetEnforce
         rlSEStatus
@@ -69,8 +69,6 @@ rlJournalStart
     fi
 
     rlPhaseStartTest "real scenario -- confined users"
-        rlSEConfigureSSH
-
         rlRun "setsebool ssh_sysadm_login on"
         rlRun "mkdir -p ${TIMESTAMP_DIR}"
         rlRun "touch ${TIMESTAMP_DIR}/_pam_timestamp_key"

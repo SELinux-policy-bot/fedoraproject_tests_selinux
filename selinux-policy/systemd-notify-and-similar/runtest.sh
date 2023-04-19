@@ -47,6 +47,8 @@ rlJournalStart
         rlAssertRpm ${PACKAGE}-targeted
         rlAssertRpm ${SERVICE_PACKAGE}
 
+        rlSEConfigureSSH
+
         rlSESetEnforce
         rlSEStatus
         rlSESetTimestamp

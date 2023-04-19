@@ -56,6 +56,7 @@ rlJournalStart
 
         rlServiceStop ${SERVICE_NAME}
         rlFileBackup /etc/shadow
+        rlSEConfigureSSH
 
         rlSESetEnforce
         rlSEStatus
@@ -80,8 +81,6 @@ rlJournalStart
     fi
 
     rlPhaseStartTest "real scenario -- confined users"
-        rlSEConfigureSSH
-
         rlRun "setsebool ssh_sysadm_login on"
         rlRun "setsebool selinuxuser_tcp_server on"
         rlLog "configuration says not to test SELinux users: ${DENIED_USERS}"

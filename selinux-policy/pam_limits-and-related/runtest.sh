@@ -44,6 +44,7 @@ rlJournalStart
 
         rlFileBackup /etc/shadow
         rlFileBackup /etc/security/limits.conf
+        rlSEConfigureSSH
 
         rlSESetEnforce
         rlSEStatus

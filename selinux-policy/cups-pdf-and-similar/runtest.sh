@@ -30,7 +30,6 @@
 . /usr/share/beakerlib/beakerlib.sh || exit 1
 
 PACKAGE="selinux-policy"
-ROOT_PASSWORD="redhat"
 FILE_PATH="/usr/lib/cups/backend/cups-pdf"
 FILE_CONTEXT="cups_pdf_exec_t"
 SERVICE_PACKAGE="cups-pdf"
@@ -56,6 +55,7 @@ rlJournalStart
 
         rlServiceStart ${SERVICE_NAME}
         rlFileBackup /etc/shadow
+        rlSEConfigureSSH
 
         rlSESetEnforce
         rlSEStatus

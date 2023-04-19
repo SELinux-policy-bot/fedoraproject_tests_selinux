@@ -30,7 +30,6 @@
 . /usr/share/beakerlib/beakerlib.sh || exit 1
 
 PACKAGE="selinux-policy"
-ROOT_PASSWORD="redhat"
 SERVICE_PACKAGE="pam"
 if rlIsRHEL 7 ; then
     DENIED_USERS=${DENIED_USERS:-"staff_u"}
@@ -49,6 +48,7 @@ rlJournalStart
         rlAssertRpm ${SERVICE_PACKAGE}
 
         rlFileBackup /etc/shadow
+        rlSEConfigureSSH
 
         rlSESetEnforce
         rlSEStatus
@@ -76,8 +76,6 @@ rlJournalStart
     fi
 
     rlPhaseStartTest "real scenario -- confined users"
-        rlSEConfigureSSH
-
         rlRun "setsebool ssh_sysadm_login on"
         rlLog "configuration says not to test SELinux users: ${DENIED_USERS}"
         for SELINUX_USER in ${ALLOWED_USERS} ; do

@@ -51,6 +51,7 @@ rlJournalStart
 
         rlServiceStop ${SERVICE_NAME}
         rlFileBackup /etc/shadow
+        rlSEConfigureSSH
 
         rlSESetEnforce
         rlSEStatus

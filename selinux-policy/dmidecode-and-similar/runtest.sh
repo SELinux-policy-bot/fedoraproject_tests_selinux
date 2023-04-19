@@ -41,6 +41,8 @@ rlJournalStart
         rlAssertRpm ${PACKAGE}-targeted
         rlAssertRpm dmidecode
 
+        rlSEConfigureSSH
+
         rlSESetEnforce
         rlSEStatus
         rlSESetTimestamp

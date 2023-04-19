@@ -1289,6 +1289,7 @@ function rlSEConfigureSSH () {
     rlFileBackup /etc/ssh/sshd_config
     rlRun "sed -i 's/^.*PermitRootLogin.*$/PermitRootLogin yes/' /etc/ssh/sshd_config"
     rlRun "sed -i 's/^.*PasswordAuthentication.*$/PasswordAuthentication yes/' /etc/ssh/sshd_config"
+    rlRun "echo 'PasswordAuthentication yes' > /etc/ssh/sshd_config.d/001-enable-password.conf"
     rlRun "service sshd restart"
 }
 

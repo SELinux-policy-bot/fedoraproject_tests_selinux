@@ -30,7 +30,6 @@
 . /usr/share/beakerlib/beakerlib.sh || exit 1
 
 PACKAGE="selinux-policy"
-ROOT_PASSWORD="redhat"
 FILE_PATH="/usr/lib/cups/daemon/cups-lpd"
 FILE_CONTEXT="cupsd_lpd_exec_t"
 SERVICE_PACKAGE="cups-lpd"

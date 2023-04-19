@@ -33,7 +33,6 @@ PACKAGE="selinux-policy"
 FILE_PATH="/usr/bin/journalctl"
 FILE_CONTEXT="journalctl_exec_t"
 SERVICE_PACKAGE="systemd"
-SERVICE_NAME=""
 PROCESS_NAME="journalctl"
 PROCESS_CONTEXT="journalctl_t"
 ALLOWED_USERS=${ALLOWED_USERS:-"staff_u user_u sysadm_u unconfined_u"}
@@ -46,6 +45,8 @@ rlJournalStart
         rlAssertRpm ${PACKAGE}
         rlAssertRpm ${PACKAGE}-targeted
         rlAssertRpm ${SERVICE_PACKAGE}
+
+        rlSEConfigureSSH
 
         rlSESetEnforce
         rlSEStatus
