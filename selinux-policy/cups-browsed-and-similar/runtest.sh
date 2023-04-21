@@ -33,7 +33,6 @@ PACKAGE="selinux-policy"
 ROOT_PASSWORD="redhat"
 FILE_PATH="/usr/sbin/cups-browsed"
 FILE_CONTEXT="cupsd_exec_t"
-SERVICE_PACKAGE=`rpm -qf /usr/sbin/cups-browsed`
 SERVICE_NAME="cups-browsed"
 PROCESS_NAME="cups-browsed"
 PROCESS_CONTEXT="cupsd_t"
@@ -42,6 +41,7 @@ rlJournalStart
     rlPhaseStartSetup
         rlRun "rlImport 'selinux-policy/common'"
         rlSESatisfyRequires
+        SERVICE_PACKAGE=`rpm -qf ${FILE_PATH}`
         rlAssertRpm ${PACKAGE}
         rlAssertRpm ${PACKAGE}-targeted
         rlAssertRpm ${SERVICE_PACKAGE}

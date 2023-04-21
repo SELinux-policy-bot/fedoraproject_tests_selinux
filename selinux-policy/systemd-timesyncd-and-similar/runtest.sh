@@ -33,7 +33,6 @@ PACKAGE="selinux-policy"
 ROOT_PASSWORD="redhat"
 FILE_PATH="/usr/lib/systemd/systemd-timesyncd"
 FILE_CONTEXT="systemd_timedated_exec_t"
-SERVICE_PACKAGE=`rpm -qf ${FILE_PATH}`
 SERVICE_NAME="systemd-timesyncd"
 PROCESS_NAME="systemd-timesyncd"
 PROCESS_CONTEXT="systemd_timedated_t"
@@ -42,6 +41,7 @@ rlJournalStart
     rlPhaseStartSetup
         rlRun "rlImport 'selinux-policy/common'"
         rlSESatisfyRequires
+        SERVICE_PACKAGE=`rpm -qf ${FILE_PATH}`
         rlAssertRpm ${PACKAGE}
         rlAssertRpm ${PACKAGE}-targeted
         rlAssertRpm ${SERVICE_PACKAGE}
