@@ -109,7 +109,7 @@ expect -f  - <<<'
 }
 
 rlJournalStart
-    if [ ! -f /usr/lib/systemd/systemd-homed ] ; then
+    if ! seinfo -t systemd_homed_t | grep -q systemd_homed_t ; then
         rlLog "Not applicable to this OS version."
         rlJournalEnd
         exit 0
