@@ -1,0 +1,17 @@
+summary: Mount options memory leak test
+description: |
+    Test that mounting with SELinux mount options doesn't leave behind
+    memory leaks.
+contact: Ondrej Mosnacek <omosnace@redhat.com>
+component:
+- kernel
+framework: beakerlib
+duration: 1h
+tier: 2
+enabled: true
+adjust:
+    enabled: false
+    when: distro < rhel-7
+    because: RHEL-6 and below are not worth supporting by this test
+link:
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2187402
