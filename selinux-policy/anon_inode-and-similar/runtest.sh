@@ -60,9 +60,18 @@ rlJournalStart
         rlRun "rm -f reproducer"
     rlPhaseEnd
 
+    rlPhaseStartTest "mmap on io_uring - bz#2025714 + bz#2187745"
+        rlSESearchRule "allow unconfined_t unconfined_t : anon_inode { map } [ ]"
+        rlSESearchRule "allow svirt_t svirt_t : anon_inode { map } [ ]"
+        rlSESearchRule "allow virtd_t virtd_t : anon_inode { map } [ ]"
+
+        rlRun "fio --filename=/root/pokus --iodepth=16 --rw=write --ioengine=io_uring --bs=16k --size=2G --numjobs=30 --runtime=100s --group_reporting=1 --name=mytest"
+    rlPhaseEnd
+
     rlPhaseStartCleanup
         sleep 2
         rlSECheckAVC
     rlPhaseEnd
     rlJournalPrintText
 rlJournalEnd
+

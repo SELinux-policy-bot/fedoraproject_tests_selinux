@@ -15,6 +15,7 @@ recommend:
   - glibc-headers
   - setools-console
   - audit
+  - fio
 environment:
     AVC_ERROR: +no_avc_check
 duration: 30m
@@ -28,6 +29,8 @@ tag:
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1974559
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2027660
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2025714
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2187745
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8
