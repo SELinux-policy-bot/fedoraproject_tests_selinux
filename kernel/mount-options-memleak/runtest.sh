@@ -10,7 +10,7 @@
 # Beaker compat
 if [ -n "$JOBID" ] && [ -n "$TESTID" ]; then
     function tmt-reboot() { rstrnt-reboot; }
-    TMT_REBOOT_COUNT="$REBOOT_COUNT"
+    TMT_REBOOT_COUNT="$REBOOTCOUNT"
 fi
 
 function installDepsYum() {
