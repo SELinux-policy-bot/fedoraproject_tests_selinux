@@ -56,6 +56,9 @@ if [ $TMT_REBOOT_COUNT -lt 1 ]; then
 
         rlRun "grubby --update-kernel /boot/vmlinuz-$debug_uname --args kmemleak=on" 0 \
             "Enable kmemleak on the debug kernel"
+        if command -v zipl >/dev/null; then
+            rlRun "zipl" 0 "Run zipl"
+        fi
         tmt-reboot
 fi
 if [ $TMT_REBOOT_COUNT -lt 2 ]; then
@@ -98,6 +101,9 @@ if [ $TMT_REBOOT_COUNT -lt 2 ]; then
             "Undo kmemleak enabling"
         rlRun "grubby --set-default /boot/vmlinuz-$uname" 0 \
             "Switch the default back to the initial kernel version"
+        if command -v zipl >/dev/null; then
+            rlRun "zipl" 0 "Run zipl"
+        fi
         tmt-reboot
 fi
         rlRun "uname -r" 0 \
