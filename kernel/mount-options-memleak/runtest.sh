@@ -60,6 +60,7 @@ if [ $TMT_REBOOT_COUNT -lt 1 ]; then
 fi
 if [ $TMT_REBOOT_COUNT -lt 2 ]; then
         rlRun "uname -r" 0 "Print running kernel version after reboot"
+        rlRun "cat /proc/cmdline" 0 "Print kernel cmdline after reboot"
 
         rlRun "mkdir -p /mnt/test_mount" 0 \
             "Create a directory for the test mount"
