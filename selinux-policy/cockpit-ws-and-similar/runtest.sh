@@ -210,6 +210,7 @@ rlJournalStart
         rlRun "ps -o pid,user,context,args -C ${PROCESS_NAME}"
         rlRun "ps -o pid,user,context,args -C ${PROCESS_NAME} | grep :${PROCESS_CONTEXT}"
         rlRun "kill ${PROVOCATEUR_PID}"
+        rlRun "killall ncat" 0,1
         if rlIsRHEL 5 6 ; then
             rlRun "chkconfig ${SERVICE_NAME} off"
             rlRun "service xinetd stop"

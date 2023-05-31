@@ -31,7 +31,6 @@ tag:
   - NoRHEL4
   - NoRHEL5
   - NoRHEL6
-  - TIPfail_Security
   - TierCandidatesPASS
   - failinfedora
   - targeted

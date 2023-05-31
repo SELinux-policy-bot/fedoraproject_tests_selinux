@@ -24,7 +24,6 @@ recommend:
   - krb5-workstation
   - selinux-policy
   - selinux-policy-targeted
-  - setools
   - setools-console
   - xinetd
 environment:
@@ -33,11 +32,6 @@ duration: 15m
 enabled: true
 tag:
   - NoRHEL4
-  - TIP_fedora_fail
-  - TIPfail_Apps
-  - TIPfail_Security
-  - TIPfail_fedora
-  - TIPpass
   - TierCandidatesFAIL
   - f32friendly
   - failinfedora

@@ -18,7 +18,6 @@ recommend:
   - policycoreutils
   - selinux-policy
   - selinux-policy-targeted
-  - setools
   - setools-console
   - xinetd
   - nmap-ncat
@@ -34,9 +33,6 @@ enabled: true
 tag:
   - NoRHEL4
   - RHEL8
-  - TIPfail
-  - TIPfail_infra
-  - TIPpass_Security
   - Tier2
   - Tier2se
   - TierCandidatesFAIL
