@@ -89,22 +89,28 @@ rlJournalStart
             SERVICE_NAME=`echo ${TUPLE} | cut -d : -f 1`
             PROCESS_NAME=`echo ${TUPLE} | cut -d : -f 2`
             PROCESS_CONTEXT=`echo ${TUPLE} | cut -d : -f 3`
-            rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
+            if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
+                rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
+            fi
         done
-        rlRun "restorecon -Rv /etc /run /var"
+        rlRun "restorecon -Rv /etc /run /var -e /var/ARTIFACTS" 0-255
         # restart all the services
         for TUPLE in ${ALL_TUPLES} ; do
             SERVICE_NAME=`echo ${TUPLE} | cut -d : -f 1`
             PROCESS_NAME=`echo ${TUPLE} | cut -d : -f 2`
             PROCESS_CONTEXT=`echo ${TUPLE} | cut -d : -f 3`
-            rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status" 1
+            if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
+                rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status" 1
+            fi
         done
         # stop all the services
         for TUPLE in ${ALL_TUPLES} ; do
             SERVICE_NAME=`echo ${TUPLE} | cut -d : -f 1`
             PROCESS_NAME=`echo ${TUPLE} | cut -d : -f 2`
             PROCESS_CONTEXT=`echo ${TUPLE} | cut -d : -f 3`
-            rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "stop status" 1
+            if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
+                rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "stop status" 1
+            fi
         done
     rlPhaseEnd
 
