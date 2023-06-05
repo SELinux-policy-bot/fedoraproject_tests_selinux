@@ -18,6 +18,7 @@ recommend:
   - coreutils
   - systemd
   - policycoreutils
+  - libselinux-utils
 adjust:
   - enabled: false
     when: distro < rhel-7

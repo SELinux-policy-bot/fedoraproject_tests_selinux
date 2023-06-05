@@ -55,6 +55,7 @@ $(METADATA): Makefile
 	@echo "Requires:        /usr/sbin/sestatus" >> $(METADATA)
 	@echo "Requires:        /usr/bin/systemctl" >> $(METADATA)
 	@echo "Requires:        /usr/bin/journalctl" >> $(METADATA)
+	@echo "Requires:        /usr/sbin/setenforce" >> $(METADATA)
 	@echo "Priority:        Normal" >> $(METADATA)
 	@echo "License:         GPLv2+" >> $(METADATA)
 	@echo "Confidential:    no" >> $(METADATA)

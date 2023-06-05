@@ -44,6 +44,7 @@ PACKAGE="policycoreutils"
 rlJournalStart
     rlPhaseStartSetup
         rlAssertRpm $PACKAGE
+        rlServiceStart restorecond
         # backup restorecond configuration file
         rlRun "rlFileBackup /etc/selinux/restorecond.conf" 0
         rlRun "echo '/usr/*' > /etc/selinux/restorecond.conf" 0-255
@@ -58,7 +59,7 @@ rlJournalStart
         for i in {1..15}
         do
             # create misslabeled files
-            for folder in  share games tmp
+            for folder in share games tmp
             do
                 rlRun "touch /usr/$folder/$i"
                 rlRun "chcon -t unlabeled_t /usr/$folder/$i"
@@ -79,6 +80,8 @@ rlJournalStart
 
     rlPhaseStartCleanup
         rlRun "rlFileRestore" 0
+        rlServiceRestore restorecond
+        rm -f ${OUTPUT_FILE}
     rlPhaseEnd
 rlJournalPrintText
 rlJournalEnd
