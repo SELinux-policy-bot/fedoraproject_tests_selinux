@@ -21,6 +21,9 @@ adjust:
   - enabled: false
     when: distro < fedora-38
     because: This hardening applies only to F38+
+  - enabled: false
+    when: distro < rhel-10
+    because: Not yet backported to RHEL
 link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2068579
 extra-nitrate: TC#0614676
