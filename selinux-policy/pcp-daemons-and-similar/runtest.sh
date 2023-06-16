@@ -106,7 +106,7 @@ rlJournalStart
             rlSESearchRule "type_transition ${SOURCE_TYPE} ${FILE_CONTEXT} : process ${PROCESS_CONTEXT}"
         done
         rlSEMatchPathCon "/var/run/pcp" "pcp_var_run_t"
-        rlSEMatchPathCon "/var/run/pmcd.socket" "pcp_var_run_t"
+        rlSEMatchPathCon "/var/run/pcp/pmcd.socket" "pcp_var_run_t"
         rlSEMatchPathCon "/dev/log" "devlog_t"
         rlSEMatchPathCon "/dev/mapper/control" "lvm_control_t"
         rlSEMatchPortCon tcp 4330 dey_sapi_port_t
@@ -216,7 +216,7 @@ rlJournalStart
     rlPhaseStartTest "bz#1286234"
         rlSEMatchPathCon "/usr/bin/pmlogger" "pcp_pmlogger_exec_t"
         rlSEMatchPathCon "/var/run" "var_run_t"
-        rlSEMatchPathCon "/var/run/pmlogger.primary.socket" "pcp_var_run_t"
+        rlSEMatchPathCon "/var/run/pcp/pmlogger.primary.socket" "pcp_var_run_t"
         rlSESearchRule "allow pcp_pmlogger_t var_run_t : dir { write add_name } [ ]"
         rlSESearchRule "type_transition pcp_pmlogger_t var_run_t : lnk_file pcp_var_run_t [ ]"
         rlSESearchRule "allow pcp_pmlogger_t pcp_var_run_t : lnk_file { create } [ ]"
