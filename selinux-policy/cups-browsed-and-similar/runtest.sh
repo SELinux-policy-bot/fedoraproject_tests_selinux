@@ -90,6 +90,7 @@ rlJournalStart
 
         rlFileRestore
         rlServiceRestore ${SERVICE_NAME}
+        rlServiceStop cups
     rlPhaseEnd
 rlJournalPrintText
 rlJournalEnd
