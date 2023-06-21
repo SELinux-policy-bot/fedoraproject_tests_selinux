@@ -1,0 +1,47 @@
+summary: SELinux interferes with boinc and related programs
+description: |+
+    SELinux interferes with BOINC client (Berkeley Open Infrastructure Network Computing) and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+test: ./runtest.sh
+framework: beakerlib
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - boinc-client
+  - /usr/sbin/service
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - TierCandidatesPASS
+  - f32friendly
+  - f33friendly
+  - targeted
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1618683
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1711682
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1779070
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6
+    continue: false
+  - enabled: false
+    when: arch == aarch64, s390x
+    continue: false
+extra-nitrate: TC#0563640
+extra-summary: /CoreOS/selinux-policy/Regression/boinc-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/boinc-and-similar
