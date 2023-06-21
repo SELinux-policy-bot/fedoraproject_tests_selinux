@@ -1,0 +1,48 @@
+summary: SELinux interferes with the thttpd and related programs
+description: |+
+    SELinux interferes with thttpd and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+test: ./runtest.sh
+framework: beakerlib
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - /usr/sbin/service
+  - setools-console
+  - thttpd
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 5m
+enabled: true
+tag:
+  - NoRHEL4
+  - Tier2
+  - Tier2se
+  - TierCandidatesPASS
+  - f31friendly
+  - f32friendly
+  - targeted
+tier: '2'
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1069843
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1087384
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1111581
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-alt-7, rhel-9
+    continue: false
+  - enabled: false
+    when: arch == i386, ppc64, s390
+    continue: false
+extra-nitrate: TC#0340646
+extra-summary: /CoreOS/selinux-policy/Regression/thttpd-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/thttpd-and-similar
