@@ -1,0 +1,5 @@
+PURPOSE of /CoreOS/selinux-policy/Regression/targetd-and-similar
+Author: Milos Malik <mmalik@redhat.com>
+
+SELinux interferes with targetd and related programs. Possible interactions: targetd + btrfs.
+

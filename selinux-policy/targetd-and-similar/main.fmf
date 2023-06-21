@@ -1,0 +1,54 @@
+summary: SELinux interferes with targetd and related programs
+description: |+
+    SELinux interferes with targetd and related programs. Possible interactions: targetd + btrfs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+  - targetd
+test: ./runtest.sh
+framework: beakerlib
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - targetd
+  - targetcli
+  - lvm2
+  - /usr/sbin/service
+  - httpd
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 15m
+enabled: false
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - TierCandidatesPASS
+  - epel
+  - rhel8-epel
+  - targeted
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1063714
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1373860
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1424621
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1486252
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1486259
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1546671
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1569663
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2062183
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2203720
+adjust:
+  - enabled: true
+    when: distro == rhel-7, rhel-8, fedora
+    because: the targetd package is not available elsewhere
+extra-nitrate: TC#0337221
+extra-summary: /CoreOS/selinux-policy/Regression/targetd-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/targetd-and-similar
