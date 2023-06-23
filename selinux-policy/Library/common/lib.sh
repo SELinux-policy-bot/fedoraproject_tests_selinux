@@ -1558,7 +1558,7 @@ function rlSESatisfyRequires() {
         return 0
     fi
 
-    rlRun "epelyum -y --nobest --nogpgcheck --skip-broken install ${PACKAGE_LIST} ${PACKAGE_LIST2}" 0,1
+    rlRun "epelyum install -y --nobest --nogpgcheck --skip-broken ${PACKAGE_LIST} ${PACKAGE_LIST2}" 0,1
 }
 
 __INTERNAL_rlSEModuleList() {
@@ -2024,9 +2024,9 @@ rlSELibraryLoaded() {
     fi
 
     if rlIsRHEL; then
-        rlRun "yum -y --skip-broken install $rlSE_REQUIRES"
+        rlRun "yum install -y --skip-broken $rlSE_REQUIRES"
     else
-        rlRun "dnf -y --skip-broken install $rlSE_REQUIRES"
+        rlRun "dnf install -y --skip-broken $rlSE_REQUIRES"
     fi
 
     # make sure that restorecon does not change SELinux contexts under /var/ARTIFACTS

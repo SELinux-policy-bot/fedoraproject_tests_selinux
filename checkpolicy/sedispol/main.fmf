@@ -15,7 +15,6 @@ tag:
   - CI-Tier-1
   - NoRHEL4
   - NoRHEL5
-  - TIPfail_Security
   - Tier2
   - Tier2se
   - f31friendly
