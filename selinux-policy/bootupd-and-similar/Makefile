@@ -64,6 +64,7 @@ $(METADATA): Makefile
 	@echo "Releases:        -RHEL4 -RHEL5 -RHEL6 -RHEL7" >> $(METADATA)
 	@echo "Bug:             2029478" >> $(METADATA) # RHEL-9
 	@echo "Bug:             2044508" >> $(METADATA) # RHEL-9
+	@echo "Bug:             2218106" >> $(METADATA) # Fedora rawhide
 
 	rhts-lint $(METADATA)
 

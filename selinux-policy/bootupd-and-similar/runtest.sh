@@ -62,6 +62,12 @@ rlJournalStart
         rlSESearchRule "type_transition ${SOURCE_TYPE} ${FILE_CONTEXT} : process ${PROCESS_CONTEXT} $BOOLEANS"
     rlPhaseEnd
 
+    rlPhaseStartTest "bz#2218106"
+        rlSEMatchPathCon "/usr/libexec/bootupd" "bootupd_exec_t"
+        rlRun "ls -RlZ /boot/efi"
+        rlSESearchRule "allow bootupd_t dosfs_t : dir { getattr search } [ ]"
+    rlPhaseEnd
+
     rlPhaseStartTest "real scenario -- standalone service"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
             # for RHELs where the SELinux domain does not exist yet
@@ -80,7 +86,7 @@ rlJournalStart
         sleep 1
         rlRun "bootupctl status" 0,1
         rlRun "bootupctl validate" 0,1
-        rlRun "lsblk -O"
+        rlRun "lsblk"
         rlRun "systemctl stop ${SERVICE_NAME}.socket"
         rlRun "systemctl disable ${SERVICE_NAME}.socket"
     rlPhaseEnd
