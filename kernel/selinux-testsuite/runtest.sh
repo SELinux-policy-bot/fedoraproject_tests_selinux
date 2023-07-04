@@ -35,7 +35,7 @@ PACKAGE="selinux-policy"
 # This should be updated as needed after verifying that the new version
 # doesn't break testing and after applying all necessary tweaks in the TC.
 # Run with GIT_BRANCH=master to run the latest upstream version.
-DEFAULT_COMMIT="5fc5dc9f5964aae3a6dce57178b25ddc49d21415"
+DEFAULT_COMMIT="514e324abc099057782ec569b720eaf9b6d9d99f"
 # Default pull requests to merge before running the test.
 # If non-empty, then after checking out GIT_BRANCH the listed upstream pull
 # requests (by number) are merged, creating a new temporary local branch.
@@ -328,7 +328,7 @@ rlJournalStart
             if kver_lt "3.10.0-693"; then
                 # I don't know when exactly these tests start passing, so I'm just
                 # disabling them for anything below the RHEL-7.4 kernel...
-                exclude_tests+=" inet_socket"
+                exclude_tests+=" inet_socket/tcp inet_socket/udp"
                 exclude_tests+=" filesystem/ext4 filesystem/xfs filesystem/jfs filesystem/vfat"
             fi
 
@@ -395,6 +395,12 @@ rlJournalStart
                 rlRun "sed -i 's/5\.18/4.18/g' tests/sctp/test" 0 \
                     "Fix up kernel version in sctp test"
             fi
+
+            # TODO: wait for 786fc12457268cc9b555dde6c22ae7300d4b40e1
+            # to be backported
+            #if kver_ge 5.14.0-326; then
+            #    force_tests+=" inet_socket/mptcp"
+            #fi
         fi
 
         # CKI mainline kernels don't ship with module build infrastructure
