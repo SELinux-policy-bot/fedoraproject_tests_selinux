@@ -1,0 +1,11 @@
+summary: Does `sepolicy generate --application ...` detect writeable locations?
+test: ./test.sh
+framework: beakerlib
+component:
+  - policycoreutils
+require:
+  - policycoreutils
+  - policycoreutils-devel
+  - mariadb-server
+  - abrt
+tier: '3'
