@@ -30,7 +30,6 @@
 . /usr/share/beakerlib/beakerlib.sh || exit 1
 
 PACKAGE="selinux-policy"
-ROOT_PASSWORD="redhat"
 FILE_PATH="/usr/bin/targetd"
 FILE_CONTEXT="targetd_exec_t"
 SERVICE_PACKAGE="targetd"
@@ -154,6 +153,19 @@ rlJournalStart
         rlSESearchRule "dontaudit targetd_t httpd_config_t : dir { search } [ ]"
     rlPhaseEnd
 
+    rlPhaseStartTest "bz#2222199"
+        rlSEMatchPathCon "/usr/bin/targetd" "targetd_exec_t"
+        if [ -f /proc/sys/net/ipv6/conf/all/disable_ipv6 ] ; then
+            rlRun "ls -dZ /proc/sys/net | grep :sysctl_net_t"
+            rlRun "ls -dZ /proc/sys/net/ipv6 | grep :sysctl_net_t"
+            rlRun "ls -dZ /proc/sys/net/ipv6/conf | grep :sysctl_net_t"
+            rlRun "ls -dZ /proc/sys/net/ipv6/conf/all | grep :sysctl_net_t"
+            rlRun "ls -Z /proc/sys/net/ipv6/conf/all/disable_ipv6 | grep :sysctl_net_t"
+        fi
+        rlSESearchRule "allow targetd_t sysctl_net_t : dir { search } [ ]"
+        rlSESearchRule "allow targetd_t sysctl_net_t : file { getattr open read } [ ]"
+    rlPhaseEnd
+
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "rm -f /etc/target/saveconfig.json"
         rlRun "rm -f /etc/target/targetd.yaml"
@@ -168,15 +180,16 @@ rlJournalStart
         rlRun "losetup ${LOOP_DEVICE} ${LOOP_FILE}"
         rlRun "vgcreate vg-targetd ${LOOP_DEVICE}"
         rlRun "vgdisplay"
-        rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
             # for RHELs where the SELinux domain does not exist yet
             PROCESS_CONTEXT="initrc_t"
         fi
-        rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
+        rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
         rlRun "targetcli ls"
         rlRun "targetcli version"
-        rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
+        rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status" 1
+        rlRun "restorecon -Rv /etc /var /run -e /var/ARTIFACTS" 0-255
+        rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "stop status" 1
         rlRun "vgremove vg-targetd"
         rlRun "losetup -d ${LOOP_DEVICE}"
         rlRun "rm -f ${LOOP_FILE}"
