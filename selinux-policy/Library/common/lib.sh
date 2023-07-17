@@ -1548,6 +1548,13 @@ function rlSESatisfyRequires() {
         # because that would most likely break the environment or fail
         return
     fi
+
+    which dnf yum >& /dev/null
+    if [ $? -eq 2 ] ; then
+        rlLog "Neither dnf nor yum is present. Don't know how to install required packages."
+        return
+    fi
+
     if [ $# -gt 0 ] ; then
         PACKAGE_LIST2="$*"
     fi
