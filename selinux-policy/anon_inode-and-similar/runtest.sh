@@ -50,6 +50,12 @@ rlJournalStart
         sleep 2
     rlPhaseEnd
 
+    rlPhaseStartTest "bz#1954145"
+        rlRun "seinfo -c | grep anon_inode"
+        rlRun "seinfo -c anon_inode -x"
+        rlRun "sesearch -s domain -t domain -c anon_inode -A -ds -dt"
+    rlPhaseEnd
+
     rlPhaseStartTest "SELinux policy prevents userfaultfds bz1974559"
         rlRun "gcc -o reproducer reproducer.c"
         tst_Time="$(date '+%T')"
@@ -65,7 +71,7 @@ rlJournalStart
         rlSESearchRule "allow svirt_t svirt_t : anon_inode { map } [ ]"
         rlSESearchRule "allow virtd_t virtd_t : anon_inode { map } [ ]"
 
-        rlRun "fio --filename=/root/pokus --iodepth=16 --rw=write --ioengine=io_uring --bs=16k --size=2G --numjobs=30 --runtime=100s --group_reporting=1 --name=mytest"
+        rlRun "fio --filename=/root/pokus --iodepth=16 --rw=write --ioengine=io_uring --bs=16k --size=2G --numjobs=30 --runtime=100s --group_reporting=1 --name=mytest" 0-255
     rlPhaseEnd
 
     rlPhaseStartCleanup

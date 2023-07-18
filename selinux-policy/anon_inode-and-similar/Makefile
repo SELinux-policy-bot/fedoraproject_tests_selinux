@@ -62,6 +62,7 @@ $(METADATA): Makefile
 	@echo "Destructive:     no" >> $(METADATA)
 	@echo "Environment:     AVC_ERROR=+no_avc_check" >> $(METADATA)
 	@echo "Releases:        -RHEL4" >> $(METADATA)
+	@echo "Bug:             1954145" >> $(METADATA) # RHEL-9
 	@echo "Bug:             1974559" >> $(METADATA)
 	@echo "Bug:             2027660" >> $(METADATA) # RHEL-9
 	@echo "Bug:             2025714" >> $(METADATA) # Fedora 35

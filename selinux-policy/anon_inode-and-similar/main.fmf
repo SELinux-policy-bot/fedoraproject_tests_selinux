@@ -25,8 +25,10 @@ tag:
   - NoRHEL5
   - NoRHEL6
   - NoRHEL7
+  - NoRHEL8
   - targeted
 link:
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1954145
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1974559
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2027660
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2025714
@@ -34,7 +36,7 @@ link:
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8
-    continue: false
+    because: the anon_inode class is not defined there
 extra-nitrate: TC#0612643
 extra-summary: /CoreOS/selinux-policy/Regression/anon_inode-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/anon_inode-and-similar
