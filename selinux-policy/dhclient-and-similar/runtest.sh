@@ -44,7 +44,7 @@ rlJournalStart
         rlAssertRpm ${SERVICE_PACKAGE}
 
         rlServiceStart ${SERVICE_NAME}
-        rlFileBackup /run/chrony-dhcp
+        rlFileBackup --missing-ok /run/chrony-dhcp
 
         rlSESetEnforce
         rlSEStatus
@@ -73,11 +73,14 @@ rlJournalStart
 
     rlPhaseStartTest "real scenario"
         rlRun "rm -rf /run/chrony-dhcp"
+        rlRun "restorecon -Rv /run /var -e /var/ARTIFACTS" 0-255
         rlRun "dhclient"
         DHCLIENT_PID=`pgrep dhclient`
         rlRun "ps -efZ | grep dhclient"
         rlRun "ps -efZ | grep ':dhcpc_t:.*dhclient'"
-        rlRun "ls -alZ /run/chrony-dhcp"
+        if ! rlIsRHEL 8 ; then
+            rlRun "ls -alZ /run/chrony-dhcp"
+        fi
     rlPhaseEnd
 
     rlPhaseStartCleanup
