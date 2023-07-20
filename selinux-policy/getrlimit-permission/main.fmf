@@ -25,7 +25,6 @@ tag:
   - NoRHEL4
   - NoRHEL5
   - NoRHEL6
-  - TIPfail_Security
   - Tier1
   - Tier1se
   - f33friendly

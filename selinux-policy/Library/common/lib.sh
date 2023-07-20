@@ -1549,9 +1549,9 @@ function rlSESatisfyRequires() {
         return
     fi
 
-    which dnf yum >& /dev/null
-    if [ $? -eq 2 ] ; then
-        rlLog "Neither dnf nor yum is present. Don't know how to install required packages."
+    which yum >& /dev/null
+    if [ $? -ne 0 ] ; then
+        rlLog "The yum is not present. Don't know how to install required packages."
         return
     fi
 
