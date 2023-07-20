@@ -1,0 +1,5 @@
+PURPOSE of /CoreOS/selinux-policy/Regression/bz562833-chrooted-named-file-contexts
+Author: Milos Malik <mmalik@redhat.com>
+
+SELinux interferes with named and related programs.
+

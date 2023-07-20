@@ -1,0 +1,62 @@
+summary: some named files in chroot-ed environment have wrong SELinux labels
+description: |+
+    SELinux interferes with named and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+test: ./runtest.sh
+framework: beakerlib
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - bind
+  - bind-chroot
+  - caching-nameserver
+  - grep
+  - /usr/sbin/service
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - procps
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 2h
+enabled: true
+tag:
+  - NoRHEL4
+  - TierCandidatesPASS
+  - f32friendly
+  - targeted
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=451970
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=562833
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=578187
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=698257
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=739886
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=843732
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=859231
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=916173
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1012051
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1103439
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1110397
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1166281
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1199473
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1312972
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1683754
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1759505
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1827591
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1923929
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2223725
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2224352
+adjust:
+  - enabled: false
+    when: distro == rhel-4
+    continue: false
+extra-nitrate: TC#0057489
+extra-summary: /CoreOS/selinux-policy/Regression/bz562833-chrooted-named-file-contexts
+extra-task: /CoreOS/selinux-policy/Regression/bz562833-chrooted-named-file-contexts
