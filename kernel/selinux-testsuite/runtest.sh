@@ -113,25 +113,34 @@ function boolSet() {
 
 rlJournalStart
     rlPhaseStartSetup "Install"
+        # Determine the base kernel package name and version corresponding
+        # to the currently running kernel. Use this information to derive
+        # the correct kernel subpackages to install.
+        if KERNEL_CORE_NVRA="$(rpm -qf "/lib/modules/$(uname -r)/vmlinuz")"; then
+            KERNEL_CORE_NV="${KERNEL_CORE_NVRA%-*}"
+            KERNEL_CORE_N="${KERNEL_CORE_NV%-*}"
+
+            KERNEL_PKG_VRA="${KERNEL_CORE_NVRA#$KERNEL_CORE_N-}"
+            KERNEL_PKG_BASE="${KERNEL_CORE_N%-core}"
+
+            rlLog "Detected kernel package base name '$KERNEL_PKG_BASE' and version-release.arch '$KERNEL_PKG_VRA'"
+            KERNEL_PKGS="
+                $KERNEL_PKG_BASE-modules-extra-$KERNEL_PKG_VRA
+                $KERNEL_PKG_BASE-devel-$KERNEL_PKG_VRA
+            "
+        else
+            rlLog "Detected non-RPM running kernel - no extra kernel packages will be installed"
+            KERNEL_PKGS=""
+        fi
+
         # We need to install the kernel-* packages by ourselves, since we need
         # the same versions as the running kernel. And since we already need a
         # reliable package install function, let's just install all the
         # dependencies here. Thus we don't need to maintain duplicate lists of
         # package requirements in many places (RH repo, Fedora kernel dist-git,
         # CKI).
-        PKG_SUFFIX=""
-        KERNEL_VERSION="$(uname -r)"
-        PKG_VERSION="${KERNEL_VERSION%+debug}"
-        if [ "$PKG_VERSION" != "$KERNEL_VERSION" ]; then
-            rlLog "Detected debug kernel running."
-            PKG_SUFFIX="-debug"
-        fi
-
         REQUIRES="
-            kernel$PKG_SUFFIX-modules-extra-$PKG_VERSION
-            kernel-rt$PKG_SUFFIX-modules-extra-$PKG_VERSION
-            kernel$PKG_SUFFIX-devel-$PKG_VERSION
-            kernel-rt$PKG_SUFFIX-devel-$PKG_VERSION
+            $KERNEL_PKGS
             /usr/bin/unbuffer
             attr
             audit
