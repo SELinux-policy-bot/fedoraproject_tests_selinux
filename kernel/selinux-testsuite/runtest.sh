@@ -391,6 +391,12 @@ rlJournalStart
             if kver_ge 4.18.0-372.1.1 && kver_lt 5.14; then
                 sctp_client_peeloff=1
             fi
+            if kver_ge 5.14.0-70.15.1 && kver_lt 5.14.0-71; then
+                sctp_client_peeloff=1
+            fi
+            if kver_ge 5.14.0-84; then
+                sctp_client_peeloff=1
+            fi
             if [ "$sctp_client_peeloff" -eq 1 ]; then
                 rlRun "sed -i 's/5\.18/4.18/g' tests/sctp/test" 0 \
                     "Fix up kernel version in sctp test"
