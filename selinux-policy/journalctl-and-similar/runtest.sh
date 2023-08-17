@@ -134,7 +134,7 @@ rlJournalStart
         USER_SECRET="S3kr3t${RANDOM}"
         rlRun "useradd -o -u 0 -g 0 -Z sysadm_u ${USER_NAME}"
         rlRun "echo ${USER_SECRET} | passwd --stdin ${USER_NAME}"
-        rlRun "./ssh.exp ${USER_NAME} ${USER_SECRET} localhost journalctl -l --pager"
+        rlRun "./ssh.exp ${USER_NAME} ${USER_SECRET} localhost journalctl -l --no-pager"
         rlRun "userdel -rfZ ${USER_NAME}"
         rlRun "setsebool ssh_sysadm_login off"
     rlPhaseEnd

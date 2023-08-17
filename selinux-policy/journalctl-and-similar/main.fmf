@@ -30,9 +30,6 @@ tag:
   - NoRHEL4
   - NoRHEL5
   - NoRHEL6
-  - TIPfail
-  - TIPfail_Security
-  - TIPfail_systemd
   - failinfedora
   - targeted
 link:
