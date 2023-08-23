@@ -19,6 +19,7 @@ rlJournalStart
         rlRun "rm -rf policy"
     rlPhaseEnd
 
+    if [ -x /usr/sbin/abrtd ] ; then
     rlPhaseStartTest "/usr/sbin/abrtd"
         rlRun "mkdir policy"
         rlRun "sepolicy generate -p policy --application /usr/sbin/abrtd"
@@ -28,6 +29,7 @@ rlJournalStart
         done
         rlRun "rm -rf policy"
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         rlRun "popd"

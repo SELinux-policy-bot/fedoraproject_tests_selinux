@@ -7,5 +7,7 @@ require:
   - policycoreutils
   - policycoreutils-devel
   - mariadb-server
+recommend:
   - abrt
 tier: '3'
+enabled: true
