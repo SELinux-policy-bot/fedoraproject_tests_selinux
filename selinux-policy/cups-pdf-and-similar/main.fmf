@@ -4,7 +4,6 @@ description: |+
 
 contact: Milos Malik <mmalik@redhat.com>
 component:
-  - cups
   - selinux-policy
 require:
   - library(selinux-policy/common)
