@@ -40,7 +40,7 @@ ALLOWED_USERS=${ALLOWED_USERS:-"staff_u user_u sysadm_u unconfined_u"}
 DENIED_USERS=${DENIED_USERS:-"guest_u xguest_u"}
 
 rlJournalStart
-    if rlIsRHEL || rlIsFedora "<32"; then
+    if rlIsFedora "<32"; then
         rlLog "Not applicable to this OS version."
         rlJournalEnd
         exit 0
@@ -51,6 +51,9 @@ rlJournalStart
         rlSESatisfyRequires
         rlAssertRpm ${PACKAGE}
         rlAssertRpm ${PACKAGE}-targeted
+        if ! rpm -q cups-pdf >& /dev/null ; then
+            rlRun "yum -y install cups-pdf --enablerepo epel"
+        fi
         rlAssertRpm ${SERVICE_PACKAGE}
 
         rlServiceStart ${SERVICE_NAME}
@@ -102,9 +105,11 @@ rlJournalStart
         rlSESearchRule "type_transition cups_pdf_t var_log_t : file cupsd_log_t"
     rlPhaseEnd
 
+    if ! rlIsRHEL 8 ; then
     rlPhaseStartTest "bz#1832521"
         rlSESearchRule "allow cups_pdf_t cups_pdf_t : unix_dgram_socket { create connect } [ ]"
     rlPhaseEnd
+    fi
 
     rlPhaseStartTest "real scenario -- confined users"
         CREATED_USERS=""
