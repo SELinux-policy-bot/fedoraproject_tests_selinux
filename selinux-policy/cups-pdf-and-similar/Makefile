@@ -72,6 +72,7 @@ $(METADATA): Makefile
 	@echo "Bug:             1594271" >> $(METADATA) # Fedora 28
 	@echo "Bug:             1700442" >> $(METADATA) # Fedora 28
 	@echo "Bug:             1832521" >> $(METADATA) # Fedora 32
+	@echo "Bug:             2234765" >> $(METADATA) # RHEL-9
 
 	rhts-lint $(METADATA)
 

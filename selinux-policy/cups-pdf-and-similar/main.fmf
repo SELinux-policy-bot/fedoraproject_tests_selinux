@@ -43,6 +43,7 @@ link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1594271
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1700442
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1832521
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2234765
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-alt-7
