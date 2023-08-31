@@ -67,6 +67,7 @@ rlJournalStart
         rlSESearchRule "type_transition ${SOURCE_TYPE} ${FILE_CONTEXT} : process ${PROCESS_CONTEXT} $BOOLEANS"
     rlPhaseEnd
 
+    if rlIsFedora ; then
     rlPhaseStartTest "bz#1847545"
         rlSESearchRule "allow systemd_machined_t unconfined_service_t : dir { search } [ ]"
     rlPhaseEnd
@@ -82,6 +83,7 @@ rlJournalStart
         rlSESearchRule "allow systemd_machined_t unconfined_service_t : lnk_file { getattr read } [ ]"
         rlSESearchRule "allow systemd_machined_t unconfined_service_t : unix_stream_socket { connectto } [ ]"
     rlPhaseEnd
+    fi
 
     rlPhaseStartTest "real scenario -- standalone service"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then

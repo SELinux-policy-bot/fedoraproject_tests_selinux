@@ -26,6 +26,7 @@ tag:
   - NoRHEL5
   - NoRHEL6
   - NoRHEL7
+  - NoRHEL8
   - Tier3
   - Tier3se
   - targeted
@@ -36,7 +37,7 @@ link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2218106
 adjust:
   - enabled: false
-    when: distro == rhel-4, rhel-5, rhel-6, rhel-7
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8
     because: the package is not available there
   - enabled: false
     when: arch == ppc64, ppc64le, s390x

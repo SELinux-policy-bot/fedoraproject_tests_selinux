@@ -53,6 +53,7 @@ link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1923929
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2223725
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2224352
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2226703
 adjust:
   - enabled: false
     when: distro == rhel-4

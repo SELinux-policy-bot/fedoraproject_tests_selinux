@@ -31,11 +31,16 @@
 
 PACKAGE="selinux-policy"
 FILE_PATH="/usr/libexec/bootupd"
-FILE_CONTEXT="bootupd_exec_t"
 SERVICE_PACKAGE="bootupd"
 SERVICE_NAME="bootupd"
 PROCESS_NAME="bootupd"
-PROCESS_CONTEXT="bootupd_t"
+if rlIsRHEL 9 ; then
+    FILE_CONTEXT="bin_t"
+    PROCESS_CONTEXT="unconfined_service_t"
+else
+    FILE_CONTEXT="bootupd_exec_t"
+    PROCESS_CONTEXT="bootupd_t"
+fi
 
 rlJournalStart
     rlPhaseStartSetup
@@ -54,6 +59,7 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "bz#2029478 + bz#2044508"
+        # both BZs were closed as WONTFIX, but the test is flexible enough
         rlSEMatchPathCon "${FILE_PATH}" "${FILE_CONTEXT}"
         BOOLEANS="[ ]"
         SOURCE_TYPE="init_t" # systemd runs the process
@@ -63,9 +69,9 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "bz#2218106"
-        rlSEMatchPathCon "/usr/libexec/bootupd" "bootupd_exec_t"
+        rlSEMatchPathCon "/usr/libexec/bootupd" "${FILE_CONTEXT}"
         rlRun "ls -RlZ /boot/efi"
-        rlSESearchRule "allow bootupd_t dosfs_t : dir { getattr search } [ ]"
+        rlSESearchRule "allow ${PROCESS_CONTEXT} dosfs_t : dir { getattr search } [ ]"
     rlPhaseEnd
 
     rlPhaseStartTest "real scenario -- standalone service"

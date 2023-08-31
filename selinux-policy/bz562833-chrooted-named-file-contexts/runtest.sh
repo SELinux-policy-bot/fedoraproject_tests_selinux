@@ -208,8 +208,8 @@ rlJournalStart
         rlPhaseEnd
     fi
 
-    if seinfo -c io_uring | grep -q io_uring ; then
-        rlPhaseStartTest "bz#2223725 + bz#2224352"
+    if rlIsFedora '>=38' ; then
+        rlPhaseStartTest "bz#2223725 + bz#2224352 + bz#2226703"
             rlSESearchRule "allow named_t named_t : io_uring { sqpoll } [ ]"
             rlSESearchRule "allow ndc_t ndc_t : io_uring { sqpoll } [ ]"
         rlPhaseEnd
