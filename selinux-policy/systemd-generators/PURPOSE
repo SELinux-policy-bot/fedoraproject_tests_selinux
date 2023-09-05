@@ -1,0 +1,5 @@
+PURPOSE of /CoreOS/selinux-policy/Sanity/systemd-generators
+Author: Zdenek Pytela <zpytela@redhat.com>
+
+Test systemd system generators which are SELinux confined and show all installed generators.
+

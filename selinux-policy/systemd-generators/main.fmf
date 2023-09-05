@@ -1,0 +1,32 @@
+summary: Systemd system generators
+description: |+
+    Testing systemd system generators which are SELinux confined
+
+contact: Zdenek Pytela <zpytela@redhat.com>
+component:
+  - selinux-policy
+  - systemd
+test: ./runtest.sh
+framework: beakerlib
+require:
+  - library(selinux-policy/common)
+  - selinux-policy
+recommend:
+  - selinux-policy-targeted
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 15m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - TierCandidatesPASS
+  - f32friendly
+  - targeted
+link:
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2230226
+adjust:
+  - enabled: false
+    when: distro == rhel-7
+    continue: false
