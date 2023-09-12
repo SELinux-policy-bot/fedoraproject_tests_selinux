@@ -18,7 +18,7 @@ recommend:
   - setools-console
   - glib2
   - fwupd
-  - initscripts
+  - /usr/sbin/service
   - expect
 environment:
     AVC_ERROR: +no_avc_check
@@ -30,8 +30,6 @@ tag:
   - NoRHEL4
   - NoRHEL5
   - NoRHEL6
-  - TIPfail
-  - TIPfail_Security
   - Tier3
   - Tier3se
   - TierCandidatesPASS
@@ -53,3 +51,4 @@ adjust:
 extra-nitrate: TC#0563429
 extra-summary: /CoreOS/selinux-policy/Regression/fwupd-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/fwupd-and-similar
+id: 12996742-5ad6-4dd2-b04d-b4c781fcce79

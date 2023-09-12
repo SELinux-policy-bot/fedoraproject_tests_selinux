@@ -11,14 +11,13 @@ recommend:
   - audit
   - expect
   - grep
-  - initscripts
+  - /usr/sbin/service
   - libselinux
   - libselinux-utils
   - numad
   - policycoreutils
   - procps
   - selinux-policy
-  - setools
   - setools-console
 environment:
     AVC_ERROR: +no_avc_check
@@ -51,3 +50,4 @@ adjust:
 extra-nitrate: TC#0202428
 extra-summary: /CoreOS/selinux-policy/Regression/numad-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/numad-and-similar
+id: f97f6046-ee73-48ec-b3fc-7aa08648890c

@@ -12,7 +12,7 @@ recommend:
   - audit
   - expect
   - grep
-  - initscripts
+  - /usr/sbin/service
   - libselinux
   - libselinux-utils
   - pcsc-lite
@@ -21,7 +21,6 @@ recommend:
   - selinux-policy
   - selinux-policy-mls
   - selinux-policy-targeted
-  - setools
   - setools-console
 environment:
     AVC_ERROR: +no_avc_check
@@ -59,3 +58,4 @@ adjust:
 extra-nitrate: TC#0057525
 extra-summary: /CoreOS/selinux-policy/Regression/bz624405-pcsc-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/bz624405-pcsc-and-similar
+id: 43cb4c7e-4e58-4b9b-82ea-8c9438ee0030

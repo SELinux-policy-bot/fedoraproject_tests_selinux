@@ -64,9 +64,11 @@ rlJournalStart
         rlSESearchRule "allow sysadm_t sysadm_t : perf_event { open cpu kernel read write } [ ]"
     rlPhaseEnd
 
+    if ! rlIsRHEL 8 ; then
     rlPhaseStartTest "bz#2229936"
         rlSESearchRule "allow sysadm_t kernel_t : bpf { prog_run } [ ]"
     rlPhaseEnd
+    fi
 
     rlPhaseStartTest "real scenario -- perf tool under root"
         rlRun "perf record -o /dev/null echo test"

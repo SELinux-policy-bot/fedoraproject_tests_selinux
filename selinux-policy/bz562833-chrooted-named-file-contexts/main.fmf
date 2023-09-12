@@ -61,3 +61,4 @@ adjust:
 extra-nitrate: TC#0057489
 extra-summary: /CoreOS/selinux-policy/Regression/bz562833-chrooted-named-file-contexts
 extra-task: /CoreOS/selinux-policy/Regression/bz562833-chrooted-named-file-contexts
+id: dc594e14-f692-4537-9553-ce6aeab1a0cc

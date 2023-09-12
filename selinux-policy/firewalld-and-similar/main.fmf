@@ -20,6 +20,7 @@ recommend:
   - glib2
   - nftables
   - procps-ng
+  - /usr/sbin/service
 environment:
     AVC_ERROR: +no_avc_check
 duration: 30m
@@ -29,7 +30,6 @@ tag:
   - NoRHEL5
   - NoRHEL6
   - TIP_fedora_pass
-  - TIPfail_fedora
   - TIPpass
   - TIPpass_FIPS
   - TIPpass_Security
@@ -68,3 +68,4 @@ adjust:
 extra-nitrate: TC#0175059
 extra-summary: /CoreOS/selinux-policy/Regression/firewalld-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/firewalld-and-similar
+id: e856e8cc-0893-457b-a1ef-a71c09b6fef9

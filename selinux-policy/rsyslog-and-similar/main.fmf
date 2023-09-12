@@ -10,7 +10,7 @@ require:
   - library(selinux-policy/common)
 recommend:
   - audit
-  - initscripts
+  - /usr/sbin/service
   - libselinux
   - libselinux-utils
   - logwatch
@@ -20,7 +20,6 @@ recommend:
   - rsyslog-gnutls
   - selinux-policy
   - selinux-policy-targeted
-  - setools
   - setools-console
   - shadow-utils
   - /usr/sbin/semanage
@@ -41,3 +40,4 @@ adjust:
 extra-nitrate: TC#0609007
 extra-summary: /CoreOS/selinux-policy/Regression/rsyslog-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/rsyslog-and-similar
+id: 42688797-d2d6-4acc-acd2-dc54f18150c4

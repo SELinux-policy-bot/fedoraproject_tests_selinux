@@ -79,9 +79,18 @@ rlJournalStart
 
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "sed -i 's/^\(include.*\)$/# \1/' /etc/bgpd.conf"
+        if rlIsRHEL 8 ; then
+            # work around BZ#1830170 that was closed as WONTFIX
+            rlRun "chcon -t bin_t /usr/sbin/bgpd"
+            PROCESS_CONTEXT="unconfined_service_t"
+        fi
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
         rlRun "restorecon -Rv /run /var -e /var/ARTIFACTS" 0-255
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
+        if rlIsRHEL 8 ; then
+            # work around BZ#1830170 that was closed as WONTFIX
+            rlRun "restorecon -v /usr/sbin/bgpd"
+        fi
     rlPhaseEnd
 
     rlPhaseStartCleanup

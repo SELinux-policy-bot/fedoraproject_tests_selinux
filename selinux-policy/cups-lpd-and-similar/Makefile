@@ -55,7 +55,7 @@ $(METADATA): Makefile
 	@echo "TestTime:        20m" >> $(METADATA)
 	@echo "RunFor:          selinux-policy" >> $(METADATA)
 	@echo "RunFor:          cups" >> $(METADATA)
-	@echo "Requires:        audit expect policycoreutils-python-utils selinux-policy-devel libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted setools setools-console xinetd nmap-ncat nc net-tools cups-lpd chkconfig /usr/sbin/service" >> $(METADATA)
+	@echo "Requires:        audit expect policycoreutils-python-utils selinux-policy-devel libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted setools-console xinetd nmap-ncat nc net-tools cups-lpd chkconfig /usr/sbin/service" >> $(METADATA)
 	@echo "RhtsRequires:    library(selinux-policy/common)" >> $(METADATA)
 	@echo "Priority:        Normal" >> $(METADATA)
 	@echo "License:         GPLv2" >> $(METADATA)

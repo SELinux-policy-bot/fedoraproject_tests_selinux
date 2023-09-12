@@ -9,7 +9,7 @@ require:
   - library(selinux-policy/common)
 recommend:
   - audit
-  - initscripts
+  - /usr/sbin/service
   - libselinux
   - libselinux-utils
   - policycoreutils
@@ -28,7 +28,6 @@ tag:
   - NoRHEL4
   - NoRHEL5
   - NoRHEL6
-  - TIPfail_Security
   - Tier2
   - Tier2se
   - TierCandidatesPASS
@@ -52,3 +51,4 @@ adjust:
 extra-nitrate: TC#0575292
 extra-summary: /CoreOS/selinux-policy/Regression/boltd-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/boltd-and-similar
+id: 008316f1-35ab-4eb6-9e70-92df795f9254

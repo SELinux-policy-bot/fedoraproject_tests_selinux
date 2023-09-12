@@ -15,7 +15,7 @@ recommend:
   - policycoreutils
   - selinux-policy
   - selinux-policy-targeted
-  - setools
+  - /usr/sbin/service
   - setools-console
   - glib2
   - pcp
@@ -28,7 +28,6 @@ duration: 90m
 enabled: true
 tag:
   - NoRHEL4
-  - TIPfail_FIPS
   - TIPpass
   - TIPpass_Security
   - TipWaived7
@@ -66,3 +65,4 @@ adjust:
 extra-nitrate: TC#0075517
 extra-summary: /CoreOS/selinux-policy/Regression/pcp-daemons-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/pcp-daemons-and-similar
+id: e59269a3-9556-4441-b60b-2339499689b7

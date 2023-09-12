@@ -35,7 +35,6 @@ tag:
   - RHEL8
   - Tier2
   - Tier2se
-  - TierCandidatesFAIL
   - customer_scenario
   - f32friendly
   - rhel9-buildroot
@@ -58,3 +57,4 @@ adjust:
 extra-nitrate: TC#0305784
 extra-summary: /CoreOS/selinux-policy/Regression/cups-lpd-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/cups-lpd-and-similar
+id: 544f74d0-54a4-4174-a4a0-4fe85190a5c6

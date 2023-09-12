@@ -15,7 +15,6 @@ recommend:
   - policycoreutils
   - selinux-policy
   - selinux-policy-targeted
-  - setools
   - setools-console
   - dmidecode
   - selinux-policy-devel
@@ -32,7 +31,6 @@ tag:
   - TIPpass_Security
   - Tier2
   - Tier2se
-  - TierCandidatesFAIL
   - f31friendly
   - f32friendly
   - targeted
@@ -53,3 +51,4 @@ adjust:
 extra-nitrate: TC#0550595
 extra-summary: /CoreOS/selinux-policy/Regression/dmidecode-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/dmidecode-and-similar
+id: 8b3954c3-5475-4a03-aad9-0a31a68bcdce

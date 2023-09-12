@@ -55,7 +55,7 @@ $(METADATA): Makefile
 	@echo "TestTime:        90m" >> $(METADATA)
 	@echo "RunFor:          selinux-policy" >> $(METADATA)
 	@echo "RunFor:          pcp" >> $(METADATA)
-	@echo "Requires:        audit libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted setools setools-console glib2 pcp pcp-manager pcp-pmda-dm pcp-webapi" >> $(METADATA)
+	@echo "Requires:        audit libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted /usr/sbin/service setools-console glib2 pcp pcp-manager pcp-pmda-dm pcp-webapi" >> $(METADATA)
 	@echo "RhtsRequires:    library(selinux-policy/common)" >> $(METADATA)
 	@echo "Priority:        Normal" >> $(METADATA)
 	@echo "License:         GPLv2" >> $(METADATA)

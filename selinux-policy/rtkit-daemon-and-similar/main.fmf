@@ -9,7 +9,7 @@ require:
   - library(selinux-policy/common)
 recommend:
   - audit
-  - initscripts
+  - /usr/sbin/service
   - libselinux
   - libselinux-utils
   - policycoreutils
@@ -26,8 +26,6 @@ tag:
   - CI-Tier-1
   - NoRHEL4
   - NoRHEL5
-  - TIP_fedora_fail
-  - TIPfail
   - TIPpass_FIPS
   - TIPpass_Security
   - Tier2
@@ -57,3 +55,4 @@ adjust:
 extra-nitrate: TC#0300678
 extra-summary: /CoreOS/selinux-policy/Regression/rtkit-daemon-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/rtkit-daemon-and-similar
+id: 9c4bfed2-36f7-4f37-ac14-629721ab5934

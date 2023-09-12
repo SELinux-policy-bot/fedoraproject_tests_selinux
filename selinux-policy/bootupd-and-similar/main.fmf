@@ -45,3 +45,4 @@ adjust:
 extra-summary: /CoreOS/selinux-policy/Regression/bootupd-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/bootupd-and-similar
 extra-nitrate: TC#0614833
+id: f6f4f1bc-b585-4199-8cde-d72424cadd52

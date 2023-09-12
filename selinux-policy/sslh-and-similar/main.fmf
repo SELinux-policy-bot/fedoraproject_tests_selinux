@@ -14,10 +14,9 @@ recommend:
   - policycoreutils
   - selinux-policy
   - selinux-policy-targeted
-  - setools
   - setools-console
   - sslh
-  - initscripts
+  - /usr/sbin/service
 environment:
     AVC_ERROR: +no_avc_check
 duration: 10m
@@ -43,3 +42,4 @@ adjust:
 extra-nitrate: TC#0563428
 extra-summary: /CoreOS/selinux-policy/Regression/sslh-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/sslh-and-similar
+id: da6c2b1a-6db2-4c2b-b258-311438d26aef

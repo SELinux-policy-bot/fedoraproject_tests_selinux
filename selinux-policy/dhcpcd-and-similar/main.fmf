@@ -25,7 +25,6 @@ tag:
   - NoRHEL4
   - NoRHEL5
   - NoRHEL6
-  - TIPfail_Security
   - failinfedora
   - targeted
 link:
@@ -38,3 +37,4 @@ adjust:
 extra-nitrate: TC#0574611
 extra-summary: /CoreOS/selinux-policy/Regression/dhcpcd-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/dhcpcd-and-similar
+id: 16f95682-f375-4789-86a5-a59b9d70ff3a

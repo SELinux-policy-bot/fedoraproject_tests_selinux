@@ -39,3 +39,4 @@ adjust:
 extra-summary: /CoreOS/selinux-policy/Regression/systemd-machined-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/systemd-machined-and-similar
 extra-nitrate: TC#0614355
+id: 3aff16de-7ca9-41eb-9676-9c2236fc92f1

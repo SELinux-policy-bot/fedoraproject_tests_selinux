@@ -15,17 +15,15 @@ recommend:
   - policycoreutils
   - selinux-policy
   - selinux-policy-targeted
-  - setools
   - setools-console
   - acpid
-  - initscripts
+  - /usr/sbin/service
 environment:
     AVC_ERROR: +no_avc_check
 duration: 30m
 enabled: true
 tag:
   - NoRHEL4
-  - TIPfail_infra
   - TIPpass
   - TIPpass_Security
   - Tier2
@@ -52,3 +50,4 @@ adjust:
 extra-nitrate: TC#0075209
 extra-summary: /CoreOS/selinux-policy/Regression/acpid-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/acpid-and-similar
+id: beec2e51-5acf-4d66-aa05-dc183fbb7b46

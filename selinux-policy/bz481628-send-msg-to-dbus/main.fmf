@@ -15,7 +15,7 @@ recommend:
   - policycoreutils
   - selinux-policy
   - selinux-policy-targeted
-  - setools
+  - /usr/sbin/service
   - setools-console
   - expect
   - openssh-clients
@@ -28,7 +28,6 @@ enabled: true
 tag:
   - CI-Tier-1
   - NoRHEL4
-  - TIPfail_Security
   - TIPpass
   - TierCandidatesPASS
   - failinfedora
@@ -48,3 +47,4 @@ adjust:
 extra-nitrate: TC#0057414
 extra-summary: /CoreOS/selinux-policy/Regression/bz481628-send-msg-to-dbus
 extra-task: /CoreOS/selinux-policy/Regression/bz481628-send-msg-to-dbus
+id: 3d861eff-500e-48d9-bef7-0906a55f5000
