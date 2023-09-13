@@ -1,0 +1,81 @@
+summary: kdump service cannot be started because of SELinux
+description: |+
+    SELinux interferes with kdump and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+test: ./runtest.sh
+framework: beakerlib
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - expect
+  - /usr/sbin/service
+  - kexec-tools
+  - grubby
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - sed
+  - selinux-policy
+  - selinux-policy-mls
+  - selinux-policy-targeted
+  - setools-console
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 15m
+enabled: true
+tag:
+  - MLS
+  - NoRHEL4
+  - TIPpass_Security
+  - TierCandidatesPASS
+  - TipWaived7
+  - failinfedora
+  - targeted
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=533007
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=533366
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=537088
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=540758
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=549503
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=618329
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=621061
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=753039
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=966203
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1055634
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1117368
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1117710
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1146491
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1288565
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1363977
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1375963
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1390669
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1418441
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1431236
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1536690
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1540004
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1542283
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1576730
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1588884
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1842897
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1896424
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1896595
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1899141
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1932752
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1951323
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1961728
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1965985
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1965989
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1934347
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=830822
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2236876
+adjust:
+  - enabled: false
+    when: distro == rhel-4
+    continue: false
+extra-nitrate: TC#0057470
+extra-summary: /CoreOS/selinux-policy/Regression/bz533007-unable-to-start-kdump-service
+extra-task: /CoreOS/selinux-policy/Regression/bz533007-unable-to-start-kdump-service

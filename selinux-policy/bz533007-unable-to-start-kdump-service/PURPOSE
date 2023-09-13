@@ -1,0 +1,5 @@
+PURPOSE of /CoreOS/selinux-policy/Regression/bz533007-unable-to-start-kdump-service
+Author: Milos Malik <mmalik@redhat.com>
+
+SELinux interferes with kdump and related programs.
+
