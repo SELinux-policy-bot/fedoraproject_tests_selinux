@@ -54,7 +54,7 @@ rlJournalStart
     rlPhaseEnd
 
     if rlSEDefined "${FILE_CONTEXT} ${PROCESS_CONTEXT}" ; then
-    rlPhaseStartTest "bz#2111414"
+    rlPhaseStartTest "bz#2111414 + RHEL-1557"
         rlSEMatchPathCon "/usr/sbin/stacd" "${FILE_CONTEXT}"
         rlSEMatchPathCon "/usr/sbin/stafd" "${FILE_CONTEXT}"
         rlSEMatchPathCon "/dev/nvme-fabrics" "fixed_disk_device_t"
@@ -82,6 +82,8 @@ rlJournalStart
         rlSESearchRule "allow stas_t udev_var_run_t : dir { add_name remove_name write } [ ]"
         rlSESearchRule "allow stas_t udev_var_run_t : file { create getattr ioctl open unlink write } [ ]"
         rlSESearchRule "allow stas_t stas_var_run_t : file { getattr ioctl open read write } [ ]"
+        rlSESearchRule "allow unconfined_t nvme_stas_t : dbus { send_msg } [ ]"
+        rlSESearchRule "allow nvme_stas_t unconfined_t : dbus { send_msg } [ ]"
     rlPhaseEnd
     fi
 
@@ -95,14 +97,18 @@ rlJournalStart
             fi
         done
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
-            # for RHELs where the SELinux domain does not exist yet
+            # for environments where the SELinux domain does not exist yet
             PROCESS_CONTEXT="unconfined_service_t"
         fi
         rlRun "mkdir -p /etc/nvme"
         rlRun "touch /etc/nvme/hostid"
         rlRun "touch /etc/nvme/hostnqn"
         rlSEService - stafd stafd ${PROCESS_CONTEXT} "start status" 1
+        rlRun "stafctl status"
+        rlRun "stafctl ls"
         rlSEService - stacd stacd ${PROCESS_CONTEXT} "start status" 1
+        rlRun "stacctl status"
+        rlRun "stacctl ls"
         rlRun "stasadm -v"
         rlRun "stasadm hostid"
         rlRun "stasadm hostnqn"

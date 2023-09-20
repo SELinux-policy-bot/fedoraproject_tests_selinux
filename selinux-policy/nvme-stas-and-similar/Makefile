@@ -64,6 +64,7 @@ $(METADATA): Makefile
 	@echo "Destructive:     no" >> $(METADATA)
 	@echo "Releases:        -RHEL4 -RHEL5 -RHEL6 -RHEL7 -RHEL8" >> $(METADATA)
 	@echo "Bug:             2111414" >> $(METADATA) # RHEL-9
+	@echo "Bug:             RHEL-1557" >> $(METADATA) # RHEL-9
 
 	rhts-lint $(METADATA)
 
