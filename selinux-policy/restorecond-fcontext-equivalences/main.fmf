@@ -1,0 +1,31 @@
+summary: the restorecond service honors fcontext equivalences
+description: |
+    The restorecond service mislabels files when fcontext equivalences
+    (shipped by the selinux-policy component) are not configured properly.
+test: ./test.sh
+framework: beakerlib
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+recommend:
+  - selinux-policy
+  - policycoreutils
+  - policycoreutils-restorecond
+  - /usr/sbin/service
+duration: 15m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - failinfedora
+  - targeted
+link:
+  - verifies: https://issues.redhat.com/browse/RHEL-5032
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7
+    continue: false
+extra-nitrate: TC#0615936
+id: 14b57b44-c644-48fb-a3a1-b4c57da675a6
