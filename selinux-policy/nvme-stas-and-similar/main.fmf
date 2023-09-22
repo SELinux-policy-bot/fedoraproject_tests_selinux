@@ -1,6 +1,6 @@
-summary: SELinux interferes with NVME sta* services
+summary: SELinux interferes with stacd and stafd services
 description: |+
-    SELinux interferes with NVME sta* services
+    SELinux interferes with stacd and stafd services
 
 contact: Milos Malik <mmalik@redhat.com>
 component:

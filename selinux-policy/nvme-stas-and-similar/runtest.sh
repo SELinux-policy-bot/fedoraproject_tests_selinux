@@ -3,7 +3,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 #   runtest.sh of /CoreOS/selinux-policy/Regression/nvme-stas-and-similar
-#   Description: SELinux interferes with NVME sta* services
+#   Description: SELinux interferes with stacd and stafd services
 #   Author: Milos Malik <mmalik@redhat.com>
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -30,9 +30,9 @@
 . /usr/share/beakerlib/beakerlib.sh || exit 1
 
 PACKAGE="selinux-policy"
-FILE_CONTEXT="stas_exec_t"
+FILE_CONTEXT="nvme_stas_exec_t"
 SERVICE_PACKAGE="nvme-stas"
-PROCESS_CONTEXT="stas_t"
+PROCESS_CONTEXT="nvme_stas_t"
 
 rlJournalStart
     rlPhaseStartSetup
@@ -59,29 +59,29 @@ rlJournalStart
         rlSEMatchPathCon "/usr/sbin/stafd" "${FILE_CONTEXT}"
         rlSEMatchPathCon "/dev/nvme-fabrics" "fixed_disk_device_t"
         rlSEMatchPathCon "/run/systemd/journal/socket" "syslogd_var_run_t"
-        rlSEMatchPathCon "/run/stacd" "stas_var_run_t"
-        rlSEMatchPathCon "/run/stacd/last-known-config.pickle" "stas_var_run_t"
-        rlSEMatchPathCon "/run/stafd" "stas_var_run_t"
-        rlSEMatchPathCon "/run/stafd/last-known-config.pickle" "stas_var_run_t"
+        rlSEMatchPathCon "/run/stacd" "nvme_stas_var_run_t"
+        rlSEMatchPathCon "/run/stacd/last-known-config.pickle" "nvme_stas_var_run_t"
+        rlSEMatchPathCon "/run/stafd" "nvme_stas_var_run_t"
+        rlSEMatchPathCon "/run/stafd/last-known-config.pickle" "nvme_stas_var_run_t"
         rlSEMatchPathCon "/run/udev/" "udev_var_run_t"
         rlSEMatchPathCon "/run/udev/rules.d/" "udev_var_run_t"
         rlSEMatchPathCon "/run/udev/rules.d/70-nvmf-autoconnect.rules" "udev_var_run_t"
-        rlSEMatchPathCon "/var/cache/stacd" "stas_cache_t"
-        rlSEMatchPathCon "/var/cache/stafd" "stas_cache_t"
+        rlSEMatchPathCon "/var/cache/stacd" "nvme_stas_cache_t"
+        rlSEMatchPathCon "/var/cache/stafd" "nvme_stas_cache_t"
         SOURCE_TYPE="init_t" # systemd runs the process
         rlSESearchRule "allow ${SOURCE_TYPE} ${FILE_CONTEXT} : file { getattr open read execute } $BOOLEANS"
         rlSESearchRule "allow ${SOURCE_TYPE} ${PROCESS_CONTEXT} : process { transition } $BOOLEANS"
         rlSESearchRule "type_transition ${SOURCE_TYPE} ${FILE_CONTEXT} : process ${PROCESS_CONTEXT} $BOOLEANS"
         rlRun "semodule -lfull | grep stas"
-        rlSESearchRule "allow avahi_t stas_t : dbus { send_msg } [ ]"
-        rlSESearchRule "allow stas_t avahi_t : dbus { send_msg } [ ]"
-        rlSESearchRule "allow stas_t fixed_disk_device_t : chr_file { getattr } [ ]"
-        rlSESearchRule "allow stas_t stas_t : dbus { send_msg } [ ]"
-        rlSESearchRule "allow stas_t syslogd_var_run_t : sock_file { write } [ ]"
-        rlSESearchRule "allow stas_t system_dbusd_t : dbus { acquire_svc send_msg } [ ]"
-        rlSESearchRule "allow stas_t udev_var_run_t : dir { add_name remove_name write } [ ]"
-        rlSESearchRule "allow stas_t udev_var_run_t : file { create getattr ioctl open unlink write } [ ]"
-        rlSESearchRule "allow stas_t stas_var_run_t : file { getattr ioctl open read write } [ ]"
+        rlSESearchRule "allow avahi_t nvme_stas_t : dbus { send_msg } [ ]"
+        rlSESearchRule "allow nvme_stas_t avahi_t : dbus { send_msg } [ ]"
+        rlSESearchRule "allow nvme_stas_t fixed_disk_device_t : chr_file { getattr } [ ]"
+        rlSESearchRule "allow nvme_stas_t nvme_stas_t : dbus { send_msg } [ ]"
+        rlSESearchRule "allow nvme_stas_t syslogd_var_run_t : sock_file { write } [ ]"
+        rlSESearchRule "allow nvme_stas_t system_dbusd_t : dbus { acquire_svc send_msg } [ ]"
+        rlSESearchRule "allow nvme_stas_t udev_var_run_t : dir { add_name remove_name write } [ ]"
+        rlSESearchRule "allow nvme_stas_t udev_var_run_t : file { create getattr ioctl open unlink write } [ ]"
+        rlSESearchRule "allow nvme_stas_t nvme_stas_var_run_t : file { getattr ioctl open read write } [ ]"
         rlSESearchRule "allow unconfined_t nvme_stas_t : dbus { send_msg } [ ]"
         rlSESearchRule "allow nvme_stas_t unconfined_t : dbus { send_msg } [ ]"
     rlPhaseEnd

@@ -1,6 +1,6 @@
 PURPOSE of /CoreOS/selinux-policy/Regression/nvme-stas-and-similar
 Author: Milos Malik <mmalik@redhat.com>
 
-SELinux interferes with stacd, stafd services.
+SELinux interferes with stacd and stafd services.
 SELinux also affects the stacctl and stafctl programs.
 
