@@ -19,6 +19,8 @@ recommend:
   - openssh-clients
   - tlp
   - rfkill
+  - snapd
+  - /usr/sbin/service
 environment:
     AVC_ERROR: +no_avc_check
 duration: 10m
@@ -27,17 +29,18 @@ tag:
   - NoRHEL4
   - NoRHEL5
   - TIPpass_Security
-  - TierCandidatesFAIL
+  - failinfedora
   - f33friendly
   - targeted
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1460481
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2221019
 adjust:
   - enabled: false
     when: arch == s390x
     continue: false
   - enabled: false
-    when: distro == rhel-4, rhel-5, rhel-9
+    when: distro == rhel-4, rhel-5
     continue: false
 extra-nitrate: TC#0569976
 extra-summary: /CoreOS/selinux-policy/Regression/tlp-and-similar

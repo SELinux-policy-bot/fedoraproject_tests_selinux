@@ -81,7 +81,16 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    if rlSEDefined "snappy_var_lib_t" ; then
+    rlPhaseStartTest "bz#2221019"
+        rlSESearchRule "dontaudit tlp_t snappy_var_lib_t : dir { search } [ ]"
+    rlPhaseEnd
+    fi
+
     rlPhaseStartTest "real scenario -- standalone service"
+        if rpm -q snapd >& /dev/null ; then
+            rlRun "ls -alRZ /var/lib/snapd"
+        fi
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
             if rlIsRHEL 5 6 ; then
