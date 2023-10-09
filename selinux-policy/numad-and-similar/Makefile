@@ -73,12 +73,14 @@ $(METADATA): Makefile
 	@echo "Confidential:    no" >> $(METADATA)
 	@echo "Destructive:     no" >> $(METADATA)
 	@echo "Environment:     AVC_ERROR=+no_avc_check" >> $(METADATA)
-	@echo "Architectures:   i386 ppc64 x86_64" >> $(METADATA)
-	@echo "Releases:        -RHEL4 -RHELServer5 -RHELClient5" >> $(METADATA)
+	@echo "Architectures:   aarch64 ppc64le x86_64" >> $(METADATA)
+	@echo "Releases:        -RHEL4 -RHEL5" >> $(METADATA)
 	@echo "Bug:             807157" >> $(METADATA) # RHEL-6
 	@echo "Bug:             857086" >> $(METADATA) # RHEL-7
 	@echo "Bug:             1074449" >> $(METADATA) # RHEL-7
 	@echo "Bug:             1118515" >> $(METADATA) # RHEL-7
+	@echo "Bug:             2026968" >> $(METADATA) # Fedora 35
+	@echo "Bug:             RHEL-2415" >> $(METADATA) # RHEL-8
 
 	rhts-lint $(METADATA)
 

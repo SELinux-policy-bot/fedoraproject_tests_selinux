@@ -39,12 +39,14 @@ link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=857086
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1074449
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1118515
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2026968
+  - verifies: https://issues.redhat.com/browse/RHEL-2415
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5
     continue: false
   - enabled: false
-    when: arch != x86_64 and arch != ppc64 and arch != ppc64le
+    when: arch != x86_64 and arch != aarch64 and arch != ppc64le
     continue: false
 extra-nitrate: TC#0202428
 extra-summary: /CoreOS/selinux-policy/Regression/numad-and-similar

@@ -98,6 +98,12 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    if ! rlIsRHEL 5 6 7 ; then
+    rlPhaseStartTest "bz#2026968 + RHEL-2415"
+        rlSESearchRule "allow numad_t numad_t : capability { ipc_owner } [ ]"
+    rlPhaseEnd
+    fi
+
     rlPhaseStartTest "real scenario"
         rlRun "mkdir -p ${MOUNT_POINT}"
         if ! mount | grep -q "cgroup.*cpuset" ; then
