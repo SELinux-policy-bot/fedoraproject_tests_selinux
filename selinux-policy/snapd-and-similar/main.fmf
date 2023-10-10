@@ -1,0 +1,41 @@
+summary: SELinux interferes with the snapd service and related programs
+description: |+
+    SELinux interferes with the snapd service and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - snapd
+  - snapd-selinux
+  - /usr/sbin/service
+  - spamassassin
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - failinfedora
+  - targeted
+link:
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2207725
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6
+    because: the snapd package is not available there
+extra-summary: /CoreOS/selinux-policy/Regression/snapd-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/snapd-and-similar
+extra-nitrate: TC#0615881
+id: 7483a2b6-5a30-4538-b728-85e75d0542ef
