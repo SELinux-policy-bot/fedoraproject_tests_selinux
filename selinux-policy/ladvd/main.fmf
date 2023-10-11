@@ -23,6 +23,8 @@ recommend:
 environment:
     AVC_ERROR: +no_avc_check
 duration: 1h
+tag:
+  - failinfedora
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1834325
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1855163

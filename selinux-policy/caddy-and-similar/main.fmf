@@ -21,6 +21,8 @@ environment:
     AVC_ERROR: +no_avc_check
 duration: 10m
 enabled: true
+tag:
+  - failinfedora
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8

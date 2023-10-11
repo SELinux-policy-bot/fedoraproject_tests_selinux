@@ -28,6 +28,7 @@ tag:
   - NoRHEL6
   - NoRHEL7
   - targeted
+  - failinfedora
 link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1847545
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1900869

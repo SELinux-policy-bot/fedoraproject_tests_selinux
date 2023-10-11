@@ -30,6 +30,7 @@ tag:
   - f32friendly
   - f33friendly
   - targeted
+  - failinfedora
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1534624
 adjust:

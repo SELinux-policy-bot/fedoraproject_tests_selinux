@@ -29,6 +29,7 @@ tag:
   - Tier3
   - Tier3se
   - targeted
+  - failinfedora
 tier: '3'
 adjust:
   - enabled: false

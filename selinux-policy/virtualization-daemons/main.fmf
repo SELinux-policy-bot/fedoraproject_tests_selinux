@@ -41,6 +41,7 @@ tag:
   - NoRHEL7
   - NoRHEL8
   - targeted
+  - failinfedora
 adjust:
 -  enabled: false
    when: distro < rhel-9

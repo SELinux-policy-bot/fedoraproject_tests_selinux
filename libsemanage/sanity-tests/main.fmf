@@ -21,7 +21,7 @@ tag:
   - Tier1se
   - f31friendly
   - f32friendly
-  - notip
+  - failinfedora
   - rhel8-buildroot
   - rhel8-crb
   - rhel9-buildroot
