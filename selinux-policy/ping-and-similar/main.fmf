@@ -28,7 +28,6 @@ tag:
   - TIPpass
   - TIPpass_Security
   - TierCandidatesPASS
-  - failinfedora
   - targeted
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1552128

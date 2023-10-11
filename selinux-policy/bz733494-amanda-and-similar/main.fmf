@@ -34,7 +34,6 @@ tag:
   - NoRHEL4
   - TierCandidatesFAIL
   - f32friendly
-  - failinfedora
   - rhel9-buildroot
   - targeted
 link:

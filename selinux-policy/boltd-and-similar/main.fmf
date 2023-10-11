@@ -33,7 +33,6 @@ tag:
   - TierCandidatesPASS
   - f31friendly
   - f32friendly
-  - failinfedora
   - targeted
 tier: '2'
 link:

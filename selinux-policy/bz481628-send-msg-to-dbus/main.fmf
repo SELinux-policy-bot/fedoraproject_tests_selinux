@@ -30,7 +30,6 @@ tag:
   - NoRHEL4
   - TIPpass
   - TierCandidatesPASS
-  - failinfedora
   - targeted
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=463267

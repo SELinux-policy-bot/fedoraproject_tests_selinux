@@ -30,7 +30,6 @@ tag:
   - NoRHEL4
   - NoRHEL5
   - NoRHEL6
-  - failinfedora
   - targeted
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1176713
