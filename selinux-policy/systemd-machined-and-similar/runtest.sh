@@ -107,6 +107,13 @@ rlJournalStart
         rlRun "machinectl list"
         rlRun "machinectl status test"
         rlWatchdog "machinectl login test" 20
+        rlRun "rm -f /tmp/id"
+        rlRun "machinectl copy-to test /usr/bin/id /tmp/id"
+        rlRun "machinectl copy-from test /usr/bin/id /tmp/id"
+        rlRun "machinectl reboot test"
+        sleep 15
+        rlRun "machinectl status test"
+        rlRun "machinectl kill test"
         rlRun "machinectl terminate test"
         rlRun "systemctl stop systemd-nspawn@test"
         # TODO: remove next 2 lines once the BZs are fixed
