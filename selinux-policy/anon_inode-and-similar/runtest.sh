@@ -69,7 +69,7 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "mmap on io_uring - bz#2025714 + bz#2187745"
-      if rlIsFedora '<=39'; then
+      if rlIsFedora '<=39' || rlIsRHEL 9 ; then
         rlSESearchRule "allow unconfined_t unconfined_t : anon_inode { map } [ ]"
         rlSESearchRule "allow svirt_t svirt_t : anon_inode { map } [ ]"
         rlSESearchRule "allow virtd_t virtd_t : anon_inode { map } [ ]"
@@ -80,6 +80,11 @@ rlJournalStart
       fi
 
         rlRun "fio --filename=/root/pokus --iodepth=16 --rw=write --ioengine=io_uring --bs=16k --size=2G --numjobs=30 --runtime=100s --group_reporting=1 --name=mytest" 0-255
+    rlPhaseEnd
+
+    rlPhaseStartTest "RHEL-11792"
+        rlSEMatchPathCon "/dev/ng0n1" "fixed_disk_device_t"
+        rlSESearchRule "allow unconfined_t fixed_disk_device_t : io_uring { cmd } [ ]"
     rlPhaseEnd
 
     rlPhaseStartCleanup
