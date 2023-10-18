@@ -32,7 +32,7 @@
 PACKAGE="selinux-policy"
 ROOT_PASSWORD="redhat"
 SERVICE_NAMES="libvirtd virtinterfaced virtlockd virtlogd virtlxcd virtnetworkd virtnodedevd virtnwfilterd virtproxyd virtqemud virtsecretd virtstoraged virtvboxd virtxend"
-if rlIsFedora > "39"; then
+if rlIsFedora ">39"; then
 ALL_TUPLES="libvirtd:libvirtd:virtd_t \
             virtinterfaced:virtinterfaced:virtinterfaced_t \
             virtlockd:virtlockd:virtlogd_t \
@@ -86,7 +86,7 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "SELinux contexts and rules"
-      if rlIsFedora > "39"; then
+      if rlIsFedora ">39"; then
         rlSEMatchPathCon "/usr/sbin/virtinterfaced" "virtinterfaced_exec_t"
         rlSEMatchPathCon "/usr/sbin/virtlxcd" "virtd_lxc_exec_t"
         rlSEMatchPathCon "/usr/sbin/virtnetworkd" "virtnetworkd_exec_t"
