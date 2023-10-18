@@ -3,7 +3,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 #   runtest.sh of /CoreOS/selinux-policy/Regression/exim-and-similar
-#   Description: the service was running as initrc_t or init_t, now it is confined by SELinux
+#   Description: SELinux interferes with exim and related programs
 #   Author: Milos Malik <mmalik@redhat.com>
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -48,6 +48,7 @@ rlJournalStart
 
         rlServiceStop ${SERVICE_NAME}
         rlFileBackup /etc/shadow
+        rlFileBackup /etc/exim/exim.conf
 
         rlSESetEnforce
         rlSEStatus
@@ -93,6 +94,19 @@ rlJournalStart
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
         rlRun "restorecon -Rv /run /var -e /var/ARTIFACTS" 0-255
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
+    rlPhaseEnd
+
+    rlPhaseStartTest "real scenario -- RHEL-14110 + RHEL-14186"
+        rlSEMatchPathCon "/var/spool/exim/input" "exim_spool_t"
+        rlSESearchRule "allow system_mail_t exim_spool_t : dir { create } [ ]"
+        rlRun "sed -i 's/^.*\(split_spool_directory\).*=.*$/\1 = true/' /etc/exim/exim.conf"
+        rlRun "service exim start"
+        rlRun "service atd start"
+        rlRun "echo '/usr/bin/id -Z' | at now"
+        sleep 15s
+        rlRun "ls -lZ /var/spool/exim/input"
+        rlRun "service atd stop"
+        rlRun "service exim stop"
     rlPhaseEnd
 
     rlPhaseStartCleanup

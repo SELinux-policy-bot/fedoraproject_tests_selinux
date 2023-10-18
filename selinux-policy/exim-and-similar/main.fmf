@@ -1,4 +1,4 @@
-summary: the service was running as initrc_t or init_t, now it is confined by SELinux
+summary: SELinux interferes with exim and related programs
 description: |+
     SELinux interferes with exim and related programs.
 
@@ -18,7 +18,7 @@ recommend:
   - selinux-policy-targeted
   - /usr/sbin/service
   - setools-console
-  - glib2
+  - at
   - exim
 environment:
     AVC_ERROR: +no_avc_check
@@ -37,6 +37,8 @@ tag:
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1025315
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1444441
+  - verifies: https://issues.redhat.com/browse/RHEL-14110
+  - verifies: https://issues.redhat.com/browse/RHEL-14186
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-alt-7

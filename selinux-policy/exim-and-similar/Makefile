@@ -1,7 +1,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 #   Makefile of /CoreOS/selinux-policy/Regression/exim-and-similar
-#   Description: the service was running as initrc_t or init_t, now it is confined by SELinux
+#   Description: SELinux interferes with exim and related programs
 #   Author: Milos Malik <mmalik@redhat.com>
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -50,11 +50,11 @@ $(METADATA): Makefile
 	@echo "Name:            $(TEST)" >> $(METADATA)
 	@echo "TestVersion:     $(TESTVERSION)" >> $(METADATA)
 	@echo "Path:            $(TEST_DIR)" >> $(METADATA)
-	@echo "Description:     the service was running as initrc_t or init_t, now it is confined by SELinux" >> $(METADATA)
+	@echo "Description:     SELinux interferes with exim and related programs" >> $(METADATA)
 	@echo "Type:            Regression" >> $(METADATA)
 	@echo "TestTime:        5m" >> $(METADATA)
 	@echo "RunFor:          selinux-policy" >> $(METADATA)
-	@echo "Requires:        audit libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted /usr/sbin/service setools-console glib2 exim" >> $(METADATA)
+	@echo "Requires:        audit libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted /usr/sbin/service setools-console at exim" >> $(METADATA)
 	@echo "RhtsRequires:    library(selinux-policy/common)" >> $(METADATA)
 	@echo "Priority:        Normal" >> $(METADATA)
 	@echo "License:         GPLv2" >> $(METADATA)
@@ -64,6 +64,8 @@ $(METADATA): Makefile
 	@echo "Releases:        -RHEL4" >> $(METADATA)
 	@echo "Bug:             1025315" >> $(METADATA) # RHEL-6
 	@echo "Bug:             1444441" >> $(METADATA) # RHEL-7
+	@echo "Bug:             RHEL-14110" >> $(METADATA) # RHEL-9
+	@echo "Bug:             RHEL-14186" >> $(METADATA) # RHEL-8
 
 	rhts-lint $(METADATA)
 
