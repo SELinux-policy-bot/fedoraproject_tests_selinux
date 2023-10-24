@@ -41,3 +41,4 @@ adjust:
 extra-nitrate: TC#0574397
 extra-summary: /CoreOS/selinux-policy/Sanity/getrlimit-permission
 extra-task: /CoreOS/selinux-policy/Sanity/getrlimit-permission
+id: d266c52f-08b3-4ab6-80bb-c41370e9e8b2

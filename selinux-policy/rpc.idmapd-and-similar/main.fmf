@@ -38,3 +38,4 @@ adjust:
 extra-summary: /CoreOS/selinux-policy/Regression/rpc.idmapd-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/rpc.idmapd-and-similar
 extra-nitrate: TC#0614824
+id: d96b0115-5a88-4aaf-b26b-1572a9c816b6

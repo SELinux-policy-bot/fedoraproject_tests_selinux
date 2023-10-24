@@ -36,3 +36,4 @@ adjust:
 extra-nitrate: TC#0608092
 extra-summary: /CoreOS/selinux-policy/Regression/systemd-bootchart-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/systemd-bootchart-and-similar
+id: 63b5a536-231a-44f8-931a-24d737c86359

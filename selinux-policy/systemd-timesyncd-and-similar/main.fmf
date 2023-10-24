@@ -59,3 +59,4 @@ adjust:
 extra-nitrate: TC#0606395
 extra-summary: /CoreOS/selinux-policy/Regression/systemd-timesyncd-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/systemd-timesyncd-and-similar
+id: 2cca4aec-eac2-4547-91d0-979541b04f5b

@@ -35,3 +35,4 @@ adjust:
 extra-summary: /CoreOS/selinux-policy/Regression/ladvd
 extra-task: /CoreOS/selinux-policy/Regression/ladvd
 extra-nitrate: TC#0614606
+id: db945166-3e6e-41cc-a76d-9e4f6e4b641c

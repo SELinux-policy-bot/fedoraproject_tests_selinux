@@ -40,3 +40,4 @@ adjust:
 extra-summary: /CoreOS/selinux-policy/Regression/nvme-stas-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/nvme-stas-and-similar
 extra-nitrate: TC#0614621
+id: 6a439688-11aa-4fbe-be69-666d5245e4e0

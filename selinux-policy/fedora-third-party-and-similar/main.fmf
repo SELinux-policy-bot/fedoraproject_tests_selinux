@@ -42,4 +42,5 @@ adjust:
     continue: false
 extra-summary: /CoreOS/selinux-policy/Regression/fedora-third-party-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/fedora-third-party-and-similar
-
+extra-nitrate: TC#0614304
+id: 98743019-2a5a-48c2-9be6-7b8caa3add4d

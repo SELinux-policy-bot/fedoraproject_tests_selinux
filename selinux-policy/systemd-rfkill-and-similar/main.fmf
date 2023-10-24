@@ -53,3 +53,4 @@ adjust:
 extra-nitrate: TC#0606118
 extra-summary: /CoreOS/selinux-policy/Regression/systemd-rfkill-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/systemd-rfkill-and-similar
+id: e01aaa07-2437-45d9-b224-5c1d162caec3

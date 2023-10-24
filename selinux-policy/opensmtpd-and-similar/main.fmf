@@ -36,3 +36,4 @@ adjust:
 extra-summary: /CoreOS/selinux-policy/Regression/opensmtpd-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/opensmtpd-and-similar
 extra-nitrate: TC#0615352
+id: cb0ae69e-3193-450f-901f-4159048d1180

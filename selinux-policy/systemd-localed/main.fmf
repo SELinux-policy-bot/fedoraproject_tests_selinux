@@ -32,4 +32,5 @@ adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7
     continue: false
-
+extra-nitrate: TC#0615919
+id: c61c5a74-f9d6-4d1f-b1cc-a7a25b0f3ec7

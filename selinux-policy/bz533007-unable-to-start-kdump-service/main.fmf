@@ -79,3 +79,4 @@ adjust:
 extra-nitrate: TC#0057470
 extra-summary: /CoreOS/selinux-policy/Regression/bz533007-unable-to-start-kdump-service
 extra-task: /CoreOS/selinux-policy/Regression/bz533007-unable-to-start-kdump-service
+id: 99e91f23-6d4d-4f52-b867-8420eaa39e03

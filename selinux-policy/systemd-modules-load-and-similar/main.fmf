@@ -61,3 +61,4 @@ adjust:
 extra-nitrate: TC#0607299
 extra-summary: /CoreOS/selinux-policy/Regression/systemd-modules-load-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/systemd-modules-load-and-similar
+id: d8407e18-66fb-417e-843e-72fb040fb03e

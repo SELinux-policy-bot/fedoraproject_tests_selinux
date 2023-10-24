@@ -18,9 +18,23 @@ recommend:
 environment:
     AVC_ERROR: +no_avc_check
 duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - NoRHEL8
+  - targeted
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1915184
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1929332
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1933134
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-alt-7, rhel-8
+    because: the lockdown class is not defined there
 extra-summary: /CoreOS/selinux-policy/Sanity/lockdown-class
 extra-task: /CoreOS/selinux-policy/Sanity/lockdown-class
+extra-nitrate: TC#0615920
+id: 5ef38ca9-81bf-4051-9c9d-201ffccd351f

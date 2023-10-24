@@ -47,3 +47,4 @@ adjust:
 extra-nitrate: TC#0605834
 extra-summary: /CoreOS/selinux-policy/Regression/swap-file-and-systemd-access
 extra-task: /CoreOS/selinux-policy/Regression/swap-file-and-systemd-access
+id: 00f29f1a-3bbb-4775-84b9-c7d524ea1b6b

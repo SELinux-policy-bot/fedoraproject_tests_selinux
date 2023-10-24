@@ -45,3 +45,4 @@ adjust:
 extra-nitrate: TC#0606124
 extra-summary: /CoreOS/selinux-policy/Regression/systemd-userdbd-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/systemd-userdbd-and-similar
+id: 0e50b61f-a399-47d9-b9f3-dd602e8cd88a

@@ -40,3 +40,4 @@ adjust:
 extra-summary: /CoreOS/selinux-policy/Regression/systemd-notify-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/systemd-notify-and-similar
 extra-nitrate: TC#0613581
+id: df53f93f-8f04-4575-940e-30c243d47d2d

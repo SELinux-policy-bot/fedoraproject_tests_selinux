@@ -36,3 +36,4 @@ adjust:
 extra-nitrate: TC#0613033
 extra-summary: /CoreOS/selinux-policy/Regression/systemd-sysctl-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/systemd-sysctl-and-similar
+id: 11114547-d1b5-47c1-a3ac-2a3729a87b1c

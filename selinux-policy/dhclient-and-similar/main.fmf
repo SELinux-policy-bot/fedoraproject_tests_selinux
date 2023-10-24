@@ -27,9 +27,10 @@ link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2093709
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2094155
 adjust:
-- when: trigger == build
-  enabled: false
-  because: the test may mess up the IP address
+  - when: trigger == build
+    enabled: false
+    because: the test may mess up the IP address
 extra-summary: /CoreOS/selinux-policy/Regression/dhclient-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/dhclient-and-similar
 extra-nitrate: TC#0613884
+id: bce71943-38b6-428b-af69-20b9e6a60708
