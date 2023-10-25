@@ -62,7 +62,13 @@ rlJournalStart
         rlSESearchRule "allow sendmail_t sendmail_var_run_t : sock_file { create setattr unlink write } [ ]"
     rlPhaseEnd
 
+    rlPhaseStartTest "bz#2246115"
+        rlSEMatchPathCon "/run/smtpd.sock" "sendmail_var_run_t"
+        rlSESearchRule "allow sendmail_t sendmail_t : unix_stream_socket { connectto } [ ]"
+    rlPhaseEnd
+
     rlPhaseStartTest "real scenario -- standalone service"
+        rlRun "sestatus | mailx -s test-email root@localhost"
         if ! ls -Z ${FILE_PATH} | grep -q ${FILE_CONTEXT} ; then
             # for environments where the service is not yet confined
             PROCESS_CONTEXT="unconfined_service_t"
