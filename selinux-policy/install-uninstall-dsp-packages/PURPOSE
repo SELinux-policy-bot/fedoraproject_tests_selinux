@@ -1,0 +1,5 @@
+PURPOSE of /CoreOS/selinux-policy/Sanity/install-uninstall-dsp-packages
+Author: Amith Kumar <apeetham@redhat.com>
+
+Test and discover conflicts if any, during installation of third-party or
+DSP packages.

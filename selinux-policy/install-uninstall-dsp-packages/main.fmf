@@ -1,0 +1,36 @@
+summary: Install-Uninstall third-party or dsp packages to discover conflicts.
+description: |+
+    Test and discover rpm package installaton conflicts if any, during installation
+    of third-party or DSP selinux packages.
+
+contact: Amith Kumar <apeetham@redhat.com>
+component:
+  - selinux-policy
+test: ./runtest.sh
+framework: beakerlib
+require:
+  - library(selinux-policy/common)
+recommend:
+  - selinux-policy
+  - selinux-policy-targeted
+  - dnf
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 40m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - TIPfail_Security
+  - rhel9_broken
+  - targeted
+link:
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7
+    continue: false
+extra-nitrate:
+extra-summary: /CoreOS/selinux-policy/Sanity/install-uninstall-dsp-packages
+extra-task: /CoreOS/selinux-policy/Sanity/install-uninstall-dsp-packages
