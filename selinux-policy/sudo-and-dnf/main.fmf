@@ -1,0 +1,45 @@
+summary: SELinux interferes with the dnf command executed via sudo
+description: |+
+    SELinux interferes with the dnf command executed via sudo.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+test: ./runtest.sh
+framework: beakerlib
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - expect
+  - openssh-clients
+  - shadow-utils
+  - sudo
+  - dnf
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - targeted
+link:
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2233065
+  - verifies: https://issues.redhat.com/browse/RHEL-1679
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7
+    continue: false
+extra-summary: /CoreOS/selinux-policy/Regression/sudo-and-dnf
+extra-task: /CoreOS/selinux-policy/Regression/sudo-and-dnf
+extra-nitrate: TC#0615928
+id: 5d15cec5-e128-4e5c-9f60-80e852df3936
