@@ -1,0 +1,44 @@
+summary: SELinux interferes with the ntpsec ntpd service and related programs
+description: |+
+    SELinux interferes with the ntpsec ntpd service and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - ntpsec
+  - /usr/sbin/service
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - NoRHEL8
+  - epel
+  - rhel9-epel
+  - targeted
+tier: '3'
+link:
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2246805
+  - verifies: https://issues.redhat.com/browse/RHEL-15085
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8
+    because: the ntpsec package is not available there
+extra-summary: /CoreOS/selinux-policy/Regression/ntpsec-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/ntpsec-and-similar
+extra-nitrate: TC#0615926
+id: 258f0e8c-141f-473c-b418-d19049c464b2

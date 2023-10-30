@@ -1,0 +1,5 @@
+PURPOSE of /CoreOS/selinux-policy/Regression/ntpsec-and-similar
+Author: Milos Malik <mmalik@redhat.com>
+
+SELinux interferes with the ntpsec ntpd service and related program
+
