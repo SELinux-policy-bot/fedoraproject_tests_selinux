@@ -21,7 +21,7 @@ rlJournalStart
         sleep 2
     rlPhaseEnd
 
-    rlPhaseStartTest "bz#2240159"
+    rlPhaseStartTest "bz#2240159 + RHEL-16715 + RHEL-16716"
         rlSEMatchPathCon "/usr/lib/systemd/systemd-localed" "systemd_localed_exec_t"
         rlSEMatchPathCon "/etc/X11/xorg.conf.d" "xserver_etc_t"
         rlSESearchRule "allow systemd_localed_t xserver_etc_t : dir { create } [ ]"
