@@ -34,7 +34,7 @@ FILE_PATH="/usr/sbin/bgpd"
 SERVICE_PACKAGE="openbgpd"
 SERVICE_NAME="bgpd"
 PROCESS_NAME="bgpd"
-if rlIsRHEL 9 ; then
+if rlIsRHEL 9 || rlIsCentOS 9 ; then
     FILE_CONTEXT="bin_t"
     PROCESS_CONTEXT="unconfined_service_t"
 else

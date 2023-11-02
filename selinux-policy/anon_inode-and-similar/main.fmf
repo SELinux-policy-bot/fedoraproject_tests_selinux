@@ -36,7 +36,7 @@ link:
   - verifies: https://issues.redhat.com/browse/RHEL-11792
 adjust:
   - enabled: false
-    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8, centos-stream-8
     because: the anon_inode class is not defined there
 extra-nitrate: TC#0612643
 extra-summary: /CoreOS/selinux-policy/Regression/anon_inode-and-similar

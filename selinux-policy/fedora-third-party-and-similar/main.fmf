@@ -38,8 +38,8 @@ link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2093453
 adjust:
   - enabled: false
-    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8, rhel-9
-    continue: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8, rhel-9, centos-stream-8, centos-stream-9
+    because: the fedora-third-party package is not available there
 extra-summary: /CoreOS/selinux-policy/Regression/fedora-third-party-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/fedora-third-party-and-similar
 extra-nitrate: TC#0614304

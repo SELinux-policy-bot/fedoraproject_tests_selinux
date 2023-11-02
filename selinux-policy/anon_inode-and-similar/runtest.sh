@@ -69,7 +69,7 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "mmap on io_uring - bz#2025714 + bz#2187745"
-      if rlIsFedora '<=39' || rlIsRHEL 9 ; then
+      if rlIsFedora '<=39' || rlIsCentOS 9 || rlIsRHEL 9 ; then
         rlSESearchRule "allow unconfined_t unconfined_t : anon_inode { map } [ ]"
         rlSESearchRule "allow svirt_t svirt_t : anon_inode { map } [ ]"
         rlSESearchRule "allow virtd_t virtd_t : anon_inode { map } [ ]"

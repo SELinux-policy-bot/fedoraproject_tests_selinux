@@ -34,12 +34,12 @@ FILE_PATH="/usr/libexec/bootupd"
 SERVICE_PACKAGE="bootupd"
 SERVICE_NAME="bootupd"
 PROCESS_NAME="bootupd"
-if rlIsRHEL 9 ; then
-    FILE_CONTEXT="bin_t"
-    PROCESS_CONTEXT="unconfined_service_t"
-else
+if rlIsFedora ; then
     FILE_CONTEXT="bootupd_exec_t"
     PROCESS_CONTEXT="bootupd_t"
+else
+    FILE_CONTEXT="bin_t"
+    PROCESS_CONTEXT="unconfined_service_t"
 fi
 
 rlJournalStart

@@ -38,6 +38,9 @@ adjust:
     when: distro >= rhel-9
     because: the sslh package is not available there
   - enabled: false
+    when: distro == centos-stream-9
+    because: the sslh package is not available there
+  - enabled: false
     when: arch == i386, ppc, s390, s390x
     because: the sslh package is not available for all architectures
 extra-nitrate: TC#0563428

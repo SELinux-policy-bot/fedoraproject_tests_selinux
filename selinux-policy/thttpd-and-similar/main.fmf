@@ -39,7 +39,10 @@ link:
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-alt-7, rhel-9
-    continue: false
+    because: the thttpd package is not available there
+  - enabled: false
+    when: distro == centos-stream-9
+    because: the thttpd package is not available there
   - enabled: false
     when: arch == i386, ppc64, s390
     continue: false

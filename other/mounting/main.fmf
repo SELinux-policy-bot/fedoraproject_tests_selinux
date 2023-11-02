@@ -9,12 +9,11 @@ recommend:
   - e2fsprogs
   - dosfstools
 enabled: true
+duration: 5m
 tag:
   - NoRHEL4
   - NoRHEL5
   - NoRHEL6
-  - TIPfail_Security
-  - failinfedora
   - targeted
 adjust:
   - enabled: false

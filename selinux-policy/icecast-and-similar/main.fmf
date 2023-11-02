@@ -40,6 +40,9 @@ adjust:
   - enabled: false
     when: distro >= rhel-8
     because: the icecast package is not available there
+  - enabled: false
+    when: distro == centos-stream-8, centos-stream-9
+    because: the icecast package is not available there
 extra-nitrate: TC#0388472
 extra-summary: /CoreOS/selinux-policy/Regression/icecast-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/icecast-and-similar
