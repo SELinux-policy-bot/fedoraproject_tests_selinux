@@ -40,7 +40,7 @@ PROCESS_CONTEXT="dhcpc_t"
 
 rlJournalStart
     rlPhaseStartSetup
-        if rlIsRHEL ; then
+        if rlIsRHEL 4 5 6 ; then
             rlLog "Not applicable to this OS version."
             rlJournalEnd
             exit 0
@@ -85,6 +85,12 @@ rlJournalStart
         rlSESearchRule "allow dhcpc_t dhcpc_var_run_t : sock_file { create unlink }"
     rlPhaseEnd
 
+    if rlIsRHEL 9 || rlIsCentOS 9 ; then
+    rlPhaseStartTest "RHEL-15326"
+        rlSESearchRule "allow dhcpc_t dhcpc_t : capability2 { bpf } [ ]"
+    rlPhaseEnd
+    fi
+
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
@@ -94,7 +100,9 @@ rlJournalStart
                 PROCESS_CONTEXT="unconfined_service_t"
             fi
         fi
-        rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status restart status stop status" 1
+        rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
+        rlRun "restorecon -Rv /etc /var /run -e /var/ARTIFACTS" 0-255
+        rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
 
     rlPhaseStartCleanup

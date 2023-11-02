@@ -29,10 +29,11 @@ tag:
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1585971
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1602343
+  - verifies: https://issues.redhat.com/browse/RHEL-15326
 adjust:
   - enabled: false
-    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-alt-7, rhel-8, rhel-9
-    continue: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-alt-7
+    because: the dhcpcd package is not available there
 extra-nitrate: TC#0574611
 extra-summary: /CoreOS/selinux-policy/Regression/dhcpcd-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/dhcpcd-and-similar
