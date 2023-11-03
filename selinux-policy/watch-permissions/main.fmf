@@ -23,7 +23,7 @@ link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1915034
 adjust:
   - enabled: false
-    when: distro = rhel-4, rhel-5, rhel-6, rhel-7, rhel-8
-    continue: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8, centos-stream-8
+    because: the watch permission is not defined there
 extra-nitrate: TC#0615395
 id: c4421242-0b97-4a1e-abbb-1dbe5dd21355

@@ -119,7 +119,7 @@ rlJournalStart
     rlPhaseEnd
     fi
 
-    if ! rlIsRHEL 6 7 8 ; then
+    if ! rlIsRHEL 6 7 8 && ! rlIsCentOS 6 7 8 ; then
     rlPhaseStartTest "bz#1996903 + bz#1996905 + bz#2001141 + bz#2001143 + bz#2001144 + bz#2001145 + bz#2036582"
         rlSEMatchPathCon "/usr/sbin/ModemManager" "modemmanager_exec_t"
         rlSESearchRule "allow modemmanager_t modemmanager_t : qipcrtr_socket { create getattr getopt } [ ]"

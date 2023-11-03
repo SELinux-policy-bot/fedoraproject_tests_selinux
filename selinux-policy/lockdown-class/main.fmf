@@ -32,7 +32,7 @@ link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1933134
 adjust:
   - enabled: false
-    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-alt-7, rhel-8
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-alt-7, rhel-8, centos-stream-8
     because: the lockdown class is not defined there
 extra-summary: /CoreOS/selinux-policy/Sanity/lockdown-class
 extra-task: /CoreOS/selinux-policy/Sanity/lockdown-class

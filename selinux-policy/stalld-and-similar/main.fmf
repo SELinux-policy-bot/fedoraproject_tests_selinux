@@ -41,7 +41,7 @@ link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2140673
 adjust:
   - enabled: false
-    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8, centos-stream-8
     continue: false
 extra-nitrate: TC#0613202
 extra-summary: /CoreOS/selinux-policy/Regression/stalld-and-similar

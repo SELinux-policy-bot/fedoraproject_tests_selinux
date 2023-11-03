@@ -102,7 +102,7 @@ rlJournalStart
         rlSESearchRule "allow systemd_timedated_t efivarfs_t : file { getattr open read } [ ]"
     rlPhaseEnd
 
-    if ! rlIsRHEL '<9' ; then
+    if ! rlIsRHEL '<9' && ! rlIsCentOS '<9' ; then
     rlPhaseStartTest "bz#1949315"
         rlSEMatchPathCon "/" "root_t"
         rlSEMatchPathCon "/run" "var_run_t"

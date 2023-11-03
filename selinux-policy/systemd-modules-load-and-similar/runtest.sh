@@ -130,7 +130,7 @@ rlJournalStart
         fi
     rlPhaseEnd
 
-    if ! rlIsRHEL 8 ; then
+    if ! rlIsRHEL 8 && ! rlIsCentOS 8 ; then
     rlPhaseStartTest "bz#2088257 + bz#2088258"
         rlSEMatchPathCon "/usr/lib/systemd/systemd-modules-load" "systemd_modules_load_exec_t"
         rlSEMatchPathCon "/dev/kmsg" "kmsg_device_t"

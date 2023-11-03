@@ -99,7 +99,7 @@ rlJournalStart
     rlPhaseEnd
     fi
 
-    if ! rlIsRHEL 7 8 ; then
+    if ! rlIsRHEL 7 8 && ! rlIsCentOS 7 8 ; then
     rlPhaseStartTest "bz#2075527 + bz#2152823"
         rlSESearchRule "allow syslogd_t syslogd_var_run_t : file { relabelfrom relabelto } [ ]"
         rlRun "journalctl --rotate"

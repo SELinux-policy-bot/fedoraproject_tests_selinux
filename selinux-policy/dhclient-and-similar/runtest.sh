@@ -52,7 +52,7 @@ rlJournalStart
         sleep 2
     rlPhaseEnd
 
-    if ! rlIsRHEL 8 ; then
+    if ! rlIsRHEL 8 && ! rlIsCentOS 8 ; then
     rlPhaseStartTest "bz#1897388"
         rlSEMatchPathCon "/usr/sbin/dhclient-script" "dhcpc_exec_t"
         rlSEMatchPathCon "/usr/bin/chronyc" "chronyc_exec_t"
@@ -78,7 +78,7 @@ rlJournalStart
         DHCLIENT_PID=`pgrep dhclient`
         rlRun "ps -efZ | grep dhclient"
         rlRun "ps -efZ | grep ':dhcpc_t:.*dhclient'"
-        if ! rlIsRHEL 8 ; then
+        if ! rlIsRHEL 8 && ! rlIsCentOS 8 ; then
             rlRun "ls -alZ /run/chrony-dhcp"
         fi
     rlPhaseEnd

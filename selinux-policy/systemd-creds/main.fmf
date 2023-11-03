@@ -27,7 +27,7 @@ tag:
 tier: '2'
 adjust:
   - enabled: false
-    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8, centos-stream-8
     because: the systemd-creds program is not available there
 link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2096857

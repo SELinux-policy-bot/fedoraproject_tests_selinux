@@ -53,6 +53,7 @@ rlJournalStart
         sleep 2
     rlPhaseEnd
 
+    if ! rlIsRHEL 8 && ! rlIsCentOS 8 ; then
     rlPhaseStartTest "bz#2208696"
         rlSEMatchPathCon "${FILE_PATH}" "${FILE_CONTEXT}"
         rlSEMatchPathCon "/var/run" "var_run_t"
@@ -66,6 +67,7 @@ rlJournalStart
         rlSEMatchPathCon "/run/smtpd.sock" "sendmail_var_run_t"
         rlSESearchRule "allow sendmail_t sendmail_t : unix_stream_socket { connectto } [ ]"
     rlPhaseEnd
+    fi
 
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "sestatus | mailx -s test-email root@localhost"

@@ -36,7 +36,7 @@ PROCESS_NAME="rpmdb"
 PROCESS_CONTEXT="rpmdb_t"
 
 rlJournalStart
-    if rlIsRHEL '<9' ; then
+    if rlIsRHEL '<9' || rlIsCentOS '<9' ; then
         rlLog "Not applicable to this OS version."
         rlJournalEnd
         exit 0

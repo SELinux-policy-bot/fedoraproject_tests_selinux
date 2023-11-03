@@ -94,7 +94,7 @@ rlJournalStart
         rlSESearchRule "allow cupsd_lpd_t cupsd_var_run_t : sock_file { read } [ ]"
     rlPhaseEnd
 
-    if ! rlIsRHEL 5 6 7 8 ; then
+    if ! rlIsRHEL 5 6 7 8 && ! rlIsCentOS 5 6 7 8 ; then
     rlPhaseStartTest "bz#2020531"
         rlSEMatchPathCon "/usr/lib/cups/daemon/cups-lpd" "cupsd_lpd_exec_t"
         rlRun "ls -Z /proc/1/environ | grep :init_t"

@@ -18,7 +18,7 @@ rlJournalStart
 
     rlPhaseStartTest "sepolicy manpage --web, bz#1854639 + bz#1989840"
         rlRun "sepolicy manpage --web -d zebra_t"
-        if rlIsRHEL 7 8 ; then
+        if rlIsRHEL 7 8 || rlIsCentOS 7 8 ; then
             rlRun "ls -l /tmp/*release*" 0 "Html file with OS name exists."
             rlRun "cat /tmp/*release* > /tmp/testfile"
         else

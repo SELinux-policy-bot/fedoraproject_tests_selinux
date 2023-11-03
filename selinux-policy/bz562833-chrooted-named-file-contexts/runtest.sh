@@ -201,7 +201,7 @@ rlJournalStart
         rlPhaseEnd
     fi
 
-    if ! rlIsRHEL 5 6 7 8 ; then
+    if ! rlIsRHEL 5 6 7 8 && ! rlIsCentOS 5 6 7 8 ; then
         rlPhaseStartTest "bz#1827591 + bz#1923929"
             rlSEMatchPathCon "/usr/sbin/rndc" "ndc_exec_t"
             rlSESearchRule "dontaudit ndc_t ndc_t : process { setsched } [ ]"

@@ -177,7 +177,7 @@ rlJournalStart
     rlPhaseEnd
     fi
 
-    if ! rlIsRHEL 5 6 7 8 ; then
+    if ! rlIsRHEL 5 6 7 8 && ! rlIsCentOS 5 6 7 8 ; then
     rlPhaseStartTest "bz#1960513"
         rlRun "ls -l /usr/sbin/amandad"
         rlSEMatchPathCon "/usr/lib64/amanda/amandad" "amanda_inetd_exec_t"

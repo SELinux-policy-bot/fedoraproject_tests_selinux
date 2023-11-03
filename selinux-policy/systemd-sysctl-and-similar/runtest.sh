@@ -50,7 +50,7 @@ rlJournalStart
         sleep 2
     rlPhaseEnd
 
-    if ! rlIsRHEL 8 ; then
+    if ! rlIsRHEL 8 && ! rlIsCentOS 8 ; then
     rlPhaseStartTest "bz#2056207 + bz#2056999"
         rlSEMatchPathCon "/usr/lib/systemd/systemd-sysctl" "systemd_sysctl_exec_t"
         rlRun "ls -Z /proc/sys/fs/suid_dumpable | grep :proc_security_t"

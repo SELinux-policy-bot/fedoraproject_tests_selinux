@@ -168,7 +168,7 @@ rlJournalStart
     rlPhaseEnd
     fi
 
-    if ! rlIsRHEL 5 6 7 8 ; then
+    if ! rlIsRHEL 5 6 7 8 && ! rlIsCentOS 5 6 7 8 ; then
     rlPhaseStartTest "bz#1989641"
         rlSESearchRule "allow firewalld_t firewalld_t : capability { setpcap } [ ]"
         rlSESearchRule "allow firewalld_t firewalld_t : process { setcap } [ ]"

@@ -32,8 +32,8 @@ link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2008965
 adjust:
   - enabled: false
-    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8
-    continue: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8, centos-stream-8
+    because: the validatetrans program is not available there
   - enabled: false
     when: distro < Fedora-32
     continue: false

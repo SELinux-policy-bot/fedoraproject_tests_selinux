@@ -27,6 +27,7 @@ tag:
   - NoRHEL5
   - NoRHEL6
   - NoRHEL7
+  - NoRHEL8
   - targeted
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1461313
@@ -35,7 +36,7 @@ link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2164752
 adjust:
   - enabled: false
-    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8, centos-stream-8
     continue: false
 extra-nitrate: TC#0609732
 extra-summary: /CoreOS/selinux-policy/Regression/rpmdb-and-similar

@@ -105,7 +105,7 @@ rlJournalStart
         rlSESearchRule "type_transition cups_pdf_t var_log_t : file cupsd_log_t"
     rlPhaseEnd
 
-    if ! rlIsRHEL 8 ; then
+    if ! rlIsRHEL 8 && ! rlIsCentOS 8 ; then
     rlPhaseStartTest "bz#1832521"
         rlSESearchRule "allow cups_pdf_t cups_pdf_t : unix_dgram_socket { create connect } [ ]"
     rlPhaseEnd
