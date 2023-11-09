@@ -1,0 +1,26 @@
+summary: Are all policy interfaces defined correctly?
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+  - policycoreutils
+recommend:
+  - /usr/bin/sepolgen-ifgen
+  - selinux-policy
+  - selinux-policy-targeted
+test: ./runtest.sh
+framework: beakerlib
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - targeted
+link:
+  - verifies: https://issues.redhat.com/browse/RHEL-2616
+  - verifies: https://issues.redhat.com/browse/RHEL-16185
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5
+    because: decision was made not to fix the problem there
+extra-nitrate: TC#0615941
+id: a6785475-8446-47cc-9167-f2d6ad52d58e
