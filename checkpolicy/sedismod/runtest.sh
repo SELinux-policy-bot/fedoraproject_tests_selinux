@@ -74,6 +74,18 @@ rlJournalStart
         done
     rlPhaseEnd
 
+    if sedismod --help | grep -q actions ; then
+    rlPhaseStartTest "test the non-interactive actions"
+        rlLog "introduced in version 3.6"
+        for ACTION in 1 2 3 4 5 6 7 8 9 0 a b c u F v ; do
+            rlRun "sedismod -a ${ACTION} ${POLICY_FILE} > ${ACTION}.txt"
+            rlRun "ls -l ${ACTION}.txt"
+            rlRun "test -s ${ACTION}.txt"
+            rlRun "rm -f ${ACTION}.txt"
+        done
+    rlPhaseEnd
+    fi
+
     rlPhaseStartCleanup
         rlRun "rm -f ${OUTPUT_FILE} ${POLICY_FILE}"
     rlPhaseEnd

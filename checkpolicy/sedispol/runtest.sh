@@ -68,6 +68,18 @@ rlJournalStart
         rlRun "grep permisions ${OUTPUT_FILE}" 1
     rlPhaseEnd
 
+    if sedispol --help | grep -q actions ; then
+    rlPhaseStartTest "test the non-interactive actions"
+        rlLog "introduced in version 3.6"
+        for ACTION in 1 2 3 4 5 6 8 c b C r t a p u F ; do
+            rlRun "sedispol -a ${ACTION} ${POLICY_FILE} > ${ACTION}.txt"
+            rlRun "ls -l ${ACTION}.txt"
+            rlRun "test -s ${ACTION}.txt"
+            rlRun "rm -f ${ACTION}.txt"
+        done
+    rlPhaseEnd
+    fi
+
     rlPhaseStartCleanup
         rlRun "rm -f ${OUTPUT_FILE}"
     rlPhaseEnd
