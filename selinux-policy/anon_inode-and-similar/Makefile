@@ -54,7 +54,7 @@ $(METADATA): Makefile
 	@echo "Type:            Regression" >> $(METADATA)
 	@echo "TestTime:        30m" >> $(METADATA)
 	@echo "RunFor:          selinux-policy" >> $(METADATA)
-	@echo "Requires:        libselinux policycoreutils selinux-policy selinux-policy-targeted gcc glibc-headers setools-console audit fio" >> $(METADATA)
+	@echo "Requires:        libselinux policycoreutils selinux-policy selinux-policy-targeted gcc glibc-headers setools-console audit fio grubby" >> $(METADATA)
 	@echo "RhtsRequires:    library(selinux-policy/common)" >> $(METADATA)
 	@echo "Priority:        Normal" >> $(METADATA)
 	@echo "License:         GPLv2" >> $(METADATA)

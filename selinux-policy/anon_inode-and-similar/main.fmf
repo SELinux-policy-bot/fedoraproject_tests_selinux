@@ -16,6 +16,7 @@ recommend:
   - setools-console
   - audit
   - fio
+  - grubby
 environment:
     AVC_ERROR: +no_avc_check
 duration: 30m
@@ -27,6 +28,7 @@ tag:
   - NoRHEL7
   - NoRHEL8
   - targeted
+  - reboot
 link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1954145
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1974559

@@ -29,6 +29,15 @@
 # Include rhts environment
 . /usr/share/beakerlib/beakerlib.sh
 
+if rlIsRHEL 9 || rlIsCentOS 9 ; then
+    if ! grep io_uring /proc/cmdline ; then
+        grubby --update-kernel ALL --args io_uring.enable=y
+        grubby --update-kernel ALL --args sysctl.kernel.io_uring_disabled=0
+        sync
+        rhts-reboot
+    fi
+fi
+
 PACKAGE="selinux-policy"
 
 rlJournalStart
@@ -80,11 +89,12 @@ rlJournalStart
       fi
 
         rlRun "fio --filename=/root/pokus --iodepth=16 --rw=write --ioengine=io_uring --bs=16k --size=2G --numjobs=30 --runtime=100s --group_reporting=1 --name=mytest" 0-255
+        rlRun "fio --filename=/root/pokus --iodepth=16 --rw=write --ioengine=io_uring_cmd --bs=16k --size=2G --numjobs=30 --runtime=100s --group_reporting=1 --name=mytest" 0-255
     rlPhaseEnd
 
     rlPhaseStartTest "RHEL-11792"
-        rlSEMatchPathCon "/dev/ng0n1" "fixed_disk_device_t"
-        rlSESearchRule "allow unconfined_t fixed_disk_device_t : io_uring { cmd } [ ]"
+        rlSESearchRule "allow unconfined_t unconfined_t : io_uring { cmd } [ ]"
+        rlSESearchRule "allow unconfined_service_t unconfined_service_t : io_uring { cmd } [ ]"
     rlPhaseEnd
 
     rlPhaseStartCleanup
