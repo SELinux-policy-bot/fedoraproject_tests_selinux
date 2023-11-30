@@ -67,6 +67,11 @@ rlJournalStart
         rlSEMatchPathCon "/run/smtpd.sock" "sendmail_var_run_t"
         rlSESearchRule "allow sendmail_t sendmail_t : unix_stream_socket { connectto } [ ]"
     rlPhaseEnd
+
+    rlPhaseStartTest "RHEL-15175"
+        # actions on the /var/run/smtpd.pid file
+        rlSESearchRule "allow sendmail_t sendmail_var_run_t : file { create getattr open unlink write } [ ]"
+    rlPhaseEnd
     fi
 
     rlPhaseStartTest "real scenario -- standalone service"
