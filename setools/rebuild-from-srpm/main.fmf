@@ -1,0 +1,32 @@
+summary: Can setools be built from its source RPM?
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - setools
+test: ./runtest.sh
+framework: beakerlib
+recommend:
+  - dnf-utils
+  - rpm-build
+  - libsepol
+  - libsemanage
+  - libselinux
+  - policycoreutils
+duration: 10m
+enabled: true
+tier: 1
+tag:
+  - CI-Tier-1
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - targeted
+link:
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2251915
+  - verifies: https://issues.redhat.com/browse/RHEL-18067
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7
+    continue: false
+extra-nitrate: TC#0616295
+id: 37430912-7a9e-40e7-a569-cbef9529b9e3
