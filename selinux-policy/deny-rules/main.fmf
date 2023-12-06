@@ -1,0 +1,30 @@
+summary: Basic functional test of the deny rules in SELinux policy
+contact: Milos Malik <mmalik@redhat.com>
+test: ./runtest.sh
+framework: beakerlib
+component:
+  - selinux-policy
+recommend:
+  - libsepol
+  - libsemanage
+  - libselinux
+  - policycoreutils
+  - selinux-policy
+  - strace
+duration: 10m
+enabled: true
+tier: 1
+tag:
+  - CI-Tier-1
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - NoRHEL8
+  - targeted
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8, centos-8
+    because: deny rules are not recognized/implemented there
+extra-nitrate: TC#0616661
+id: 3221e55d-6039-40f6-b9ff-6a02e85948e7
