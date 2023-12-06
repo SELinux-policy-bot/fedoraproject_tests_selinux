@@ -1,0 +1,96 @@
+summary: SELinux interferes with chronyd and related programs
+description: |+
+    SELinux interferes with chronyc, chronyd and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - chrony
+  - selinux-policy
+test: ./runtest.sh
+framework: beakerlib
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy-mls
+  - selinux-policy-targeted
+  - setools-console
+  - chrony
+  - ksh
+  - nscd
+  - /usr/bin/certtool
+  - /usr/sbin/service
+  - socat
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 1h
+enabled: true
+tag:
+  - NoRHEL4
+  - TIP_fedora_fail
+  - TIPfail_Security
+  - TIPfail_fedora
+  - TIPfail_infra
+  - TIPpass
+  - Tier3
+  - Tier3se
+  - TipWaived6
+  - f33friendly
+  - targeted
+tier: '3'
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=974992
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=978993
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1243764
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1243987
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1273116
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1281473
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1290310
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1350765
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1390657
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1416015
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1421248
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1425408
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1440791
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1470150
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1508486
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1509379
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1509927
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1530525
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1567753
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1568281
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1574418
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1575002
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1577057
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1593267
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1593607
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1596563
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1618757
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1622499
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1652079
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1696252
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1772852
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1895825
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1900143
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1961207
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2008894
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2065313
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1949493
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2118628
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2118631
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2173604
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2169949
+  - verifies: https://issues.redhat.com/browse/RHEL-18219
+adjust:
+  - enabled: false
+    when: distro == rhel-4
+    continue: false
+  - enabled: false
+    when: arch == ia64, ppc, s390
+    continue: false
+extra-nitrate: TC#0202180
+extra-summary: /CoreOS/selinux-policy/Regression/chronyd-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/chronyd-and-similar
