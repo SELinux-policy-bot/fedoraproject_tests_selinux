@@ -11,6 +11,7 @@ recommend:
   - policycoreutils
   - selinux-policy
   - strace
+  - expect
 duration: 10m
 enabled: true
 tier: 1
