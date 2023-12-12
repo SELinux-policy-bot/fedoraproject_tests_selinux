@@ -15,7 +15,7 @@ rlJournalStart
 
     rlPhaseStartTest "bz#2251915 + RHEL-18067"
         if rlIsRHEL ; then
-            rlRun "yum-builddep -y setools --enablerepo rhel-CRB"
+            rlRun "yum-builddep -y setools --enablerepo '*CRB'"
         elif rlIsCentOS ; then
             rlRun "yum-builddep -y setools --enablerepo crb"
         else # Fedora
