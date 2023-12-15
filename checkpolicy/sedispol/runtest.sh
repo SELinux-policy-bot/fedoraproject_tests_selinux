@@ -64,14 +64,15 @@ rlJournalStart
         rlRun "grep AVTAB ${OUTPUT_FILE}"
         rlRun "grep AVTAG ${OUTPUT_FILE}" 1
         rlRun "echo -en 'u\nq\n' | sedispol ${POLICY_FILE} >& ${OUTPUT_FILE}"
-        rlRun "grep permissions ${OUTPUT_FILE}"
+        rlRun "grep permisions ${OUTPUT_FILE}" 1
+        rlRun "echo -en 'U\nq\n' | sedispol ${POLICY_FILE} >& ${OUTPUT_FILE}"
         rlRun "grep permisions ${OUTPUT_FILE}" 1
     rlPhaseEnd
 
     if sedispol --help | grep -q actions ; then
     rlPhaseStartTest "test the non-interactive actions"
         rlLog "introduced in version 3.6"
-        for ACTION in 1 2 3 4 5 6 8 c b C r t a p u F ; do
+        for ACTION in 1 2 3 4 5 6 8 c b C r t a p u U F ; do
             rlRun "sedispol -a ${ACTION} ${POLICY_FILE} > ${ACTION}.txt"
             rlRun "ls -l ${ACTION}.txt"
             rlRun "test -s ${ACTION}.txt"
