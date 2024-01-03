@@ -1,0 +1,55 @@
+summary: some plymouth operations are denied during boot because of SELinux
+description: |+
+    SELinux interferes with plymouth / plymouthd and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+test: ./runtest.sh
+framework: beakerlib
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - /usr/sbin/service
+  - libselinux
+  - libselinux-utils
+  - plymouth
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 30m
+enabled: true
+tag:
+  - kernel-rt
+  - NoRHEL4
+  - NoRHEL5
+  - TIPpass_Security
+  - TierCandidatesPASS
+  - f32friendly
+  - f33friendly
+  - targeted
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=538089
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=560611
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=904016
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1045382
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1131195
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1160196
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1202429
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1517405
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1664143
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1869814
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1871307
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2184803
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2256442
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5
+    continue: false
+extra-nitrate: TC#0057474
+extra-summary: /CoreOS/selinux-policy/Regression/bz538089-plymouth-operations-denied-during-boot
+extra-task: /CoreOS/selinux-policy/Regression/bz538089-plymouth-operations-denied-during-boot

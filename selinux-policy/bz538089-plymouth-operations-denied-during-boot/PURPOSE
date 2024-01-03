@@ -1,0 +1,5 @@
+PURPOSE of /CoreOS/selinux-policy/Regression/bz538089-plymouth-operations-denied-during-boot
+Author: Milos Malik <mmalik@redhat.com>
+
+SELinux interferes with plymouth / plymouthd and related programs.
+
