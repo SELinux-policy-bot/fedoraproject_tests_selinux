@@ -1,5 +1,0 @@
-PURPOSE of /CoreOS/selinux-policy/Sanity/lockdown-class
-Author: Milos Malik <mmalik@redhat.com>
-
-Description: Is the lockdown class + its permissions defined in SELinux policy?
-

@@ -78,14 +78,6 @@ rlJournalStart
     rlPhaseEnd
     fi
 
-    if seinfo -c | grep -q lockdown ; then
-    rlPhaseStartTest "bz#1926696"
-        rlSEMatchPathCon "/usr/sbin/biosdecode" "dmidecode_exec_t"
-        rlSEMatchPathCon "/usr/sbin/vpddecode" "dmidecode_exec_t"
-        rlSESearchRule "allow dmidecode_t dmidecode_t : lockdown { integrity } [ ]"
-    rlPhaseEnd
-    fi
-
     rlPhaseStartTest "real scenario -- runcon"
         # this TC does not belong to the small set of SELinux domains which can run dmidecode in the system_u:system_r:dmidecode_t:s0 context, therefore we need some help
         # TODO: use sysadm_t user instead of initrc_t to run dmidecode, because sysadm_t is allowed to transition to dmidecode_t

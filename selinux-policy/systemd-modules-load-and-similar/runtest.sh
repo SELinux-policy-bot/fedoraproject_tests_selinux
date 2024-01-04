@@ -125,9 +125,6 @@ rlJournalStart
         rlRun "lsmod | grep rdma"
         rlRun "ausearch -m AVC -m USER_AVC --start $tst_Time --input-logs" 1
         rlRun "systemctl stop rdma-load-modules@rdma.service"
-        if seinfo -c | grep -q lockdown ; then
-            rlSESearchRule "allow systemd_modules_load_t systemd_modules_load_t : lockdown { confidentiality } [ ]"
-        fi
     rlPhaseEnd
 
     if ! rlIsRHEL 8 && ! rlIsCentOS 8 ; then

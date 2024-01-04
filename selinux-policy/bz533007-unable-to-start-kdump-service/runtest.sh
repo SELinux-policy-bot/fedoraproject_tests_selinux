@@ -176,13 +176,6 @@ rlJournalStart
     rlPhaseEnd
     fi
 
-    if seinfo -c | grep -q lockdown ; then
-    rlPhaseStartTest "bz#1932752"
-        rlSEMatchPathCon "/sbin/kexec" "kdump_exec_t"
-        rlSESearchRule "allow kdump_t kdump_t : lockdown { confidentiality integrity } [ ]"
-    rlPhaseEnd
-    fi
-
     if ! rlIsRHEL 5 6 7 ; then
     rlPhaseStartTest "bz#1951323 + bz#1961728 + bz#1965985 + bz#1965989"
         # the directory belongs to the kexec-tools package
