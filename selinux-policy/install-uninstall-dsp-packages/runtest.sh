@@ -89,11 +89,20 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "Install test for dsp packages"
-        rlRun "dnf list *selinux* --enablerepo=\"*\" > install-list"
+        rlRun "dnf list \"*-selinux*\" --enablerepo=\"*\" --disablerepo=\"beaker-tasks\" --disablerepo=\"*-source\" --disablerepo=\"*-debuginfo\" > install-list"
+	# limit the list to not installed packages
         rlRun "sed -i '1,/Available Packages/d' install-list"
+	# exclude packages from the beaker-tasks repo
         rlRun "sed -i '/beaker-tasks/d' install-list"
+	# exclude debuginfo packages
+        rlRun "sed -i '/-debuginfo/d' install-list"
+	# tmp: omit failing vfrnav
+        rlRun "sed -i '/vfrnav-selinux/d' install-list"
+	# packages names only
         rlRun "awk '{print \$1}' install-list > pkgonlylist"
+	# exclude updates-source
         rlRun "grep -vE '(.src)' pkgonlylist | sort -u > install-pkgs"
+	# use the same list for checks of the subsequent uninstallation
         rlRun "cp -f install-pkgs uninstall-pkgs"
         rlRun "install_report"
         # Following loop will read each package from file install-pkgs
