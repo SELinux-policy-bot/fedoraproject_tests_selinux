@@ -34,6 +34,8 @@ PACKAGE="selinux-policy"
 SKIP_REMOVAL=${SKIP_REMOVAL:-""}
 SKIP_INSTALL=${SKIP_INSTALL:-""}
 INSTALL_ONLY=${INSTALL_ONLY:-""}
+FCONTEXT_LIST="/tmp/semanage-fcontext"
+FCONTEXT_LIST_VARRUN="/tmp/semanage-fcontext-varrun"
 
 # Function to create a report template for install test
 function install_report() {
@@ -125,6 +127,23 @@ rlJournalStart
             fi
         done
         echo "" >> pkglist.report
+    rlPhaseEnd
+
+    ### Checks performed with all dsp packages installed
+    ### Status of /run and /var/run equivalency
+    rlPhaseStartTest "Check /run equivalency status"
+	rlRun "semanage fcontext -l > ${FCONTEXT_LIST}"
+	if grep -q "/run = /var/run" ${FCONTEXT_LIST}; then
+	    echo "Warning: Legacy equivalency settings \"/run = /var/run\" are in place."
+	elif grep -q "/var/run = /run" ${FCONTEXT_LIST}; then
+	    echo "New equivalency settings /\"var/run = /run\" are in place."
+	    if grep -q "^/var/run" ${FCONTEXT_LIST}; then
+		rlLog "Warning: /var/run entries found in the file context database"
+		rlRun "sed '/^\/var\/run/!d; s|[ \t].*$||' ${FCONTEXT_LIST} | uniq > ${FCONTEXT_LIST_VARRUN}"
+	    fi
+	else echo "Unknown or none /run equivalency settings."
+	fi
+	rm -f ${FCONTEXT_LIST} ${FCONTEXT_LIST_VARRUN}
     rlPhaseEnd
 
     rlPhaseStartTest "Uninstall test for dsp packages"
