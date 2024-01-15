@@ -88,7 +88,7 @@ rlJournalStart
         sleep 2
     rlPhaseEnd
 
-    rlPhaseStartTest "Install and Uninstall test for dsp packages"
+    rlPhaseStartTest "Install test for dsp packages"
         rlRun "dnf list *selinux* --enablerepo=\"*\" > install-list"
         rlRun "sed -i '1,/Available Packages/d' install-list"
         rlRun "sed -i '/beaker-tasks/d' install-list"
@@ -116,6 +116,9 @@ rlJournalStart
             fi
         done
         echo "" >> pkglist.report
+    rlPhaseEnd
+
+    rlPhaseStartTest "Uninstall test for dsp packages"
         rlRun "uninstall_report"
         # Following loop will read each package from file install-pkgs
         # and will attempt to un-install it using dnf utility.
