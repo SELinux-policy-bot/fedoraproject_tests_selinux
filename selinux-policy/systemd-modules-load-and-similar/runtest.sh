@@ -116,6 +116,7 @@ rlJournalStart
         rlRun "rm -f /etc/modules-load.d/${KERNEL_MODULE}.conf"
     rlPhaseEnd
 
+    if modinfo `grep ^ib /etc/rdma/modules/rdma.conf` >& /dev/null ; then
     rlPhaseStartTest "bz#1942267"
         tst_Time="$(date '+%T')"
         # Install kernel-module matching the running kernel version
@@ -126,6 +127,7 @@ rlJournalStart
         rlRun "ausearch -m AVC -m USER_AVC --start $tst_Time --input-logs" 1
         rlRun "systemctl stop rdma-load-modules@rdma.service"
     rlPhaseEnd
+    fi
 
     if ! rlIsRHEL 8 && ! rlIsCentOS 8 ; then
     rlPhaseStartTest "bz#2088257 + bz#2088258"

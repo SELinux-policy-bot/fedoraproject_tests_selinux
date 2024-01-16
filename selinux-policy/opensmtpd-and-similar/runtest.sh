@@ -75,12 +75,12 @@ rlJournalStart
     fi
 
     rlPhaseStartTest "real scenario -- standalone service"
-        rlRun "sestatus | mailx -s test-email root@localhost"
         if ! ls -Z ${FILE_PATH} | grep -q ${FILE_CONTEXT} ; then
             # for environments where the service is not yet confined
             PROCESS_CONTEXT="unconfined_service_t"
         fi
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
+        rlRun "sestatus | mailx -s test-email root@localhost"
         rlRun "restorecon -Rv /etc /var /run -e /var/ARTIFACTS" 0-255
         rlRun "smtpctl show status"
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1

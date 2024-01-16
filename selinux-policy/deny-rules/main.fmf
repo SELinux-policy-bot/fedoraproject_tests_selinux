@@ -12,6 +12,8 @@ recommend:
   - selinux-policy
   - strace
   - expect
+environment:
+    AVC_ERROR: +no_avc_check
 duration: 10m
 enabled: true
 tier: 1
