@@ -85,6 +85,13 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    if rlIsRHEL 8 9 || rlIsCentOS 8 9 ; then
+    rlPhaseStartTest "RHEL-21902 + RHEL-21903"
+        rlSEMatchPathCon "/var/spool/exim/exim_daemon_notify" "exim_spool_t"
+        rlSESearchRule "allow exim_t exim_t : unix_dgram_socket { sendto } [ ]"
+    rlPhaseEnd
+    fi
+
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
@@ -92,6 +99,7 @@ rlJournalStart
             PROCESS_CONTEXT="sendmail_t"
         fi
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
+        rlRun "lsof | grep exim_daemon_notify"
         rlRun "restorecon -Rv /run /var -e /var/ARTIFACTS" 0-255
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd

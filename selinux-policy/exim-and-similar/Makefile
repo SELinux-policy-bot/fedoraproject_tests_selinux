@@ -54,7 +54,7 @@ $(METADATA): Makefile
 	@echo "Type:            Regression" >> $(METADATA)
 	@echo "TestTime:        5m" >> $(METADATA)
 	@echo "RunFor:          selinux-policy" >> $(METADATA)
-	@echo "Requires:        audit libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted /usr/sbin/service setools-console at exim" >> $(METADATA)
+	@echo "Requires:        audit libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted /usr/sbin/service setools-console at exim lsof" >> $(METADATA)
 	@echo "RhtsRequires:    library(selinux-policy/common)" >> $(METADATA)
 	@echo "Priority:        Normal" >> $(METADATA)
 	@echo "License:         GPLv2" >> $(METADATA)
@@ -66,6 +66,8 @@ $(METADATA): Makefile
 	@echo "Bug:             1444441" >> $(METADATA) # RHEL-7
 	@echo "Bug:             RHEL-14110" >> $(METADATA) # RHEL-9
 	@echo "Bug:             RHEL-14186" >> $(METADATA) # RHEL-8
+	@echo "Bug:             RHEL-21902" >> $(METADATA) # RHEL-9
+	@echo "Bug:             RHEL-21903" >> $(METADATA) # RHEL-8
 
 	rhts-lint $(METADATA)
 

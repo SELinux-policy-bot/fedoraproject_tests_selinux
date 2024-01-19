@@ -20,6 +20,7 @@ recommend:
   - setools-console
   - at
   - exim
+  - lsof
 environment:
     AVC_ERROR: +no_avc_check
 duration: 5m
@@ -39,6 +40,8 @@ link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1444441
   - verifies: https://issues.redhat.com/browse/RHEL-14110
   - verifies: https://issues.redhat.com/browse/RHEL-14186
+  - verifies: https://issues.redhat.com/browse/RHEL-21902
+  - verifies: https://issues.redhat.com/browse/RHEL-21903
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-alt-7
