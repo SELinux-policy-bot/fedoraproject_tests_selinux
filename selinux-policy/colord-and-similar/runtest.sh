@@ -142,6 +142,15 @@ rlJournalStart
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
 
+    if rlIsFedora ; then
+    rlPhaseStartTest "bz#2259679"
+        rlSEMatchPathCon "/usr/libexec/colord" "colord_exec_t"
+        rlSEMatchPathCon "/var/lib/colord/mapping.db" "colord_var_lib_t"
+        rlSESearchRule "allow init_t colord_t : process2 { nnp_transition } [ ]"
+        rlSESearchRule "allow colord_t colord_var_lib_t : file { read write } [ ]"
+    rlPhaseEnd
+    fi
+
     rlPhaseStartCleanup
         sleep 2
         rlSECheckAVC

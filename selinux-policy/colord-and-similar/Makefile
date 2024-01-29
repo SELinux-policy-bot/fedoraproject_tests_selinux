@@ -55,7 +55,7 @@ $(METADATA): Makefile
 	@echo "TestTime:        10m" >> $(METADATA)
 	@echo "RunFor:          selinux-policy" >> $(METADATA)
 	@echo "RunFor:          colord" >> $(METADATA)
-	@echo "Requires:        audit libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted glib2 setools-console colord initscripts expect" >> $(METADATA)
+	@echo "Requires:        audit libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted glib2 setools-console colord /usr/sbin/service expect" >> $(METADATA)
 	@echo "RhtsRequires:    library(selinux-policy/common)" >> $(METADATA)
 	@echo "Priority:        Normal" >> $(METADATA)
 	@echo "License:         GPLv2" >> $(METADATA)
@@ -69,6 +69,7 @@ $(METADATA): Makefile
 	@echo "Bug:             1421247" >> $(METADATA) # RHEL-7
 	@echo "Bug:             1460480" >> $(METADATA) # RHEL-7
 	@echo "Bug:             1772669" >> $(METADATA) # RHEL-8
+	@echo "Bug:             2259679" >> $(METADATA) # Fedora 40
 
 	rhts-lint $(METADATA)
 

@@ -17,7 +17,7 @@ recommend:
   - glib2
   - setools-console
   - colord
-  - initscripts
+  - /usr/sbin/service
   - expect
 environment:
     AVC_ERROR: +no_avc_check
@@ -29,7 +29,6 @@ tag:
   - NoRHEL4
   - NoRHEL5
   - NoRHEL6
-  - RHEL8
   - TIPpass
   - TIPpass_FIPS
   - TIPpass_Security
@@ -48,6 +47,7 @@ link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1772669
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1951114
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1878094
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2259679
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6
