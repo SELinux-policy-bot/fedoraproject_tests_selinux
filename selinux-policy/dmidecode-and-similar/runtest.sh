@@ -132,6 +132,31 @@ rlJournalStart
         done
     rlPhaseEnd
 
+    rlPhaseStartTest "RHEL-16104"
+        rlSEMatchPathCon "/var" "var_t"
+        rlSEMatchPathCon "/var/log" "var_log_t"
+        rlSEMatchPathCon "/var/log/sudo-io" "sudo_log_t"
+        rlSESearchRule "allow sysadm_sudo_t var_t : dir { read } [ ]"
+        rlSESearchRule "allow sysadm_sudo_t var_log_t : dir { read } [ ]"
+        rlSESearchRule "allow sysadm_sudo_t sudo_log_t : dir { read } [ ]"
+        rlRun "setsebool ssh_sysadm_login on"
+        rlRun "useradd -Z sysadm_u -G wheel sysadm-user"
+        USER_SECRET="S3kr3t${RANDOM}"
+        rlRun "echo ${USER_SECRET} | passwd --stdin sysadm-user"
+        rlRun "echo -en 'Defaults log_output\nDefaults log_input\nDefaults iolog_dir=/var/log/sudo-io\nsysadm-user ALL=(ALL) NOPASSWD: ALL\n' > /etc/sudoers.d/sysadm-user"
+        rlRun "rm -rf /var/log/sudo-io"
+        rlRun -s "./ssh.exp sysadm-user ${USER_SECRET} localhost sudo dmidecode"
+        rlRun "grep DMI $rlRun_LOG"
+        rlRun "rm -f $rlRun_LOG"
+        rlRun "rm -rf /var/log/sudo-io"
+        rlRun -s "./ssh.exp sysadm-user ${USER_SECRET} localhost sudo -r sysadm_r dmidecode"
+        rlRun "grep DMI $rlRun_LOG"
+        rlRun "rm -f $rlRun_LOG"
+        rlRun "rm -f /etc/sudoers.d/sysadm-user"
+        rlRun "userdel -rfZ sysadm-user"
+        rlRun "setsebool ssh_sysadm_login off"
+    rlPhaseEnd
+
     rlPhaseStartCleanup
         sleep 2
         rlSECheckAVC
