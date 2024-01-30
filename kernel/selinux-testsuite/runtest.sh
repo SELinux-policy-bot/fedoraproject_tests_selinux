@@ -94,7 +94,13 @@ function installDepsYum() {
 }
 
 function installDeps() {
-    if type yum >/dev/null; then
+    if [ -e /run/ostree-booted ]; then
+        for item in "$@"; do
+            if ! rpm -q --quiet --whatprovides "$item"; then
+                rpm-ostree --apply-live -y install "$item"
+            fi
+        done
+    elif type yum >/dev/null; then
         installDepsYum yum "$@"
     elif type dnf >/dev/null; then
         installDepsYum dnf "$@"
@@ -186,7 +192,7 @@ rlJournalStart
         rlRun "installDeps \$REQUIRES" 0 "Install requires"
 
         # The CRB repo with libbpf-devel might not be enabled on RHEL
-        if rlIsRHEL '>=8'; then
+        if rlIsRHEL '>=8' && ! [ -e /run/ostree-booted ]; then
             for repo in "rhel-CRB" "beaker-CRB"; do
                 rpm -q libbpf-devel &>/dev/null && break
                 rlRun "dnf install --enablerepo $repo -y libbpf-devel" 0-255
