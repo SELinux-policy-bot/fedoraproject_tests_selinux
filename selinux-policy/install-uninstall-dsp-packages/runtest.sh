@@ -34,8 +34,20 @@ PACKAGE="selinux-policy"
 SKIP_REMOVAL=${SKIP_REMOVAL:-""}
 SKIP_INSTALL=${SKIP_INSTALL:-""}
 INSTALL_ONLY=${INSTALL_ONLY:-""}
-FCONTEXT_LIST="/tmp/semanage-fcontext"
-FCONTEXT_LIST_VARRUN="/tmp/semanage-fcontext-varrun"
+ADDITIONAL_DSP_PACKAGES="additional-dsp-packages.txt"
+TMPDIR=${TMPDIR-"/var/tmp"}
+OUTDIR="${TMPDIR}/test-output"
+FCONTEXT_LIST="${OUTDIR}/semanage-fcontext"
+FCONTEXT_LIST2="${OUTDIR}/semanage-fcontext2"
+FCONTEXT_LIST_VARRUN="${OUTDIR}/semanage-fcontext-varrun"
+RESTORECON_RVN_RUN="${OUTDIR}/restorecon-rvn-run"
+RPMQA="${OUTDIR}/rpmqa"
+SEMODULE_LIST="${OUTDIR}/semodule-list"
+SEMODULE_LIST_DSP="${OUTDIR}/semodule-list-dsp"
+PERMISSIVE_DOMAINS="${OUTDIR}/permissive-domains"
+UNCONFINED_DOMAINS="${OUTDIR}/unconfined-domains"
+DBUS_SENDMSG="${OUTDIR}/dbus-sendmsg"
+mkdir -p ${OUTDIR}
 
 # Function to create a report template for install test
 function install_report() {
@@ -98,12 +110,17 @@ rlJournalStart
         rlRun "sed -i '/beaker-tasks/d' install-list"
 	# exclude debuginfo packages
         rlRun "sed -i '/-debuginfo/d' install-list"
-	# tmp: omit failing vfrnav
-        rlRun "sed -i '/vfrnav-selinux/d' install-list"
 	# packages names only
         rlRun "awk '{print \$1}' install-list > pkgonlylist"
 	# exclude updates-source
         rlRun "grep -vE '(.src)' pkgonlylist | sort -u > install-pkgs"
+	# include additional packages which do not match the "*-selinux" pattern
+	# currently for Fedora only
+	if rlIsFedora ">=38"
+	then
+	  # remove comments and blank lines
+	  rlRun "sed '/^[#]/d;/^$/d' ${ADDITIONAL_DSP_PACKAGES} >> install-pkgs"
+	fi
 	# use the same list for checks of the subsequent uninstallation
         rlRun "cp -f install-pkgs uninstall-pkgs"
         rlRun "install_report"
@@ -130,20 +147,46 @@ rlJournalStart
     rlPhaseEnd
 
     ### Checks performed with all dsp packages installed
+
     ### Status of /run and /var/run equivalency
     rlPhaseStartTest "Check /run equivalency status"
 	rlRun "semanage fcontext -l > ${FCONTEXT_LIST}"
 	if grep -q "/run = /var/run" ${FCONTEXT_LIST}; then
-	    echo "Warning: Legacy equivalency settings \"/run = /var/run\" are in place."
+	    rlLogInfo "Legacy equivalency settings \"/run = /var/run\" are in place."
 	elif grep -q "/var/run = /run" ${FCONTEXT_LIST}; then
-	    echo "New equivalency settings /\"var/run = /run\" are in place."
-	    if grep -q "^/var/run" ${FCONTEXT_LIST}; then
-		rlLog "Warning: /var/run entries found in the file context database"
-		rlRun "sed '/^\/var\/run/!d; s|[ \t].*$||' ${FCONTEXT_LIST} | uniq > ${FCONTEXT_LIST_VARRUN}"
+	    rlLog "New equivalency settings /\"var/run = /run\" are in place."
+	    grep -v "/var/run = /run" ${FCONTEXT_LIST} > ${FCONTEXT_LIST2}
+	    if grep -q "^/var/run" ${FCONTEXT_LIST2}; then
+		rlLogWarning "/var/run entries found in the file context database"
+		rlRun "sed '/^\/var\/run/!d; s|[ \t].*$||' ${FCONTEXT_LIST2} | uniq > ${FCONTEXT_LIST_VARRUN}"
+
+		# List /var/run rules which do not have an equivalent one in /run
+		while read line
+		do
+		    if ! grep -q "^${line#/var}" ${FCONTEXT_LIST2}; then
+		        rlLog "Dup rule does not exist in /run: \"$line\""
+		    fi
+		done < ${FCONTEXT_LIST_VARRUN}
 	    fi
-	else echo "Unknown or none /run equivalency settings."
+	else rlLogWarning "None or unknown /run equivalency settings."
 	fi
-	rm -f ${FCONTEXT_LIST} ${FCONTEXT_LIST_VARRUN}
+
+	[ "$DEBUG" = "yes" ] ||
+	rlRun "rm -f ${FCONTEXT_LIST} ${FCONTEXT_LIST_VARRUN}"
+    rlPhaseEnd
+
+    ### Store some data which might be of some use later
+    rlPhaseStartTest "Gather relevant data"
+	if [ "${DEBUG}" = "yes" ]; then
+	    rlRun "restorecon -Rvn /run > ${RESTORECON_RVN_RUN}"
+	    rlRun "rpm -qa | sort > ${RPMQA}"
+	    rlRun "semanage permissive -l > ${PERMISSIVE_DOMAINS}"
+	    rlRun "seinfo -xa unconfined_domain_type > ${UNCONFINED_DOMAINS}"
+	    rlRun "semodule -lfull > ${SEMODULE_LIST}"
+	    rlRun "grep -v ^100 ${SEMODULE_LIST} > ${SEMODULE_LIST_DSP}"
+	    rlRpmInstall "perl"
+	    rlRun "./dbus-sendmsg.pl > ${DBUS_SENDMSG}"
+	fi
     rlPhaseEnd
 
     rlPhaseStartTest "Uninstall test for dsp packages"
@@ -174,6 +217,7 @@ rlJournalStart
         if [ -f "Err_file" ]; then
             rlRun "rm -f Err_file"
         fi
+	[ "$DEBUG" = "yes" ] ||
         rlRun "rm -f install-list pkgonlylist install-pkgs uninstall-pkgs pkglist.report"
         rlSECheckAVC --ignore 'type=USER_AVC.*denied.* send_msg .*scontext=.*:unconfined_t:.*tcontext=.*:system_dbusd_t:.*tclass=dbus' \
                      --ignore 'type=USER_AVC.* start .*:unconfined_t:.*:init_t:.*tclass=system' \

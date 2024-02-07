@@ -1,0 +1,13 @@
+# List of additional DSP packages which distribute its custom SELinux module,
+# but not in a subpackage with the "-selinux" suffix
+# This file is being maintained manually
+
+BackupPC
+# beah - temporary not working in rawhide
+ec2-hibinit-agent
+google-compute-engine-oslogin
+mariadb-cracklib-password-check
+mariadb-server-galera
+postsrsd
+qm
+receptor

@@ -30,7 +30,7 @@ export TESTVERSION=1.0
 
 BUILT_FILES=
 
-FILES=$(METADATA) runtest.sh Makefile PURPOSE
+FILES=$(METADATA) additional-dsp-packages.txt dbus-sendmsg.pl runtest.sh Makefile PURPOSE
 
 .PHONY: all install download clean
 
