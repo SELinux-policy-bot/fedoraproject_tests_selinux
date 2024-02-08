@@ -1,0 +1,7 @@
+summary: update packages to the latest versions available
+contact: Milos Malik <mmalik@redhat.com>
+test: ./runtest.sh
+framework: beakerlib
+duration: 15m
+enabled: true
+

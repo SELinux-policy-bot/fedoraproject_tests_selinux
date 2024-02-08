@@ -1,4 +1,4 @@
-summary: kdump service cannot be started because of SELinux
+summary: SELinux interferes with kdump and related programs
 description: |+
     SELinux interferes with kdump and related programs.
 

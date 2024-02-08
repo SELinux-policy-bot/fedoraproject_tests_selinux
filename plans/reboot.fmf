@@ -1,0 +1,11 @@
+summary: update, reboot and check for denials
+discover:
+    how: fmf
+    url: https://src.fedoraproject.org/tests/selinux
+    test:
+        - /other/update-packages
+        - /selinux-policy/bz533007-unable-to-start-kdump-service
+        - /other/collect-denials
+execute:
+    how: tmt
+
