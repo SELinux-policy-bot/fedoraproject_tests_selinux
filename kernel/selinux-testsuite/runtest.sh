@@ -35,7 +35,7 @@ PACKAGE="selinux-policy"
 # This should be updated as needed after verifying that the new version
 # doesn't break testing and after applying all necessary tweaks in the TC.
 # Run with GIT_BRANCH=master to run the latest upstream version.
-DEFAULT_COMMIT="514e324abc099057782ec569b720eaf9b6d9d99f"
+DEFAULT_COMMIT="f9f4a604b50eecdc9ff674f1762208f23c15013f"
 # Default pull requests to merge before running the test.
 # If non-empty, then after checking out GIT_BRANCH the listed upstream pull
 # requests (by number) are merged, creating a new temporary local branch.
@@ -332,6 +332,18 @@ rlJournalStart
 
         rlRun "sed -i 's/tm\.tv_sec = [0-9]*;/tm.tv_sec = $NETWORK_TIMEOUT;/' ./tests/*/*.c" 0 \
             "Tweak timeout in networking tests" # 2 secs is too little for SCTP test
+
+        # Fixed by https://github.com/fedora-selinux/selinux-policy/pull/2029,
+        # but may not be in all distro streams.
+        rlRun "tee -a policy/test_global.te" 0  \
+            "Work around missing policy rules" <<EOF
+
+            gen_require(\`
+                attribute domain;
+                type install_t;
+            ')
+            allow domain install_t:fd use;
+EOF
 
         if rlIsRHEL; then
             if kver_lt "3.10.0-349"; then
