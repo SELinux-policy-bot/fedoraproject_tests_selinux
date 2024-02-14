@@ -115,8 +115,12 @@ rlJournalStart
         rlRun "semanage port -a -t smtp_port_t -p tcp 25 2>&1 | tee ${OUTPUT_FILE}"
         rlAssertGrep "port .* already defined" ${OUTPUT_FILE} -i
         rlRun "semanage port -l | grep 'smtp_port_t.*tcp.*25'"
+        rm -f ${OUTPUT_FILE}
         rlRun "semanage port -d -t smtp_port_t -p tcp 25 2>&1 | tee ${OUTPUT_FILE}"
-        rlAssertGrep "port .* is defined in policy.*cannot be deleted" ${OUTPUT_FILE} -i
+        # the error may not appear because the local customization can be deleted always
+        if [ -s ${OUTPUT_FILE} ] ; then
+            rlAssertGrep "port .* is defined in policy.*cannot be deleted" ${OUTPUT_FILE} -i
+        fi
         rlRun "semanage port -d -t smtp_port_t -p tcp 25 2>&1 | tee ${OUTPUT_FILE}"
         rlAssertGrep "port .* is defined in policy.*cannot be deleted" ${OUTPUT_FILE} -i
         rlRun "semanage port -l | grep 'smtp_port_t.*tcp.*25'"
