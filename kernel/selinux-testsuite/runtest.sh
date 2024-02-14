@@ -436,6 +436,13 @@ EOF
             #if kver_ge 5.14.0-326; then
             #    force_tests+=" inet_socket/mptcp"
             #fi
+
+            if ! grep -q 'CONFIG_SCSI_ISCSI_ATTRS=y' "/lib/modules/$(uname -r)/config"; then
+                rlRun "sed -i -e 's/runcon -t test_netlink_iscsi_socket_t/true/' \
+                    -e 's/runcon -t test_no_netlink_iscsi_socket_t/false/' \
+                    tests/netlink_socket/test" 0 \
+                    "Apply workaround for disabled CONFIG_SCSI_ISCSI_ATTRS"
+            fi
         fi
 
         # CKI mainline kernels don't ship with module build infrastructure
