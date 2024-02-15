@@ -333,17 +333,19 @@ rlJournalStart
         rlRun "sed -i 's/tm\.tv_sec = [0-9]*;/tm.tv_sec = $NETWORK_TIMEOUT;/' ./tests/*/*.c" 0 \
             "Tweak timeout in networking tests" # 2 secs is too little for SCTP test
 
-        # Fixed by https://github.com/fedora-selinux/selinux-policy/pull/2029,
-        # but may not be in all distro streams.
-        rlRun "tee -a policy/test_global.te" 0  \
-            "Work around missing policy rules" <<EOF
+        if [ -e /run/ostree-booted ]; then
+            # Fixed by https://github.com/fedora-selinux/selinux-policy/pull/2029,
+            # but may not be in all distro streams.
+            rlRun "tee -a policy/test_global.te" 0  \
+                "Work around missing policy rules" <<EOF
 
-            gen_require(\`
-                attribute domain;
-                type install_t;
-            ')
-            allow domain install_t:fd use;
+                gen_require(\`
+                    attribute domain;
+                    type install_t;
+                ')
+                allow domain install_t:fd use;
 EOF
+        fi
 
         if rlIsRHEL; then
             if kver_lt "3.10.0-349"; then
