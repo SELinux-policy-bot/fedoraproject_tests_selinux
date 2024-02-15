@@ -443,6 +443,14 @@ EOF
                     tests/netlink_socket/test" 0 \
                     "Apply workaround for disabled CONFIG_SCSI_ISCSI_ATTRS"
             fi
+
+            if ! grep -q 'CONFIG_QFMT_V2=y' "/lib/modules/$(uname -r)/config"; then
+                # patch the filesystem tests to not do quota tests on ext4
+                rlRun "sed -i -e 's/\`uname -r\`/\"3.0\"/' \
+                    -e 's/\\(elsif ( \$fs_type eq \"nfs4\" or \$fs_type eq \"nfs\"\\)/\\1 or \$fs_type eq \"ext4\"/' \
+                    tests/filesystem/test tests/fs_filesystem/test" 0 \
+                    "Apply workaround for disabled CONFIG_QFMT_V2"
+            fi
         fi
 
         # CKI mainline kernels don't ship with module build infrastructure
