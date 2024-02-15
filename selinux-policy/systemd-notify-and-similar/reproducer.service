@@ -1,0 +1,5 @@
+[Service]
+Type=notify
+NotifyAccess=all
+ExecStart=/bin/sh -c "sleep 3; systemd-notify --ready; sleep 30"
+

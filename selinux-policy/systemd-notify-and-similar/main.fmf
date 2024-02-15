@@ -20,6 +20,8 @@ recommend:
   - setools-console
   - systemd
   - /usr/sbin/service
+environment:
+    AVC_ERROR: +no_avc_check
 duration: 10m
 enabled: true
 tag:
@@ -33,6 +35,8 @@ tag:
 tier: '2'
 link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1903305
+  - verifies: https://issues.redhat.com/browse/RHEL-25514
+  - verifies: https://issues.redhat.com/browse/RHEL-25605
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7

@@ -103,6 +103,22 @@ rlJournalStart
         rlRun "systemctl daemon-reload"
     rlPhaseEnd
 
+    rlPhaseStartTest "RHEL-25514 + RHEL-25605"
+        rlSEMatchPathCon "/usr/bin/systemd-notify" "systemd_notify_exec_t"
+        rlSEMatchPathCon "/run/systemd/notify" "init_var_run_t"
+        rlSESearchRule "allow systemd_notify_t systemd_notify_t : capability { sys_admin } [ ]"
+        rlSESearchRule "allow systemd_notify_t kernel_t : unix_dgram_socket { sendto } [ ]"
+
+        rlRun "cp -f ./reproducer.service /etc/systemd/system/"
+        rlRun "systemctl daemon-reload"
+        rlRun "service reproducer start"
+        rlRun -s "service reproducer status -l"
+        rlRun "grep -i 'failed.*notify.*permission.*denied' $rlRun_LOG" 1
+        rm -f $rlRun_LOG
+        rlRun "rm -f /etc/systemd/system/reproducer.service"
+        rlRun "systemctl daemon-reload"
+    rlPhaseEnd
+
     rlPhaseStartCleanup
         sleep 2
         rlSECheckAVC

@@ -29,7 +29,7 @@ export TESTVERSION=1.0
 
 BUILT_FILES=
 
-FILES=$(METADATA) runtest.sh Makefile PURPOSE local-notifier.service notifier.sh
+FILES=$(METADATA) runtest.sh Makefile PURPOSE local-notifier.service notifier.sh reproducer.service
 
 .PHONY: all install download clean
 
@@ -61,8 +61,10 @@ $(METADATA): Makefile
 	@echo "License:         GPLv2" >> $(METADATA)
 	@echo "Confidential:    no" >> $(METADATA)
 	@echo "Destructive:     no" >> $(METADATA)
-	@echo "Releases:        -RHEL4 -RHEL5 -RHEL6" >> $(METADATA)
+	@echo "Releases:        -RHEL4 -RHEL5 -RHEL6 -RHEL7" >> $(METADATA)
 	@echo "Bug:             1903305" >> $(METADATA) # Fedora 33
+	@echo "Bug:             RHEL-25514" >> $(METADATA) # RHEL-9
+	@echo "Bug:             RHEL-25605" >> $(METADATA) # RHEL-8
 
 	rhts-lint $(METADATA)
 
