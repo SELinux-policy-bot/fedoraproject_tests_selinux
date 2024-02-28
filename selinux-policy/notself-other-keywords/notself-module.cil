@@ -1,0 +1,3 @@
+(type a_t)
+(allow a_t notself ( process ( signal )))
+

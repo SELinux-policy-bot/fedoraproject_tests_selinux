@@ -1,0 +1,32 @@
+summary: Basic test of the notself/other keywords
+contact: Milos Malik <mmalik@redhat.com>
+test: ./runtest.sh
+framework: beakerlib
+component:
+  - selinux-policy
+recommend:
+  - libsepol
+  - libsemanage
+  - libselinux
+  - policycoreutils
+  - selinux-policy
+  - setools-console
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tier: 1
+tag:
+  - CI-Tier-1
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - NoRHEL8
+  - targeted
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8, centos-8
+    because: notself/other keywords are not recognized/implemented there
+extra-nitrate: TC#0617216
+id: 88fc548f-c1fa-48dc-a5ca-58478774911f

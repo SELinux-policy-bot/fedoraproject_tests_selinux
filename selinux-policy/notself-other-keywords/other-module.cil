@@ -1,0 +1,9 @@
+(typeattribute parts)
+(type a_t)
+(type b_t)
+(type c_t)
+(typeattributeset parts ( a_t ))
+(typeattributeset parts ( b_t ))
+(typeattributeset parts ( c_t ))
+(allow parts other ( process ( signal )))
+
