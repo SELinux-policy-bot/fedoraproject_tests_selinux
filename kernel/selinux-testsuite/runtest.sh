@@ -314,6 +314,11 @@ rlJournalStart
             rlRun "sed -i 's/\\(allow \\\$1 initrc_t:fd use;\\)/\\1 allow \$1 unconfined_service_t:fd use;/' policy/test_policy.if" 0
         fi
 
+        if rlIsRHEL '<6'; then
+            rlRun "sed -i '/install_t/d' policy/test_policy.if" 0
+                "RHEL 6 doesn't have install_t"
+        fi
+
         exclude_tests=""
         force_tests=""
         for file in ./tests/nnp*/execnnp.c; do
