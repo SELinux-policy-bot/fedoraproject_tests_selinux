@@ -1,0 +1,18 @@
+summary: XFRM refcount underflow test
+description: |
+    Test that allocating and deallocating XFRM state and/or policy
+    structures doesn't lead to selinux_xfrm_refcount imbalance and
+    underflow.
+contact: Ondrej Mosnacek <omosnace@redhat.com>
+component:
+- kernel
+framework: beakerlib
+duration: 15m
+tier: 2
+enabled: true
+adjust:
+    enabled: false
+    when: distro < rhel-7
+    because: RHEL-6 and below are not worth supporting by this test
+link:
+  - verifies: https://issues.redhat.com/browse/RHEL-27751
