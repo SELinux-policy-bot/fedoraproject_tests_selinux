@@ -64,9 +64,10 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "real scenario -- standalone service"
-        rlRun "grep _cmd /etc/synce4l.conf"
-        rlRun "sed -i 's/^\(.*_cmd\) .*$/\1 echo 0/' /etc/synce4l.conf"
-        rlRun "grep _cmd /etc/synce4l.conf"
+        if grep -q _cmd /etc/synce4l.conf ; then
+            rlRun "sed -i 's/^\(.*_cmd\) .*$/\1 echo 0/' /etc/synce4l.conf"
+            rlRun "grep _cmd /etc/synce4l.conf"
+        fi
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
             # for RHELs where the SELinux domain does not exist yet
             PROCESS_CONTEXT="unconfined_service_t"
