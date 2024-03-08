@@ -5,7 +5,7 @@ description: |
     underflow.
 contact: Ondrej Mosnacek <omosnace@redhat.com>
 component:
-- kernel
+  - kernel
 framework: beakerlib
 duration: 15m
 tier: 2
@@ -16,3 +16,5 @@ adjust:
     because: RHEL-6 and below are not worth supporting by this test
 link:
   - verifies: https://issues.redhat.com/browse/RHEL-27751
+extra-nitrate: TC#0617218
+id: d2bfb49c-fe12-48b5-8f17-8edf6f93810a
