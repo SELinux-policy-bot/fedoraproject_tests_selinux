@@ -19,7 +19,6 @@ tag:
   - NoRHEL5
   - NoRHEL6
   - NoRHEL7
-  - failinfedora
   - targeted
 link:
   - verifies: https://issues.redhat.com/browse/RHEL-5032

@@ -39,7 +39,6 @@ tag:
   - TIPpass
   - TIPpass_Security
   - f32friendly
-  - failinfedora
   - targeted
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1791957
