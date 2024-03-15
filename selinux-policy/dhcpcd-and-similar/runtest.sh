@@ -91,7 +91,17 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    if ! rlIsRHEL 8 ; then
+    rlPhaseStartTest "bz#2269708 + bz#2270733"
+        rlSEMatchPathCon "/run/netns" "ifconfig_var_run_t"
+        rlSESearchRule "allow dhcpc_t ifconfig_var_run_t : dir { read } [ ]"
+    rlPhaseEnd
+    fi
+
     rlPhaseStartTest "real scenario -- standalone service"
+        rlRun "ip netns add test-ns"
+        rlRun "ip netns del test-ns"
+        rlRun "ls -lZR /run/netns"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
             if rlIsRHEL 5 6 ; then

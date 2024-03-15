@@ -17,6 +17,7 @@ recommend:
   - setools-console
   - dhcpcd
   - /usr/sbin/service
+  - iproute
 environment:
     AVC_ERROR: +no_avc_check
 duration: 10m
@@ -30,6 +31,8 @@ link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1585971
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1602343
   - verifies: https://issues.redhat.com/browse/RHEL-15326
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2269708
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2270733
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-alt-7
