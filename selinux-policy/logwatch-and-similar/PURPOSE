@@ -1,0 +1,5 @@
+PURPOSE of /CoreOS/selinux-policy/Regression/logwatch-and-similar
+Author: Milos Malik <mmalik@redhat.com>
+
+Description: SELinux interferes with logwatch and related programs
+
