@@ -97,6 +97,11 @@ rlJournalStart
         rlSESearchRule "allow unconfined_service_t unconfined_service_t : io_uring { cmd } [ ]"
     rlPhaseEnd
 
+    rlPhaseStartTest "bz#2270895"
+        rlSESearchRule "allow unconfined_t unconfined_t : anon_inode { create } [ ]"
+        rlRun "stress-ng --resources 16 --timeout 5 --log-file /dev/null"
+    rlPhaseEnd
+
     rlPhaseStartCleanup
         sleep 2
         rlSECheckAVC

@@ -54,7 +54,7 @@ $(METADATA): Makefile
 	@echo "Type:            Regression" >> $(METADATA)
 	@echo "TestTime:        30m" >> $(METADATA)
 	@echo "RunFor:          selinux-policy" >> $(METADATA)
-	@echo "Requires:        libselinux policycoreutils selinux-policy selinux-policy-targeted gcc glibc-headers setools-console audit fio grubby" >> $(METADATA)
+	@echo "Requires:        libselinux policycoreutils selinux-policy selinux-policy-targeted gcc glibc-headers setools-console audit fio grubby stress-ng" >> $(METADATA)
 	@echo "RhtsRequires:    library(selinux-policy/common)" >> $(METADATA)
 	@echo "Priority:        Normal" >> $(METADATA)
 	@echo "License:         GPLv2" >> $(METADATA)
@@ -68,6 +68,7 @@ $(METADATA): Makefile
 	@echo "Bug:             2025714" >> $(METADATA) # Fedora 35
 	@echo "Bug:             2187745" >> $(METADATA) # RHEL-9
 	@echo "Bug:             RHEL-11792" >> $(METADATA) # RHEL-9
+	@echo "Bug:             2270895" >> $(METADATA) # Fedora 41
 
 	rhts-lint $(METADATA)
 
