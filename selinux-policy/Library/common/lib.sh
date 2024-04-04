@@ -1838,7 +1838,7 @@ __INTERNAL_rlSEenable_full_auditing() {
   }
   [[ $auditd_need_restart -eq 1 ]] && {
     rlLog "stop the audit daemon first"
-    rlRun "service auditd stop"
+    rlRun "service auditd stop" 0,2
     sleep 5
     rlLog "audit daemon configuration file is updated, starting the audit service"
     rlServiceStart auditd || {
