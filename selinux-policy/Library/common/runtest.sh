@@ -16,7 +16,7 @@ rlIsRHEL 5 && {
 
 rlJournalStart
     rlPhaseStartSetup
-        rlRun "rlImport selinux-policy/common"
+        rlRun "rlImport selinux-policy/common" 0,1
         rlRun "uname -a"
         rlRun "sestatus"
     rlPhaseEnd

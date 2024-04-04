@@ -31,7 +31,7 @@
 
 PACKAGE="checkpolicy"
 # TODO: repeat for all policy modules that are installed under /etc/selinux
-if rlIsFedora ; then
+if rlIsFedora || rlIsCentOS ; then
     POLICY_FILE="`find /var/lib/selinux/targeted -type d -name base`/hll"
 elif rlIsRHEL '<7.3' ; then
     POLICY_FILE=`find /etc/selinux/targeted -type f -name base.pp`
@@ -43,7 +43,7 @@ rlJournalStart
     rlPhaseStartSetup
         rlAssertRpm ${PACKAGE}
         OUTPUT_FILE=`mktemp`
-        if rlIsRHEL '>=7.3' || rlIsFedora ; then
+        if rlIsRHEL '>=7.3' || rlIsCentOS || rlIsFedora ; then
             rlRun "semodule -H -E base"
         else
             rlRun "cp ${POLICY_FILE} ./base.pp.bz2"

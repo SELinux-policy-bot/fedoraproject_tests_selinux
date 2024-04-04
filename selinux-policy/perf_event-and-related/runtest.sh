@@ -35,7 +35,7 @@ rlJournalStart
     rlLog "If this test fails, please contact mmalik on IRC #selinux"
     rlLog "This test should fail if tested bugs are NOT fixed yet"
     rlPhaseStartSetup
-        rlRun "rlImport 'selinux-policy/common'"
+        rlRun "rlImport 'selinux-policy/common'" 0,1
         rlAssertRpm ${PACKAGE}
         rlAssertRpm ${PACKAGE}-targeted
         rlAssertRpm perf

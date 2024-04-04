@@ -95,7 +95,7 @@ fi
 
 rlJournalStart
     rlPhaseStartSetup
-        rlRun "rlImport 'selinux-policy/common'"
+        rlRun "rlImport 'selinux-policy/common'" 0,1
         rlSESetEnforce
         rlSEStatus
         rlSESetTimestamp

@@ -50,7 +50,7 @@ rlJournalStart
     fi
 
     rlPhaseStartSetup
-        rlRun "rlImport 'selinux-policy/common'"
+        rlRun "rlImport 'selinux-policy/common'" 0,1
         rlSESatisfyRequires
         rlAssertRpm ${PACKAGE}
         rlAssertRpm ${PACKAGE}-targeted

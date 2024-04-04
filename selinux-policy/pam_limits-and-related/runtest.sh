@@ -36,7 +36,7 @@ ALLOWED_USERS=${ALLOWED_USERS:-"guest_u xguest_u user_u staff_u sysadm_u unconfi
 
 rlJournalStart
     rlPhaseStartSetup
-        rlRun "rlImport 'selinux-policy/common'"
+        rlRun "rlImport 'selinux-policy/common'" 0,1
         rlSESatisfyRequires
         rlAssertRpm ${PACKAGE}
         rlAssertRpm ${PACKAGE}-targeted

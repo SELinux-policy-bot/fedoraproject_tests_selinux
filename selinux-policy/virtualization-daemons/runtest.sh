@@ -66,15 +66,11 @@ fi
 
 rlJournalStart
     rlPhaseStartSetup
-        rlRun "rlImport 'selinux-policy/common'"
+        rlRun "rlImport 'selinux-policy/common'" 0,1
         rlSESatisfyRequires
         rlAssertRpm ${PACKAGE}
         rlAssertRpm ${PACKAGE}-targeted
         rlRun "rpm -qa libvirt\*"
-
-        rlRun "sed -i 's/^.*task.*never.*$//' /etc/audit/rules.d/audit.rules"
-        rlRun "echo '-w /etc/shadow -p w' >> /etc/audit/rules.d/audit.rules"
-        rlRun "service auditd restart"
 
         rlServiceStop ${SERVICE_NAMES}
         rlFileBackup /etc/shadow

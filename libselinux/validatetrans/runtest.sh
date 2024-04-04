@@ -40,7 +40,7 @@ rlJournalStart
     fi
 
     rlPhaseStartSetup
-        rlRun "rlImport 'selinux-policy/common'"
+        rlRun "rlImport 'selinux-policy/common'" 0,1
         rlAssertRpm ${PACKAGE}
         rlRun "rpm -qf `which validatetrans`"
         rlRun "rpm -qf `which seinfo`"

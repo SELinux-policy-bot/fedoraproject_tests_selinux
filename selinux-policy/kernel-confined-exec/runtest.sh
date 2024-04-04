@@ -22,7 +22,7 @@ function trigger_modprobe() {
 
 rlJournalStart
     rlPhaseStartSetup
-        rlImport 'selinux-policy/common'
+        rlImport 'selinux-policy/common' 0,1
 
         rlAssertRpm selinux-policy
         rlAssertRpm selinux-policy-targeted
