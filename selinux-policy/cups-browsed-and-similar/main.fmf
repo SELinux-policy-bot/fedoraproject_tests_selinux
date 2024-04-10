@@ -30,7 +30,7 @@ tag:
   - RHEL8
   - Tier1
   - Tier1security
-  - Tier2se
+  - Tier1se
   - f32friendly
   - targeted
 tier: '1'

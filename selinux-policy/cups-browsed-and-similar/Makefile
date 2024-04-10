@@ -62,7 +62,7 @@ $(METADATA): Makefile
 	@echo "Confidential:    no" >> $(METADATA)
 	@echo "Destructive:     no" >> $(METADATA)
 	@echo "Environment:     AVC_ERROR=+no_avc_check" >> $(METADATA)
-	@echo "Releases:        -RHEL4 -RHELServer5 -RHELClient5 -RHEL6" >> $(METADATA)
+	@echo "Releases:        -RHEL4 -RHEL5 -RHEL6" >> $(METADATA)
 	@echo "Bug:             1395801" >> $(METADATA) # Fedora 26
 	@echo "Bug:             1401634" >> $(METADATA) # Fedora 26
 	@echo "Bug:             1719754" >> $(METADATA) # RHEL-7

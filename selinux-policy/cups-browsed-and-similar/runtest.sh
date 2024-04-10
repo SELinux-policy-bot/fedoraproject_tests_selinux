@@ -47,6 +47,7 @@ rlJournalStart
         rlAssertRpm ${SERVICE_PACKAGE}
 
         rlFileBackup /etc/shadow
+        rlFileBackup /etc/cups/cups-browsed.conf
         rlServiceStop ${SERVICE_NAME}
 
         rlSESetEnforce
@@ -71,6 +72,7 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "real scenario"
+        rlRun "echo -en '\nBrowsePoll localhost\n' >> /etc/cups/cups-browsed.conf"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
             if rlIsRHEL 5 6 ; then
