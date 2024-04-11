@@ -54,7 +54,11 @@ rlJournalStart
         rlAssertGrep "/run/\.\* *all files *$RUN_CON" stdout
         rlAssertGrep "/run *directory *$RUN_CON" stdout
         rlAssertGrep "/home/\[\^/\]+/bin(/\.\*)? *all files *$HOME_BIN_CON" stdout
-        rlAssertGrep "/run = /var/run" stdout
+        if rlIsFedora '>= 40' || rlIsCentOS '>= 10' || rlIsRHEL '>= 10' ; then
+            rlAssertGrep "/var/run = /run" stdout
+        else
+            rlAssertGrep "/run = /var/run" stdout
+        fi
     rlPhaseEnd
 
     rlPhaseStartTest "semanage fcontext add and delete"

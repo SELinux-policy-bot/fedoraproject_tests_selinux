@@ -10,8 +10,11 @@ test: ./runtest.sh
 framework: beakerlib
 require:
   - library(selinux-policy/common)
-  - selinux-policy
 recommend:
+  - audit
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
   - selinux-policy-targeted
 environment:
     AVC_ERROR: +no_avc_check

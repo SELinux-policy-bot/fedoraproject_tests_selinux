@@ -34,7 +34,7 @@ FILE_PATH="/usr/libexec/bootupd"
 SERVICE_PACKAGE="bootupd"
 SERVICE_NAME="bootupd"
 PROCESS_NAME="bootupd"
-if rlIsFedora ; then
+if rlIsFedora || rlIsRHEL '>= 10' || rlIsCentOS '>= 10' ; then
     FILE_CONTEXT="bootupd_exec_t"
     PROCESS_CONTEXT="bootupd_t"
 else

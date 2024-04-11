@@ -107,6 +107,7 @@ rlJournalStart
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
         PYTHON_VERSION=`python --version | tr -d ' ' | cut -d . -f 1,2 | tr '[:upper:]' '[:lower:]'`
         rlRun "mkdir -p ~/.local/lib/${PYTHON_VERSION}/site-packages/"
+        rlRun "restorecon -Rv /var /run -e /var/ARTIFACTS" 0-255
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
 

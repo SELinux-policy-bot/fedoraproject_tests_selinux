@@ -84,6 +84,7 @@ rlJournalStart
     echo "${SD_SYSTEM_GENERATORS_NOTCONFINED}"
     rlPhaseEnd
 
+    if [ -f /usr/lib/systemd/system/systemd-networkd.service ] ; then
 
     ### network-generator actually is a service, not a generator
     # systemd-network-generator.service is a system service that translates ip= and the
@@ -106,6 +107,8 @@ rlJournalStart
 	rlRun "networkctl"
 	rlRun "diff /run/systemd/network/71-default.network 71-default-off.network"
     rlPhaseEnd
+
+    fi
 
     ### fstab-generator
     # systemd-fstab-generator is a generator that translates /etc/fstab (see fstab(5)

@@ -115,6 +115,7 @@ rlJournalStart
         rlRun "grep logsize /etc/icecast.xml"
         rlRun "sed -i 's|^.*\(<logarchive.*logarchive>\).*$|\1|' /etc/icecast.xml"
         rlRun "grep logarchive /etc/icecast.xml"
+        rlRun "restorecon -Rv /var /run -e /var/ARTIFACTS" 0-255
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
         if rlIsRHEL 5 6 ; then
             rlRun "setsebool icecast_connect_any off"

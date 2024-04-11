@@ -195,7 +195,9 @@ rlJournalStart
         fi
         rlRun "systemctl enable amanda-udp.socket"
         rlRun "systemctl start amanda-udp.socket"
-        rlSEService ${ROOT_PASSWORD} amanda-udp amandad amanda_t "start status restart status stop status" 1
+        rlSEService ${ROOT_PASSWORD} amanda-udp amandad amanda_t "start status" 1
+        rlRun "restorecon -Rv /run /var -e /var/ARTIFACTS" 0-255
+        rlSEService ${ROOT_PASSWORD} amanda-udp amandad amanda_t "restart status stop status" 1
         rlRun "systemctl stop amanda-udp.socket"
         rlRun "systemctl disable amanda-udp.socket"
     rlPhaseEnd

@@ -205,7 +205,9 @@ rlJournalStart
                 PROCESS_CONTEXT="unconfined_service_t"
             fi
         fi
-        rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status restart status stop status" 1
+        rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
+        rlRun "restorecon -Rv /run /var -e /var/ARTIFACTS" 0-255
+        rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
         rlRun "rm -f /etc/firewalld/lockdown-whitelist.xml*"
         rlRun "ls -dZ /run/firewalld | grep :firewalld_var_run_t"
         if rlIsRHEL 7 ; then

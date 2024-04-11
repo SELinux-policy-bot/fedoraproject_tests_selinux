@@ -115,6 +115,7 @@ rlJournalStart
         sleep 1
         rlRun "service systemd-logind restart"
         sleep 1
+        rlRun "restorecon -Rv /var /run -e /var/ARTIFACTS" 0-255
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
     fi

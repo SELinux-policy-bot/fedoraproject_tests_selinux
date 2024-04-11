@@ -22,6 +22,7 @@ recommend:
   - shadow-utils
   - sudo
   - dnf
+  - /usr/sbin/service
 environment:
     AVC_ERROR: +no_avc_check
 duration: 10m

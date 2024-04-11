@@ -202,7 +202,9 @@ rlJournalStart
         rlRun "rm -f /etc/krb5.conf"
         rlRun "cp ./krb5.conf /etc"
         rlRun "restorecon -v /etc/krb5.conf"
-        rlSEService ${ROOT_PASSWORD} kprop kpropd kpropd_t "start status restart status stop status" 1
+        rlSEService ${ROOT_PASSWORD} kprop kpropd kpropd_t "start status" 1
+        rlRun "restorecon -Rv /run /var -e /var/ARTIFACTS" 0-255
+        rlSEService ${ROOT_PASSWORD} kprop kpropd kpropd_t "restart status stop status" 1
     rlPhaseEnd
 
     rlPhaseStartCleanup
