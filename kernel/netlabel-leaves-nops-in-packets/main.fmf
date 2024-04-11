@@ -1,0 +1,21 @@
+summary: Netlabel shouldn't leave NOPs in IP options when removing the CIPSO option
+description: |
+    Test that seeting netlabel to unlabeled doesn't just overwrite CIPSO
+    options with NOPs, but actually removes them. Some routers may drop
+    packets with IP options, so this is important.
+contact: Ondrej Mosnacek <omosnace@redhat.com>
+component:
+  - kernel
+framework: beakerlib
+duration: 15m
+tier: 2
+require:
+  - gcc
+  - netlabel_tools
+enabled: true
+adjust:
+    enabled: false
+    when: distro < rhel-7
+    because: RHEL-6 and below are not worth supporting by this test
+link:
+  - verifies: https://issues.redhat.com/browse/RHEL-30904
