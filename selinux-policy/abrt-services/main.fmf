@@ -1,0 +1,51 @@
+summary: SELinux interferes with various ABRT services
+description: |+
+    SELinux interferes with various ABRT services
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - abrt
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - psmisc
+  - abrt
+  - abrt-addon-ccpp
+  - abrt-addon-coredump-helper
+  - abrt-addon-kerneloops
+  - abrt-addon-pstoreoops
+  - abrt-addon-upload-watch
+  - abrt-addon-vmcore
+  - abrt-addon-xorg
+  - /usr/sbin/service
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL9
+  - targeted
+link:
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2274709
+adjust:
+  - enabled: false
+    when: distro >= rhel-9
+    because: the abrt* packages are not available there
+  - enabled: false
+    when: distro >= centos-stream-9
+    because: the abrt* packages are not available there
+extra-summary: /CoreOS/selinux-policy/Regression/abrt-services
+extra-task: /CoreOS/selinux-policy/Regression/abrt-services
+extra-nitrate: TC#0617419
+id: ca742967-9ac5-4f16-be93-d95eb7932224
