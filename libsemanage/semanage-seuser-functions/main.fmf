@@ -1,0 +1,28 @@
+summary: Test semanage_seuser_* functions
+description: ''
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - libsemanage
+test: ./runtest.sh
+framework: beakerlib
+recommend:
+  - libsemanage
+  - libsemanage-devel
+  - glibc
+  - gcc
+duration: 5m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - f32friendly
+  - f33friendly
+  - rhel8-buildroot
+  - targeted
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5
+    continue: false
+extra-nitrate: TC#0546750
+extra-summary: /CoreOS/libsemanage/Sanity/semanage-seuser-functions
+extra-task: /CoreOS/libsemanage/Sanity/semanage-seuser-functions
