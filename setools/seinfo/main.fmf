@@ -1,0 +1,49 @@
+summary: Does seinfo work well? Does it support all features?
+description: |+
+    Does seinfo work well? Does it support all features?
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - setools
+test: ./runtest.sh
+framework: beakerlib
+require:
+  - library(selinux-policy/common)
+recommend:
+  - setools
+  - setools-console
+  - selinux-policy
+  - selinux-policy-targeted
+  - grep
+  - diffutils
+duration: 20m
+enabled: true
+tag:
+  - NoRHEL4
+  - TIPpass_Security
+  - Tier1
+  - Tier1se
+  - TipWaived5
+  - TipWaived6
+  - f31friendly
+  - f32friendly
+  - failinrhel8ci
+  - targeted
+tier: '1'
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=499247
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=584286
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=649699
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=650092
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=739628
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=928705
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1581761
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=920981
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1581848
+adjust:
+  - enabled: false
+    when: distro == rhel-4
+    continue: false
+extra-nitrate: TC#0067249
+extra-summary: /CoreOS/setools/Sanity/seinfo
+extra-task: /CoreOS/setools/Sanity/seinfo

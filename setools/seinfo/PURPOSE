@@ -1,0 +1,5 @@
+PURPOSE of /CoreOS/setools/Sanity/seinfo
+Author: Milos Malik <mmalik@redhat.com>
+
+Does seinfo work well? Does it support all features?
+

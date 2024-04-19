@@ -1,0 +1,46 @@
+summary: Does sesearch work well? Does it support all features?
+description: |+
+    Does sesearch work well? Does it support all features?
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - setools
+test: ./runtest.sh
+framework: beakerlib
+recommend:
+  - setools-console
+  - python3-setools
+  - selinux-policy
+  - selinux-policy-targeted
+duration: 15m
+enabled: true
+tag:
+  - NoRHEL4
+  - TIPpass_Security
+  - Tier1
+  - Tier1se
+  - TierCandidatesFAIL
+  - TipWaived7
+  - f32friendly
+  - f33friendly
+  - targeted
+tier: '1'
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=526460
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=583915
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=602166
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=649711
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=650094
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=836213
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=924588
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1029837
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1595582
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=920981
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1595572
+adjust:
+  - enabled: false
+    when: distro == rhel-4
+    continue: false
+extra-nitrate: TC#0062271
+extra-summary: /CoreOS/setools/Sanity/sesearch
+extra-task: /CoreOS/setools/Sanity/sesearch
