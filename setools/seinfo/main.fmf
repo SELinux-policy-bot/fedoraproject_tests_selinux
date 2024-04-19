@@ -7,8 +7,6 @@ component:
   - setools
 test: ./runtest.sh
 framework: beakerlib
-require:
-  - library(selinux-policy/common)
 recommend:
   - setools
   - setools-console

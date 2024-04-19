@@ -33,7 +33,6 @@ PACKAGE="setools"
 
 rlJournalStart
     rlPhaseStartSetup
-        rlRun "rlImport 'selinux-policy/common'"
         if rlIsRHEL 5 ; then
             rlAssertRpm ${PACKAGE}
         else

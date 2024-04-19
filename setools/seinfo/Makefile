@@ -60,7 +60,6 @@ $(METADATA): Makefile
 	@echo "Requires:        selinux-policy-targeted" >> $(METADATA)
 	@echo "Requires:        grep" >> $(METADATA)
 	@echo "Requires:        diffutils" >> $(METADATA)
-	@echo "RhtsRequires:    library(selinux-policy/common)" >> $(METADATA)
 	@echo "Priority:        Normal" >> $(METADATA)
 	@echo "License:         GPLv2" >> $(METADATA)
 	@echo "Confidential:    no" >> $(METADATA)
