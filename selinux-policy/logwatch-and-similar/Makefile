@@ -52,7 +52,7 @@ $(METADATA): Makefile
 	@echo "Path:            $(TEST_DIR)" >> $(METADATA)
 	@echo "Description:     SELinux interferes with logwatch and related programs" >> $(METADATA)
 	@echo "Type:            Regression" >> $(METADATA)
-	@echo "TestTime:        10m" >> $(METADATA)
+	@echo "TestTime:        15m" >> $(METADATA)
 	@echo "RunFor:          selinux-policy" >> $(METADATA)
 	@echo "Requires:        audit libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted setools-console logwatch sendmail /usr/sbin/service" >> $(METADATA)
 	@echo "RhtsRequires:    library(selinux-policy/common)" >> $(METADATA)
@@ -62,7 +62,9 @@ $(METADATA): Makefile
 	@echo "Confidential:    no" >> $(METADATA)
 	@echo "Destructive:     no" >> $(METADATA)
 	@echo "Releases:        -RHEL4 -RHEL5 -RHEL6 -RHEL7 -RHEL8" >> $(METADATA)
+	@echo "Bug:             2183432" >> $(METADATA) # Fedora 38
 	@echo "Bug:             2270484" >> $(METADATA) # Fedora 40
+	@echo "Bug:             RHEL-34135" >> $(METADATA) # RHEL-9
 
 	rhts-lint $(METADATA)
 

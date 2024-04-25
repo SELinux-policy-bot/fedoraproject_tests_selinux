@@ -45,12 +45,18 @@ rlJournalStart
         rlAssertRpm ${SERVICE_PACKAGE}
 
         rlServiceStop ${SERVICE_NAME}
-        rlFileBackup /etc/shadow
+        rlFileBackup /usr/lib/systemd/system/logwatch.timer
 
         rlSESetEnforce
         rlSEStatus
         rlSESetTimestamp
         sleep 2
+    rlPhaseEnd
+
+    rlPhaseStartTest "bz#2183432 + RHEL-34135"
+        rlRun "ls -Z /proc/sys/net/ipv6/conf/all/disable_ipv6 | grep :sysctl_net_t"
+        rlSESearchRule "allow logwatch_mail_t sysctl_net_t : dir { search } [ ]"
+        rlSESearchRule "allow logwatch_mail_t sysctl_net_t : file { getattr open read } [ ]"
     rlPhaseEnd
 
     if ! rlIsRHEL 9 ; then
@@ -78,7 +84,11 @@ rlJournalStart
         rlRun "systemctl enable ${SERVICE_NAME}.timer"
         rlRun "systemctl start ${SERVICE_NAME}.timer"
         rlRun "systemctl list-timers --all"
-        rlRun "sleep 5s"
+        NEXT_TIME=`date -d "now + 1 minute" "+%H:%M"`
+        rlRun "sed -i 's/AccuracySec=.*$/AccuracySec=1s\nOnCalendar=*-*-* $NEXT_TIME/' /usr/lib/systemd/system/${SERVICE_NAME}.timer"
+        rlRun "systemctl daemon-reload"
+        rlRun "systemctl list-timers --all"
+        rlRun "sleep 2m"
         rlRun "systemctl stop ${SERVICE_NAME}.timer"
         rlRun "systemctl disable ${SERVICE_NAME}.timer"
     rlPhaseEnd
