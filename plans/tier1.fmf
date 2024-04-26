@@ -5,7 +5,7 @@ adjust:
   because: do not run this plan on changes caused by a PR/MR
 discover:
   how: fmf
-  filter: tier:1 | tag:CI-Tier-1
+  filter: "tier:1 & tag:-failinfedora"
 execute:
   how: tmt
 

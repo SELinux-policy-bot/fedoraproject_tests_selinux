@@ -25,7 +25,6 @@ tag:
   - NoRHEL6
   - NoRHEL7
   - TIPfail_Security
-  - rhel9_broken
   - targeted
 link:
 adjust:

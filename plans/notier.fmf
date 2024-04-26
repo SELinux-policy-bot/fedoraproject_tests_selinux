@@ -1,0 +1,11 @@
+summary: no tier test plan
+adjust:
+- when: trigger == commit
+  enabled: false
+  because: do not run this plan on changes caused by a PR/MR
+discover:
+  how: fmf
+  filter: "tag:-Tier1 & tag:-Tier2 & tag:-Tier3 & tag:-CI-Tier-1 & tag:-failinfedora"
+execute:
+  how: tmt
+
