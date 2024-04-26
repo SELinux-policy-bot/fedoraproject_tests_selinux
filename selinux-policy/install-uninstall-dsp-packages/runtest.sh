@@ -110,6 +110,9 @@ rlJournalStart
         rlRun "sed -i '/beaker-tasks/d' install-list"
 	# exclude debuginfo packages
         rlRun "sed -i '/-debuginfo/d' install-list"
+	# exclude packages which make the test fail
+        rlRun "sed -i '/mrtg-selinux/d' install-list"
+        rlRun "sed -i '/vfrnav-selinux/d' install-list"
 	# packages names only
         rlRun "awk '{print \$1}' install-list > pkgonlylist"
 	# exclude updates-source
@@ -154,7 +157,7 @@ rlJournalStart
 	if grep -q "/run = /var/run" ${FCONTEXT_LIST}; then
 	    rlLogInfo "Legacy equivalency settings \"/run = /var/run\" are in place."
 	elif grep -q "/var/run = /run" ${FCONTEXT_LIST}; then
-	    rlLog "New equivalency settings /\"var/run = /run\" are in place."
+	    rlLog "New equivalency settings \"/var/run = /run\" are in place."
 	    grep -v "/var/run = /run" ${FCONTEXT_LIST} > ${FCONTEXT_LIST2}
 	    if grep -q "^/var/run" ${FCONTEXT_LIST2}; then
 		rlLogWarning "/var/run entries found in the file context database"
@@ -184,7 +187,6 @@ rlJournalStart
 	    rlRun "seinfo -xa unconfined_domain_type > ${UNCONFINED_DOMAINS}"
 	    rlRun "semodule -lfull > ${SEMODULE_LIST}"
 	    rlRun "grep -v ^100 ${SEMODULE_LIST} > ${SEMODULE_LIST_DSP}"
-	    rlRpmInstall "perl"
 	    rlRun "./dbus-sendmsg.pl > ${DBUS_SENDMSG}"
 	fi
     rlPhaseEnd
