@@ -5,11 +5,12 @@ description: |+
 contact: Milos Malik <mmalik@redhat.com>
 component:
   - checkpolicy
+test: ./runtest.sh
+framework: beakerlib
 recommend:
   - checkpolicy
   - man
   - grep
-  - mktemp
   - policycoreutils
   - policycoreutils-devel
 duration: 10m
@@ -17,7 +18,6 @@ enabled: true
 tag:
   - CI-Tier-1
   - NoRHEL4
-  - TIPpass_Security
   - Tier1
   - Tier1se
   - f31friendly
@@ -25,11 +25,11 @@ tag:
   - targeted
 tier: '1'
 link:
-  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1329217
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=533796
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=588294
-  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1392394
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1064603
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1329217
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1392394
 adjust:
   - enabled: false
     when: distro == rhel-4

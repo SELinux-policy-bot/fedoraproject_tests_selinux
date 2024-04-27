@@ -4,11 +4,14 @@ description: |+
 
     Author: Milos Malik <mmalik@redhat.com>
 
+    This test also covers bz#533790 ( https://bugzilla.redhat.com/show_bug.cgi?id=533790 ).
 
 contact: Milos Malik <mmalik@redhat.com>
 component:
   - setools
   - checkpolicy
+test: ./runtest.sh
+framework: beakerlib
 recommend:
   - checkpolicy
   - setools-console
@@ -20,7 +23,6 @@ enabled: true
 tag:
   - CI-Tier-1
   - NoRHEL4
-  - TIPpass_Security
   - Tier1
   - Tier1se
   - f31friendly
@@ -28,10 +30,10 @@ tag:
   - targeted
 tier: '1'
 link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=533790
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=739866
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1328966
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1328979
-  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=739866
-  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=533790
 adjust:
   - enabled: false
     when: distro == rhel-4

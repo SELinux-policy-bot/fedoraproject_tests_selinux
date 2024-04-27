@@ -32,6 +32,7 @@ adjust:
   - enabled: false
     when: distro == rhel-4
     continue: false
-extra-nitrate: TC#0062302
-extra-summary: /CoreOS/checkpolicy/Sanity/checkpolicy
-extra-task: /CoreOS/checkpolicy/Sanity/checkpolicy
+extra-nitrate: TC#00612804
+extra-summary: /CoreOS/checkpolicy/Sanity/checkpolicy-docs
+extra-task: /CoreOS/checkpolicy/Sanity/checkpolicy-docs
+id: 8e06af12-0434-448a-aa85-9ed5c854daf9

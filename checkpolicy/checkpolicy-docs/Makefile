@@ -1,6 +1,6 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-#   Makefile of /CoreOS/checkpolicy/Sanity/checkpolicy
+#   Makefile of /CoreOS/checkpolicy/Sanity/checkpolicy-docs
 #   Description: covers an issue where manpage included an unsupported option.
 #   Author: Milos Malik <mmalik@redhat.com>
 #
@@ -24,7 +24,7 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-export TEST=/CoreOS/checkpolicy/Sanity/checkpolicy
+export TEST=/CoreOS/checkpolicy/Sanity/checkpolicy-docs
 export TESTVERSION=1.0
 
 BUILT_FILES=

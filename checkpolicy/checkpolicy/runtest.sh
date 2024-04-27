@@ -34,10 +34,12 @@ PACKAGE="checkpolicy"
 rlJournalStart
     rlPhaseStartSetup
         rlAssertRpm ${PACKAGE}
-        rlRun "yum -y install selinux-policy-minimum selinux-policy-mls selinux-policy-targeted --enablerepo '*' --nobest"
-        rlAssertRpm selinux-policy-minimum
+        if rlIsRHEL "<9" ; then
+            rlAssertRpm selinux-policy-minimum
+        fi
         rlAssertRpm selinux-policy-mls
         rlAssertRpm selinux-policy-targeted
+        rlRun "rpm -qa | grep kernel"
         rlRun "uname -a"
         TEST_FILE=`mktemp`
         TEST_DIR=`mktemp -d`
@@ -52,7 +54,7 @@ rlJournalStart
         if rlIsRHEL 5 6 ; then
             VERSIONS=`seq ${MIN_VERSION} 1 ${MAX_VERSION}`
         else
-            # some versions are skipped because seinfo segfaults when inspecting binary policies between v.20 and v.23"
+            # some versions are skipped because of BZ#1328979
             VERSIONS=`seq ${MIN_VERSION} 1 ${MAX_VERSION} | grep -v -e 19 -e 20 -e 21 -e 22 -e 23`
         fi
         for CUR_VERSION in ${VERSIONS} ; do
@@ -67,7 +69,7 @@ rlJournalStart
         done
     rlPhaseEnd
 
-    rlPhaseStartTest
+    rlPhaseStartTest "bz#533790"
         rlRun "checkpolicy >& ${TEST_FILE}" 1
         rlAssertGrep "unable to open policy.conf" ${TEST_FILE}
         rlRun "checkpolicy -b >& ${TEST_FILE}" 1
@@ -102,7 +104,7 @@ rlJournalStart
         rlRun "checkpolicy --help 2>&1 | grep -- '-m]'" 1
     rlPhaseEnd
 
-    rlPhaseStartTest
+    rlPhaseStartTest "bz#739866"
         if rlIsRHEL 5 6 ; then
             ACTIVE_POLICY="/selinux/policy"
         else
@@ -110,7 +112,12 @@ rlJournalStart
         fi
         rlRun "echo -e 'q\n' | checkpolicy -Mdb ${ACTIVE_POLICY} | tee ${OUTPUT_FILE}"
         rlRun "grep -qi -e error -e ebitmap -e 'not match' ${OUTPUT_FILE}" 1
-        for POLICY_TYPE in minimum mls targeted ; do
+        if rlIsRHEL "<9" ; then
+            LIST="minimum mls targeted"
+        else
+            LIST="mls targeted"
+        fi
+        for POLICY_TYPE in $LIST ; do
             if [ ! -e /etc/selinux/${POLICY_TYPE}/policy/policy.* ] ; then
                 continue
             fi
@@ -119,7 +126,7 @@ rlJournalStart
         done
     rlPhaseEnd
 
-    rlPhaseStartTest
+    rlPhaseStartTest "bz#1328966 + bz#1328979"
         if rlIsRHEL 5 6 ; then
             ACTIVE_POLICY_TREE="/selinux"
         else # RHEL-7 and above
@@ -127,11 +134,16 @@ rlJournalStart
         fi
         MIN_VERSION="15"
         MAX_VERSION=`find /etc/selinux/ -name policy.?? | cut -d / -f 6 | cut -d . -f 2 | head -n 1`
-        for POLICY_TYPE in minimum mls targeted ; do
+        if rlIsRHEL "<9" ; then
+            LIST="minimum mls targeted"
+        else
+            LIST="mls targeted"
+        fi
+        for POLICY_TYPE in $LIST ; do
             if rlIsRHEL 5 6 ; then
                 VERSIONS=`seq ${MIN_VERSION} 1 ${MAX_VERSION}`
             else
-                # some versions are skipped because seinfo segfaults when inspecting binary policies between v.20 and v.23"
+                # some versions are skipped because of BZ#1328979
                 VERSIONS=`seq ${MIN_VERSION} 1 ${MAX_VERSION} | grep -v -e 19 -e 20 -e 21 -e 22 -e 23`
             fi
             for CUR_VERSION in ${VERSIONS} ; do
@@ -147,8 +159,73 @@ rlJournalStart
         done
     rlPhaseEnd
 
+    rlPhaseStartTest "handle unknown classes and perms"
+        for ACTION in allow deny reject ; do
+            rlRun "rm -f policy.out"
+            rlWatchdog "checkpolicy -M -U ${ACTION} -o policy.out policy.conf.from.secilc" 15
+            if [ -s policy.out ] ; then
+                rlRun "echo -e 'U\nq\n' | sedispol policy.out 2>&1 | tee ${OUTPUT_FILE}"
+                rlRun "grep -i \"${ACTION} unknown\" ${OUTPUT_FILE}"
+            else
+                rlFail "policy.out is empty or was not created"
+            fi
+        done
+    rlPhaseEnd
+
+    if ! rlIsRHEL '<=8.1'; then
+    rlPhaseStartTest "sorting ocontexts"
+        # check -S option in --help
+        rlRun "checkpolicy --help >$OUTPUT_FILE" 0,1
+        rlRun "cat $OUTPUT_FILE"
+        rlAssertGrep "\[-S\]" $OUTPUT_FILE
+
+        # check -S option in man page
+        rlRun "PAGER=cat man checkpolicy >$OUTPUT_FILE"
+        rlRun "cat $OUTPUT_FILE"
+        rlAssertGrep "\[-S\]" $OUTPUT_FILE
+
+        # run checkpolicy with the -S option
+        rlWatchdog "checkpolicy -S -M -o policy.out policy.conf.from.secilc" 15
+        rlRun "seinfo policy.out"
+    rlPhaseEnd
+    fi
+
+    rlPhaseStartTest "Test checkpolicy cil option"
+        # check -C option without input file
+        rlRun "checkpolicy -C 2>&1 | grep \"unable to open policy.conf\""
+        # check -C option with policy.conf file
+        rlRun "checkpolicy -C -M -o policy.cil policy.conf.from.secilc"
+        rlAssertGrep "(allow [a-z]*_.* [a-z]*_.* ([a-z]* ([a-z]*)))" policy.cil
+        # check -C option with policy binary file
+        rlRun "checkpolicy -C -M -o policy.cil2 -b /sys/fs/selinux/policy"
+        rlAssertGrep "(allow [a-z]*_.* [a-z]*_.* ([a-z]* ([a-z]*)))" policy.cil2
+    rlPhaseEnd
+
+    if rlIsRHEL '>=9' ; then
+    rlPhaseStartTest "Test checkpolicy optimize option"
+        # check -O option without input file
+        rlRun "checkpolicy -O 2>&1 | grep \"unable to open policy.conf\""
+        # Create optimized -O binary with policy.conf file
+        rlRun "checkpolicy -O -M -o policy.opt policy.conf.from.secilc"
+        rlRun "seinfo policy.opt"
+        # Create regular binary with policy.conf file
+        rlRun "checkpolicy -M -o policy.reg policy.conf.from.secilc"
+        rlRun "seinfo policy.reg"
+        # Compare size of optimized and regular binary
+        OPT1=`stat -c %s policy.opt`
+        REG1=`stat -c %s policy.reg`
+        rlAssertGreater "Test if regular file size is higher than optimized file" $REG1 $OPT1
+        # Compare allow rule counts between optimized and regular binary
+        rlRun "seinfo policy.opt > /tmp/optfile"
+        OPT_CNT=`grep Allow: /tmp/optfile | tr -s ' ' | sed 's/^ //' | cut -d ' ' -f2`
+        rlRun "seinfo policy.reg > /tmp/regfile"
+        REG_CNT=`grep Allow: /tmp/regfile | tr -s ' ' | sed 's/^ //' | cut -d ' ' -f2`
+        rlAssertGreater "Regular file has higher allow rule than optimized file" $REG_CNT $OPT_CNT
+    rlPhaseEnd
+    fi
+
     rlPhaseStartCleanup
-        rm -f ${OUTPUT_FILE} policy.out
+        rm -f ${OUTPUT_FILE} policy.out policy.cil policy.cil2 policy.opt policy.reg /tmp/optfile /tmp/regfile
     rlPhaseEnd
 rlJournalPrintText
 rlJournalEnd

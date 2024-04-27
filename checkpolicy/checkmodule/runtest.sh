@@ -40,7 +40,7 @@ rlJournalStart
         rlRun "rpm -ql ${PACKAGE} | grep /usr/share/man/.*checkmodule"
     rlPhaseEnd
 
-    rlPhaseStartTest
+    rlPhaseStartTest "bz#533796 + bz#588294"
         rlRun "checkmodule >& ${TEST_FILE}" 1
         rlAssertGrep "unable to open policy.conf" ${TEST_FILE}
         rlRun "checkmodule -b >& ${TEST_FILE}" 1
@@ -74,14 +74,14 @@ rlJournalStart
         rlRun "checkmodule --help 2>&1 | grep -- -U"
     rlPhaseEnd
 
-    rlPhaseStartTest
+    rlPhaseStartTest "bz#1064603 + bz#1392394"
         for POLICY_KIND in minimum mls targeted ; do
             rlRun "checkmodule -M -m -b -o testmod.mod /etc/selinux/${POLICY_KIND}/policy/policy.* >& ${TEST_FILE}" 1
             rlRun "grep -i \"checkmodule.*-b and -m are incompatible with each other\" ${TEST_FILE}"
         done
     rlPhaseEnd
 
-    rlPhaseStartTest
+    rlPhaseStartTest "bz#1329217"
         INPUT_FILE="mypolicy.te"
         OUTPUT_FILE="mypolicy.output"
         rlRun "ls -l ${INPUT_FILE}"
@@ -93,6 +93,24 @@ rlJournalStart
             rlRun "ls -l ${OUTPUT_FILE}" 0
         fi
     rlPhaseEnd
+
+    if ! rlIsRHEL 5 6 ; then # semodule_unpackage is not available on RHEL-5 and RHEL-6
+    rlPhaseStartTest "handle unknown classes and perms"
+        rlRun "rm -f base.pp base.mod"
+        rlRun "semodule -E base"
+        rlRun "semodule_unpackage base.pp base.mod"
+        for ACTION in allow deny reject ; do
+            rlRun "checkmodule -b -o base.out -M -U ${ACTION} base.mod"
+            rlRun "echo -e 'u\nq\n' | sedismod base.out | grep -i \"${ACTION} unknown\""
+        done
+        rlRun "checkmodule -m -o mypolicy.out -M -U deny mypolicy.te"
+        rlRun "ls -l mypolicy.out"
+        for ACTION in allow reject ; do
+            rlRun "checkmodule -m -o mypolicy.out -M -U ${ACTION} mypolicy.te 2>&1 | grep -i 'only valid.*base module'"
+        done
+        rlRun "rm -f base.pp base.mod base.out mypolicy.out"
+    rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         rlRun "rm -rf ${TEST_FILE} ${TEST_DIR} ${OUTPUT_FILE}"

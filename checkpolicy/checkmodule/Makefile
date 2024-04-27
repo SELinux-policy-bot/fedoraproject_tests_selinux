@@ -53,12 +53,17 @@ $(METADATA): Makefile
 	@echo "Type:            Sanity" >> $(METADATA)
 	@echo "TestTime:        10m" >> $(METADATA)
 	@echo "RunFor:          checkpolicy" >> $(METADATA)
-	@echo "Requires:        checkpolicy man grep mktemp policycoreutils policycoreutils-devel" >> $(METADATA)
+	@echo "Requires:        checkpolicy man grep policycoreutils policycoreutils-devel" >> $(METADATA)
 	@echo "Priority:        Normal" >> $(METADATA)
 	@echo "License:         GPLv2" >> $(METADATA)
 	@echo "Confidential:    no" >> $(METADATA)
 	@echo "Destructive:     no" >> $(METADATA)
 	@echo "Releases:        -RHEL4" >> $(METADATA)
+	@echo "Bug:             533796" >> $(METADATA) # RHEL-5
+	@echo "Bug:             588294" >> $(METADATA) # RHEL-6
+	@echo "Bug:             1064603" >> $(METADATA) # RHEL-7
+	@echo "Bug:             1329217" >> $(METADATA) # RHEL-7
+	@echo "Bug:             1392394" >> $(METADATA) # RHEL-6
 
 	rhts-lint $(METADATA)
 

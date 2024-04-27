@@ -59,6 +59,10 @@ $(METADATA): Makefile
 	@echo "Confidential:    no" >> $(METADATA)
 	@echo "Destructive:     no" >> $(METADATA)
 	@echo "Releases:        -RHEL4" >> $(METADATA)
+	@echo "Bug:             533790" >> $(METADATA) # RHEL-5
+	@echo "Bug:             739866" >> $(METADATA) # RHEL-6
+	@echo "Bug:             1328966" >> $(METADATA) # RHEL-7
+	@echo "Bug:             1328979" >> $(METADATA) # RHEL-7
 
 	rhts-lint $(METADATA)
 
