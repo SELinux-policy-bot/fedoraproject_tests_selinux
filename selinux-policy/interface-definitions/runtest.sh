@@ -13,6 +13,13 @@ rlJournalStart
         rlRun "grep -i missing output.txt" 1
     rlPhaseEnd
 
+    rlPhaseStartTest "bz#2254169 + bz#2254206 + bz#2277925"
+        rlRun "yum -y reinstall selinux-policy-devel >& output.txt"
+        rlRun "grep -i illegal output.txt" 1
+        rlRun "sepolgen-ifgen --verbose >& output.txt"
+        rlRun "grep -i illegal output.txt" 1
+    rlPhaseEnd
+
     rlPhaseStartCleanup
         rm -f output.txt
     rlPhaseEnd

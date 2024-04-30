@@ -6,6 +6,7 @@ component:
 recommend:
   - /usr/bin/sepolgen-ifgen
   - selinux-policy
+  - selinux-policy-devel
   - selinux-policy-targeted
 test: ./runtest.sh
 framework: beakerlib
@@ -19,6 +20,10 @@ tag:
 link:
   - verifies: https://issues.redhat.com/browse/RHEL-2616
   - verifies: https://issues.redhat.com/browse/RHEL-16185
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2254169
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2254206
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2277925
+  - verifies: https://issues.redhat.com/browse/RHEL-34769
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5
