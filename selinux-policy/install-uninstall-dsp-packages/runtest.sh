@@ -103,6 +103,10 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "Install test for dsp packages"
+	# test can fail when selinux-policy-mls is installed
+	if rpm -q selinux-policy-mls > /dev/null
+	then rlRun "dnf -y remove selinux-policy-mls"
+	fi
         rlRun "dnf list \"*-selinux*\" --enablerepo=\"*\" --disablerepo=\"beaker-tasks\" --disablerepo=\"*-source\" --disablerepo=\"*-debuginfo\" > install-list"
 	# limit the list to not installed packages
         rlRun "sed -i '1,/Available Packages/d' install-list"
@@ -110,9 +114,6 @@ rlJournalStart
         rlRun "sed -i '/beaker-tasks/d' install-list"
 	# exclude debuginfo packages
         rlRun "sed -i '/-debuginfo/d' install-list"
-	# exclude packages which make the test fail
-        rlRun "sed -i '/mrtg-selinux/d' install-list"
-        rlRun "sed -i '/vfrnav-selinux/d' install-list"
 	# packages names only
         rlRun "awk '{print \$1}' install-list > pkgonlylist"
 	# exclude updates-source
