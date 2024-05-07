@@ -1,0 +1,36 @@
+summary: basic apol test
+description: |+
+    Is apol able to run?
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - setools
+test: ./runtest.sh
+framework: beakerlib
+require:
+  - library(selinux-policy/common)
+recommend:
+  - gnome-shell
+  - gnome-session-xsession
+  - setools-console
+  - setools-gui
+  - tigervnc-server
+  - selinux-policy-mls
+  - selinux-policy-targeted
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - targeted
+link:
+  - relates: https://issues.redhat.com/browse/RHEL-29967
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7
+    continue: false
+extra-summary: /CoreOS/setools/Sanity/apol
+extra-task: /CoreOS/setools/Sanity/apol
+extra-nitrate: TC#0617470
