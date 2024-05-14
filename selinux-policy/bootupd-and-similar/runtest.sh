@@ -34,7 +34,7 @@ FILE_PATH="/usr/libexec/bootupd"
 SERVICE_PACKAGE="bootupd"
 SERVICE_NAME="bootupd"
 PROCESS_NAME="bootupd"
-if rlIsFedora || rlIsRHEL '>= 10' || rlIsCentOS '>= 10' ; then
+if rlIsFedora || rlIsRHEL '>= 9.5' || rlIsRHEL '>= 10' || rlIsCentOS '>= 10' ; then
     FILE_CONTEXT="bootupd_exec_t"
     PROCESS_CONTEXT="bootupd_t"
 else
@@ -72,6 +72,14 @@ rlJournalStart
         rlSEMatchPathCon "/usr/libexec/bootupd" "${FILE_CONTEXT}"
         rlRun "ls -RlZ /boot/efi"
         rlSESearchRule "allow ${PROCESS_CONTEXT} dosfs_t : dir { getattr search } [ ]"
+    rlPhaseEnd
+
+    rlPhaseStartTest "RHEL-36289"
+        rlSEMatchPathCon "/usr/libexec/bootupd" "${FILE_CONTEXT}"
+        if [ -d /sys/firmware/efi/efivars ] ; then
+            rlRun "ls -RlZ /sys/firmware/efi/efivars"
+        fi
+        rlSESearchRule "allow ${PROCESS_CONTEXT} efivarfs_t : dir { getattr search } [ ]"
     rlPhaseEnd
 
     rlPhaseStartTest "real scenario -- standalone service"
