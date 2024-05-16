@@ -9,7 +9,7 @@ rlJournalStart
 
     rlPhaseStartTest
         rlRun "dnf clean all"
-        rlRun "dnf -y update --skip-broken --allowerasing"
+        rlRun "dnf -y update --nobest --allowerasing"
     rlPhaseEnd
 
     rlPhaseStartCleanup

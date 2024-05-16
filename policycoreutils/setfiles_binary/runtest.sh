@@ -40,7 +40,7 @@ rlJournalStart
         rlRun "mkdir policy"
         rlRun "pushd policy"
         # download and extract selinux-policy-targeted
-        rlRun "dnf download selinux-policy-targeted --downloaddir ."
+        rlRun "dnf download selinux-policy-targeted"
         rlRun "rpm2cpio *.rpm | cpio -idm"
         rlRun "popd"
         # create a mockup of root directory structure
@@ -67,6 +67,7 @@ done
             rlRun "cat setfilesout2"
         fi
     rlPhaseEnd
+
     rlPhaseStartCleanup
         rlRun "popd"
         rlRun "rm -r $TmpDir" 0 "Removing tmp directory"

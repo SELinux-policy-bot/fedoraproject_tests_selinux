@@ -15,7 +15,7 @@ tag:
   - NoRHEL7
   - targeted
 link:
-  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1973754
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1973754
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7

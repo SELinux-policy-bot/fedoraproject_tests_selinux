@@ -25,6 +25,7 @@ tag:
   - NoRHEL6
   - NoRHEL7
   - TIPfail_Security
+  - failinfedora
   - targeted
 link:
 adjust:

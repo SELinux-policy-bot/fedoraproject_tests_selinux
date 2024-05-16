@@ -42,7 +42,6 @@ build: $(BUILT_FILES)
 clean:
 	rm -f *~ $(BUILT_FILES)
 
-
 include /usr/share/rhts/lib/rhts-make.include
 
 $(METADATA): Makefile
@@ -59,5 +58,7 @@ $(METADATA): Makefile
 	@echo "License:         GPLv2" >> $(METADATA)
 	@echo "Confidential:    no" >> $(METADATA)
 	@echo "Destructive:     no" >> $(METADATA)
+	@echo "Releases:        -RHEL4 -RHEL5 -RHEL6 -RHEL7" >> $(METADATA)
 	@echo "Bug:             1973754" >> $(METADATA) # RHEL-8
+
 	rhts-lint $(METADATA)
