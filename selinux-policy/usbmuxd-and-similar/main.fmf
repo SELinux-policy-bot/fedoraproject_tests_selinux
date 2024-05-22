@@ -46,7 +46,7 @@ adjust:
     when: distro >= rhel-9
     because: the usbmuxd package is not available there
   - enabled: false
-    when: distro == centos-stream-9
+    when: distro >= centos-stream-9
     because: the usbmuxd package is not available there
   - enabled: false
     when: arch == aarch64, s390x

@@ -31,6 +31,8 @@ tag:
   - f31friendly
   - f32friendly
   - targeted
+  - epel
+  - rhel8-epel
 tier: '2'
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1069843
@@ -38,10 +40,10 @@ link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1111581
 adjust:
   - enabled: false
-    when: distro == rhel-4, rhel-alt-7, rhel-9
+    when: distro == rhel-4, rhel-alt-7, rhel-9, rhel-10
     because: the thttpd package is not available there
   - enabled: false
-    when: distro == centos-stream-9
+    when: distro >= centos-stream-9
     because: the thttpd package is not available there
   - enabled: false
     when: arch == i386, ppc64, s390

@@ -54,6 +54,9 @@ adjust:
   - enabled: false
     when: distro >= rhel-9
     because: the amanda package is not available there
+  - enabled: false
+    when: distro >= centos-stream-9
+    because: the amanda package is not available there
 extra-nitrate: TC#0114575
 extra-summary: /CoreOS/selinux-policy/Regression/bz733494-amanda-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/bz733494-amanda-and-similar

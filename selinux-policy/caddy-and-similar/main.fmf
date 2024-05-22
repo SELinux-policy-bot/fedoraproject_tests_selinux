@@ -24,6 +24,9 @@ enabled: true
 tag:
   - failinfedora
   - targeted
+  - epel
+  - rhel8-epel
+  - rhel9-epel
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7

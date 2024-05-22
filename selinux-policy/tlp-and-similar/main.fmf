@@ -32,6 +32,9 @@ tag:
   - failinfedora
   - f33friendly
   - targeted
+  - epel
+  - rhel8-epel
+  - rhel9-epel
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1460481
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2221019
