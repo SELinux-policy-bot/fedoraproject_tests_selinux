@@ -6,5 +6,7 @@ component:
 recommend:
   - python3-libselinux
   - python3-pip
+tag:
+  - NoRHIVOS
 extra-summary: /CoreOS/libselinux/Sanity/python-bindings
 extra-task: /CoreOS/libselinux/Sanity/python-bindings

@@ -21,6 +21,7 @@ tag:
   - f32friendly
   - f33friendly
   - targeted
+  - NoRHIVOS
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5

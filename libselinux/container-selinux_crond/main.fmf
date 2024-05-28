@@ -12,6 +12,8 @@ recommend:
   - libselinux-utils
   - policycoreutils
 duration: 10m
+tag:
+  - NoRHIVOS
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1862823
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1879368

@@ -15,6 +15,7 @@ tag:
   - f32friendly
   - f33friendly
   - targeted
+  - NoRHIVOS
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1402140
 adjust:

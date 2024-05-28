@@ -9,6 +9,8 @@ recommends:
   - policycoreutils
 duration: 5m
 enabled: true
+tag:
+  - NoRHIVOS
 link:
   - relates: https://issues.redhat.com/browse/RHEL-16233
 adjust:
