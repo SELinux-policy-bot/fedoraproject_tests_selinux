@@ -42,6 +42,7 @@ tag:
   - NoRHEL8
   - targeted
   - failinfedora
+  - NoRHIVOS
 adjust:
 -  enabled: false
    when: distro < rhel-9

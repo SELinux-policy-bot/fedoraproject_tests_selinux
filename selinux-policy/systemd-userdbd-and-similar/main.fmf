@@ -34,6 +34,7 @@ tag:
   - NoRHEL9
   - failinfedora
   - targeted
+  - NoRHIVOS
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1835630
 adjust:

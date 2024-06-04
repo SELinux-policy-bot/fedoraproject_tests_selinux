@@ -39,6 +39,7 @@ tag:
   - f32friendly
   - rhel9-buildroot
   - targeted
+  - NoRHIVOS
 tier: '2'
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=192216

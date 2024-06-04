@@ -34,6 +34,7 @@ tag:
   - f32friendly
   - failinfedora
   - targeted
+  - NoRHIVOS
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1028598
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1061159

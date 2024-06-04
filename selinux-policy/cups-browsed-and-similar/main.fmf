@@ -33,6 +33,7 @@ tag:
   - Tier1se
   - f32friendly
   - targeted
+  - NoRHIVOS
 tier: '1'
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1395801

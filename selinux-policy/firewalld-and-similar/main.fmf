@@ -39,6 +39,7 @@ tag:
   - f32friendly
   - f33friendly
   - targeted
+  - NoRHIVOS
 tier: '3'
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=907902

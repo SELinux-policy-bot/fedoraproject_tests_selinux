@@ -33,6 +33,7 @@ tag:
   - NoRHEL6
   - NoRHEL7
   - targeted
+  - NoRHIVOS
 link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2233065
   - verifies: https://issues.redhat.com/browse/RHEL-1679

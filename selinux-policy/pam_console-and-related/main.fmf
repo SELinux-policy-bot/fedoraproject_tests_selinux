@@ -38,6 +38,7 @@ tag:
   - TIPpass_Security
   - failinfedora
   - targeted
+  - NoRHIVOS
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=204986
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=251104

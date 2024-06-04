@@ -24,6 +24,7 @@ tag:
   - Tier2
   - Tier2se
   - targeted
+  - NoRHIVOS
 tier: '2'
 adjust:
   - enabled: false

@@ -25,6 +25,7 @@ environment:
 duration: 1h
 tag:
   - failinfedora
+  - NoRHIVOS
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1834325
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1855163

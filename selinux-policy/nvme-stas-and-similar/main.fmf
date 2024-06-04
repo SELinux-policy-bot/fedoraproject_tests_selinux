@@ -30,6 +30,7 @@ tag:
   - NoRHEL7
   - NoRHEL8
   - targeted
+  - NoRHIVOS
 link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2111414
   - verifies: https://issues.redhat.com/browse/RHEL-1557

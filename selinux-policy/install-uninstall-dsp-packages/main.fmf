@@ -27,6 +27,7 @@ tag:
   - TIPfail_Security
   - failinfedora
   - targeted
+  - NoRHIVOS
 link:
 adjust:
   - enabled: false

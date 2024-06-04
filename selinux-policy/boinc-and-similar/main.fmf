@@ -34,6 +34,7 @@ tag:
   - epel
   - rhel8-epel
   - rhel9-epel
+  - NoRHIVOS
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1618683
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1711682

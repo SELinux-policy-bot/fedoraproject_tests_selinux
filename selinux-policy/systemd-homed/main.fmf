@@ -28,3 +28,5 @@ extra-summary: /CoreOS/selinux-policy/Regression/systemd-homed
 extra-task: /CoreOS/selinux-policy/Regression/systemd-homed
 extra-nitrate: TC#0614608
 id: 880ecade-0976-4303-a521-aead43e7f8c7
+tag:
+  - NoRHIVOS

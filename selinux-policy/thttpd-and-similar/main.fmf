@@ -33,6 +33,7 @@ tag:
   - targeted
   - epel
   - rhel8-epel
+  - NoRHIVOS
 tier: '2'
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1069843

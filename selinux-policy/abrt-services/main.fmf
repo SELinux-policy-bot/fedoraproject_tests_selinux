@@ -36,6 +36,7 @@ tag:
   - NoRHEL6
   - NoRHEL9
   - targeted
+  - NoRHIVOS
 link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2274709
 adjust:

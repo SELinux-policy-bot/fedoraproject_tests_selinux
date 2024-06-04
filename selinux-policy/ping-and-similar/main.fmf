@@ -29,6 +29,7 @@ tag:
   - TIPpass_Security
   - TierCandidatesPASS
   - targeted
+  - NoRHIVOS
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1552128
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1596065

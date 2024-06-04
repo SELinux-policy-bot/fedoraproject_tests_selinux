@@ -34,3 +34,5 @@ extra-summary: /CoreOS/selinux-policy/Regression/dhclient-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/dhclient-and-similar
 extra-nitrate: TC#0613884
 id: bce71943-38b6-428b-af69-20b9e6a60708
+tag:
+  - NoRHIVOS

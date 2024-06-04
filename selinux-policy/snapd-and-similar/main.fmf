@@ -32,6 +32,7 @@ tag:
   - epel
   - rhel8-epel
   - rhel9-epel
+  - NoRHIVOS
 link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2207725
 adjust:

@@ -29,6 +29,7 @@ tag:
   - NoRHEL7
   - TIPpass
   - targeted
+  - NoRHIVOS
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1367279
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1797543

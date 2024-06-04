@@ -29,6 +29,7 @@ tag:
   - Tier2
   - Tier2se
   - targeted
+  - NoRHIVOS
 tier: '2'
 link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2021131

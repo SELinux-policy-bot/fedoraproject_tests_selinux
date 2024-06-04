@@ -33,6 +33,7 @@ tag:
   - Tier3se
   - TipWaived7
   - targeted
+  - NoRHIVOS
 tier: '3'
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=807157

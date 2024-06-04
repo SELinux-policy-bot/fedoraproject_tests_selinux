@@ -30,6 +30,7 @@ enabled: true
 tag:
   - NoRHEL4
   - targeted
+  - NoRHIVOS
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1823669
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1823672

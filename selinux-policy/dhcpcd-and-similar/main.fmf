@@ -27,6 +27,7 @@ tag:
   - NoRHEL5
   - NoRHEL6
   - targeted
+  - NoRHIVOS
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1585971
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1602343

@@ -20,6 +20,7 @@ tag:
   - NoRHEL6
   - NoRHEL7
   - targeted
+  - NoRHIVOS
 link:
   - verifies: https://issues.redhat.com/browse/RHEL-5032
 adjust:

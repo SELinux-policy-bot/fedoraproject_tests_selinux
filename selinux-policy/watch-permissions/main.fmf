@@ -27,3 +27,5 @@ adjust:
     because: the watch permission is not defined there
 extra-nitrate: TC#0615395
 id: c4421242-0b97-4a1e-abbb-1dbe5dd21355
+tag:
+  - NoRHIVOS
