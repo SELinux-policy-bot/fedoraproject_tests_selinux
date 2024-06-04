@@ -47,7 +47,11 @@ rlJournalStart
         rlAssertRpm ${SERVICE_PACKAGE}
         rlRun "rpm -qa kernel\*"
         rlRun "uname -r"
-        rlRun "yum -y install kernel-modules-`uname -r`"
+        if ! rlCheckRpm kernel-automotive ; then
+          rlRun "yum -y install kernel-modules-`uname -r`"
+        else
+          rlRun "dnf -y install kernel-automotive-modules-`uname -r`"
+        fi
 
         rlServiceStop ${SERVICE_NAME}
         rlFileBackup /etc/shadow
