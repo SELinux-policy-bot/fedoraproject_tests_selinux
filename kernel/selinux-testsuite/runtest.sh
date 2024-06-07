@@ -82,7 +82,9 @@ function kver_gt() { ! kver_le "$1"; }
 function installDepsYum() {
     local yum="$1"; shift
 
-    if "$yum" --help | grep -q -- --skip-broken; then
+    if "$yum" install --help | grep -q -- --skip-unavailable; then
+        "$yum" install -y --skip-unavailable $*
+    elif "$yum" install --help | grep -q -- --skip-broken; then
         "$yum" install -y --skip-broken $*
     else
         for req in $*; do
