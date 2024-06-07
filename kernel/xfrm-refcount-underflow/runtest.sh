@@ -36,7 +36,7 @@ rlJournalStart
         # Determine the base kernel package name and version corresponding
         # to the currently running kernel. Use this information to derive
         # the correct kernel subpackages to install.
-        if KERNEL_CORE_NVRA="$(rpm -qf "/lib/modules/$(uname -r)/kernel")"; then
+        if KERNEL_CORE_NVRA="$(rpm -qf "/lib/modules/$(uname -r)/config")"; then
             KERNEL_CORE_NV="${KERNEL_CORE_NVRA%-*}"
             KERNEL_CORE_N="${KERNEL_CORE_NV%-*}"
 
