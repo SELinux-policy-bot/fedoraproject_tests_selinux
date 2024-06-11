@@ -55,7 +55,7 @@ $(METADATA): Makefile
 	@echo "TestTime:        15m" >> $(METADATA)
 	@echo "RunFor:          libvirt" >> $(METADATA)
 	@echo "RunFor:          selinux-policy" >> $(METADATA)
-	@echo "Requires:        audit libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted setools-console /usr/sbin/service libvirt-daemon libvirt-client libvirt-daemon-driver-interface libvirt-daemon-driver-libxl libvirt-daemon-driver-lxc libvirt-daemon-driver-network libvirt-daemon-driver-nodedev libvirt-daemon-driver-nwfilter libvirt-daemon-driver-qemu libvirt-daemon-driver-secret libvirt-daemon-driver-storage-core libvirt-daemon-driver-vbox">> $(METADATA)
+	@echo "Requires:        audit libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted setools-console /usr/sbin/service libvirt-daemon libvirt-daemon-common libvirt-client libvirt-daemon-driver-interface libvirt-daemon-driver-libxl libvirt-daemon-driver-lxc libvirt-daemon-driver-network libvirt-daemon-driver-nodedev libvirt-daemon-driver-nwfilter libvirt-daemon-driver-qemu libvirt-daemon-driver-secret libvirt-daemon-driver-storage-core libvirt-daemon-driver-vbox">> $(METADATA)
 	@echo "RhtsRequires:    library(selinux-policy/common)" >> $(METADATA)
 	@echo "Environment:     AVC_ERROR=+no_avc_check" >> $(METADATA)
 	@echo "Priority:        Normal" >> $(METADATA)
@@ -63,6 +63,7 @@ $(METADATA): Makefile
 	@echo "Confidential:    no" >> $(METADATA)
 	@echo "Destructive:     no" >> $(METADATA)
 	@echo "Releases:        -RHEL4 -RHEL5 -RHEL6 -RHEL7" >> $(METADATA)
+	@echo "Bug:             2291273" >> $(METADATA) # Fedora 41
 
 	rhts-lint $(METADATA)
 

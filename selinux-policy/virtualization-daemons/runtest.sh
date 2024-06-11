@@ -128,6 +128,7 @@ rlJournalStart
             PROCESS_CONTEXT=`echo ${TUPLE} | cut -d : -f 3`
             if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
                 rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status" 1
+                rlRun "virt-admin -c ${SERVICE_NAME}:///system exit" 0,1
             fi
         done
         # stop all the services
@@ -140,6 +141,23 @@ rlJournalStart
             fi
         done
     rlPhaseEnd
+
+    if seinfo -a | grep -q virt_driver_domain ; then
+    rlPhaseStartTest "bz#2291273"
+        rlSESearchRule "allow virtnetworkd_t unconfined_t : dir { search } [ ]"
+        rlSESearchRule "allow virtnetworkd_t unconfined_t : file { open read } [ ]"
+        rlSESearchRule "allow virtnodedevd_t unconfined_t : dir { search } [ ]"
+        rlSESearchRule "allow virtnodedevd_t unconfined_t : file { open read } [ ]"
+        rlSESearchRule "allow virtnwfilterd_t unconfined_t : dir { search } [ ]"
+        rlSESearchRule "allow virtnwfilterd_t unconfined_t : file { open read } [ ]"
+        rlSESearchRule "allow virtsecretd_t unconfined_t : dir { search } [ ]"
+        rlSESearchRule "allow virtsecretd_t unconfined_t : file { open read } [ ]"
+        rlSESearchRule "allow virtstoraged_t unconfined_t : dir { search } [ ]"
+        rlSESearchRule "allow virtstoraged_t unconfined_t : file { open read } [ ]"
+        rlSESearchRule "allow virtvboxd_t unconfined_t : dir { search } [ ]"
+        rlSESearchRule "allow virtvboxd_t unconfined_t : file { open read } [ ]"
+    rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2

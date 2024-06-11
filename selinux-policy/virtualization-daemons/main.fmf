@@ -20,6 +20,7 @@ recommend:
   - /usr/sbin/service
   - libvirt-client
   - libvirt-daemon
+  - libvirt-daemon-common
   - libvirt-daemon-driver-interface
   - libvirt-daemon-driver-libxl
   - libvirt-daemon-driver-lxc
@@ -34,6 +35,8 @@ environment:
     AVC_ERROR: +no_avc_check
 duration: 15m
 enabled: true
+link:
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2291273
 tag:
   - NoRHEL4
   - NoRHEL5
