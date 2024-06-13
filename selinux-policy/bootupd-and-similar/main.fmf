@@ -37,13 +37,11 @@ link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2044508
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2218106
   - verifies: https://issues.redhat.com/browse/RHEL-36289
+  - verifies: https://issues.redhat.com/browse/RHEL-39514
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8, centos-stream-8
     because: the package is not available there
-  - enabled: false
-    when: arch == ppc64, ppc64le, s390x
-    because: the package is not built for all architectures
 extra-summary: /CoreOS/selinux-policy/Regression/bootupd-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/bootupd-and-similar
 extra-nitrate: TC#0614833

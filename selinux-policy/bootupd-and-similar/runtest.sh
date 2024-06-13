@@ -74,7 +74,7 @@ rlJournalStart
         rlSESearchRule "allow ${PROCESS_CONTEXT} dosfs_t : dir { getattr search } [ ]"
     rlPhaseEnd
 
-    rlPhaseStartTest "RHEL-36289"
+    rlPhaseStartTest "RHEL-36289 + RHEL-39514"
         rlSEMatchPathCon "/usr/libexec/bootupd" "${FILE_CONTEXT}"
         if [ -d /sys/firmware/efi/efivars ] ; then
             rlRun "ls -RlZ /sys/firmware/efi/efivars"
@@ -84,7 +84,7 @@ rlJournalStart
 
     rlPhaseStartTest "real scenario -- standalone service"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
-            # for RHELs where the SELinux domain does not exist yet
+            # for OSes where the SELinux domain does not exist yet
             PROCESS_CONTEXT="unconfined_service_t"
         fi
         rlRun "systemctl start ${SERVICE_NAME}.socket"
