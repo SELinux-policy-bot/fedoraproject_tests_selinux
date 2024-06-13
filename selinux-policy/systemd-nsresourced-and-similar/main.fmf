@@ -1,0 +1,46 @@
+summary: SELinux interferes with systemd-nsresourced and related programs
+description: |+
+    SELinux interferes with systemd-nsresourced and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - systemd
+  - /usr/sbin/service
+  - nmap-ncat
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - NoRHEL8
+  - NoRHEL9
+  - targeted
+  - NoRHIVOS
+link:
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2290477
+adjust:
+  - enabled: false
+    when: distro <= fedora-40
+    continue: false
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8, rhel-9
+    continue: false
+extra-summary: /CoreOS/selinux-policy/Regression/systemd-nsresourced-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/systemd-nsresourced-and-similar
+extra-nitrate: TC#0617562
+id: fec4eaaf-8812-4d12-b915-e8dd2228d895
