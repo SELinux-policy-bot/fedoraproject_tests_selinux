@@ -60,12 +60,12 @@ rlJournalStart
             rlSEMatchPathCon "${PREFIX}/dev/random" "random_device_t"
             rlSEMatchPathCon "${PREFIX}/dev/zero" "zero_device_t"
             rlSEMatchPathCon "${PREFIX}/etc/named.conf" "named_conf_t"
+            rlSEMatchPathCon "${PREFIX}/run/named" "named_var_run_t"
             rlSEMatchPathCon "${PREFIX}/var/log" "var_log_t"
             rlSEMatchPathCon "${PREFIX}/var/log/named.log" "named_log_t"
             rlSEMatchPathCon "${PREFIX}/var/named/data" "named_cache_t"
             rlSEMatchPathCon "${PREFIX}/var/named/slaves" "named_cache_t"
             rlSEMatchPathCon "${PREFIX}/var/named" "named_zone_t"
-            rlSEMatchPathCon "${PREFIX}/var/run/named" "named_var_run_t"
         done
     rlPhaseEnd
 
