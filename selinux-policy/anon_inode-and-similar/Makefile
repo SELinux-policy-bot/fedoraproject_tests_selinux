@@ -60,6 +60,7 @@ $(METADATA): Makefile
 	@echo "License:         GPLv2" >> $(METADATA)
 	@echo "Confidential:    no" >> $(METADATA)
 	@echo "Destructive:     no" >> $(METADATA)
+	@echo "Architectures:   aarch64 ppc64le x86_64" >> $(METADATA)
 	@echo "Environment:     AVC_ERROR=+no_avc_check" >> $(METADATA)
 	@echo "Releases:        -RHEL4" >> $(METADATA)
 	@echo "Bug:             1954145" >> $(METADATA) # RHEL-9
