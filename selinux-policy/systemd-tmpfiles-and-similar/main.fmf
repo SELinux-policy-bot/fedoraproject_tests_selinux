@@ -1,0 +1,48 @@
+summary: SELinux interferes with systemd-tmpfiles and related programs
+description: |+
+    SELinux interferes with systemd-tmpfiles and related programs
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+test: ./runtest.sh
+framework: beakerlib
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - expect
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - systemd
+  - /usr/sbin/service
+  - shadow-utils
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - Tier2
+  - Tier2se
+  - targeted
+  - NoRHIVOS
+tier: '2'
+link:
+  - verifies: https://issues.redhat.com/browse/RHEL-40374
+  - verifies: https://issues.redhat.com/browse/RHEL-44191
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7
+    continue: false
+extra-summary: /CoreOS/selinux-policy/Regression/systemd-tmpfiles-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/systemd-tmpfiles-and-similar
+extra-nitrate: TC#0617577
+id: 03d8e784-9026-46ef-a48b-0bbed63f7f95
