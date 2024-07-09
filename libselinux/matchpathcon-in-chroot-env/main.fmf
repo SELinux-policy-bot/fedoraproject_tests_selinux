@@ -1,0 +1,27 @@
+summary: Does matchpathcon work correctly in chroot environment?
+description: |
+    Does matchpathcon work correctly in chroot environment?
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - libselinux
+test: ./runtest.sh
+framework: beakerlib
+recommend:
+  - libselinux
+  - libselinux-utils
+  - python3-libselinux
+  - policycoreutils
+duration: 15m
+enabled: true
+tier: '1'
+tag:
+  - targeted
+  - CI-Tier-1
+  - NoRHIVOS
+link:
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2295428
+  - verifies: https://issues.redhat.com/browse/RHEL-46558
+extra-summary: /CoreOS/libselinux/Regression/matchpathcon-in-chroot-env
+extra-task: /CoreOS/libselinux/Regression/matchpathcon-in-chroot-env
+
