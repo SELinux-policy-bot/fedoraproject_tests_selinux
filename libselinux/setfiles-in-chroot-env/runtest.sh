@@ -30,6 +30,9 @@
 
 PACKAGE="libselinux"
 CHROOT_DIR=`mktemp -d`
+if rlIsFedora ; then
+    INSTALL_OPTION="--use-host-config"
+fi
 
 rlJournalStart
     rlPhaseStartSetup
@@ -38,7 +41,7 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "bz#2094683"
-        rlRun "yum -y install filesystem policycoreutils selinux-policy-targeted --installroot=${CHROOT_DIR} --disablerepo 'epel*'"
+        rlRun "yum -y install filesystem policycoreutils selinux-policy-targeted --installroot=${CHROOT_DIR} ${INSTALL_OPTION}"
         rlRun "cp ./test-script.sh ${CHROOT_DIR}/usr/bin/"
         rlRun -s "chroot ${CHROOT_DIR} /usr/bin/test-script.sh"
         rlRun "grep -i -e 'no such file or directory' -e 'not set context' $rlRun_LOG" 1

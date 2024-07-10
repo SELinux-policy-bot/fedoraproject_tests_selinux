@@ -14,3 +14,4 @@ link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1770238
 extra-summary: /selinux/policycoreutils/sctp_test
 extra-task: /selinux/policycoreutils/sctp_test
+extra-nitrate: TC#0614834

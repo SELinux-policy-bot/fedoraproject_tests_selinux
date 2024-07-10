@@ -24,4 +24,5 @@ link:
   - verifies: https://issues.redhat.com/browse/RHEL-46558
 extra-summary: /CoreOS/libselinux/Regression/matchpathcon-in-chroot-env
 extra-task: /CoreOS/libselinux/Regression/matchpathcon-in-chroot-env
-
+extra-nitrate: TC#0617627
+id: 649c1bfa-1739-4d87-8799-f37fd30499f4

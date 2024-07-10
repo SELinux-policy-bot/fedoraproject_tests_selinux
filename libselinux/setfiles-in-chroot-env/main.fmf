@@ -19,4 +19,4 @@ link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2094683
 extra-summary: /CoreOS/libselinux/Regression/setfiles-in-chroot-env
 extra-task: /CoreOS/libselinux/Regression/setfiles-in-chroot-env
-
+extra-nitrate: TC#0613958
