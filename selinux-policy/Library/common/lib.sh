@@ -29,7 +29,7 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #   library-prefix = rlSE
-#   library-version = 42
+#   library-version = 43
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 : <<'=cut'
@@ -1384,6 +1384,7 @@ function rlSETranslateBoolean() {
     staff_exec_content allow_staff_exec_content
     sysadm_exec_content allow_sysadm_exec_content
     user_exec_content allow_user_exec_content
+    virt_use_nfs virt_sandbox_use_nfs
     xguest_exec_content allow_xguest_exec_content
     xserver_clients_write_xshm allow_write_xshm
     xserver_execmem allow_xserver_execmem
