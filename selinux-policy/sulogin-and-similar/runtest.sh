@@ -15,7 +15,7 @@ rlJournalStart
         sleep 2
     rlPhaseEnd
 
-    if ! rlIsRHEL 8 9 ; then
+    if ! rlIsRHEL 8 9 && ! rlIsCentOS 8 9 ; then
     rlPhaseStartTest "bz#2265391"
         rlSEMatchPathCon "/usr/sbin/sulogin" "sulogin_exec_t"
         rlSESearchRule "dontaudit sulogin_t sulogin_t : capability2 { checkpoint_restore } [ ]"

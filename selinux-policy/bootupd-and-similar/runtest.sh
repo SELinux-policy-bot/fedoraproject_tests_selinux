@@ -34,7 +34,7 @@ FILE_PATH="/usr/libexec/bootupd"
 SERVICE_PACKAGE="bootupd"
 SERVICE_NAME="bootupd"
 PROCESS_NAME="bootupd"
-if rlIsFedora || rlIsRHEL '>= 9.5' || rlIsRHEL '>= 10' || rlIsCentOS '>= 10' ; then
+if seinfo -t | grep -q bootupd ; then
     FILE_CONTEXT="bootupd_exec_t"
     PROCESS_CONTEXT="bootupd_t"
 else
@@ -82,6 +82,7 @@ rlJournalStart
         rlSESearchRule "allow ${PROCESS_CONTEXT} efivarfs_t : dir { getattr search } [ ]"
     rlPhaseEnd
 
+    if [ -f /usr/lib/systemd/system/bootupd.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
             # for OSes where the SELinux domain does not exist yet
@@ -93,7 +94,9 @@ rlJournalStart
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
         rlRun "systemctl stop ${SERVICE_NAME}.socket"
     rlPhaseEnd
+    fi
 
+    if [ -f /usr/lib/systemd/system/bootupd.socket ] ; then
     rlPhaseStartTest "real scenario -- ${SERVICE_NAME}.socket"
         rlRun "systemctl enable ${SERVICE_NAME}.socket"
         rlRun "systemctl start ${SERVICE_NAME}.socket"
@@ -104,6 +107,7 @@ rlJournalStart
         rlRun "systemctl stop ${SERVICE_NAME}.socket"
         rlRun "systemctl disable ${SERVICE_NAME}.socket"
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2

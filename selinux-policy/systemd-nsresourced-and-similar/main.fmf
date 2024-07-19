@@ -38,7 +38,7 @@ adjust:
     when: distro <= fedora-40
     continue: false
   - enabled: false
-    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8, rhel-9
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8, centos-stream-8, rhel-9, centos-stream-9, rhel-10, centos-stream-10
     continue: false
 extra-summary: /CoreOS/selinux-policy/Regression/systemd-nsresourced-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/systemd-nsresourced-and-similar

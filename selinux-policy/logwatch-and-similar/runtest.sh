@@ -59,7 +59,7 @@ rlJournalStart
         rlSESearchRule "allow logwatch_mail_t sysctl_net_t : file { getattr open read } [ ]"
     rlPhaseEnd
 
-    if ! rlIsRHEL 9 ; then
+    if ! rlIsRHEL 9 && ! rlIsCentOS 9 ; then
     rlPhaseStartTest "bz#2270484"
         rlSEMatchPathCon "/usr/share/logwatch/scripts/logwatch.pl" "logwatch_exec_t"
         rlSEMatchPathCon "/usr/sbin/sendmail.sendmail" "sendmail_exec_t"

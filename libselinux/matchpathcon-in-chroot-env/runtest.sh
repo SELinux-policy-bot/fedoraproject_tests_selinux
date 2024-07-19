@@ -32,6 +32,8 @@ PACKAGE="libselinux"
 CHROOT_DIR=`mktemp -d`
 if rlIsFedora ; then
     INSTALL_OPTION="--use-host-config"
+else
+    INSTALL_OPTION="--disablerepo epel"
 fi
 
 rlJournalStart

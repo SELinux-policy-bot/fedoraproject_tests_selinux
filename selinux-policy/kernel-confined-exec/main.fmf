@@ -22,6 +22,9 @@ adjust:
     when: distro < fedora-38
     because: This hardening applies only to F38+
   - enabled: false
+    when: distro < centos-stream-10
+    because: Not yet backported to CentOS
+  - enabled: false
     when: distro < rhel-10
     because: Not yet backported to RHEL
 link:
