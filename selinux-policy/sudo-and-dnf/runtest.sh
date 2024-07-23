@@ -37,7 +37,7 @@ rlJournalStart
         rlSESatisfyRequires
         rlAssertRpm ${PACKAGE}
         rlAssertRpm ${PACKAGE}-targeted
-        rlAssertRpm dnf
+        rlRun "rpm -q --whatprovides dnf"
         rlAssertRpm sudo
 
         rlSESetEnforce
