@@ -36,6 +36,16 @@ SERVICE_PACKAGE="systemd-container"
 SERVICE_NAME="systemd-machined"
 PROCESS_NAME="systemd-machined"
 PROCESS_CONTEXT="systemd_machined_t"
+INSTALL_OPTION=""
+if yum --help | grep -q use-host-config ; then
+    INSTALL_OPTION="${INSTALL_OPTION} --use-host-config"
+fi
+if yum install --help | grep -q skip-broken ; then
+    INSTALL_OPTION="${INSTALL_OPTION} --skip-broken"
+fi
+if yum install --help | grep -q skip-unavailable ; then
+    INSTALL_OPTION="${INSTALL_OPTION} --skip-unavailable"
+fi
 
 rlJournalStart
     if [ ! -f ${FILE_PATH} ] ; then
@@ -85,6 +95,15 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    rlPhaseStartTest "RHEL-49567"
+        rlSEMatchPathCon "/usr/lib/systemd/systemd-machined" "systemd_machined_exec_t"
+        rlSEMatchPathCon "/run/systemd/machine" "systemd_machined_var_run_t"
+        rlSEMatchPathCon "/run/systemd/machine/io.systemd.Machine" "systemd_machined_var_run_t"
+        rlSESearchRule "allow systemd_machined_t systemd_machined_var_run_t : dir { create } [ ]"
+        rlSESearchRule "allow systemd_machined_t systemd_machined_var_run_t : sock_file { create unlink } [ ]"
+        rlRun "machinectl"
+    rlPhaseEnd
+
     rlPhaseStartTest "real scenario -- standalone service"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
             PROCESS_CONTEXT="unconfined_service_t"
@@ -96,7 +115,7 @@ rlJournalStart
 
     rlPhaseStartTest "real scenario -- bz#1900869 + bz#1900888"
         rlRun "mkdir -pZ /var/lib/machines/test"
-        rlRun "dnf -y --installroot=/var/lib/machines/test/ install dhcp-client dnf filesystem glibc glibc-langpack-en glibc-langpack-de iproute iputils less passwd systemd vim-minimal"
+        rlRun "dnf -y --installroot=/var/lib/machines/test/ install dhcp-client dnf filesystem glibc glibc-langpack-en glibc-langpack-de iproute iputils less passwd systemd vim-minimal ${INSTALL_OPTION}"
         rlRun "du -sh /var/lib/machines/test"
         # TODO: remove next 2 lines once the BZs are fixed
         rlRun "semodule -i testpolicy.cil"

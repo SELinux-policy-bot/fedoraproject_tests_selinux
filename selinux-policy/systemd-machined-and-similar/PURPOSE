@@ -3,3 +3,4 @@ Author: Milos Malik <mmalik@redhat.com>
 
 SELinux interferes with systemd-machined and related programs.
 
+Related programs: machinectl.
