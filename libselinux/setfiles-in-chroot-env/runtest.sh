@@ -30,8 +30,15 @@
 
 PACKAGE="libselinux"
 CHROOT_DIR=`mktemp -d`
-if rlIsFedora ; then
-    INSTALL_OPTION="--use-host-config"
+INSTALL_OPTION=""
+if yum --help | grep -q use-host-config ; then
+    INSTALL_OPTION="${INSTALL_OPTION} --use-host-config"
+fi
+if yum install --help | grep -q skip-broken ; then
+    INSTALL_OPTION="${INSTALL_OPTION} --skip-broken"
+fi
+if yum install --help | grep -q skip-unavailable ; then
+    INSTALL_OPTION="${INSTALL_OPTION} --skip-unavailable"
 fi
 
 rlJournalStart
