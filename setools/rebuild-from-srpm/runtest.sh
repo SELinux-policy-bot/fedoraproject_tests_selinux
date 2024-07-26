@@ -8,6 +8,10 @@ rlJournalStart
         rlAssertRpm libsemanage
         rlAssertRpm libselinux
         rlAssertRpm policycoreutils
+        if ! rpm -q rpm-build ; then
+            rlRun "yum -y install rpm-build" 0-255
+        fi
+
         rlRun "rm -f setools*.src.rpm"
         rlRun "yumdownloader --source setools"
         rlRun "ls -l setools*src.rpm"

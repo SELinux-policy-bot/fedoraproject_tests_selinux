@@ -31,11 +31,11 @@
 
 PACKAGE="selinux-policy"
 FILE_PATH="/usr/lib/systemd/systemd-nsresourced"
-FILE_CONTEXT="systemd_nsresourced_exec_t"
 SERVICE_PACKAGE="systemd"
 SERVICE_NAME="systemd-nsresourced"
 PROCESS_NAME="systemd-nsresourced"
 PROCESS_CONTEXT="systemd_nsresourced_t"
+FILE_CONTEXT="systemd_nsresourced_exec_t"
 
 rlJournalStart
     rlPhaseStartSetup
@@ -54,6 +54,7 @@ rlJournalStart
         sleep 2
     rlPhaseEnd
 
+    if seinfo -t | grep -q systemd_nsresourced ; then
     rlPhaseStartTest "bz#2290477"
         rlSEMatchPathCon "${FILE_PATH}" "${FILE_CONTEXT}"
         SOURCE_TYPE="init_t" # systemd runs the process
@@ -71,7 +72,9 @@ rlJournalStart
         rlSESearchRule "allow staff_t systemd_nsresourced_t : unix_stream_socket { connectto } [ ]"
         rlSESearchRule "allow xdm_t systemd_nsresourced_t : unix_stream_socket { connectto } [ ]"
     rlPhaseEnd
+    fi
 
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
             # for OSes where the SELinux domain does not exist yet
@@ -81,7 +84,9 @@ rlJournalStart
         rlRun "restorecon -Rv /var /run -e /var/ARTIFACTS" 0-255
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
+    fi
 
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.socket ] ; then
     rlPhaseStartTest "real scenario -- socket activation"
         rlRun "systemctl enable ${SERVICE_NAME}.socket"
         rlRun "systemctl start ${SERVICE_NAME}.socket"
@@ -98,6 +103,7 @@ rlJournalStart
         rlRun "systemctl stop ${SERVICE_NAME}.socket"
         rlRun "systemctl disable ${SERVICE_NAME}.socket"
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2

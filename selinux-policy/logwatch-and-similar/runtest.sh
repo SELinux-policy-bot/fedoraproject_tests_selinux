@@ -66,7 +66,9 @@ rlJournalStart
         rlSEMatchPathCon "/run/systemd/sessions/" "systemd_logind_sessions_t"
         rlSESearchRule "allow logwatch_t systemd_logind_sessions_t : dir { read } [ ]"
         rlSESearchRule "type_transition logwatch_t sendmail_exec_t : process logwatch_mail_t"
-        rlSESearchRule "allow logwatch_mail_t init_t : unix_stream_socket { getattr } [ ]"
+        if rlIsFedora ; then
+            rlSESearchRule "allow logwatch_mail_t init_t : unix_stream_socket { getattr } [ ]"
+        fi
     rlPhaseEnd
     fi
 

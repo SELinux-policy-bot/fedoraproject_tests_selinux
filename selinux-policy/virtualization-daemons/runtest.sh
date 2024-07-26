@@ -32,7 +32,7 @@
 PACKAGE="selinux-policy"
 ROOT_PASSWORD="redhat"
 SERVICE_NAMES="libvirtd virtinterfaced virtlockd virtlogd virtlxcd virtnetworkd virtnodedevd virtnwfilterd virtproxyd virtqemud virtsecretd virtstoraged virtvboxd virtxend"
-if rlIsFedora ">39"; then
+if seinfo -a | grep -q virt_driver_domain ; then
 ALL_TUPLES="libvirtd:libvirtd:virtd_t \
             virtinterfaced:virtinterfaced:virtinterfaced_t \
             virtlockd:virtlockd:virtlogd_t \

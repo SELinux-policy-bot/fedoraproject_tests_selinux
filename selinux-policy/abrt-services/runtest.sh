@@ -57,6 +57,7 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    if rpm -qa | grep -q abrt ; then
     rlPhaseStartTest "real scenario -- bz#2274709"
         for SERVICE_NAME in abrtd abrt-journal-core abrt-oops abrt-pstoreoops abrt-upload-watch abrt-vmcore abrt-xorg ; do
             rlRun "service ${SERVICE_NAME} start"
@@ -69,6 +70,7 @@ rlJournalStart
             rlRun "service ${SERVICE_NAME} stop"
         done
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2

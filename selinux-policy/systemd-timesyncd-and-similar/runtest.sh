@@ -41,10 +41,14 @@ rlJournalStart
     rlPhaseStartSetup
         rlRun "rlImport 'selinux-policy/common'" 0,1
         rlSESatisfyRequires
-        SERVICE_PACKAGE=`rpm -qf ${FILE_PATH} | head -n 1`
         rlAssertRpm ${PACKAGE}
         rlAssertRpm ${PACKAGE}-targeted
-        rlAssertRpm ${SERVICE_PACKAGE}
+        if [ -f ${FILE_PATH} ] ; then
+            SERVICE_PACKAGE=`rpm -qf ${FILE_PATH} | head -n 1`
+            rlAssertRpm ${SERVICE_PACKAGE}
+        else
+            rlRun "yum -y install ${FILE_PATH}" 0-255
+        fi
 
         rlServiceStop ${SERVICE_NAME}
         rlFileBackup /etc/shadow

@@ -71,6 +71,7 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    if which dhclient >& /dev/null ; then
     rlPhaseStartTest "real scenario"
         rlRun "rm -rf /run/chrony-dhcp"
         rlRun "restorecon -Rv /run /var -e /var/ARTIFACTS" 0-255
@@ -82,6 +83,7 @@ rlJournalStart
             rlRun "ls -alZ /run/chrony-dhcp"
         fi
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2

@@ -24,6 +24,9 @@ rlJournalStart
         rlAssertRpm libselinux
         rlAssertRpm policycoreutils
         rlAssertRpm selinux-policy
+        if ! rpm -q strace ; then
+            rlRun "yum -y install strace" 0-255
+        fi
 
         rlRun "setenforce 1"
         rlRun "sestatus"

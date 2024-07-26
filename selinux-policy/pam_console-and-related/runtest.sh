@@ -98,9 +98,11 @@ rlJournalStart
         rlRun "setsebool ssh_sysadm_login off"
     rlPhaseEnd
 
+    if [ -f /usr/sbin/pam_console_apply ] ; then
     rlPhaseStartTest "real scenario -- runcon under root"
         rlRun "runcon system_u:system_r:initrc_t:s0 /bin/bash -c '/usr/sbin/pam_console_apply -r'"
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2
