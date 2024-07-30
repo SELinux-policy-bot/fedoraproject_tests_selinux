@@ -63,6 +63,16 @@ ALL_TUPLES="libvirtd:libvirtd:virtd_t \
             virtvboxd:virtvboxd:virtd_t"
 #            virtxend:virtxend:virtd_t
 fi
+INSTALL_OPTION=""
+if yum --help | grep -q use-host-config ; then
+    INSTALL_OPTION="${INSTALL_OPTION} --use-host-config"
+fi
+if yum install --help | grep -q skip-broken ; then
+    INSTALL_OPTION="${INSTALL_OPTION} --skip-broken"
+fi
+if yum install --help | grep -q skip-unavailable ; then
+    INSTALL_OPTION="${INSTALL_OPTION} --skip-unavailable"
+fi
 
 rlJournalStart
     rlPhaseStartSetup
@@ -74,6 +84,7 @@ rlJournalStart
 
         rlServiceStop ${SERVICE_NAMES}
         rlFileBackup /etc/shadow
+        rlRun "yum -y install libvirt\* -x \*devel ${INSTALL_OPTION}" 0-255
 
         rlSESetEnforce
         rlSEStatus
@@ -82,7 +93,7 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "SELinux contexts and rules"
-      if rlIsFedora ">39"; then
+      if seinfo -a | grep -q virt_driver_domain ; then
         rlSEMatchPathCon "/usr/sbin/virtinterfaced" "virtinterfaced_exec_t"
         rlSEMatchPathCon "/usr/sbin/virtlxcd" "virtd_lxc_exec_t"
         rlSEMatchPathCon "/usr/sbin/virtnetworkd" "virtnetworkd_exec_t"
@@ -143,7 +154,7 @@ rlJournalStart
     rlPhaseEnd
 
     if seinfo -a | grep -q virt_driver_domain ; then
-    rlPhaseStartTest "bz#2291273"
+    rlPhaseStartTest "bz#2291273 + RHEL-40834"
         rlSESearchRule "allow virtnetworkd_t unconfined_t : dir { search } [ ]"
         rlSESearchRule "allow virtnetworkd_t unconfined_t : file { open read } [ ]"
         rlSESearchRule "allow virtnodedevd_t unconfined_t : dir { search } [ ]"

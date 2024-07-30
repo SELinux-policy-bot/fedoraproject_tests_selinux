@@ -37,6 +37,7 @@ duration: 15m
 enabled: true
 link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2291273
+  - verifies: https://issues.redhat.com/browse/RHEL-40834
 tag:
   - NoRHEL4
   - NoRHEL5
@@ -47,7 +48,11 @@ tag:
   - failinfedora
   - NoRHIVOS
 adjust:
--  enabled: false
-   when: distro < rhel-9
-   because: the virtualization daemons are not available there
-
+  - enabled: false
+    when: distro < centos-stream-9
+    because: the virtualization daemons are not available there
+  - enabled: false
+    when: distro < rhel-9
+    because: the virtualization daemons are not available there
+extra-nitrate: TC#0617680
+id: 1f7a8a37-7977-4ee0-8b8a-979c03aff369
