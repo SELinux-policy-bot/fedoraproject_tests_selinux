@@ -38,7 +38,7 @@ PROCESS_NAME="stalld"
 PROCESS_CONTEXT="stalld_t"
 
 rlJournalStart
-    if ! rpm -q ${SERVICE_PACKAGE} ; then
+    if ! rpm -q ${SERVICE_PACKAGE} >& /dev/null ; then
         rlLog "Required packages are not available/installed."
         rlJournalEnd
         exit 0
@@ -95,6 +95,27 @@ rlJournalStart
         rlRun "ls -Z /sys/kernel/security/lockdown | grep :security_t"
         rlSESearchRule "allow stalld_t security_t : file { getattr open read } [ ]"
     rlPhaseEnd
+
+    if strings `which stalld` | grep -q queue_track ; then
+    # if the program recognizes the queue_track option then test it and use it
+    rlPhaseStartTest "RHEL-50356"
+         rlSEMatchPathCon "/sys/fs/bpf" "bpf_t"
+         rlSESearchRule "allow stalld_t stalld_t : capability { sys_resource } [ ]"
+         rlSESearchRule "allow stalld_t stalld_t : process { setrlimit } [ ]"
+         rlSESearchRule "allow stalld_t bpf_t : dir { getattr open read } [ ]"
+         rlSESearchRule "allow stalld_t stalld_t : capability2 { bpf perfmon } [ ]"
+         rlSESearchRule "allow stalld_t stalld_t : bpf { prog_run prog_load map_read map_write map_create } [ ]"
+    rlPhaseEnd
+
+    rlPhaseStartTest "real scenario -- RHEL-50356"
+        rlRun "grep ^AGGR= /etc/sysconfig/stalld"
+        rlRun "sed -i 's/^AGGR=.*$/AGGR=\"--backend queue_track\"/' /etc/sysconfig/stalld"
+        rlRun "grep ^AGGR= /etc/sysconfig/stalld"
+        rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status stop status" 5
+        rlRun "sed -i 's/^AGGR=.*$/AGGR=/' /etc/sysconfig/stalld"
+        rlRun "grep ^AGGR= /etc/sysconfig/stalld"
+    rlPhaseEnd
+    fi
 
     rlPhaseStartTest "real scenario -- standalone service"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then

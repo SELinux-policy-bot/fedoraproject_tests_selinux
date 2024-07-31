@@ -17,6 +17,7 @@ recommend:
   - setools-console
   - stalld
   - /usr/sbin/service
+  - binutils
 environment:
     AVC_ERROR: +no_avc_check
 duration: 10m
@@ -40,6 +41,7 @@ link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2102224
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2105038
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2140673
+  - verifies: https://issues.redhat.com/browse/RHEL-50356
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8, centos-stream-8
