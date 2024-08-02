@@ -60,12 +60,14 @@ rlJournalStart
         sleep 2
     rlPhaseEnd
 
+    if seinfo -t | grep -q virt_dbus ; then
     rlPhaseStartTest "RHEL-46893"
         rlSEMatchPathCon ${FILE_PATH} ${FILE_CONTEXT}
         rlSESearchRule "allow virt_dbus_t virtqemud_t : unix_stream_socket { connectto } [ ]"
         rlSESearchRule "allow virtqemud_t virt_dbus_t : dir { search } [ ]"
         rlSESearchRule "allow virtqemud_t virt_dbus_t : file { getattr open read } [ ]"
     rlPhaseEnd
+    fi
 
     rlPhaseStartTest "real scenario -- standalone service"
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1

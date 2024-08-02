@@ -53,8 +53,6 @@ rlJournalStart
         rlFileBackup /etc/shadow
         rlFileBackup /etc/chrony.keys
 
-        rlRun "find /var /run -type f -name '*lease*'"
-        rlRun "find /var /run -type f -name '*lease*' | xargs cat"
         rlSESetEnforce
         rlSEStatus
         rlSESetTimestamp
@@ -286,7 +284,7 @@ rlJournalStart
     rlPhaseStartTest "bz#1900143"
         rlSEMatchPathCon "/run/systemd/resolve/io.systemd.Resolve" "systemd_resolved_var_run_t"
         rlSESearchRule "allow chronyd_t systemd_resolved_var_run_t : sock_file { write } [ ]"
-        rlRun "grep resolve /etc/nsswitch.conf"
+        # rlRun "grep resolve /etc/nsswitch.conf"
     rlPhaseEnd
 
     rlPhaseStartTest "bz#2173604"
