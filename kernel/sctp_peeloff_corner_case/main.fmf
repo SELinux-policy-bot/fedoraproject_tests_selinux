@@ -1,0 +1,25 @@
+summary: Verify that two-way SCTP association setup doesn't trigger AVCs
+description: |
+    When two SCTP endpoints try to initiate an association
+    simultaneously with each other, they may hit various corner cases.
+    This test verifies that this scenario works correctly and that the
+    resulting association is properly labeled (by peeling it off, which
+    transfers the label onto the new socket).
+contact: Ondrej Mosnacek <omosnace@redhat.com>
+component:
+  - kernel
+framework: beakerlib
+require:
+  - make
+  - gcc
+  - lksctp-tools-devel
+  - audit
+duration: 10m
+tier: 2
+enabled: true
+adjust:
+  - enabled: false
+    when: distro < rhel-8
+    because: RHEL-7 and below don't have SCTP SELinux support
+link:
+  - verifies: https://issues.redhat.com/browse/RHEL-48647
