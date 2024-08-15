@@ -40,6 +40,10 @@ fi
 if yum install --help | grep -q skip-unavailable ; then
     INSTALL_OPTION="${INSTALL_OPTION} --skip-unavailable"
 fi
+# yum sometimes fails to detect the release version on CentOS 9
+if rlIsCentOS 9 ; then
+    INSTALL_OPTION="${INSTALL_OPTION} --releasever 9"
+fi
 
 rlJournalStart
     rlPhaseStartSetup
