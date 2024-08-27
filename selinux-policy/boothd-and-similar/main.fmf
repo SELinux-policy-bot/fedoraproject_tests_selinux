@@ -1,0 +1,40 @@
+summary: SELinux interferes with boothd and related programs
+description: |+
+    SELinux interferes with boothd and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - booth-arbitrator
+  - booth-core
+  - /usr/sbin/service
+  - net-tools
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - targeted
+  - NoRHIVOS
+link:
+  - verifies: https://issues.redhat.com/browse/RHEL-45907
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7
+    because: the booth package is not available there
+extra-summary: /CoreOS/selinux-policy/Regression/boothd-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/boothd-and-similar

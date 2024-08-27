@@ -1,0 +1,6 @@
+PURPOSE of /CoreOS/selinux-policy/Regression/boothd-and-similar
+Author: Milos Malik <mmalik@redhat.com>
+
+SELinux interferes with boothd and related programs.
+Covers the booth-arbitrator service.
+
