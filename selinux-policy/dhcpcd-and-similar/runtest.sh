@@ -98,6 +98,17 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    if rlIsRHEL 10 || rlIsCentOS 10 ; then
+    rlPhaseStartTest "RHEL-33081"
+        rlSEMatchPathCon "/run/dhcpcd/eth0-4.unpriv.sock" "dhcpc_var_run_t"
+        rlSESearchRule "allow dhcpc_t dhcpc_t : unix_stream_socket { connectto } [ ]"
+    rlPhaseEnd
+
+    rlPhaseStartTest "RHEL-43417"
+        rlSESearchRule "allow dhcpc_t dhcpc_t : capability { kill } [ ]"
+    rlPhaseEnd
+    fi
+
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "ip netns add test-ns"
         rlRun "ip netns del test-ns"
