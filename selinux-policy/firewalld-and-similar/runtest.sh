@@ -194,8 +194,10 @@ rlJournalStart
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         rlRun "rm -rf /run/firewalld"
         rlRun "rm -f /run/xtables.lock"
-        rlRun "mv /etc/firewalld/lockdown-whitelist.xml /etc/firewalld/lockdown-whitelist.xml.orig"
-        rlRun "ln -s /etc/firewalld/lockdown-whitelist.xml.orig /etc/firewalld/lockdown-whitelist.xml"
+        if [ -f /etc/firewalld/lockdown-whitelist.xml ] ; then
+            rlRun "mv /etc/firewalld/lockdown-whitelist.xml /etc/firewalld/lockdown-whitelist.xml.orig"
+            rlRun "ln -s /etc/firewalld/lockdown-whitelist.xml.orig /etc/firewalld/lockdown-whitelist.xml"
+        fi
         # see https://bugzilla.redhat.com/show_bug.cgi?id=907902#c7
         # rlRun "rm -f /usr/lib{,64}/python2.7/site.{pyc,pyo}"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
@@ -206,7 +208,7 @@ rlJournalStart
             fi
         fi
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
-        rlRun "restorecon -Rv /run /var -e /var/ARTIFACTS" 0-255
+        rlRun "restorecon -Rv /etc /run /var -e /var/ARTIFACTS" 0-255
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
         rlRun "rm -f /etc/firewalld/lockdown-whitelist.xml*"
         rlRun "ls -dZ /run/firewalld | grep :firewalld_var_run_t"
