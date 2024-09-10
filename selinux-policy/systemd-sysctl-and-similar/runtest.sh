@@ -59,11 +59,21 @@ rlJournalStart
         rlRun "ls -Z /proc/sys/kernel/kptr_restrict | grep :proc_security_t"
         rlSESearchRule "allow systemd_sysctl_t proc_security_t : file { read } [ ]"
     rlPhaseEnd
+
+    rlPhaseStartTest "RHEL-56988 + RHEL-58380"
+        rlRun "man sysctl.d | grep /run/sysctl"
+        rlRun "mkdir -pZ /run/sysctl.d"
+        rlRun "echo 'net.ipv4.conf.eno1.rp_filter=0' > /run/sysctl.d/51-rp_filter.conf"
+        rlRun "restorecon -Rv /run/sysctl.d"
+        rlRun "service systemd-sysctl stop"
+        rlRun "service systemd-sysctl start"
+        rlRun "service systemd-sysctl status" 0,3
+    rlPhaseEnd
     fi
 
     rlPhaseStartTest "real scenario"
         rlSEService - ${SERVICE_NAME} - ${PROCESS_CONTEXT} "start status" 1
-        rlRun "restorecon -Rv /run /var -e /var/ARTIFACTS" 0-255
+        rlRun "restorecon -Rv /etc /run /var -e /var/ARTIFACTS" 0-255
         rlSEService - ${SERVICE_NAME} - ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
 

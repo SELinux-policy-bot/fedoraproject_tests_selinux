@@ -29,6 +29,8 @@ tag:
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2056207
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2056999
+  - verifies: https://issues.redhat.com/browse/RHEL-56988
+  - verifies: https://issues.redhat.com/browse/RHEL-58380
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7
