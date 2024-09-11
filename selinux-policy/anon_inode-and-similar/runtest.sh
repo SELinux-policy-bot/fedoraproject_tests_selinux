@@ -98,7 +98,10 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "bz#2270895"
-        rlSESearchRule "allow unconfined_t unconfined_t : anon_inode { create } [ ]"
+        rlSESearchRule "allow unconfined_t secretmem_t : anon_inode { create } [ ]"
+        rlSESearchRule "allow sysadm_t secretmem_t : anon_inode { create } [ ]"
+        rlSESearchRule "type_transition unconfined_t unconfined_t : anon_inode secretmem_t [secretmem]"
+        rlSESearchRule "type_transition sysadm_t sysadm_t : anon_inode secretmem_t [secretmem]"
         rlRun "stress-ng --resources 16 --timeout 5 --log-file /dev/null"
     rlPhaseEnd
 
