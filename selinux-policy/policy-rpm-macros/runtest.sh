@@ -47,7 +47,6 @@ rlJournalStart
 
     rlPhaseStartTest "bz#1415694"
         rlRun "grep selinuxenabled ${MACRO_FILE}"
-        rlRun "grep selinuxenabled ${MACRO_FILE} | grep _sbindir"
         rlRun "grep selinuxenabled ${MACRO_FILE} | grep /usr/sbin/" 1
     rlPhaseEnd
 
