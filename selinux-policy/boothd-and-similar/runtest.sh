@@ -67,6 +67,10 @@ rlJournalStart
         rlSESearchRule "allow boothd_t systemd_userdbd_runtime_t : sock_file { write } [ ]"
         rlSESearchRule "allow boothd_t systemd_userdbd_t : unix_stream_socket { connectto } [ ]"
     rlPhaseEnd
+
+    rlPhaseStartTest "RHEL-57104 + RHEL-58060"
+        rlSESearchRule "allow boothd_t kernel_t : unix_stream_socket { connectto } [ ]"
+    rlPhaseEnd
     fi
 
     if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then

@@ -50,7 +50,7 @@ $(METADATA): Makefile
 	@echo "Name:            $(TEST)" >> $(METADATA)
 	@echo "TestVersion:     $(TESTVERSION)" >> $(METADATA)
 	@echo "Path:            $(TEST_DIR)" >> $(METADATA)
-	@echo "Description:     the service was running as initrc_t or init_t, now it is confined by SELinux" >> $(METADATA)
+	@echo "Description:     SELinux interferes with boothd and related programs" >> $(METADATA)
 	@echo "Type:            Regression" >> $(METADATA)
 	@echo "TestTime:        10m" >> $(METADATA)
 	@echo "RunFor:          selinux-policy" >> $(METADATA)
@@ -64,6 +64,8 @@ $(METADATA): Makefile
 	@echo "Destructive:     no" >> $(METADATA)
 	@echo "Releases:        -RHEL4 -RHEL5 -RHEL6 -RHEL7" >> $(METADATA)
 	@echo "Bug:             RHEL-45907" >> $(METADATA) # RHEL-10
+	@echo "Bug:             RHEL-57104" >> $(METADATA) # RHEL-9
+	@echo "Bug:             RHEL-58060" >> $(METADATA) # RHEL-10
 
 	rhts-lint $(METADATA)
 
