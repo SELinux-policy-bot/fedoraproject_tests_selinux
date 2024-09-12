@@ -17,6 +17,7 @@ tag:
   - TierCandidatesPASS
   - f33friendly
   - targeted
+  - rhel10_broken
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1390909
 adjust:

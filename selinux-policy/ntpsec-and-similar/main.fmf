@@ -29,6 +29,7 @@ tag:
   - NoRHEL8
   - epel
   - rhel9-epel
+  - rhel10-epel
   - targeted
   - NoRHIVOS
 tier: '3'

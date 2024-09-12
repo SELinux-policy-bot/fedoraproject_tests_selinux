@@ -25,6 +25,7 @@ tag:
   - NoRHEL6
   - NoRHEL7
   - targeted
+  - rhel10_broken
 link:
   - relates: https://issues.redhat.com/browse/RHEL-29967
 adjust:

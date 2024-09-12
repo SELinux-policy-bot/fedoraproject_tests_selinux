@@ -36,6 +36,7 @@ tag:
   - failinfedora
   - targeted
   - NoRHIVOS
+  - rhel10_broken
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=533007
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=533366
