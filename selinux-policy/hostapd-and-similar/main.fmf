@@ -4,6 +4,7 @@ description: |+
 
 contact: Milos Malik <mmalik@redhat.com>
 component:
+  - hostapd
   - selinux-policy
 require:
   - library(selinux-policy/common)
@@ -46,6 +47,7 @@ link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1784253
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2032277
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2064688
+  - verifies: https://issues.redhat.com/browse/RHEL-59683
 adjust:
   - enabled: false
     when: arch == s390x
