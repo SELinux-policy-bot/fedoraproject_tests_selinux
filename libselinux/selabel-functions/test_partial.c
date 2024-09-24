@@ -13,9 +13,9 @@ int main (int argc, char **argv)
 
     struct selinux_opt selabel_option [] = {
         { SELABEL_OPT_PATH, NULL },
-        { SELABEL_OPT_SUBSET, NULL },
+        { SELABEL_OPT_UNUSED, NULL },
         { SELABEL_OPT_VALIDATE, (char *) 1 },
-        { SELABEL_OPT_BASEONLY, (char *) 1 }
+        { SELABEL_OPT_UNUSED, NULL }
     };
 
     if (argc < 7) {
@@ -52,11 +52,11 @@ int main (int argc, char **argv)
         }
 
         // set subset
-        if (strcmp(argv[3], "NULL") == 0) {
-            selabel_option[1].value = NULL;
-        }
-        else {
-            selabel_option[1].value = argv[3];
+        if (backend == SELABEL_CTX_FILE) {
+            selabel_option[1].type = SELABEL_OPT_SUBSET;
+            if (strcmp(argv[3], "NULL") != 0) {
+                selabel_option[1].value = argv[3];
+            }
         }
 
         // set validate
@@ -68,11 +68,11 @@ int main (int argc, char **argv)
         }
 
         // set baseonly
-        if (strcmp(argv[5], "0") == 0) {
-            selabel_option[3].value = NULL;
-        }
-        else {
-            selabel_option[3].value = (char *) 1;
+        if (backend == SELABEL_CTX_FILE) {
+            selabel_option[3].type = SELABEL_OPT_BASEONLY;
+            if (strcmp(argv[5], "0") != 0) {
+                selabel_option[3].value = (char *) 1;
+            }
         }
 
         printf("selabel_options: "); 
