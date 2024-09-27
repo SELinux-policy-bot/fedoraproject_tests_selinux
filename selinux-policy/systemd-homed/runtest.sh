@@ -216,6 +216,15 @@ rlJournalStart
         rlRun "ausearch -m AVC -m USER_AVC --start $tst_Time --input-logs" 1
     rlPhaseEnd
 
+    rlPhaseStartTest "bz#2036108 + bz#2315087"
+        rlSEMatchPathCon "/usr/lib/systemd/systemd-homed" "systemd_homed_exec_t"
+        rlSEMatchPathCon "/var/cache/systemd/" "systemd_cache_t"
+        rlSEMatchPathCon "/var/cache/systemd/home/" "systemd_homed_cache_t"
+        rlSESearchRule "allow systemd_homed_t systemd_homed_cache_t : dir { read } [ ]"
+
+        rlRun "service systemd-homed restart"
+    rlPhaseEnd
+
     rlPhaseStartCleanup
         rlRun "systemctl disable systemd-homed"
         sleep 2
