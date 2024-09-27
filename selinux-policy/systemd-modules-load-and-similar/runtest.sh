@@ -105,15 +105,19 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "real scenario -- standalone service"
+        rlRun "mkdir -p /run/modprobe.d"
+        rlRun "echo 'blacklist cipher_null' > /run/modprobe.d/test.conf"
+        rlRun "restorecon -Rv /run/modprobe.d"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         rlRun "echo ${KERNEL_MODULE} > /etc/modules-load.d/${KERNEL_MODULE}.conf"
         rlRun "lsmod"
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} - ${PROCESS_CONTEXT} "start status" 1
         rlRun "lsmod | grep ${KERNEL_MODULE}"
-        rlRun "restorecon -Rv /run /var -e /var/ARTIFACTS" 0-255
+        rlRun "restorecon -Rv /etc /run /var -e /var/ARTIFACTS" 0-255
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} - ${PROCESS_CONTEXT} "stop status" 1
         rlRun "lsmod"
         rlRun "rm -f /etc/modules-load.d/${KERNEL_MODULE}.conf"
+        rlRun "rm -f /run/modprobe.d/test.conf"
     rlPhaseEnd
 
     if modinfo `grep ^ib /etc/rdma/modules/rdma.conf` >& /dev/null ; then
@@ -136,6 +140,13 @@ rlJournalStart
         rlSEMatchPathCon "/run/systemd/journal/socket" "syslogd_var_run_t"
         rlSESearchRule "allow systemd_modules_load_t syslogd_t : unix_dgram_socket { sendto } [ ]"
         rlSESearchRule "allow systemd_modules_load_t kmsg_device_t : chr_file { write } [ ]"
+    rlPhaseEnd
+
+    rlPhaseStartTest "RHEL-54591"
+        rlSEMatchPathCon "/usr/lib/systemd/systemd-modules-load" "systemd_modules_load_exec_t"
+        rlSEMatchPathCon "/run/modprobe.d" "modules_conf_t"
+        rlSEMatchPathCon "/run/modprobe.d/fips.conf" "modules_conf_t"
+        rlSESearchRule "allow systemd_modules_load_t modules_conf_t : file { getattr open read } [ ]"
     rlPhaseEnd
     fi
 
