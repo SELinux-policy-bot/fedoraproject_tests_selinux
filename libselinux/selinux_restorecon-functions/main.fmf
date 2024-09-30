@@ -11,6 +11,7 @@ recommend:
   - strace
   - gcc
 enabled: true
+duration: 10m
 tag:
   - CI-Tier-1
   - NoRHEL4
