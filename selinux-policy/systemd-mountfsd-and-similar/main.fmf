@@ -1,0 +1,43 @@
+summary: SELinux interferes with systemd-mountfsd and related programs
+description: |+
+    SELinux interferes with systemd-mountfsd and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - systemd
+  - systemd-container
+  - /usr/sbin/service
+  - nmap-ncat
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - NoRHEL8
+  - NoRHEL9
+  - targeted
+  - NoRHIVOS
+adjust:
+  - enabled: false
+    when: distro <= fedora-40
+    continue: false
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8, centos-stream-8, rhel-9, centos-stream-9, rhel-10, centos-stream-10
+    continue: false
+extra-summary: /CoreOS/selinux-policy/Regression/systemd-mountfsd-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/systemd-mountfsd-and-similar
