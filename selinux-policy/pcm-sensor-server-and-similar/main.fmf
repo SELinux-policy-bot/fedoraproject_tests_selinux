@@ -1,0 +1,44 @@
+summary: SELinux interferes with pcm-sensor-server and related programs
+description: |+
+    SELinux interferes with pcm-sensor-server and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - pcm
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - pcm
+  - /usr/sbin/service
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - NoRHEL8
+  - NoRHEL9
+  - targeted
+  - NoRHIVOS
+link:
+  - verifies: https://issues.redhat.com/browse/RHEL-52838
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8, rhel-9
+    because: the pcm-sensor-server service is not available there
+  - enabled: false
+    when: arch == aarch64, ppc64le, s390x
+    because: the pcm package is not available there
+extra-summary: /CoreOS/selinux-policy/Regression/pcm-sensor-server-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/pcm-sensor-server-and-similar
