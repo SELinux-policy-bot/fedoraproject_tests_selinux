@@ -1,0 +1,5 @@
+PURPOSE of /CoreOS/selinux-policy/Regression/iio-sensor-proxy-and-similar
+Author: Milos Malik <mmalik@redhat.com>
+
+SELinux interferes with the iio-sensor-proxy service and related programs.
+
