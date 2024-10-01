@@ -1,0 +1,42 @@
+summary: SELinux interferes with switcheroo-control and related programs
+description: |+
+    SELinux interferes with switcheroo-control and related programs
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+  - switcheroo-control
+test: ./runtest.sh
+framework: beakerlib
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - switcheroo-control
+  - python3-gobject-base
+  - /usr/sbin/service
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - targeted
+  - NoRHIVOS
+link:
+  - verifies: https://issues.redhat.com/browse/RHEL-24268
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7
+    because: the switcheroo-control package is not available there
+extra-summary: /CoreOS/selinux-policy/Regression/switcheroo-control-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/switcheroo-control-and-similar
