@@ -41,9 +41,10 @@ rlJournalStart
         rlAssertRpm ${PACKAGE}
         rlAssertRpm ${PACKAGE}-targeted
         if ! rpm -q ${SERVICE_PACKAGE} ; then
-            rlRun "yum -y install ${SERVICE_PACKAGE} --enablerepo epel"
+            rlRun "yum -y install ${SERVICE_PACKAGE} --enablerepo epel" 0,1
+        else
+            rlAssertRpm ${SERVICE_PACKAGE}
         fi
-        rlAssertRpm ${SERVICE_PACKAGE}
 
         rlServiceStop caddy caddy-api
 
@@ -72,7 +73,7 @@ rlJournalStart
         rlRun "semanage fcontext -l -C | grep caddy"
         for SERVICE_NAME in caddy caddy-api ; do
             rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
-            rlRun "restorecon -Rv /run /var -e /var/ARTIFACTS" 0-255
+            rlRun "restorecon -Rv /etc /run /var -e /var/ARTIFACTS" 0-255
             rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
         done
     rlPhaseEnd

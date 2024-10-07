@@ -51,9 +51,10 @@ rlJournalStart
         rlAssertRpm ${PACKAGE}
         rlAssertRpm ${PACKAGE}-targeted
         if ! rpm -q ${SERVICE_PACKAGE} ; then
-            rlRun "yum -y install ${SERVICE_PACKAGE} --enablerepo epel"
+            rlRun "yum -y install ${SERVICE_PACKAGE} --enablerepo epel" 0,1
+        else
+            rlAssertRpm ${SERVICE_PACKAGE}
         fi
-        rlAssertRpm ${SERVICE_PACKAGE}
 
         rlServiceStop ${SERVICE_NAME}
         rlFileBackup /etc/shadow
@@ -98,6 +99,7 @@ rlJournalStart
         rlSESearchRule "allow blueman_t gconf_home_t : dir { read } [ ]"
     rlPhaseEnd
 
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
@@ -107,9 +109,10 @@ rlJournalStart
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
         PYTHON_VERSION=`python --version | tr -d ' ' | cut -d . -f 1,2 | tr '[:upper:]' '[:lower:]'`
         rlRun "mkdir -p ~/.local/lib/${PYTHON_VERSION}/site-packages/"
-        rlRun "restorecon -Rv /var /run -e /var/ARTIFACTS" 0-255
+        rlRun "restorecon -Rv /etc /var /run -e /var/ARTIFACTS" 0-255
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2

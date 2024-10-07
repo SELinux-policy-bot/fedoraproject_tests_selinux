@@ -51,10 +51,11 @@ rlJournalStart
         rlSESatisfyRequires
         rlAssertRpm ${PACKAGE}
         rlAssertRpm ${PACKAGE}-targeted
-        if ! rpm -q cups-pdf >& /dev/null ; then
-            rlRun "yum -y install cups-pdf --enablerepo epel"
+        if ! rpm -q ${SERVICE_PACKAGE} >& /dev/null ; then
+            rlRun "yum -y install ${SERVICE_PACKAGE} --enablerepo epel" 0,1
+        else
+            rlAssertRpm ${SERVICE_PACKAGE}
         fi
-        rlAssertRpm ${SERVICE_PACKAGE}
 
         rlServiceStart ${SERVICE_NAME}
         rlFileBackup /etc/shadow

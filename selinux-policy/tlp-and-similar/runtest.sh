@@ -44,7 +44,11 @@ rlJournalStart
         rlSESatisfyRequires
         rlAssertRpm ${PACKAGE}
         rlAssertRpm ${PACKAGE}-targeted
-        rlAssertRpm ${SERVICE_PACKAGE}
+        if ! rpm -q ${SERVICE_PACKAGE} ; then
+            rlRun "yum -y install ${SERVICE_PACKAGE} --enablerepo epel" 0,1
+        else
+            rlAssertRpm ${SERVICE_PACKAGE}
+        fi
 
         rlServiceStop ${SERVICE_NAME}
         rlFileBackup /etc/shadow
@@ -87,6 +91,7 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         if rpm -q snapd >& /dev/null ; then
             rlRun "ls -alRZ /var/lib/snapd"
@@ -101,8 +106,10 @@ rlJournalStart
         fi
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} - ${PROCESS_CONTEXT} "start status" 1
         rlRun "tlp-stat -v"
+        rlRun "restorecon -Rv /etc /run /var -e /var/ARTIFACTS" 0-255
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} - ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2

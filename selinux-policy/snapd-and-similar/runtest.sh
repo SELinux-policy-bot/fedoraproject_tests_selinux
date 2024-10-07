@@ -43,7 +43,11 @@ rlJournalStart
         rlSESatisfyRequires
         rlAssertRpm ${PACKAGE}
         rlAssertRpm ${PACKAGE}-targeted
-        rlAssertRpm ${SERVICE_PACKAGE}
+        if ! rpm -q ${SERVICE_PACKAGE} ; then
+            rlRun "yum -y install ${SERVICE_PACKAGE} --enablerepo epel" 0,1
+        else
+            rlAssertRpm ${SERVICE_PACKAGE}
+        fi
         rlAssertRpm spamassassin
 
         # rlServiceStop ${SERVICE_NAME}
@@ -63,6 +67,7 @@ rlJournalStart
         rlSESearchRule "allow spamd_t snappy_var_lib_t : dir { search } [ ]"
     rlPhaseEnd
 
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "ls -alRZ /var/lib/snapd"
         rlRun "semodule -lfull | grep snap"
@@ -78,6 +83,7 @@ rlJournalStart
         rlRun "service spamassassin stop"
         rlRun "service spamassassin status" 3
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2

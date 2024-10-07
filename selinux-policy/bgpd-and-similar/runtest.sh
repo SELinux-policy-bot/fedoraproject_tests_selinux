@@ -49,9 +49,10 @@ rlJournalStart
         rlAssertRpm ${PACKAGE}
         rlAssertRpm ${PACKAGE}-targeted
         if ! rpm -q ${SERVICE_PACKAGE} ; then
-            rlRun "yum -y install ${SERVICE_PACKAGE} --enablerepo epel"
+            rlRun "yum -y install ${SERVICE_PACKAGE} --enablerepo epel" 0,1
+        else
+            rlAssertRpm ${SERVICE_PACKAGE}
         fi
-        rlAssertRpm ${SERVICE_PACKAGE}
 
         rlServiceStop ${SERVICE_NAME}
         rlFileBackup /etc/bgpd.conf
@@ -77,6 +78,7 @@ rlJournalStart
         rlSESearchRule "type_transition ${SOURCE_TYPE} ${FILE_CONTEXT} : process ${PROCESS_CONTEXT} $BOOLEANS"
     rlPhaseEnd
 
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "sed -i 's/^\(include.*\)$/# \1/' /etc/bgpd.conf"
         if rlIsRHEL 8 || rlIsCentOS 8 ; then
@@ -85,13 +87,14 @@ rlJournalStart
             PROCESS_CONTEXT="unconfined_service_t"
         fi
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
-        rlRun "restorecon -Rv /run /var -e /var/ARTIFACTS" 0-255
+        rlRun "restorecon -Rv /etc /run /var -e /var/ARTIFACTS" 0-255
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
         if rlIsRHEL 8 || rlIsCentOS 8 ; then
             # work around BZ#1830170 that was closed as WONTFIX
             rlRun "restorecon -v /usr/sbin/bgpd"
         fi
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2

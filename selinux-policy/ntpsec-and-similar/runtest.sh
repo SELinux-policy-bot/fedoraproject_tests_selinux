@@ -43,7 +43,11 @@ rlJournalStart
         rlSESatisfyRequires
         rlAssertRpm ${PACKAGE}
         rlAssertRpm ${PACKAGE}-targeted
-        rlAssertRpm ${SERVICE_PACKAGE}
+        if ! rpm -q ${SERVICE_PACKAGE} ; then
+            rlRun "yum -y install ${SERVICE_PACKAGE} --enablerepo epel" 0,1
+        else
+            rlAssertRpm ${SERVICE_PACKAGE}
+        fi
 
         rlServiceStop ${SERVICE_NAME}
         rlFileBackup /etc/ntp.conf
@@ -60,6 +64,7 @@ rlJournalStart
         rlSEMatchPortCon tcp 4460 ntske_port_t
     rlPhaseEnd
 
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
             # for environments where the SELinux domain does not exist yet
@@ -70,6 +75,7 @@ rlJournalStart
         rlRun "restorecon -Rv /etc /var /run -e /var/ARTIFACTS" 0-255
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2

@@ -44,7 +44,11 @@ rlJournalStart
         rlSESatisfyRequires
         rlAssertRpm ${PACKAGE}
         rlAssertRpm ${PACKAGE}-targeted
-        rlAssertRpm ${SERVICE_PACKAGE}
+        if ! rpm -q ${SERVICE_PACKAGE} ; then
+            rlRun "yum -y install ${SERVICE_PACKAGE} --enablerepo epel" 0,1
+        else
+            rlAssertRpm ${SERVICE_PACKAGE}
+        fi
 
         rlServiceStop ${SERVICE_NAME}
         rlFileBackup /etc/shadow
@@ -92,6 +96,7 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
@@ -100,7 +105,7 @@ rlJournalStart
         fi
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
         rlRun "lsof | grep exim_daemon_notify"
-        rlRun "restorecon -Rv /run /var -e /var/ARTIFACTS" 0-255
+        rlRun "restorecon -Rv /etc /run /var -e /var/ARTIFACTS" 0-255
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
 
@@ -116,6 +121,7 @@ rlJournalStart
         rlRun "service atd stop"
         rlRun "service exim stop"
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2

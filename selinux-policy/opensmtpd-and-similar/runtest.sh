@@ -43,7 +43,11 @@ rlJournalStart
         rlSESatisfyRequires
         rlAssertRpm ${PACKAGE}
         rlAssertRpm ${PACKAGE}-targeted
-        rlAssertRpm ${SERVICE_PACKAGE}
+        if ! rpm -q ${SERVICE_PACKAGE} ; then
+            rlRun "yum -y install ${SERVICE_PACKAGE} --enablerepo epel" 0,1
+        else
+            rlAssertRpm ${SERVICE_PACKAGE}
+        fi
 
         rlServiceStop ${SERVICE_NAME} postfix sendmail
 
@@ -74,6 +78,7 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         if ! ls -Z ${FILE_PATH} | grep -q ${FILE_CONTEXT} ; then
             # for environments where the service is not yet confined
@@ -85,6 +90,7 @@ rlJournalStart
         rlRun "smtpctl show status"
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2
