@@ -40,3 +40,5 @@ adjust:
     because: the switcheroo-control package is not available there
 extra-summary: /CoreOS/selinux-policy/Regression/switcheroo-control-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/switcheroo-control-and-similar
+extra-nitrate: TC#0617899
+id: b03995ad-99dc-46ae-a584-d860d8777b74

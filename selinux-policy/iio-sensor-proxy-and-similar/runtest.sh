@@ -33,9 +33,9 @@ PACKAGE="selinux-policy"
 FILE_PATH="/usr/libexec/iio-sensor-proxy"
 SERVICE_NAME="iio-sensor-proxy"
 PROCESS_NAME="iio-sensor-proxy"
-if seinfo -t | grep -q iio_sensor ; then
-    PROCESS_CONTEXT="iio_sensor_proxy_t"
-    FILE_CONTEXT="iio_sensor_proxy_exec_t"
+if seinfo -t | grep -q iiosensor ; then
+    PROCESS_CONTEXT="iiosensorproxy_t"
+    FILE_CONTEXT="iiosensorproxy_exec_t"
 else
     PROCESS_CONTEXT="unconfined_service_t"
     FILE_CONTEXT="bin_t"

@@ -41,3 +41,5 @@ adjust:
     continue: false
 extra-summary: /CoreOS/selinux-policy/Regression/systemd-mountfsd-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/systemd-mountfsd-and-similar
+extra-nitrate: TC#0617898
+id: c1075a93-3218-475b-9aa2-ea0d1792d853

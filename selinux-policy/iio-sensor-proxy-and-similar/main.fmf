@@ -38,3 +38,5 @@ adjust:
     because: the iio-sensor-proxy package is not available there
 extra-summary: /CoreOS/selinux-policy/Regression/iio-sensor-proxy-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/iio-sensor-proxy-and-similar
+extra-nitrate: TC#0617897
+id: f951c38a-3013-490f-893a-fb18e9ad7cbb

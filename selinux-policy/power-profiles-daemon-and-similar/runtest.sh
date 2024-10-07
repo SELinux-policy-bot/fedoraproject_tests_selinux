@@ -33,9 +33,9 @@ PACKAGE="selinux-policy"
 FILE_PATH="/usr/libexec/power-profiles-daemon"
 SERVICE_NAME="power-profiles-daemon"
 PROCESS_NAME="power-profiles-daemon"
-if seinfo -t | grep -q power_profile ; then
-    PROCESS_CONTEXT="power_profiles_daemon_t"
-    FILE_CONTEXT="power_profiles_daemon_exec_t"
+if seinfo -t | grep -q powerprofile ; then
+    PROCESS_CONTEXT="powerprofiles_t"
+    FILE_CONTEXT="powerprofiles_exec_t"
 else
     PROCESS_CONTEXT="unconfined_service_t"
     FILE_CONTEXT="bin_t"

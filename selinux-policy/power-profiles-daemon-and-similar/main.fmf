@@ -39,3 +39,5 @@ adjust:
     because: the power-profiles-daemon package is not available there
 extra-summary: /CoreOS/selinux-policy/Regression/power-profiles-daemon-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/power-profiles-daemon-and-similar
+extra-nitrate: TC#0617900
+id: 8cbc1f54-edde-4301-a19e-3a4cfe29920d
