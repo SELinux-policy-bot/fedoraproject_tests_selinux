@@ -55,7 +55,7 @@ $(METADATA): Makefile
 	@echo "TestTime:        1h" >> $(METADATA)
 	@echo "RunFor:          selinux-policy" >> $(METADATA)
 	@echo "RunFor:          chrony" >> $(METADATA)
-	@echo "Requires:        audit libselinux libselinux-utils policycoreutils selinux-policy-mls selinux-policy-targeted setools-console chrony ksh nscd /usr/bin/certtool /usr/sbin/service socat" >> $(METADATA) # EPEL
+	@echo "Requires:        audit libselinux libselinux-utils policycoreutils selinux-policy-mls selinux-policy-targeted setools-console chrony ksh nscd /usr/bin/certtool /usr/sbin/service socat linuxptp" >> $(METADATA) # EPEL
 	@echo "RhtsRequires:    library(selinux-policy/common)" >> $(METADATA)
 	@echo "Priority:        Normal" >> $(METADATA)
 	@echo "License:         GPLv2" >> $(METADATA)

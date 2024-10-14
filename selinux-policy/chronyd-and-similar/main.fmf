@@ -24,6 +24,7 @@ recommend:
   - /usr/bin/certtool
   - /usr/sbin/service
   - socat
+  - linuxptp
 environment:
     AVC_ERROR: +no_avc_check
 duration: 1h
