@@ -1,0 +1,17 @@
+summary: Does rpm install generate any output on stderr?
+component:
+  - selinux-policy
+require:
+  - fuse
+  - fuse-overlayfs
+  - dnf
+test: ./test.sh
+framework: beakerlib
+duration: 10m
+enabled: true
+link:
+  - https://issues.redhat.com/browse/RHEL-59192
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8
+    continue: false
