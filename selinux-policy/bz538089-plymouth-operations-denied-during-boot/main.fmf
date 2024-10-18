@@ -54,3 +54,4 @@ adjust:
 extra-nitrate: TC#0057474
 extra-summary: /CoreOS/selinux-policy/Regression/bz538089-plymouth-operations-denied-during-boot
 extra-task: /CoreOS/selinux-policy/Regression/bz538089-plymouth-operations-denied-during-boot
+id: b3e914bb-2af2-4edb-9959-d20e81b2e7ce

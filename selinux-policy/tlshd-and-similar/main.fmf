@@ -37,3 +37,5 @@ adjust:
     because: the ktls-utils package is not available there
 extra-summary: /CoreOS/selinux-policy/Regression/tlshd-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/tlshd-and-similar
+extra-nitrate: TC#0617913
+id: 63121e2f-20f3-4ded-80fe-ab98fecd79af

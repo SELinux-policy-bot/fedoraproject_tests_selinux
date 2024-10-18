@@ -42,3 +42,5 @@ adjust:
     because: the pcm package is not available there
 extra-summary: /CoreOS/selinux-policy/Regression/pcm-sensor-server-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/pcm-sensor-server-and-similar
+extra-nitrate: TC#0617904
+id: a9229ccd-ac0e-4a00-9cc2-733ddb5de881

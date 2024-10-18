@@ -33,6 +33,7 @@ adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7
     continue: false
-extra-nitrate:
+extra-nitrate: TC#0617855
 extra-summary: /CoreOS/selinux-policy/Sanity/install-uninstall-dsp-packages
 extra-task: /CoreOS/selinux-policy/Sanity/install-uninstall-dsp-packages
+id: 22a728a8-c83b-49f9-8a20-57f0d35c7dc9

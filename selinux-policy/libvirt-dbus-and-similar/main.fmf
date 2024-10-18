@@ -36,3 +36,5 @@ adjust:
     because: the libvirt-dbus package is not available there
 extra-summary: /CoreOS/selinux-policy/Regression/libvirt-dbus-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/libvirt-dbus-and-similar
+extra-nitrate: TC#0617675
+id: 051fa33d-fa04-4ccc-b4e3-91078ec2199f

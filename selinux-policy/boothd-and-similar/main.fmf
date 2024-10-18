@@ -40,3 +40,5 @@ adjust:
     because: the booth package is not available there
 extra-summary: /CoreOS/selinux-policy/Regression/boothd-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/boothd-and-similar
+extra-nitrate: TC#0617767
+id: 7d00eabe-6df9-4577-9b07-1b79ab62f21b
