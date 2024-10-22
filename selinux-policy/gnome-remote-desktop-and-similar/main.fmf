@@ -1,0 +1,41 @@
+summary: SELinux interferes with gnome-remote-desktop and related programs
+description: |+
+    SELinux interferes with gnome-remote-desktop-daemon and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+test: ./runtest.sh
+framework: beakerlib
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - /usr/sbin/service
+  - gnome-remote-desktop
+  - gdm
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - NoRHIVOS
+link:
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2321236
+  - verifies: https://issues.redhat.com/browse/RHEL-35877
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7
+    continue: false
+extra-summary: /CoreOS/selinux-policy/Regression/gnome-remote-desktop-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/gnome-remote-desktop-and-similar
