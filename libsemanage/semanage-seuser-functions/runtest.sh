@@ -51,7 +51,7 @@ rlJournalStart
             if rlIsRHEL '<=6'; then
               SEUSERS_PATH="/etc/selinux/$POLICY_TYPE/seusers"
             fi
-        elif rlIsRHEL '>=8'; then
+        elif rlIsRHEL '>=8' || rlIsCentOS '>=8' ; then
             SEUSERS_PATH="/var/lib/selinux/$POLICY_TYPE/active/seusers"
         fi
 

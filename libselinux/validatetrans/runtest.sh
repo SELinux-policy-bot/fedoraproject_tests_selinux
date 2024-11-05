@@ -33,7 +33,7 @@ PACKAGE="libselinux"
 
 rlJournalStart
     # validatetrans utility is available since Fedora 32
-    if ! rlIsRHEL ">8" && ! rlIsFedora ">31"; then
+    if ! rlIsRHEL ">8" && ! rlIsFedora ">31" && ! rlIsCentOS ">8" ; then
         rlLog "Not applicable to this OS version."
         rlJournalEnd
         exit 0

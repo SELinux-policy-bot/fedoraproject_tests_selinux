@@ -37,7 +37,7 @@ rlJournalStart
         rlAssertRpm "glibc"
         rlAssertRpm "gcc"
 
-        if rlIsRHEL ">=7" || rlIsFedora; then
+        if rlIsRHEL ">=7" || rlIsFedora || rlIsCentOS ">=7" ; then
             rlRun -l "gcc test_root.c           -o test_root            -lsemanage -Wall -Wextra -std=c99"
         fi
 
@@ -53,7 +53,7 @@ rlJournalStart
         ERR_ABORT=134
     rlPhaseEnd
 
-    if rlIsRHEL ">=7" || rlIsFedora; then
+    if rlIsRHEL ">=7" || rlIsFedora || rlIsCentOS ">=7" ; then
     rlPhaseStartTest "semanage_root, semanage_test_root"
         rlRun "./test_root init"
         rlRun "./test_root handle"

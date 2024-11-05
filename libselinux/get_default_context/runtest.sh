@@ -39,7 +39,7 @@ rlJournalStart
         rlRun "sestatus"
     rlPhaseEnd
 
-    if rlIsRHEL ">=8.3" || rlIsFedora; then
+    if rlIsRHEL ">=8.3" || rlIsFedora || rlIsCentOS ">=8.3" ; then
     rlPhaseStartTest "#1879368"
         rlRun "cat ./reproducer.py"
         rlRun "./reproducer.py" 0
