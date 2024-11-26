@@ -1,0 +1,6 @@
+<memory model='dimm' access='private' discard='yes'>
+    <target>
+	    <size unit='KiB'>524287</size>
+		<node>0</node>
+    </target>
+</memory>

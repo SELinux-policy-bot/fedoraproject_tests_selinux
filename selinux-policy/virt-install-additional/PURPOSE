@@ -1,0 +1,5 @@
+PURPOSE of /CoreOS/selinux-policy/Regression/virt-install-additional
+Author: Milos Malik <mmalik@redhat.com>
+
+SELinux interferes with virt-install and related programs.
+Also covers: numad.

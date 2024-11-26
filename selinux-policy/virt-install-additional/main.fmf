@@ -1,0 +1,51 @@
+summary: SELinux interferes with virt-install and related programs.
+description: |+
+    SELinux interferes with virt-install and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+test: ./runtest.sh
+framework: beakerlib
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - /usr/sbin/service
+  - setools-console
+  - virt-install
+  - numad
+  - nbdkit
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 20m
+enabled: true
+tag:
+  - kernel-rt
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - targeted
+  - NoRHIVOS
+link:
+  - verifies: https://issues.redhat.com/browse/RHEL-56029
+  - verifies: https://issues.redhat.com/browse/RHEL-65038
+  - verifies: https://issues.redhat.com/browse/RHEL-65373
+  - verifies: https://issues.redhat.com/browse/RHEL-65383
+  - verifies: https://issues.redhat.com/browse/RHEL-65789
+  - verifies: https://issues.redhat.com/browse/RHEL-69118
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7
+    continue: false
+  - enabled: false
+    when: distro == ppc64le
+    continue: false
+extra-summary: /CoreOS/selinux-policy/Regression/virt-install-additional
+extra-task: /CoreOS/selinux-policy/Regression/virt-install-additional
