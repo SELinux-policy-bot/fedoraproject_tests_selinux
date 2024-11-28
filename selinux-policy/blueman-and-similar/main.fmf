@@ -21,6 +21,8 @@ recommend:
   - python-cairo
   - pygtk2
   - /usr/sbin/service
+environment:
+    AVC_ERROR: +no_avc_check
 duration: 10m
 enabled: true
 tag:

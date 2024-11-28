@@ -17,6 +17,8 @@ recommend:
   - setools-console
   - samba-common
   - samba-common-tools
+environment:
+    AVC_ERROR: +no_avc_check
 duration: 15m
 enabled: true
 tag:

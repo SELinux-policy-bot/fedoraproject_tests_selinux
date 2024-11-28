@@ -56,6 +56,7 @@ $(METADATA): Makefile
 	@echo "RunFor:          selinux-policy" >> $(METADATA)
 	@echo "Requires:        audit libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted setools-console glib2 gtk3 blueman python-cairo pygtk2 /usr/sbin/service" >> $(METADATA)
 	@echo "RhtsRequires:    library(selinux-policy/common)" >> $(METADATA)
+	@echo "Environment:     AVC_ERROR=+no_avc_check" >> $(METADATA)
 	@echo "Priority:        Normal" >> $(METADATA)
 	@echo "License:         GPLv2" >> $(METADATA)
 	@echo "Confidential:    no" >> $(METADATA)

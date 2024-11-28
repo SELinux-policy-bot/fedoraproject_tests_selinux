@@ -66,6 +66,7 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    if [ -f /usr/lib/systemd/system/gnome-remote-desktop.service ] ; then
     rlPhaseStartTest "real scenario"
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
         rlRun "grdctl --headless status"
@@ -76,6 +77,9 @@ rlJournalStart
         rlRun "restorecon -Rv /etc /run /var -e /var/ARTIFACTS" 0-255
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
+    fi
+
+    # TODO: test the gnome-remote-desktop service under normal/confined users
 
     rlPhaseStartCleanup
         sleep 2

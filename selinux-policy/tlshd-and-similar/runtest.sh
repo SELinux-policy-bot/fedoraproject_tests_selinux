@@ -35,8 +35,8 @@ SERVICE_PACKAGE="ktls-utils"
 SERVICE_NAME="tlshd"
 PROCESS_NAME="tlshd"
 if seinfo -t | grep -q tlshd ; then
-    PROCESS_CONTEXT="tlshd_t"
-    FILE_CONTEXT="tlshd_exec_t"
+    PROCESS_CONTEXT="ktlshd_t"
+    FILE_CONTEXT="ktlshd_exec_t"
 else
     PROCESS_CONTEXT="unconfined_service_t"
     FILE_CONTEXT="bin_t"
