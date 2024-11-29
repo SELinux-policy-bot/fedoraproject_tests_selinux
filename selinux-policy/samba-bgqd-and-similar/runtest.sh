@@ -72,6 +72,14 @@ rlJournalStart
         rlSESearchRule "allow samba_bgqd_t sssd_var_lib_t : dir { search } [ ]"
         rlSESearchRule "allow samba_bgqd_t winbind_rpcd_t : fifo_file { write } [ ]"
     rlPhaseEnd
+
+    rlPhaseStartTest "RHEL-69512 + RHEL-69517"
+        rlSEMatchPathCon ${FILE_PATH} ${FILE_CONTEXT}
+        rlSEMatchPathCon "/etc/cups" "cupsd_etc_t"
+        rlSEMatchPathCon "/run/cups" "cupsd_var_run_t"
+        rlSESearchRule "allow samba_bgqd_t cupsd_etc_t : dir { search } [ ]"
+        rlSESearchRule "allow samba_bgqd_t cupsd_var_run_t : dir { search } [ ]"
+    rlPhaseEnd
     fi
 
     rlPhaseStartTest "real scenario"

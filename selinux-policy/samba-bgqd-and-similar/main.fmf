@@ -18,6 +18,7 @@ recommend:
   - samba
   - samba-client
   - samba-common-tools
+  - cups
 environment:
     AVC_ERROR: +no_avc_check
 duration: 15m
@@ -33,6 +34,8 @@ tag:
 link:
   - verifies: https://issues.redhat.com/browse/RHEL-53124
   - verifies: https://issues.redhat.com/browse/RHEL-64908
+  - verifies: https://issues.redhat.com/browse/RHEL-69512
+  - verifies: https://issues.redhat.com/browse/RHEL-69517
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8
