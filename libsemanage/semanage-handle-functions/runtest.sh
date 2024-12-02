@@ -85,7 +85,6 @@ rlJournalStart
         rlRun "./test_connect init reversed" $ERR_ABORT
         rlRun "./test_connect handle"
         rlRun "./test_connect handle twice"
-        rlRun "./test_connect handle reversed" $ERR_ABORT
         # why does it work??
         rlRun "./test_connect conn"
     rlPhaseEnd

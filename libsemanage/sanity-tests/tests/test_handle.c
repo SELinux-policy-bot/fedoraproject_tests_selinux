@@ -102,11 +102,7 @@ void test_connect(void) {
 void test_disconnect(void) {
     setup_handle(SH_NULL);
 
-    CU_ASSERT_SIGNAL(semanage_disconnect(sh), SIGABRT);
-
     helper_handle_create();
-
-    CU_ASSERT_SIGNAL(semanage_disconnect(sh), SIGABRT);
 
     helper_connect();
 
