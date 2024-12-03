@@ -82,9 +82,13 @@ rlJournalStart
             fi
         fi
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
-        rlRun "restorecon -Rv /run /var -e /var/ARTIFACTS" 0-255
-        rlRun "mkdir -p /root/.cups"
-        rlRun "touch /root/.cups/lpoptions"
+        rlRun "restorecon -Rv /etc /run /var -e /var/ARTIFACTS" 0-255
+        if ! rlIsRHEL 9 && ! rlIsCentOS 9 ; then
+            # RHEL-47401 closed as won't fix
+            # RHEL-54579 will be fixed in RHEL-10
+            rlRun "mkdir -p /root/.cups"
+            rlRun "touch /root/.cups/lpoptions"
+        fi
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
 
