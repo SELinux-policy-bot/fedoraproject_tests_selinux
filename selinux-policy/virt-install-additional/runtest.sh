@@ -48,9 +48,11 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "RHEL-65038"
-        rlSESearchRule "allow virtqemud_t svirt_tcg_t : lnk_file { read } [ ]"
-        rlSESearchRule "allow virtqemud_t svirt_tcg_t : process { getrlimit } [ ]"
-        rlSESearchRule "allow virtqemud_t svirt_t : process { getrlimit } [ ]"
+        if seinfo -a | grep -q virt_driver_domain ; then
+            rlSESearchRule "allow virtqemud_t svirt_tcg_t : lnk_file { read } [ ]"
+            rlSESearchRule "allow virtqemud_t svirt_tcg_t : process { getrlimit } [ ]"
+            rlSESearchRule "allow virtqemud_t svirt_t : process { getrlimit } [ ]"
+        fi
         if rlIsRHEL 8 ; then
             rlRun "service libvirtd start"
         fi
@@ -74,7 +76,9 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "RHEL-65373"
-        rlSESearchRule "allow virtqemud_t virtqemud_t : tun_socket { relabelto relabelfrom } [ ]"
+        if seinfo -a | grep -q virt_driver_domain ; then
+            rlSESearchRule "allow virtqemud_t virtqemud_t : tun_socket { relabelto relabelfrom } [ ]"
+        fi
         if rlIsRHEL 8 ; then
             rlRun "service libvirtd start"
         fi
@@ -96,7 +100,9 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "RHEL-65383"
-        rlSESearchRule "allow virtqemud_t sysfs_t : file { write } [ ]"
+        if seinfo -a | grep -q virt_driver_domain ; then
+            rlSESearchRule "allow virtqemud_t sysfs_t : file { write } [ ]"
+        fi
         if rlIsRHEL 8 ; then
             rlRun "service libvirtd start"
         fi
@@ -118,9 +124,11 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "RHEL-65789"
-        rlSESearchRule "allow virtqemud_t numad_exec_t : file { getattr open read map execute } [ ]"
-        rlSESearchRule "allow virtqemud_t numad_t : process { transition } [ ]"
-        rlSESearchRule "type_transition virtqemud_t numad_exec_t : process numad_t"
+        if seinfo -a | grep -q virt_driver_domain ; then
+            rlSESearchRule "allow virtqemud_t numad_exec_t : file { getattr open read map execute } [ ]"
+            rlSESearchRule "allow virtqemud_t numad_t : process { transition } [ ]"
+            rlSESearchRule "type_transition virtqemud_t numad_exec_t : process numad_t"
+        fi
         if rlIsRHEL 8 ; then
             rlRun "service libvirtd start"
         fi
@@ -171,6 +179,32 @@ rlJournalStart
             rlRun "service libvirtd stop"
         fi
         rlFileRestore
+    rlPhaseEnd
+
+    rlPhaseStartTest "RHEL-69920"
+        if seinfo -a | grep -q virt_driver_domain ; then
+            rlSESearchRule "allow virtqemud_t svirt_t : process { getsched } [ ]"
+            rlSESearchRule "allow virtqemud_t svirt_tcg_t : process { getsched } [ ]"
+        fi
+        if rlIsRHEL 8 ; then
+            rlRun "service libvirtd start"
+        fi
+        rlRun "service virtqemud start"
+        rlRun "service virtnetworkd start"
+        rlRun "service virtstoraged start"
+        rlRun "virt-install --memory 128 --pxe --virt-type qemu --os-variant alpinelinux3.8 --wait 0 --name test6"
+        sleep 30
+        rlRun "virsh vcpuinfo test6"
+        rlRun "virsh list"
+        rlRun "virsh list | grep 'test6.*running'"
+        rlRun "virsh destroy test6"
+        rlRun "virsh undefine test6"
+        rlRun "service virtstoraged stop"
+        rlRun "service virtnetworkd stop"
+        rlRun "service virtqemud stop"
+        if rlIsRHEL 8 ; then
+            rlRun "service libvirtd stop"
+        fi
     rlPhaseEnd
 
     rlPhaseStartCleanup

@@ -54,7 +54,7 @@ $(METADATA): Makefile
 	@echo "Type:            Regression" >> $(METADATA)
 	@echo "TestTime:        20m" >> $(METADATA)
 	@echo "RunFor:          selinux-policy" >> $(METADATA)
-	@echo "Requires:        audit libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted /usr/sbin/service setools-console virt-install numad nbdkit" >> $(METADATA)
+	@echo "Requires:        audit libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted /usr/sbin/service setools-console virt-install libvirt-client numad nbdkit" >> $(METADATA)
 	@echo "RhtsRequires:    library(selinux-policy/common)" >> $(METADATA)
 	@echo "Environment:     AVC_ERROR=+no_avc_check" >> $(METADATA)
 	@echo "Priority:        Normal" >> $(METADATA)
@@ -69,6 +69,7 @@ $(METADATA): Makefile
 	@echo "Bug:             RHEL-65383" >> $(METADATA) # RHEL-10
 	@echo "Bug:             RHEL-65789" >> $(METADATA) # RHEL-10
 	@echo "Bug:             RHEL-69118" >> $(METADATA) # RHEL-10
+	@echo "Bug:             RHEL-69920" >> $(METADATA) # RHEL-10
 
 	rhts-lint $(METADATA)
 
