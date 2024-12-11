@@ -3,3 +3,4 @@ Author: Milos Malik <mmalik@redhat.com>
 
 SELinux interferes with the iio-sensor-proxy service and related programs.
 
+Known interactions: iio-sensor-proxy + gdm.

@@ -57,11 +57,17 @@ rlJournalStart
 
         rlServiceStop ${SERVICE_NAME}
         rlFileBackup /usr/lib/systemd/system/iio-sensor-proxy.service
+        rlServiceStart gdm
 
         rlSESetEnforce
         rlSEStatus
         rlSESetTimestamp
         sleep 2
+    rlPhaseEnd
+
+    rlPhaseStartTest "RHEL-70850"
+        rlSESearchRule "allow xdm_t iiosensorproxy_t : dbus { send_msg } [ ]"
+        rlSESearchRule "allow iiosensorproxy_t xdm_t : dbus { send_msg } [ ]"
     rlPhaseEnd
 
     rlPhaseStartTest "real scenario -- standalone service"
@@ -84,6 +90,7 @@ rlJournalStart
         rlFileRestore
         rlRun "systemctl daemon-reload"
         rlServiceRestore ${SERVICE_NAME}
+        rlServiceRestore gdm
     rlPhaseEnd
 rlJournalPrintText
 rlJournalEnd
