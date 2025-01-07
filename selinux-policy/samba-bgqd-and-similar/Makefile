@@ -54,7 +54,7 @@ $(METADATA): Makefile
 	@echo "Type:            Regression" >> $(METADATA)
 	@echo "TestTime:        15m" >> $(METADATA)
 	@echo "RunFor:          selinux-policy" >> $(METADATA)
-	@echo "Requires:        audit libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted setools-console samba samba-client samba-common-tools cups" >> $(METADATA)
+	@echo "Requires:        audit libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted setools-console samba samba-client samba-common-tools cups /usr/sbin/service" >> $(METADATA)
 	@echo "RhtsRequires:    library(selinux-policy/common)" >> $(METADATA)
 	@echo "Environment:     AVC_ERROR=+no_avc_check" >> $(METADATA)
 	@echo "Priority:        Normal" >> $(METADATA)
@@ -66,6 +66,8 @@ $(METADATA): Makefile
 	@echo "Bug:             RHEL-64908" >> $(METADATA) # RHEL-10
 	@echo "Bug:             RHEL-69512" >> $(METADATA) # RHEL-10
 	@echo "Bug:             RHEL-69517" >> $(METADATA) # RHEL-9
+	@echo "Bug:             RHEL-72860" >> $(METADATA) # RHEL-9
+	@echo "Bug:             RHEL-72861" >> $(METADATA) # RHEL-10
 
 	rhts-lint $(METADATA)
 

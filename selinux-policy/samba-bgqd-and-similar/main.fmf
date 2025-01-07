@@ -19,6 +19,7 @@ recommend:
   - samba-client
   - samba-common-tools
   - cups
+  - /usr/sbin/service
 environment:
     AVC_ERROR: +no_avc_check
 duration: 15m
@@ -36,9 +37,12 @@ link:
   - verifies: https://issues.redhat.com/browse/RHEL-64908
   - verifies: https://issues.redhat.com/browse/RHEL-69512
   - verifies: https://issues.redhat.com/browse/RHEL-69517
+  - verifies: https://issues.redhat.com/browse/RHEL-72860
+  - verifies: https://issues.redhat.com/browse/RHEL-72861
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8
     continue: false
 extra-summary: /CoreOS/selinux-policy/Regression/samba-bgqd-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/samba-bgqd-and-similar
+extra-nitrate: TC#0617974

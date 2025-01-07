@@ -49,6 +49,7 @@ rlJournalStart
         rlAssertRpm ${PACKAGE}
         rlAssertRpm ${PACKAGE}-targeted
         rlAssertRpm ${SERVICE_PACKAGE}
+        rlAssertRpm cups
 
         rlFileBackup /etc/shadow
         rlServiceStop ${SERVICE_NAME}
@@ -80,9 +81,16 @@ rlJournalStart
         rlSESearchRule "allow samba_bgqd_t cupsd_etc_t : dir { search } [ ]"
         rlSESearchRule "allow samba_bgqd_t cupsd_var_run_t : dir { search } [ ]"
     rlPhaseEnd
+
+    rlPhaseStartTest "RHEL-72860 + RHEL-72861"
+        rlSEMatchPathCon "/run/cups/cups.sock" "cupsd_var_run_t"
+        rlSESearchRule "allow samba_bgqd_t cupsd_var_run_t : sock_file { read write } [ ]"
+        rlSESearchRule "allow samba_bgqd_t cupsd_t : unix_stream_socket { connectto } [ ]"
+    rlPhaseEnd
     fi
 
     rlPhaseStartTest "real scenario"
+        rlRun "service cups start"
         USER_NAME="smbuser${RANDOM}"
         USER_SECRET="S3kr3T${RANDOM}"
         rlRun "useradd ${USER_NAME}"
@@ -98,6 +106,7 @@ rlJournalStart
         rlRun "systemctl stop samba-bgqd"
         rlRun "smbpasswd -x ${USER_NAME}"
         rlRun "userdel -rf ${USER_NAME}"
+        rlRun "service cups stop"
     rlPhaseEnd
 
     rlPhaseStartCleanup
