@@ -39,3 +39,4 @@ adjust:
     continue: false
 extra-summary: /CoreOS/selinux-policy/Regression/gnome-remote-desktop-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/gnome-remote-desktop-and-similar
+extra-nitrate: TC#0617929

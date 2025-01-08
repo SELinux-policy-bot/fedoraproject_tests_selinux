@@ -66,6 +66,11 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    rlPhaseStartTest "RHEL-35877"
+        rlSESearchRule "allow gnome_remote_desktop_t policykit_t : dbus { send_msg } [ ]"
+        rlSESearchRule "allow policykit_t gnome_remote_desktop_t : dbus { send_msg } [ ]"
+    rlPhaseEnd
+
     if [ -f /usr/lib/systemd/system/gnome-remote-desktop.service ] ; then
     rlPhaseStartTest "real scenario"
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1

@@ -43,7 +43,7 @@ rlJournalStart
 	rlRun "fuse-overlayfs -o lowerdir=$tmp/lower/ -o upperdir=$tmp/upper/ -o workdir=$tmp/work/ $tmp/merged/"
 	RPMS=$(ls $tmp/merged/ | grep .rpm | xargs)
 	rlRun "chroot $tmp/merged/ /usr/bin/rpm -i $RPMS 2> error.log"
-	rlAssert0 "error.log should be empty" "test -s error.log"
+	rlAssert0 "error.log should be empty" `stat -c "%s" error.log`
 	rlRun "cat error.log"
 	rlRun "fusermount -u $tmp/merged/"
     rlPhaseEnd

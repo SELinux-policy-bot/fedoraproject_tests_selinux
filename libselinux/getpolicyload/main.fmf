@@ -20,4 +20,4 @@ adjust:
   - enabled: false
     when: distro < fedora-40
     because: the getpolicyload program is not available there
-
+extra-nitrate: TC#0615981

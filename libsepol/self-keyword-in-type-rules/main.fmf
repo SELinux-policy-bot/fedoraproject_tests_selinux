@@ -25,3 +25,4 @@ adjust:
     because: This feature may not be available in F36 and below
 link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2069718
+extra-nitrate: TC#0613928

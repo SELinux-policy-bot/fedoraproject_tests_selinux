@@ -11,3 +11,4 @@ recommend:
   - abrt
 tier: '3'
 enabled: true
+extra-nitrate: TC#0615932
