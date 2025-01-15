@@ -41,14 +41,24 @@ rlJournalStart
 
     rlPhaseStartTest "bz#2068085"
         rlRun "pushd selinux1"
+        if rlIsCentOS 8 || rlIsRHEL 8 ; then
+            STREAM_ID="centos/centos:stream8"
+        elif rlIsCentOS 9 || rlIsRHEL 9 ; then
+            STREAM_ID="centos/centos:stream9"
+        elif rlIsCentOS 10 || rlIsRHEL 10 ; then
+            STREAM_ID="centos/centos:stream10"
+        else
+            STREAM_ID="fedora/fedora:rawhide"
+        fi
 cat <<EOF >> ./Dockerfile
-FROM quay.io/centos/centos:stream9
+FROM quay.io/${STREAM_ID}
 RUN dnf install -y selinux-policy selinux-policy-targeted
 EOF
         rlRun "cat ./Dockerfile"
         rlRun -s "podman build -t localhost/selinux . --no-cache"
         rlAssertGrep "^complete" $rlRun_LOG -i
         rlAssertGrep "^commit" $rlRun_LOG -i
+        rlAssertNotGrep "not supported" $rlRun_LOG -i
         rlRun "popd"
 
         rlRun "pushd selinux2"
@@ -60,6 +70,7 @@ EOF
         rlRun -s "podman build -t localhost/selinux2 . --no-cache"
         rlAssertNotGrep "error" $rlRun_LOG -i
         rlAssertNotGrep "failed" $rlRun_LOG -i
+        rlAssertNotGrep "not supported" $rlRun_LOG -i
         rlRun "popd"
     rlPhaseEnd
 
