@@ -104,6 +104,13 @@ rlJournalStart
         rlRun "machinectl"
     rlPhaseEnd
 
+    if rlIsRHEL 10 || rlIsCentOS 10 ; then
+    rlPhaseStartTest "RHEL-74280"
+        rlSEMatchPathCon "/dev/vsock" "vsock_device_t"
+        rlSESearchRule "allow systemd_machined_t vsock_device_t : chr_file { getattr open read ioctl } [ ]"
+    rlPhaseEnd
+    fi
+
     rlPhaseStartTest "real scenario -- standalone service"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
             PROCESS_CONTEXT="unconfined_service_t"
