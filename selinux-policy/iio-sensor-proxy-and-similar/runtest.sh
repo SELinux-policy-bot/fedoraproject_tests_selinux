@@ -65,11 +65,16 @@ rlJournalStart
         sleep 2
     rlPhaseEnd
 
-    rlPhaseStartTest "RHEL-70850"
+    if seinfo -t | grep -q iiosensorproxy ; then
+    rlPhaseStartTest "RHEL-17346 + RHEL-62355 + RHEL-70850"
+        rlSEMatchPathCon ${FILE_PATH} ${FILE_CONTEXT}
         rlSESearchRule "allow xdm_t iiosensorproxy_t : dbus { send_msg } [ ]"
         rlSESearchRule "allow iiosensorproxy_t xdm_t : dbus { send_msg } [ ]"
+        rlSESearchRule "allow iiosensorproxy_t iiosensorproxy_t : capability2 { bpf } [ ]"
     rlPhaseEnd
+    fi
 
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "sed -i 's/^.*Environment=.*$/Environment=FAKE_COMPASS=1/' /usr/lib/systemd/system/iio-sensor-proxy.service"
         rlRun "systemctl daemon-reload"
@@ -82,6 +87,7 @@ rlJournalStart
         rlWatchdog "monitor-sensor --all" 10
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "stop status" 1
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2

@@ -63,6 +63,14 @@ rlJournalStart
         sleep 2
     rlPhaseEnd
 
+    if rlIsRHEL 9 || rlIsCentOS 9 ; then
+    rlPhaseStartTest "RHEL-61117"
+        rlSEMatchPathCon ${FILE_PATH} ${FILE_CONTEXT}
+        rlSESearchRule "allow powerprofiles_t powerprofiles_t : capability2 { bpf } [ ]"
+    rlPhaseEnd
+    fi
+
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
         rlRun "powerprofilesctl list"
@@ -75,6 +83,7 @@ rlJournalStart
         rlRun "powerprofilesctl launch echo" 0,1
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "stop status" 1
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2

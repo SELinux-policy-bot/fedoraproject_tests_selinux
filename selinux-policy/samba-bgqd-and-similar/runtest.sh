@@ -89,6 +89,7 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario"
         rlRun "service cups start"
         USER_NAME="smbuser${RANDOM}"
@@ -108,6 +109,7 @@ rlJournalStart
         rlRun "userdel -rf ${USER_NAME}"
         rlRun "service cups stop"
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2

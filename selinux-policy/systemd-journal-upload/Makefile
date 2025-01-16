@@ -63,7 +63,8 @@ $(METADATA): Makefile
 	@echo "Destructive:     no" >> $(METADATA)
 	@echo "Environment:     AVC_ERROR=+no_avc_check" >> $(METADATA)
 	@echo "Releases:        -RHEL4 -RHEL5 -RHEL6 -RHEL7" >> $(METADATA)
-	@echo "Bug:             RHEL-57774" >> $(METADATA) # RHEL-9
+	@echo "Bug:             RHEL-57774" >> $(METADATA) # RHEL-10
+	@echo "Bug:             RHEL-62196" >> $(METADATA) # RHEL-9
 
 	rhts-lint $(METADATA)
 

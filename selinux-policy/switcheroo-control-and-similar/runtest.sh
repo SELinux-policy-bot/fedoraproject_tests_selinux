@@ -35,8 +35,8 @@ SERVICE_PACKAGE="switcheroo-control"
 SERVICE_NAME="switcheroo-control"
 PROCESS_NAME="switcheroo-control"
 if seinfo -t | grep -q switcheroo ; then
-    PROCESS_CONTEXT="switcheroo_t"
-    FILE_CONTEXT="switcheroo_exec_t"
+    PROCESS_CONTEXT="switcheroo_control_t"
+    FILE_CONTEXT="switcheroo_control_exec_t"
 else
     PROCESS_CONTEXT="unconfined_service_t"
     FILE_CONTEXT="bin_t"
@@ -58,6 +58,29 @@ rlJournalStart
         sleep 2
     rlPhaseEnd
 
+    if seinfo -t | grep -q switcheroo ; then
+    rlPhaseStartTest "RHEL-24268"
+        rlSEMatchPathCon ${FILE_PATH} ${FILE_CONTEXT}
+        rlSEMatchPathCon "/run/udev/" "udev_var_run_t"
+        rlSEMatchPathCon "/run/dbus/" "system_dbusd_var_run_t"
+        rlSEMatchPathCon "/run/dbus/system_bus_socket" "system_dbusd_var_run_t"
+        rlSESearchRule "allow switcheroo_control_t udev_var_run_t : dir { search } [ ]"
+        rlSESearchRule "allow switcheroo_control_t switcheroo_control_t : netlink_kobject_uevent_socket { create setopt bind getattr } [ ]"
+        rlSESearchRule "allow switcheroo_control_t switcheroo_control_t : capability2 { bpf } [ ]"
+        rlSESearchRule "allow switcheroo_control_t sysfs_t : dir { read } [ ]"
+        rlSESearchRule "allow switcheroo_control_t sysfs_t : lnk_file { getattr read } [ ]"
+        rlSESearchRule "allow switcheroo_control_t sysfs_t : file { getattr open read } [ ]"
+        rlSESearchRule "allow switcheroo_control_t system_dbusd_t : unix_stream_socket { connectto } [ ]"
+        rlSESearchRule "allow switcheroo_control_t system_dbusd_var_run_t : sock_file { write } [ ]"
+        rlSESearchRule "allow switcheroo_control_t system_dbusd_var_run_t : dir { search } [ ]"
+        rlSESearchRule "allow switcheroo_control_t system_dbusd_t : dbus { acquire_svc send_msg } [ ]"
+        rlSESearchRule "allow system_dbusd_t switcheroo_control_t : dbus { send_msg } [ ]"
+        rlSESearchRule "allow unconfined_t switcheroo_control_t : dbus { send_msg } [ ]"
+        rlSESearchRule "allow switcheroo_control_t unconfined_t : dbus { send_msg } [ ]"
+    rlPhaseEnd
+    fi
+
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
         rlRun "switcherooctl version"
@@ -69,6 +92,7 @@ rlJournalStart
         rlRun "rm -f ./empty-file"
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "stop status" 1
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2

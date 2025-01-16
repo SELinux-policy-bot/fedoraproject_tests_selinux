@@ -64,12 +64,12 @@ rlJournalStart
         rlSEMatchPathCon "/etc/gnome-remote-desktop" "etc_t"
         rlSESearchRule "allow gnome_remote_desktop_t etc_t : dir { watch } [ ]"
     rlPhaseEnd
-    fi
 
     rlPhaseStartTest "RHEL-35877"
         rlSESearchRule "allow gnome_remote_desktop_t policykit_t : dbus { send_msg } [ ]"
         rlSESearchRule "allow policykit_t gnome_remote_desktop_t : dbus { send_msg } [ ]"
     rlPhaseEnd
+    fi
 
     if [ -f /usr/lib/systemd/system/gnome-remote-desktop.service ] ; then
     rlPhaseStartTest "real scenario"
