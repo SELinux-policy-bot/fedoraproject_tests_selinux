@@ -29,7 +29,7 @@ export TESTVERSION=1.0
 
 BUILT_FILES=
 
-FILES=$(METADATA) runtest.sh Makefile PURPOSE
+FILES=$(METADATA) runtest.sh Makefile PURPOSE ssh.exp
 
 .PHONY: all install download clean
 
@@ -64,6 +64,7 @@ $(METADATA): Makefile
 	@echo "Environment:     AVC_ERROR=+no_avc_check" >> $(METADATA)
 	@echo "Releases:        -RHEL4 -RHEL5 -RHEL6 -RHEL7" >> $(METADATA)
 	@echo "Bug:             RHEL-46893" >> $(METADATA) # RHEL-10
+	@echo "Bug:             RHEL-73914" >> $(METADATA) # RHEL-10
 
 	rhts-lint $(METADATA)
 

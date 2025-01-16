@@ -67,13 +67,38 @@ rlJournalStart
         rlSESearchRule "allow virtqemud_t virt_dbus_t : dir { search } [ ]"
         rlSESearchRule "allow virtqemud_t virt_dbus_t : file { getattr open read } [ ]"
     rlPhaseEnd
+
+    rlPhaseStartTest "RHEL-73914"
+        rlSESearchRule "allow staff_t virt_dbus_t : dbus { send_msg } [ ]"
+        rlSESearchRule "allow virt_dbus_t staff_t : dbus { send_msg } [ ]"
+        rlSESearchRule "allow sysadm_t virt_dbus_t : dbus { send_msg } [ ]"
+        rlSESearchRule "allow virt_dbus_t sysadm_t : dbus { send_msg } [ ]"
+    rlPhaseEnd
     fi
 
+    rlPhaseStartTest "real scenario -- confined users"
+        rlRun "service virtqemud start"
+        rlSEConfigureSSH
+        rlRun "setsebool ssh_sysadm_login on"
+        for SELINUX_USER in staff_u sysadm_u ; do
+            USER_NAME="user${RANDOM}"
+            USER_SECRET="S3kr3t${RANDOM}"
+            rlRun "useradd -Z ${SELINUX_USER} -G libvirt ${USER_NAME}"
+            rlRun "echo ${USER_SECRET} | passwd --stdin ${USER_NAME}"
+            rlRun "./ssh.exp ${USER_NAME} ${USER_SECRET} localhost busctl call org.libvirt /org/libvirt/QEMU org.libvirt.Connect ListDomains u 0"
+            rlRun "userdel -rfZ ${USER_NAME}"
+        done
+        rlRun "setsebool ssh_sysadm_login off"
+        rlRun "service virtqemud stop"
+    rlPhaseEnd
+
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
         rlRun "restorecon -Rv /var /run -e /var/ARTIFACTS" 0-255
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
+    fi
 
     rlPhaseStartTest "real scenario -- communication with other virt* services"
         for VIRT_SERVICE in virtinterfaced virtlxcd virtnetworkd virtnodedevd virtnwfilterd virtproxyd virtqemud virtsecretd virtstoraged virtvboxd ; do
