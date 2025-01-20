@@ -55,7 +55,7 @@ $(METADATA): Makefile
 	@echo "TestTime:        10m" >> $(METADATA)
 	@echo "RunFor:          selinux-policy" >> $(METADATA)
 	@echo "RunFor:          booth" >> $(METADATA)
-	@echo "Requires:        audit libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted setools-console booth-arbitrator booth-core /usr/sbin/service net-tools" >> $(METADATA)
+	@echo "Requires:        audit libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted setools-console booth-arbitrator booth-core /usr/sbin/service net-tools systemd-container" >> $(METADATA)
 	@echo "RhtsRequires:    library(selinux-policy/common)" >> $(METADATA)
 	@echo "Environment:     AVC_ERROR=+no_avc_check" >> $(METADATA)
 	@echo "Priority:        Normal" >> $(METADATA)
@@ -66,6 +66,7 @@ $(METADATA): Makefile
 	@echo "Bug:             RHEL-45907" >> $(METADATA) # RHEL-10
 	@echo "Bug:             RHEL-57104" >> $(METADATA) # RHEL-9
 	@echo "Bug:             RHEL-58060" >> $(METADATA) # RHEL-10
+	@echo "Bug:             RHEL-75471" >> $(METADATA) # RHEL-10
 
 	rhts-lint $(METADATA)
 

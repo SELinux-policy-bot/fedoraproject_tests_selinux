@@ -19,6 +19,7 @@ recommend:
   - booth-core
   - /usr/sbin/service
   - net-tools
+  - systemd-container
 environment:
     AVC_ERROR: +no_avc_check
 duration: 10m
@@ -34,6 +35,7 @@ link:
   - verifies: https://issues.redhat.com/browse/RHEL-45907
   - verifies: https://issues.redhat.com/browse/RHEL-57104
   - verifies: https://issues.redhat.com/browse/RHEL-58060
+  - verifies: https://issues.redhat.com/browse/RHEL-75471
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7

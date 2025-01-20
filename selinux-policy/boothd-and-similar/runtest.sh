@@ -52,6 +52,7 @@ rlJournalStart
 
         rlServiceStop ${SERVICE_NAME}
         rlFileBackup /etc/booth/booth.conf
+        rlRun "service systemd-machined start"
 
         rlSESetEnforce
         rlSEStatus
@@ -71,6 +72,10 @@ rlJournalStart
     rlPhaseStartTest "RHEL-57104 + RHEL-58060"
         rlSESearchRule "allow boothd_t kernel_t : unix_stream_socket { connectto } [ ]"
     rlPhaseEnd
+
+    rlPhaseStartTest "RHEL-75471"
+        rlSESearchRule "allow boothd_t systemd_machined_t : unix_stream_socket { connectto } [ ]"
+    rlPhaseEnd
     fi
 
     if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
@@ -81,6 +86,9 @@ rlJournalStart
         rlRun "sed -i 's/^arbitrator=.*$/arbitrator=\"${IP_ADDRESS}\"/' /etc/booth/booth.conf"
         rlRun "grep ^arbitrator /etc/booth/booth.conf"
         rlSEService - ${SERVICE_NAME} - ${PROCESS_CONTEXT} "start status" 1
+        rlRun "booth list"
+        rlRun "booth status"
+        rlRun "booth peers"
         rlRun "restorecon -Rv /etc /var /run -e /var/ARTIFACTS" 0-255
         rlSEService - ${SERVICE_NAME} - ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
