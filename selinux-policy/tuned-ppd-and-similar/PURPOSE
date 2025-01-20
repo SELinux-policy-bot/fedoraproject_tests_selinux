@@ -1,0 +1,5 @@
+PURPOSE of /CoreOS/selinux-policy/Regression/tuned-ppd-and-similar
+Author: Milos Malik <mmalik@redhat.com>
+
+SELinux interferes with tuned-ppd and related programs.
+
