@@ -16,6 +16,8 @@ recommend:
   - policycoreutils
   - selinux-policy
   - selinux-policy-targeted
+  - setools-console
+  - zram-generator
 environment:
     AVC_ERROR: +no_avc_check
 duration: 15m
@@ -24,15 +26,17 @@ tag:
   - NoRHEL4
   - NoRHEL5
   - NoRHEL6
+  - NoRHEL7
   - TierCandidatesPASS
   - f32friendly
   - targeted
   - NoRHIVOS
 link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2230226
+  - verifies: https://issues.redhat.com/browse/RHEL-72549
 adjust:
   - enabled: false
-    when: distro == rhel-7
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7
     continue: false
 extra-nitrate: TC#0617500
 id: f92a6183-91e3-407a-9ac7-9b7df460109a

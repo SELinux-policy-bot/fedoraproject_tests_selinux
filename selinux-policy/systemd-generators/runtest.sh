@@ -195,6 +195,17 @@ EOF
 	rlRun "systemctl stop sysv-generator-test.service"
     rlPhaseEnd
 
+    if rlIsCentOS 10 || rlIsRHEL 10 ; then
+    rlPhaseStartTest "RHEL-72549"
+        rlSEMatchPathCon "/usr/lib/systemd/system-generators/systemd-ssh-generator" "systemd_ssh_generator_exec_t"
+        rlSEMatchPathCon "/dev/vsock" "vsock_device_t"
+        rlSEMatchPathCon "/run/systemd/generator/sshd-vsock.socket" "systemd_unit_file_t"
+        rlSESearchRule "allow init_t systemd_ssh_generator_exec_t : file { getattr open read execute } [ ]"
+        rlSESearchRule "type_transition init_t systemd_ssh_generator_exec_t : process systemd_ssh_generator_t"
+        rlSESearchRule "allow systemd_ssh_generator_t vsock_device_t : chr_file { getattr ioctl open read } [ ]"
+        rlSESearchRule "allow systemd_ssh_generator_t systemd_unit_file_t : file { create getattr write open } [ ]"
+    rlPhaseEnd
+    fi
 
     ### generators from other packages: install them all?
     # dnf install "/usr/lib/systemd/system-generators/*"

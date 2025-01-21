@@ -54,21 +54,26 @@ $(METADATA): Makefile
 	@echo "Type:            Sanity" >> $(METADATA)
 	@echo "TestTime:        15m" >> $(METADATA)
 	@echo "RunFor:          selinux-policy" >> $(METADATA)
+	@echo "Requires:        audit" >> $(METADATA)
+	@echo "Requires:        libselinux-utils" >> $(METADATA)
 	@echo "Requires:        policycoreutils" >> $(METADATA)
 	@echo "Requires:        selinux-policy" >> $(METADATA)
 	@echo "Requires:        selinux-policy-targeted" >> $(METADATA)
 	@echo "Requires:        zram-generator" >> $(METADATA)
+	@echo "Requires:        setools-console" >> $(METADATA)
 	@echo "RhtsRequires:    library(selinux-policy/common)" >> $(METADATA)
 	@echo "Priority:        Normal" >> $(METADATA)
 	@echo "License:         GPLv2" >> $(METADATA)
 	@echo "Confidential:    no" >> $(METADATA)
 	@echo "Destructive:     no" >> $(METADATA)
-	#@echo "Environment:     AVC_ERROR=+no_avc_check" >> $(METADATA)
+	@echo "Environment:     AVC_ERROR=+no_avc_check" >> $(METADATA)
 	@echo "Environment:     SYSTEMD_PAGER=\"\"" >> $(METADATA)
 	@echo "Releases:        -RHEL4" >> $(METADATA)
 	@echo "Releases:        -RHEL5" >> $(METADATA)
 	@echo "Releases:        -RHEL6" >> $(METADATA)
-	@echo "Bug:             2230226" >> $(METADATA)
+	@echo "Releases:        -RHEL7" >> $(METADATA)
+	@echo "Bug:             2230226" >> $(METADATA) # Fedora 39
+	@echo "Bug:             RHEL-72549" >> $(METADATA) # RHEL-10
 
 	rhts-lint $(METADATA)
 
