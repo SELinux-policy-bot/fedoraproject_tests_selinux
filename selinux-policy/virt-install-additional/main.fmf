@@ -22,6 +22,7 @@ recommend:
   - libvirt-client
   - numad
   - nbdkit
+  - usbutils
 environment:
     AVC_ERROR: +no_avc_check
 duration: 20m
@@ -42,6 +43,7 @@ link:
   - verifies: https://issues.redhat.com/browse/RHEL-65789
   - verifies: https://issues.redhat.com/browse/RHEL-69118
   - verifies: https://issues.redhat.com/browse/RHEL-69920
+  - verifies: https://issues.redhat.com/browse/RHEL-74230
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7

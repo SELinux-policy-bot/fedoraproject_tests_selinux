@@ -207,6 +207,39 @@ rlJournalStart
         fi
     rlPhaseEnd
 
+    rlPhaseStartTest "RHEL-74230"
+        rlSEMatchPathCon "/dev/bus/usb/001/001" "usb_device_t"
+        if seinfo -a | grep -q virt_driver_domain ; then
+            rlSESearchRule "allow virtqemud_t usb_device_t : chr_file { getattr open read write lock setattr } [ ]"
+        fi
+        if rlIsRHEL 8 ; then
+            rlRun "service libvirtd start"
+        fi
+        rlRun "service virtqemud start"
+        rlRun "service virtnetworkd start"
+        rlRun "service virtstoraged start"
+        rlRun "service virtnodedevd start"
+        rlRun "lsusb -t"
+        # USB devices may not be available
+        rlRun "virsh nodedev-list | grep usb" 0,1
+        for USB_ID in `virsh nodedev-list | grep usb` ; do
+            rlRun "virt-install --memory 128 --pxe --virt-type qemu --os-variant alpinelinux3.8 --wait 0 --name test-${USB_ID} --host-device ${USB_ID}"
+        done
+        sleep 10
+        rlRun "virsh list"
+        for VM_NAME in `virsh list --name` ; do
+            rlRun "virsh destroy ${VM_NAME}"
+            rlRun "virsh undefine ${VM_NAME}"
+        done
+        rlRun "service virtnodedevd stop"
+        rlRun "service virtstoraged stop"
+        rlRun "service virtnetworkd stop"
+        rlRun "service virtqemud stop"
+        if rlIsRHEL 8 ; then
+            rlRun "service libvirtd stop"
+        fi
+    rlPhaseEnd
+
     rlPhaseStartCleanup
         sleep 2
         rlSECheckAVC
