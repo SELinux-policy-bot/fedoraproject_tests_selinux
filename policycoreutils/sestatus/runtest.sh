@@ -94,7 +94,7 @@ rlJournalStart
     # This bug is not worth fixing in RHEL-5
     if ! rlIsRHEL 5 ; then
     rlPhaseStartTest
-        rlRun "rpm -ql ${PACKAGE} | grep /usr/sbin/sestatus"
+        rlRun "rpm -ql ${PACKAGE} | grep -E '/usr/s?bin/sestatus'"
         rlRun "rpm -ql ${PACKAGE} | grep /usr/share/man/man8/sestatus.8"
         for OPTION in b v ; do
             rlRun "sestatus --help 2>&1 | grep -- -${OPTION}"
