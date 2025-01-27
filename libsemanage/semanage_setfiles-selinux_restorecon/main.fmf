@@ -1,0 +1,9 @@
+summary: Update a file context and relabel
+test: ./test.sh
+framework: beakerlib
+require:
+  - python3-policycoreutils
+  - policycoreutils-python-utils
+  - python3-libsemanage
+link:
+  - verifies: https://issues.redhat.com/browse/RHEL-73348
