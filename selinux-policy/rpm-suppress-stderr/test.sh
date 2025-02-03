@@ -37,7 +37,7 @@ rlJournalStart
 	rlRun "dnf -y install --installroot=$tmp/lower diffutils libfdisk libselinux-utils libutempter policycoreutils util-linux rpm ${INSTALL_OPTION}"
 	rlRun "mkdir download"
 	rlRun "cd download"
-	rlRun "dnf download --installroot=$tmp/lower rpm-plugin-selinux selinux-policy selinux-policy-targeted ${DOWNLOAD_OPTION}"
+	rlRun "dnf download rpm-plugin-selinux selinux-policy selinux-policy-targeted ${DOWNLOAD_OPTION}"
 	rlRun "mv -v *rpm $tmp/lower"
 	rlRun "cd .."
 	rlRun "fuse-overlayfs -o lowerdir=$tmp/lower/ -o upperdir=$tmp/upper/ -o workdir=$tmp/work/ $tmp/merged/"
