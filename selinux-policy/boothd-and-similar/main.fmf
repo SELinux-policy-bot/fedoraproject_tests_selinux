@@ -22,7 +22,7 @@ recommend:
   - systemd-container
 environment:
     AVC_ERROR: +no_avc_check
-duration: 10m
+duration: 20m
 enabled: true
 tag:
   - NoRHEL4

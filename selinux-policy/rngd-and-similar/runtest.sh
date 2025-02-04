@@ -169,7 +169,7 @@ rlJournalStart
         rlRun "setsebool daemons_use_tty on"
         rlRun "runcon system_u:system_r:initrc_t:s0 bash -c 'rngd -l'" 0-255
         rlRun "setsebool daemons_use_tty off"
-        rlRun "restorecon -Rv /run /var -e /var/ARTIFACTS" 0-255
+        rlRun "restorecon -Rv /etc /run /var -e /var/ARTIFACTS" 0-255
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status" 1
         if ${DROP_PRIV} ; then
             rlLog "modifying the /etc/sysconfig/rngd file"
@@ -181,7 +181,7 @@ rlJournalStart
             fi
         fi
         rlRun "grep ^RNGD_ARGS= /etc/sysconfig/rngd"
-        rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
+        rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 2
     rlPhaseEnd
 
     rlPhaseStartCleanup

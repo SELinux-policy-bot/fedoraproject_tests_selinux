@@ -166,7 +166,7 @@ rlJournalStart
         rlRun "service virtqemud start"
         rlRun "service virtnetworkd start"
         rlRun "service virtstoraged start"
-        rlRun "virt-install --memory 128 --pxe --virt-type qemu --os-variant alpinelinux3.8 --disk source.protocol=ssh,source.name=/var/lib/libvirt/images/test.img,source.host0.name=10.73.210.25,source.host0.port=22 --wait 0 --name test5"
+        rlRun "virt-install --memory 128 --pxe --virt-type qemu --os-variant alpinelinux3.8 --disk source.protocol=ssh,source.name=/var/lib/libvirt/images/test.img,source.host0.name=localhost,source.host0.port=22 --wait 0 --name test5"
         sleep 30
         rlRun "virsh list"
         rlRun "virsh list | grep 'test5.*running'"

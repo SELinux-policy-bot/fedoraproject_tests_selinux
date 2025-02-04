@@ -36,6 +36,7 @@ SERVICE_PACKAGE="systemd-container"
 SERVICE_NAME="systemd-machined"
 PROCESS_NAME="systemd-machined"
 PROCESS_CONTEXT="systemd_machined_t"
+TEST_POLICY_NEEDED=${TEST_POLICY_NEEDED:-false}
 INSTALL_OPTION=""
 if yum --help | grep -q use-host-config ; then
     INSTALL_OPTION="${INSTALL_OPTION} --use-host-config"
@@ -124,9 +125,10 @@ rlJournalStart
         rlRun "mkdir -pZ /var/lib/machines/test"
         rlRun "dnf -y --installroot=/var/lib/machines/test/ install dhcp-client dnf filesystem glibc glibc-langpack-en glibc-langpack-de iproute iputils less passwd systemd vim-minimal ${INSTALL_OPTION}"
         rlRun "du -sh /var/lib/machines/test"
-        # TODO: remove next 2 lines once the BZs are fixed
-        rlRun "semodule -i testpolicy.cil"
-        rlRun "semodule -lfull | grep testpolicy"
+        if ${TEST_POLICY_NEEDED} ; then
+            rlRun "semodule -i testpolicy.cil"
+            rlRun "semodule -lfull | grep testpolicy"
+        fi
         rlRun "systemctl start systemd-nspawn@test"
         rlRun "systemctl status systemd-nspawn@test"
         rlRun "ps -efZ | grep -e ${PROCESS_CONTEXT} -e unconfined_service_t"
@@ -142,9 +144,10 @@ rlJournalStart
         rlRun "machinectl kill test"
         rlRun "machinectl terminate test"
         rlRun "systemctl stop systemd-nspawn@test"
-        # TODO: remove next 2 lines once the BZs are fixed
-        rlRun "semodule -r testpolicy"
-        rlRun "semodule -lfull | grep testpolicy" 1
+        if ${TEST_POLICY_NEEDED} ; then
+            rlRun "semodule -r testpolicy"
+            rlRun "semodule -lfull | grep testpolicy" 1
+        fi
         rlRun "rm -rf /var/lib/machines/test"
     rlPhaseEnd
 
