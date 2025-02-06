@@ -154,6 +154,47 @@ rlJournalStart
     rlPhaseEnd
 
     if seinfo -a | grep -q virt_driver_domain ; then
+    rlPhaseStartTest "RHEL-77620"
+        rlSEMatchPathCon "/usr/bin/virt-admin" "bin_t"
+        rlSESearchRule "type_transition init_t bin_t : process unconfined_service_t"
+        rlSESearchRule "allow virtqemud_t unconfined_service_t : dir { search } [ ]"
+        rlSESearchRule "allow virtqemud_t unconfined_service_t : file { getattr open read } [ ]"
+    rlPhaseEnd
+    fi
+
+    rlPhaseStartTest "real scenario -- admin sockets"
+        # start all admin sockets
+        for TUPLE in ${ALL_TUPLES} ; do
+            SERVICE_NAME=`echo ${TUPLE} | cut -d : -f 1`
+            PROCESS_NAME=`echo ${TUPLE} | cut -d : -f 2`
+            PROCESS_CONTEXT=`echo ${TUPLE} | cut -d : -f 3`
+            if [ -f /usr/lib/systemd/system/${SERVICE_NAME}-admin.socket ] ; then
+                rlRun "systemctl start ${SERVICE_NAME}-admin.socket"
+            fi
+        done
+        # connect to the services via admin sockets
+        for TUPLE in ${ALL_TUPLES} ; do
+            SERVICE_NAME=`echo ${TUPLE} | cut -d : -f 1`
+            PROCESS_NAME=`echo ${TUPLE} | cut -d : -f 2`
+            PROCESS_CONTEXT=`echo ${TUPLE} | cut -d : -f 3`
+            if [ -f /usr/lib/systemd/system/${SERVICE_NAME}-admin.socket ] ; then
+                rlRun "virt-admin -c ${SERVICE_NAME}:///system client-list admin" 0,1
+                rlRun "systemd-run virt-admin -c ${SERVICE_NAME}:///system server-list" 0,1
+            fi
+        done
+        rlRun "restorecon -Rv /etc /run /var -e /var/ARTIFACTS" 0-255
+        # stop all admin sockets
+        for TUPLE in ${ALL_TUPLES} ; do
+            SERVICE_NAME=`echo ${TUPLE} | cut -d : -f 1`
+            PROCESS_NAME=`echo ${TUPLE} | cut -d : -f 2`
+            PROCESS_CONTEXT=`echo ${TUPLE} | cut -d : -f 3`
+            if [ -f /usr/lib/systemd/system/${SERVICE_NAME}-admin.socket ] ; then
+                rlRun "systemctl stop ${SERVICE_NAME}-admin.socket"
+            fi
+        done
+    rlPhaseEnd
+
+    if seinfo -a | grep -q virt_driver_domain ; then
     rlPhaseStartTest "bz#2291273 + RHEL-40834"
         rlSESearchRule "allow virtnetworkd_t unconfined_t : dir { search } [ ]"
         rlSESearchRule "allow virtnetworkd_t unconfined_t : file { open read } [ ]"
