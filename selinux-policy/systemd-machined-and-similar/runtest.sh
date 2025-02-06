@@ -98,10 +98,12 @@ rlJournalStart
 
     rlPhaseStartTest "RHEL-49567"
         rlSEMatchPathCon "/usr/lib/systemd/systemd-machined" "systemd_machined_exec_t"
-        rlSEMatchPathCon "/run/systemd/machine" "systemd_machined_var_run_t"
-        rlSEMatchPathCon "/run/systemd/machine/io.systemd.Machine" "systemd_machined_var_run_t"
-        rlSESearchRule "allow systemd_machined_t systemd_machined_var_run_t : dir { create } [ ]"
-        rlSESearchRule "allow systemd_machined_t systemd_machined_var_run_t : sock_file { create unlink } [ ]"
+        if ! rlIsRHEL 9 && ! rlIsCentOS 9 ; then
+            rlSEMatchPathCon "/run/systemd/machine" "systemd_machined_var_run_t"
+            rlSEMatchPathCon "/run/systemd/machine/io.systemd.Machine" "systemd_machined_var_run_t"
+            rlSESearchRule "allow systemd_machined_t systemd_machined_var_run_t : dir { create } [ ]"
+            rlSESearchRule "allow systemd_machined_t systemd_machined_var_run_t : sock_file { create unlink } [ ]"
+        fi
         rlRun "machinectl"
     rlPhaseEnd
 
@@ -112,12 +114,20 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    if ! rlIsRHEL 8 && ! rlIsCentOS 8 ; then
+    rlPhaseStartTest "RHEL-76352 + RHEL-77087 + RHEL-78088"
+        rlSESearchRule "allow systemd_machined_t unconfined_service_t : dir { search } [ ]"
+        rlSESearchRule "allow systemd_machined_t unconfined_service_t : file { getattr open read ioctl } [ ]"
+        rlSESearchRule "allow systemd_machined_t systemd_machined_t : cap_userns { kill } [ ]"
+    rlPhaseEnd
+    fi
+
     rlPhaseStartTest "real scenario -- standalone service"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
             PROCESS_CONTEXT="unconfined_service_t"
         fi
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
-        rlRun "restorecon -Rv /run /var -e /var/ARTIFACTS" 0-255
+        rlRun "restorecon -Rv /etc /run /var -e /var/ARTIFACTS" 0-255
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
 
@@ -135,9 +145,11 @@ rlJournalStart
         rlRun "machinectl list"
         rlRun "machinectl status test"
         rlWatchdog "machinectl login test" 20
-        rlRun "rm -f /tmp/id"
-        rlRun "machinectl copy-to test /usr/bin/id /tmp/id"
-        rlRun "machinectl copy-from test /usr/bin/id /tmp/id"
+        if rlIsFedora ; then
+            rlRun "rm -f /tmp/id"
+            rlRun "machinectl copy-to test /usr/bin/id /tmp/id"
+            rlRun "machinectl copy-from test /usr/bin/id /tmp/id"
+        fi
         rlRun "machinectl reboot test"
         sleep 15
         rlRun "machinectl status test"
