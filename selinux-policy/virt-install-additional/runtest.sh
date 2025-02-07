@@ -59,14 +59,14 @@ rlJournalStart
         rlRun "service virtqemud start"
         rlRun "service virtnetworkd start"
         rlRun "service virtstoraged start"
-        rlRun "virt-install --memory 128 --pxe --virt-type qemu --os-variant alpinelinux3.8 --disk none --wait 0 --name test1 --cpu mode=maximum,check=none,migratable=on,numa.cell.id=0,numa.cell.cpus=0,numa.cell.memory=512000,numa.cell.unit="KiB" --memory maxMemory.slots=16,maxMemory=4096"
+        rlRun "virt-install --memory 128 --pxe --virt-type qemu --os-variant alpinelinux3.8 --disk none --wait 0 --name test1 --cpu mode=maximum,check=none,migratable=on,numa.cell.id=0,numa.cell.cpus=0,numa.cell.memory=512000,numa.cell.unit="KiB" --memory maxMemory.slots=16,maxMemory=4096" 0,1
         sleep 30
         rlRun "virsh list"
         rlRun "virsh list | grep 'test1.*running'"
-        rlRun "virsh attach-device test1 dimm.xml"
-        sleep 30
+        rlWatchdog "virsh attach-device test1 dimm.xml" 30
+        sleep 10
         rlRun "virsh destroy test1"
-        rlRun "virsh undefine test1"
+        rlRun "virsh undefine test1" 0,1
         rlRun "service virtstoraged stop"
         rlRun "service virtnetworkd stop"
         rlRun "service virtqemud stop"
@@ -85,12 +85,12 @@ rlJournalStart
         rlRun "service virtqemud start"
         rlRun "service virtnetworkd start"
         rlRun "service virtstoraged start"
-        rlRun "virt-install --memory 128 --pxe --virt-type qemu --os-variant alpinelinux3.8 --wait 0 --name test2 --network type=network,mac.address='52:54:00:ee:01:68',source=default,model.type=virtio,driver.queues=4"
+        rlRun "virt-install --memory 128 --pxe --virt-type qemu --os-variant alpinelinux3.8 --wait 0 --name test2 --network type=network,mac.address='52:54:00:ee:01:68',source=default,model.type=virtio,driver.queues=4" 0,1
         sleep 30
         rlRun "virsh list"
         rlRun "virsh list | grep 'test2.*running'"
         rlRun "virsh destroy test2"
-        rlRun "virsh undefine test2"
+        rlRun "virsh undefine test2" 0,1
         rlRun "service virtstoraged stop"
         rlRun "service virtnetworkd stop"
         rlRun "service virtqemud stop"
@@ -109,12 +109,12 @@ rlJournalStart
         rlRun "service virtqemud start"
         rlRun "service virtnetworkd start"
         rlRun "service virtstoraged start"
-        rlRun "virt-install --memory 128 --pxe --virt-type qemu --os-variant alpinelinux3.8 --wait 0 --name test3 --network type=network,mac.address='52:54:00:23:f2:12',source=default,model.type=virtio --xml xpath.set=./devices/interface/port/@isolated=yes"
+        rlRun "virt-install --memory 128 --pxe --virt-type qemu --os-variant alpinelinux3.8 --wait 0 --name test3 --network type=network,mac.address='52:54:00:23:f2:12',source=default,model.type=virtio --xml xpath.set=./devices/interface/port/@isolated=yes" 0,1
         sleep 30
         rlRun "virsh list"
         rlRun "virsh list | grep 'test3.*running'"
         rlRun "virsh destroy test3"
-        rlRun "virsh undefine test3"
+        rlRun "virsh undefine test3" 0,1
         rlRun "service virtstoraged stop"
         rlRun "service virtnetworkd stop"
         rlRun "service virtqemud stop"
@@ -135,12 +135,12 @@ rlJournalStart
         rlRun "service virtqemud start"
         rlRun "service virtnetworkd start"
         rlRun "service virtstoraged start"
-        rlRun "virt-install --memory 128 --pxe --virt-type qemu --os-variant alpinelinux3.8 --wait 0 --name test4 --numatune memory.mode='strict',memory.placement='auto'"
+        rlRun "virt-install --memory 128 --pxe --virt-type qemu --os-variant alpinelinux3.8 --wait 0 --name test4 --numatune memory.mode='strict',memory.placement='auto'" 0,1
         sleep 30
         rlRun "virsh list"
         rlRun "virsh list | grep 'test4.*running'"
         rlRun "virsh destroy test4"
-        rlRun "virsh undefine test4"
+        rlRun "virsh undefine test4" 0,1
         rlRun "service virtstoraged stop"
         rlRun "service virtnetworkd stop"
         rlRun "service virtqemud stop"
@@ -166,12 +166,12 @@ rlJournalStart
         rlRun "service virtqemud start"
         rlRun "service virtnetworkd start"
         rlRun "service virtstoraged start"
-        rlRun "virt-install --memory 128 --pxe --virt-type qemu --os-variant alpinelinux3.8 --disk source.protocol=ssh,source.name=/var/lib/libvirt/images/test.img,source.host0.name=localhost,source.host0.port=22 --wait 0 --name test5"
+        rlRun "virt-install --memory 128 --pxe --virt-type qemu --os-variant alpinelinux3.8 --disk source.protocol=ssh,source.name=/var/lib/libvirt/images/test.img,source.host0.name=localhost,source.host0.port=22 --wait 0 --name test5" 0,1
         sleep 30
         rlRun "virsh list"
         rlRun "virsh list | grep 'test5.*running'"
         rlRun "virsh destroy test5"
-        rlRun "virsh undefine test5"
+        rlRun "virsh undefine test5" 0,1
         rlRun "service virtstoraged stop"
         rlRun "service virtnetworkd stop"
         rlRun "service virtqemud stop"
@@ -192,13 +192,13 @@ rlJournalStart
         rlRun "service virtqemud start"
         rlRun "service virtnetworkd start"
         rlRun "service virtstoraged start"
-        rlRun "virt-install --memory 128 --pxe --virt-type qemu --os-variant alpinelinux3.8 --wait 0 --name test6"
+        rlRun "virt-install --memory 128 --pxe --virt-type qemu --os-variant alpinelinux3.8 --wait 0 --name test6" 0,1
         sleep 30
         rlRun "virsh vcpuinfo test6"
         rlRun "virsh list"
         rlRun "virsh list | grep 'test6.*running'"
         rlRun "virsh destroy test6"
-        rlRun "virsh undefine test6"
+        rlRun "virsh undefine test6" 0,1
         rlRun "service virtstoraged stop"
         rlRun "service virtnetworkd stop"
         rlRun "service virtqemud stop"
@@ -210,7 +210,8 @@ rlJournalStart
     rlPhaseStartTest "RHEL-74230"
         rlSEMatchPathCon "/dev/bus/usb/001/001" "usb_device_t"
         if seinfo -a | grep -q virt_driver_domain ; then
-            rlSESearchRule "allow virtqemud_t usb_device_t : chr_file { getattr open read write lock setattr } [ ]"
+            rlSESearchRule "allow virtqemud_t usb_device_t : chr_file { getattr } [ ]"
+            rlSESearchRule "allow virtqemud_t usb_device_t : chr_file { open read write lock setattr } [ virt_use_usb ]"
         fi
         if rlIsRHEL 8 ; then
             rlRun "service libvirtd start"
@@ -223,13 +224,13 @@ rlJournalStart
         # USB devices may not be available
         rlRun "virsh nodedev-list | grep usb" 0,1
         for USB_ID in `virsh nodedev-list | grep usb` ; do
-            rlRun "virt-install --memory 128 --pxe --virt-type qemu --os-variant alpinelinux3.8 --wait 0 --name test-${USB_ID} --host-device ${USB_ID}"
+            rlRun "virt-install --memory 128 --pxe --virt-type qemu --os-variant alpinelinux3.8 --wait 0 --name test-${USB_ID} --host-device ${USB_ID}" 0,1
         done
         sleep 10
         rlRun "virsh list"
         for VM_NAME in `virsh list --name` ; do
             rlRun "virsh destroy ${VM_NAME}"
-            rlRun "virsh undefine ${VM_NAME}"
+            rlRun "virsh undefine ${VM_NAME}" 0,1
         done
         rlRun "service virtnodedevd stop"
         rlRun "service virtstoraged stop"
@@ -238,6 +239,42 @@ rlJournalStart
         if rlIsRHEL 8 ; then
             rlRun "service libvirtd stop"
         fi
+    rlPhaseEnd
+
+    rlPhaseStartTest "RHEL-76104"
+        rlSEMatchPathCon "/dev/sg0" "scsi_generic_device_t"
+        if seinfo -a | grep -q virt_driver_domain ; then
+            rlSESearchRule "allow virtqemud_t scsi_generic_device_t : chr_file { getattr open read write lock setattr } [ ]"
+        fi
+        rlRun "modprobe scsi_debug ptype=5"
+        sleep 2
+        rlRun "lsscsi -gs"
+        if rlIsRHEL 8 ; then
+            rlRun "service libvirtd start"
+        fi
+        rlRun "service virtqemud start"
+        rlRun "service virtnetworkd start"
+        rlRun "service virtstoraged start"
+        rlRun "service virtnodedevd start"
+        # SCSI devices may not be available
+        rlRun "virsh nodedev-list | grep scsi" 0,1
+        for SCSI_ID in `virsh nodedev-list | grep scsi` ; do
+            rlRun "virt-install --memory 128 --pxe --virt-type qemu --os-variant alpinelinux3.8 --wait 0 --name test-${SCSI_ID} --host-device ${SCSI_ID}" 0,1
+        done
+        sleep 10
+        rlRun "virsh list"
+        for VM_NAME in `virsh list --name` ; do
+            rlRun "virsh destroy ${VM_NAME}"
+            rlRun "virsh undefine ${VM_NAME}" 0,1
+        done
+        rlRun "service virtnodedevd stop"
+        rlRun "service virtstoraged stop"
+        rlRun "service virtnetworkd stop"
+        rlRun "service virtqemud stop"
+        if rlIsRHEL 8 ; then
+            rlRun "service libvirtd stop"
+        fi
+        rlRun "modprobe -r scsi_debug"
     rlPhaseEnd
 
     rlPhaseStartCleanup

@@ -23,9 +23,10 @@ recommend:
   - numad
   - nbdkit
   - usbutils
+  - lsscsi
 environment:
     AVC_ERROR: +no_avc_check
-duration: 20m
+duration: 30m
 enabled: true
 tag:
   - kernel-rt
@@ -44,13 +45,14 @@ link:
   - verifies: https://issues.redhat.com/browse/RHEL-69118
   - verifies: https://issues.redhat.com/browse/RHEL-69920
   - verifies: https://issues.redhat.com/browse/RHEL-74230
+  - verifies: https://issues.redhat.com/browse/RHEL-76104
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7
-    continue: false
+    because: the test is not relevant for these RHELs
   - enabled: false
     when: distro == ppc64le
-    continue: false
+    because: the virt-install package is not available there
 extra-summary: /CoreOS/selinux-policy/Regression/virt-install-additional
 extra-task: /CoreOS/selinux-policy/Regression/virt-install-additional
 extra-nitrate: TC#0617996
