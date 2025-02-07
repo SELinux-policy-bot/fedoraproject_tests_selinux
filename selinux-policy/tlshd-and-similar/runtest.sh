@@ -70,6 +70,24 @@ rlJournalStart
         rlSESearchRule "type_transition init_t ${FILE_CONTEXT} : process ${PROCESS_CONTEXT}"
     rlPhaseEnd
 
+    if rlSEDefined "ktlshd_t" ; then
+    rlPhaseStartTest "RHEL-74424"
+        rlSEMatchPathCon "/etc/resolv.conf" "net_conf_t"
+        rlSEMatchPathCon "/etc/pki/tls/certs/ca-cert.pem" "cert_t"
+        rlRun "ls -Z /proc/net/if_inet6 | grep :proc_net_t"
+        rlRun "ls -Z /proc/sys/net/ipv6/conf/all/disable_ipv6 | grep :sysctl_net_t"
+        rlSESearchRule "allow ktlshd_t ktlshd_t : key { write } [ ]"
+        rlSESearchRule "allow ktlshd_t cert_t : dir { search } [ ]"
+        rlSESearchRule "allow ktlshd_t cert_t : file { getattr open read } [ ]"
+        rlSESearchRule "allow ktlshd_t net_conf_t : file { getattr open read } [ ]"
+        rlSESearchRule "allow ktlshd_t proc_net_t : lnk_file { read } [ ]"
+        rlSESearchRule "allow ktlshd_t ktlshd_t : netlink_route_socket { bind create getattr getopt nlmsg_read setopt } [ ]"
+        rlSESearchRule "allow ktlshd_t ktlshd_t : udp_socket { connect create getattr setopt } [ ]"
+        rlSESearchRule "allow ktlshd_t sysctl_net_t : dir { search } [ ]"
+        rlSESearchRule "allow ktlshd_t sysctl_net_t : file { getattr open read } [ ]"
+    rlPhaseEnd
+    fi
+
     if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
