@@ -32,7 +32,11 @@
 PACKAGE="selinux-policy"
 FILE_PATH="/usr/libexec/bootupd"
 SERVICE_PACKAGE="bootupd"
-SERVICE_NAME="bootupd"
+if rlIsFedora ; then
+    SERVICE_NAME="bootloader-update"
+else
+    SERVICE_NAME="bootupd"
+fi
 PROCESS_NAME="bootupd"
 if seinfo -t | grep -q bootupd ; then
     FILE_CONTEXT="bootupd_exec_t"
@@ -70,37 +74,82 @@ rlJournalStart
 
     rlPhaseStartTest "bz#2218106"
         rlSEMatchPathCon "/usr/libexec/bootupd" "${FILE_CONTEXT}"
-        rlRun "ls -RlZ /boot/efi"
+        if [ -d /boot/efi ] ; then
+            rlRun "ls -aRlZ /boot/efi"
+        fi
         rlSESearchRule "allow ${PROCESS_CONTEXT} dosfs_t : dir { getattr search } [ ]"
     rlPhaseEnd
 
     rlPhaseStartTest "RHEL-36289 + RHEL-39514"
         rlSEMatchPathCon "/usr/libexec/bootupd" "${FILE_CONTEXT}"
         if [ -d /sys/firmware/efi/efivars ] ; then
-            rlRun "ls -RlZ /sys/firmware/efi/efivars"
+            rlRun "ls -aRlZ /sys/firmware/efi/efivars"
         fi
         rlSESearchRule "allow ${PROCESS_CONTEXT} efivarfs_t : dir { getattr search } [ ]"
     rlPhaseEnd
 
-    if [ -f /usr/lib/systemd/system/bootupd.service ] ; then
+    if rlSEDefined "bootupd_t" ; then
+    rlPhaseStartTest "RHEL-66584"
+        rlSEMatchPathCon "/boot/bootupd-state.json" "boot_t"
+        rlSESearchRule "allow bootupd_t boot_t : dir { write remove_name } [ ]"
+        rlSESearchRule "allow bootupd_t boot_t : file { unlink } [ ]"
+        rlSESearchRule "allow bootupd_t dosfs_t : dir { search } [ ]"
+        rlSESearchRule "allow bootupd_t dosfs_t : file { open } [ ]"
+    rlPhaseEnd
+
+    rlPhaseStartTest "RHEL-70849"
+        rlSEMatchPathCon "/usr/bin/findmnt" "bin_t"
+        rlSEMatchPathCon "/usr/bin/lsblk" "bin_t"
+        rlSEMatchPathCon "/usr/bin/udevadm" "udev_exec_t"
+        rlSEMatchPathCon "/usr/bin/mount" "mount_exec_t"
+        rlSEMatchPathCon "/usr/sbin/grub2-install" "bootloader_exec_t"
+        rlSESearchRule "allow bootupd_t fixed_disk_device_t : blk_file { getattr } [ ]"
+        rlSESearchRule "allow bootupd_t bin_t : file { execute execute_no_trans map } [ ]"
+        rlSESearchRule "allow bootupd_t sysfs_t : dir { read } [ ]"
+        rlSESearchRule "allow bootupd_t sysfs_t : file { getattr open read } [ ]"
+        rlSESearchRule "allow bootupd_t sysfs_t : lnk_file { read } [ ]"
+        rlSESearchRule "allow bootupd_t cert_t : dir { getattr open read search } [ ]"
+        rlSESearchRule "allow bootupd_t cert_t : file { getattr open read } [ ]"
+
+        rlSESearchRule "allow bootupd_t udev_exec_t : file { getattr open read map execute } [ ]"
+        rlSESearchRule "type_transition bootupd_t udev_exec_t : process udev_t"
+        rlSESearchRule "allow bootupd_t udev_t : process { transition } [ ]"
+
+        rlSESearchRule "allow bootupd_t mount_exec_t : file { getattr open read map execute } [ ]"
+        rlSESearchRule "type_transition bootupd_t mount_exec_t : process mount_t"
+        rlSESearchRule "allow bootupd_t mount_t : process { transition } [ ]"
+
+        rlSESearchRule "allow bootupd_t bootloader_exec_t : file { getattr open read map execute } [ ]"
+        rlSESearchRule "type_transition bootupd_t bootloader_exec_t : process bootloader_t"
+        rlSESearchRule "allow bootupd_t bootloader_t : process { transition } [ ]"
+    rlPhaseEnd
+    fi
+
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
             # for OSes where the SELinux domain does not exist yet
             PROCESS_CONTEXT="unconfined_service_t"
         fi
-        rlRun "systemctl start ${SERVICE_NAME}.socket"
-        rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
-        rlRun "restorecon -Rv /var /run -e /var/ARTIFACTS" 0-255
-        rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
-        rlRun "systemctl stop ${SERVICE_NAME}.socket"
+        if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.socket ] ; then
+            rlRun "systemctl start ${SERVICE_NAME}.socket"
+        fi
+        rlSEService - ${SERVICE_NAME} - ${PROCESS_CONTEXT} "start status" 1
+        rlRun "restorecon -Rv /etc /var /run -e /var/ARTIFACTS" 0-255
+        rlSEService - ${SERVICE_NAME} - ${PROCESS_CONTEXT} "restart status stop status" 1
+        if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.socket ] ; then
+            rlRun "systemctl stop ${SERVICE_NAME}.socket"
+        fi
     rlPhaseEnd
     fi
 
-    if [ -f /usr/lib/systemd/system/bootupd.socket ] ; then
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.socket ] ; then
     rlPhaseStartTest "real scenario -- ${SERVICE_NAME}.socket"
         rlRun "systemctl enable ${SERVICE_NAME}.socket"
         rlRun "systemctl start ${SERVICE_NAME}.socket"
         sleep 1
+        rlRun "rm -f /boot/bootupd-state.json"
+        rlRun "bootupctl adopt-and-update" 0,1
         rlRun "bootupctl status" 0,1
         rlRun "bootupctl validate" 0,1
         rlRun "lsblk"
@@ -108,6 +157,14 @@ rlJournalStart
         rlRun "systemctl disable ${SERVICE_NAME}.socket"
     rlPhaseEnd
     fi
+
+    rlPhaseStartTest "real scenario without the service or the socket"
+        rlRun "rm -f /boot/bootupd-state.json"
+        rlRun "bootupctl adopt-and-update" 0,1
+        rlRun "bootupctl status" 0,1
+        rlRun "bootupctl validate" 0,1
+        rlRun "lsblk"
+    rlPhaseEnd
 
     rlPhaseStartCleanup
         sleep 2
