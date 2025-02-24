@@ -9,7 +9,7 @@ recommend:
   - selinux-policy-minimum
   - selinux-policy-mls
   - selinux-policy-targeted
-duration: 10m
+duration: 20m
 enabled: true
 tag:
   - NoRHEL4

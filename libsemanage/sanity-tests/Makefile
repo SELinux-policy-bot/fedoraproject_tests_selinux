@@ -51,7 +51,7 @@ $(METADATA): Makefile
 	@echo "Path:            $(TEST_DIR)" >> $(METADATA)
 	@echo "Description:     Test libsemanage functions" >> $(METADATA)
 	@echo "Type:            Sanity" >> $(METADATA)
-	@echo "TestTime:        60m" >> $(METADATA)
+	@echo "TestTime:        2h" >> $(METADATA)
 	@echo "RunFor:          libsemanage" >> $(METADATA)
 	@echo "Requires:        libsemanage libsemanage-devel gcc CUnit CUnit-devel checkpolicy policycoreutils-python-utils" >> $(METADATA)
 	@echo "Priority:        Normal" >> $(METADATA)

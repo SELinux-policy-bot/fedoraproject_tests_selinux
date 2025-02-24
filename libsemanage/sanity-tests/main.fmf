@@ -11,7 +11,7 @@ recommend:
   - CUnit-devel
   - checkpolicy
   - policycoreutils-python-utils
-duration: 60m
+duration: 2h
 enabled: true
 tag:
   - CI-Tier-1

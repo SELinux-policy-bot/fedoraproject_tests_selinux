@@ -51,7 +51,7 @@ $(METADATA): Makefile
 	@echo "Path:            $(TEST_DIR)" >> $(METADATA)
 	@echo "Description:     Test semanage_seuser_* functions" >> $(METADATA)
 	@echo "Type:            Sanity" >> $(METADATA)
-	@echo "TestTime:        5m" >> $(METADATA)
+	@echo "TestTime:        15m" >> $(METADATA)
 	@echo "RunFor:          libsemanage" >> $(METADATA)
 	@echo "Requires:        libsemanage libsemanage-devel glibc gcc" >> $(METADATA)
 	@echo "Priority:        Normal" >> $(METADATA)

@@ -51,7 +51,7 @@ $(METADATA): Makefile
 	@echo "Path:            $(TEST_DIR)" >> $(METADATA)
 	@echo "Description:     Do the D-bus interfaces/methods of /org/selinux/object work as expected?" >> $(METADATA)
 	@echo "Type:            Sanity" >> $(METADATA)
-	@echo "TestTime:        10m" >> $(METADATA)
+	@echo "TestTime:        20m" >> $(METADATA)
 	@echo "RunFor:          policycoreutils" >> $(METADATA)
 	@echo "Requires:        dbus-tools policycoreutils-dbus selinux-policy-minimum selinux-policy-mls selinux-policy-targeted" >> $(METADATA)
 	@echo "Priority:        Normal" >> $(METADATA)

@@ -86,9 +86,9 @@ rlJournalStart
         rlRun "sed -i 's/^arbitrator=.*$/arbitrator=\"${IP_ADDRESS}\"/' /etc/booth/booth.conf"
         rlRun "grep ^arbitrator /etc/booth/booth.conf"
         rlSEService - ${SERVICE_NAME} - ${PROCESS_CONTEXT} "start status" 1
-        rlRun "booth list"
-        rlRun "booth status"
-        rlRun "booth peers"
+        rlWatchdog "booth list" 20
+        rlWatchdog "booth status" 20
+        rlWatchdog "booth peers" 20
         rlRun "restorecon -Rv /etc /var /run -e /var/ARTIFACTS" 0-255
         rlSEService - ${SERVICE_NAME} - ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd

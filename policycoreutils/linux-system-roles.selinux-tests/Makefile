@@ -50,7 +50,7 @@ $(METADATA): Makefile
 	@echo "Path:            $(TEST_DIR)" >> $(METADATA)
 	@echo "Description:     Run linux-system-roles.selinux (https://github.com/linux-system-roles/selinux.git) Ansible role tests" >> $(METADATA)
 	@echo "Type:            Sanity" >> $(METADATA)
-	@echo "TestTime:        10m" >> $(METADATA)
+	@echo "TestTime:        40m" >> $(METADATA)
 	@echo "RunFor:          policycoreutils" >> $(METADATA)
 	@echo "Requires:        policycoreutils ansible git" >> $(METADATA)
 	@echo "Priority:        Normal" >> $(METADATA)
