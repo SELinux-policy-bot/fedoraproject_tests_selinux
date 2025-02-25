@@ -82,7 +82,7 @@ rlJournalStart
             # RHEL-4, RHEL-5, RHEL-6 is excluded
             PROCESS_CONTEXT="unconfined_service_t"
         fi
-        rlRun "gdbus introspect --system --object-path / --dest ${DESTINATION} >& /dev/null"
+        rlRun "gdbus introspect --system --object-path / --dest ${DESTINATION} >& /dev/null" 0,1
         sleep 1
         rlRun "ps -efZ | grep -v grep | grep ${PROCESS_NAME}"
         rlRun "ps -efZ | grep -v grep | grep \"${PROCESS_CONTEXT}.*${PROCESS_NAME}\""
@@ -96,7 +96,7 @@ rlJournalStart
             PROCESS_CONTEXT="unconfined_service_t"
         fi
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
-        rlRun "restorecon -Rv /run /var -e /var/ARTIFACTS" 0-255
+        rlRun "restorecon -Rv /etc /run /var -e /var/ARTIFACTS" 0-255
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
 

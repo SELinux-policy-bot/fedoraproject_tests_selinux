@@ -51,7 +51,10 @@ rlJournalStart
 
     rlPhaseStartSetup
         rlRun "rlImport 'selinux-policy/common'" 0,1
-        rlSESatisfyRequires
+        if rpm -q power-profiles-daemon ; then
+            rlRun "yum -y remove power-profiles-daemon"
+        fi
+        rlRun "yum -y install ${SERVICE_PACKAGE}"
         rlAssertRpm ${PACKAGE}
         rlAssertRpm ${PACKAGE}-targeted
         rlAssertRpm ${SERVICE_PACKAGE}

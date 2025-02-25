@@ -16,7 +16,6 @@ recommend:
   - selinux-policy
   - selinux-policy-targeted
   - setools-console
-  - power-profiles-daemon
   - python3-gobject-base
   - /usr/sbin/service
 environment:

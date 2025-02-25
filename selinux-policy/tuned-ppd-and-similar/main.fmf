@@ -15,7 +15,6 @@ recommend:
   - selinux-policy
   - selinux-policy-targeted
   - setools-console
-  - tuned-ppd
   - /usr/sbin/service
 environment:
     AVC_ERROR: +no_avc_check
@@ -37,3 +36,5 @@ adjust:
     because: the tuned-ppd package is not available there
 extra-summary: /CoreOS/selinux-policy/Regression/tuned-ppd-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/tuned-ppd-and-similar
+extra-nitrate: TC#0618543
+id: 58ffbde5-91ba-44e8-8faf-039f1043a503

@@ -31,6 +31,7 @@
 
 PACKAGE="selinux-policy"
 FILE_PATH="/usr/libexec/power-profiles-daemon"
+SERVICE_PACKAGE="power-profiles-daemon"
 SERVICE_NAME="power-profiles-daemon"
 PROCESS_NAME="power-profiles-daemon"
 if seinfo -t | grep -q powerprofile ; then
@@ -50,7 +51,10 @@ rlJournalStart
 
     rlPhaseStartSetup
         rlRun "rlImport 'selinux-policy/common'" 0,1
-        rlSESatisfyRequires
+        if rpm -q tuned-ppd ; then
+            rlRun "yum -y remove tuned-ppd"
+        fi
+        rlRun "yum -y install ${SERVICE_PACKAGE}"
         rlAssertRpm ${PACKAGE}
         rlAssertRpm ${PACKAGE}-targeted
         rlRun "rpm -qf ${FILE_PATH}"
