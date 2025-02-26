@@ -72,7 +72,9 @@ rlJournalStart
     rlPhaseStartTest "RHEL-57104 + RHEL-58060"
         rlSESearchRule "allow boothd_t kernel_t : unix_stream_socket { connectto } [ ]"
     rlPhaseEnd
+    fi
 
+    if ! rlIsRHEL 8 9 && ! rlIsCentOS 8 9 ; then
     rlPhaseStartTest "RHEL-75471"
         rlSESearchRule "allow boothd_t systemd_machined_t : unix_stream_socket { connectto } [ ]"
     rlPhaseEnd

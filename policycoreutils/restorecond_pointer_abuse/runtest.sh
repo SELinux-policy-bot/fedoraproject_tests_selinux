@@ -80,8 +80,9 @@ rlJournalStart
 
     rlPhaseStartCleanup
         rlRun "rlFileRestore" 0
-        rlServiceRestore restorecond
+        rlServiceStop restorecond
         rm -f ${OUTPUT_FILE}
     rlPhaseEnd
 rlJournalPrintText
 rlJournalEnd
+

@@ -38,7 +38,7 @@ rlJournalStart
         rlSESatisfyRequires
         rlAssertRpm ${PACKAGE}
         rlAssertRpm ${PACKAGE}-targeted
-        rlAssertRpm bind
+        rlRun "rpm -qa | grep bind | sort"
 
         rlServiceStop ` rlSEListServices 53 `
         rlFileBackup /etc/shadow
@@ -222,7 +222,7 @@ rlJournalStart
         rlRun "getsebool -a | grep named"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         rlSEService ${ROOT_PASSWORD} named named named_t "start status" 1
-        rlRun "restorecon -Rv /run /var -e /var/ARTIFACTS" 0-255
+        rlRun "restorecon -Rv /etc /run /var -e /var/ARTIFACTS" 0-255
         rlRun "runcon system_u:system_r:initrc_t:s0 bash -c 'rndc querylog'"
         rlRun "runcon system_u:system_r:initrc_t:s0 bash -c 'rndc dumpdb'"
         rlRun "runcon system_u:system_r:initrc_t:s0 bash -c 'rndc tsig-list'"
