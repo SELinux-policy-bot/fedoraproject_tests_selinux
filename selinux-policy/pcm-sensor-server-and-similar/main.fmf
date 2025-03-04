@@ -18,6 +18,7 @@ recommend:
   - setools-console
   - pcm
   - /usr/sbin/service
+  - virt-what
 environment:
     AVC_ERROR: +no_avc_check
 duration: 10m

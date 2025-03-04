@@ -28,6 +28,8 @@ tag:
   - failinfedora
   - targeted
   - NoRHIVOS
+  - rhel9_broken
+  - rhel10_broken
 link:
 adjust:
   - enabled: false

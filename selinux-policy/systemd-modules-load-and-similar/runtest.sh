@@ -124,7 +124,7 @@ rlJournalStart
     rlPhaseStartTest "bz#1942267"
         tst_Time="$(date '+%T')"
         # Install kernel-module matching the running kernel version
-        rlRun "dnf -y install kernel-modules-$(uname -r)"
+        rlRun "dnf -y install kernel-modules-$(uname -r)" 0,1
         rlRun "systemctl start rdma-load-modules@rdma.service"
         rlRun "systemctl status rdma-load-modules@rdma.service"
         rlRun "lsmod | grep rdma"

@@ -6,6 +6,7 @@ component:
 framework: beakerlib
 recommend:
   - /usr/bin/sepolicy
+  - setools-console
 duration: 1h
 enabled: true
 tier: 3

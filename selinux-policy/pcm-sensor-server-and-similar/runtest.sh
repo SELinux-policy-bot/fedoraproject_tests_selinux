@@ -63,6 +63,11 @@ rlJournalStart
         sleep 2
     rlPhaseEnd
 
+    rm -f output.txt
+    virt-what >& output.txt
+    if [ -s output.txt ] ; then
+        echo "Running on a virtual machine -- ${SERVICE_NAME} does not like that"
+    else
     rlPhaseStartTest "real scenario -- standalone service"
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
         rlRun "pcm-iio 1.0 -i=1"
@@ -73,6 +78,7 @@ rlJournalStart
         rlRun "pcm-lspci"
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "stop status" 1
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2

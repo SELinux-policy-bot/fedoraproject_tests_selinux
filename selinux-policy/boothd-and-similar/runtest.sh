@@ -100,6 +100,7 @@ rlJournalStart
         sleep 2
         rlSECheckAVC
         rlFileRestore
+        rlRun "service systemd-machined stop"
         rlServiceRestore ${SERVICE_NAME}
     rlPhaseEnd
 rlJournalPrintText

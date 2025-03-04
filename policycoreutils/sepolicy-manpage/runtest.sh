@@ -17,7 +17,12 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "sepolicy manpage --web, bz#1854639 + bz#1989840"
-        rlRun "sepolicy manpage --web -d zebra_t"
+        if seinfo -a domain -x | grep -q zebra ; then
+            DOMAIN_PREFIX="zebra"
+        else
+            DOMAIN_PREFIX="xserver"
+        fi
+        rlRun "sepolicy manpage --web -d ${DOMAIN_PREFIX}_t"
         if rlIsRHEL 7 8 || rlIsCentOS 7 8 ; then
             rlRun "ls -l /tmp/*release*" 0 "Html file with OS name exists."
             rlRun "cat /tmp/*release* > /tmp/testfile"
@@ -25,12 +30,12 @@ rlJournalStart
             rlRun "ls -l /tmp/index.html" 0 "HTML file exists"
             rlRun "cat /tmp/index.html > /tmp/testfile"
         fi
-        rlAssertGrep "href=zebra.html" "/tmp/testfile"
-        rlRun "ls -l /tmp/zebra.html"
+        rlAssertGrep "href=${DOMAIN_PREFIX}.html" "/tmp/testfile"
+        rlRun "ls -l /tmp/${DOMAIN_PREFIX}.html"
     rlPhaseEnd
 
     rlPhaseStartCleanup
-        rlRun "rm -f /tmp/zebra* /tmp/index.html /tmp/*release*"
+        rlRun "rm -f /tmp/${DOMAIN_PREFIX}* /tmp/index.html /tmp/*release*"
     rlPhaseEnd
 rlJournalEnd
 

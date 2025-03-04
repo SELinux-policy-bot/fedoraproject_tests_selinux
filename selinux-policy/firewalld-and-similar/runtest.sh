@@ -75,10 +75,12 @@ rlJournalStart
         done
     rlPhaseEnd
 
+    if rlSEDefined "puppetagent_t" ; then
     rlPhaseStartTest "bz#1214853"
         rlSESearchRule "allow firewalld_t puppetagent_t : dbus { send_msg }"
         rlSESearchRule "allow puppetagent_t firewalld_t : dbus { send_msg }"
     rlPhaseEnd
+    fi
 
     rlPhaseStartTest "bz#1221326"
         rlSESearchRule "allow firewalld_t openshift_initrc_t : dbus { send_msg }"

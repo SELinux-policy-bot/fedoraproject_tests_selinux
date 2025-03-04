@@ -111,7 +111,7 @@ rlJournalStart
 
     rlPhaseStartTest "bz#1413509"
         rlSEMatchPathCon "/usr/libexec/cockpit-ws" "cockpit_ws_exec_t"
-        rlSEMatchPathCon "/usr/libexec/cockpit-ssh" "cockpit_session_exec_t"
+        rlSEMatchPathCon "/usr/libexec/cockpit-session" "cockpit_session_exec_t"
         rlSEMatchPathCon "/var/lib/cockpit" "cockpit_var_lib_t"
         rlSEMatchPortCon tcp 22 ssh_port_t
         rlSESearchRule "allow cockpit_ws_t cockpit_session_exec_t : file { getattr open read execute }"
