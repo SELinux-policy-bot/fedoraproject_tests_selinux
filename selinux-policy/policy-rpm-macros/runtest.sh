@@ -31,6 +31,7 @@
 
 PACKAGE="selinux-policy"
 MACRO_FILE="/usr/lib/rpm/macros.d/macros.selinux-policy"
+export MACRO_FILE
 
 rlJournalStart
     rlPhaseStartSetup
@@ -50,16 +51,9 @@ rlJournalStart
         rlRun "grep selinuxenabled ${MACRO_FILE} | grep /usr/sbin/" 1
     rlPhaseEnd
 
-    rlPhaseStartTest "download and prepare the upstream test"
-        rlRun "git clone https://github.com/fedora-selinux/selinux-policy-macros.git"
-        rlRun "rm -f selinux-policy-macros/macros.selinux-policy"
-        rlRun "cp /usr/lib/rpm/macros.d/macros.selinux-policy selinux-policy-macros/"
-    rlPhaseEnd
-
-    pushd selinux-policy-macros
-    # running an upstream test written by Petr Lautrbach, thanks
-    ./runtest.sh
-    popd
+    # originally test from https://github.com/fedora-selinux/selinux-policy-macros
+    # now shipped with this test
+    ./selinux-policy-macros.runtest.sh
 
     rlPhaseStartCleanup
         rlRun "rm -rf selinux-policy-macros"
