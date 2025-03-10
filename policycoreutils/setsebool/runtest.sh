@@ -114,9 +114,14 @@ rlJournalStart
         for LINE in `cat /etc/selinux/*/booleans.subs_dist | sort | uniq | tr -s ' ' | tr ' ' ':'` ; do
             OLD_BOOLEAN_NAME=`echo ${LINE} | cut -d : -f 1`
             NEW_BOOLEAN_NAME=`echo ${LINE} | cut -d : -f 2`
-            rlRun "getsebool ${OLD_BOOLEAN_NAME} 2>&1 | tee ${OUTPUT_FILE}"
-            rlRun "getsebool ${NEW_BOOLEAN_NAME} 2>&1 | tee -a ${OUTPUT_FILE}"
-            rlRun "uniq -c ${OUTPUT_FILE} | grep '2 '"
+            # do not test this if the new boolean does not exist in the policy
+            if getsebool ${NEW_BOOLEAN_NAME} &> /dev/null; then
+                rlRun "getsebool ${OLD_BOOLEAN_NAME} 2>&1 | tee ${OUTPUT_FILE}"
+                rlRun "getsebool ${NEW_BOOLEAN_NAME} 2>&1 | tee -a ${OUTPUT_FILE}"
+                rlRun "uniq -c ${OUTPUT_FILE} | grep '2 '"
+            else
+                rlLog "$NEW_BOOLEAN_NAME does not exist, skip"
+            fi
         done
     rlPhaseEnd
     fi
