@@ -86,6 +86,8 @@ link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2173604
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2169949
   - verifies: https://issues.redhat.com/browse/RHEL-18219
+  - verifies: https://issues.redhat.com/browse/RHEL-82299
+  - verifies: https://issues.redhat.com/browse/RHEL-82308
 adjust:
   - enabled: false
     when: distro == rhel-4

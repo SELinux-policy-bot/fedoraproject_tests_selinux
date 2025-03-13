@@ -343,7 +343,7 @@ rlJournalStart
             rlRun "ipcs -m | grep 0x4e545030"
             rlRun "ls -Z /var/run/chronyd.sock | grep :chronyd_var_run_t"
         fi
-        rlRun "restorecon -Rv /run /var -e /var/ARTIFACTS" 0-255
+        rlRun "restorecon -Rv /etc /run /var -e /var/ARTIFACTS" 0-255
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status" 1
         rlRun "chronyc tracking"
         for OUTPUT_FILE in /tmp/chronyc.output /var/lib/chrony/chronyc.output /var/log/chrony/chronyc.output ; do
@@ -419,6 +419,13 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    if rlSEDefined "chronyd_restricted_t" ; then
+    rlPhaseStartTest "RHEL-82299 + RHEL-82308"
+        rlSESearchRule "allow chronyc_t chronyd_restricted_t : unix_dgram_socket { sendto } [ ]"
+        rlSESearchRule "allow chronyd_restricted_t chronyc_t : unix_dgram_socket { sendto } [ ]"
+    rlPhaseEnd
+    fi
+
     if [ -f ${CHRONYD_RESTRICTED_UNIT_FILE} ]; then
       rlPhaseStartTest "chronyd-restricted -- bz#2169949 + RHEL-18219"
         rlRun "systemctl stop ${SERVICE_NAME}"
@@ -432,6 +439,7 @@ rlJournalStart
         sleep 3
         rlRun "ps -o pid,uid,command,context -C chronyd | grep -1 system_u:system_r:chronyd_restricted_t:"
         rlRun "systemctl status ${CHRONYD_RESTRICTED_SERVICE}"
+        rlRun "chronyc reload sources" 0,1
         rlRun "systemctl restart ${CHRONYD_RESTRICTED_SERVICE}"
         rlRun "systemctl status ${CHRONYD_RESTRICTED_SERVICE}"
         rlRun "systemctl stop ${CHRONYD_RESTRICTED_SERVICE}"
