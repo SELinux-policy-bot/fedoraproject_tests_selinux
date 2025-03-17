@@ -1,3 +1,79 @@
 PURPOSE of /CoreOS/libselinux/Sanity/selinux_sestatus-functions
 Description: Test sestatus.c functions
 Author: Jan Zarsky <jzarsky@redhat.com>
+
+Inputs
+
+compiled C source code
+
+Outputs
+
+Test passes or fail based on res.txt file content
+
+Expected log output example
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+::   Test
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+:: [ 06:20:25 ] :: [  BEGIN   ] :: Running './test > res.txt'
+:: [ 06:20:25 ] :: [   PASS   ] :: Command './test > res.txt' (Expected 0, got 0)
+:: [ 06:20:25 ] :: [  BEGIN   ] :: Running 'cat res.txt'
+(before open) selinux_status_getenforce -1
+(before open) selinux_status_policyload -1
+(before open) selinux_status_deny_unknown -1
+(before open) selinux_status_updated -1
+selinux_status_open 0
+selinux_status_getenforce 1
+selinux_status_policyload 7
+selinux_status_deny_unknown 0
+selinux_status_updated 0
+selinux_status_close void
+:: [ 06:20:26 ] :: [   LOG    ] :: Output of 'cat res.txt':
+:: [ 06:20:26 ] :: [   LOG    ] :: --------------- OUTPUT START ---------------
+:: [ 06:20:26 ] :: [   LOG    ] :: (before open) selinux_status_getenforce -1
+:: [ 06:20:26 ] :: [   LOG    ] :: (before open) selinux_status_policyload -1
+:: [ 06:20:26 ] :: [   LOG    ] :: (before open) selinux_status_deny_unknown -1
+:: [ 06:20:26 ] :: [   LOG    ] :: (before open) selinux_status_updated -1
+:: [ 06:20:26 ] :: [   LOG    ] :: selinux_status_open 0
+:: [ 06:20:26 ] :: [   LOG    ] :: selinux_status_getenforce 1
+:: [ 06:20:26 ] :: [   LOG    ] :: selinux_status_policyload 7
+:: [ 06:20:26 ] :: [   LOG    ] :: selinux_status_deny_unknown 0
+:: [ 06:20:26 ] :: [   LOG    ] :: selinux_status_updated 0
+:: [ 06:20:26 ] :: [   LOG    ] :: selinux_status_close void
+:: [ 06:20:26 ] :: [   LOG    ] :: ---------------  OUTPUT END  ---------------
+:: [ 06:20:26 ] :: [   PASS   ] :: Command 'cat res.txt' (Expected 0, got 0)
+:: [ 06:20:26 ] :: [  BEGIN   ] :: Running 'grep "(before open) selinux_status_getenforce -1" res.txt'
+(before open) selinux_status_getenforce -1
+:: [ 06:20:26 ] :: [   PASS   ] :: Command 'grep "(before open) selinux_status_getenforce -1" res.txt' (Expected 0, got 0)
+:: [ 06:20:26 ] :: [  BEGIN   ] :: Running 'grep "(before open) selinux_status_policyload -1" res.txt'
+(before open) selinux_status_policyload -1
+:: [ 06:20:26 ] :: [   PASS   ] :: Command 'grep "(before open) selinux_status_policyload -1" res.txt' (Expected 0, got 0)
+:: [ 06:20:26 ] :: [  BEGIN   ] :: Running 'grep "(before open) selinux_status_deny_unknown -1" res.txt'
+(before open) selinux_status_deny_unknown -1
+:: [ 06:20:26 ] :: [   PASS   ] :: Command 'grep "(before open) selinux_status_deny_unknown -1" res.txt' (Expected 0, got 0)
+:: [ 06:20:26 ] :: [  BEGIN   ] :: Running 'grep "(before open) selinux_status_updated -1" res.txt'
+(before open) selinux_status_updated -1
+:: [ 06:20:26 ] :: [   PASS   ] :: Command 'grep "(before open) selinux_status_updated -1" res.txt' (Expected 0, got 0)
+:: [ 06:20:26 ] :: [  BEGIN   ] :: Running 'grep "selinux_status_open 0" res.txt'
+selinux_status_open 0
+:: [ 06:20:26 ] :: [   PASS   ] :: Command 'grep "selinux_status_open 0" res.txt' (Expected 0, got 0)
+:: [ 06:20:26 ] :: [  BEGIN   ] :: Running 'grep "selinux_status_getenforce 1" res.txt'
+selinux_status_getenforce 1
+:: [ 06:20:26 ] :: [   PASS   ] :: Command 'grep "selinux_status_getenforce 1" res.txt' (Expected 0, got 0)
+:: [ 06:20:27 ] :: [  BEGIN   ] :: Running 'grep -E "selinux_status_policyload [0-9]" res.txt'
+selinux_status_policyload 7
+:: [ 06:20:27 ] :: [   PASS   ] :: Command 'grep -E "selinux_status_policyload [0-9]" res.txt' (Expected 0, got 0)
+:: [ 06:20:27 ] :: [  BEGIN   ] :: Running 'grep "selinux_status_deny_unknown 0" res.txt'
+selinux_status_deny_unknown 0
+:: [ 06:20:27 ] :: [   PASS   ] :: Command 'grep "selinux_status_deny_unknown 0" res.txt' (Expected 0, got 0)
+:: [ 06:20:27 ] :: [  BEGIN   ] :: Running 'grep "selinux_status_updated 0" res.txt'
+selinux_status_updated 0
+:: [ 06:20:27 ] :: [   PASS   ] :: Command 'grep "selinux_status_updated 0" res.txt' (Expected 0, got 0)
+:: [ 06:20:27 ] :: [  BEGIN   ] :: Running 'grep "selinux_status_close void" res.txt'
+selinux_status_close void
+:: [ 06:20:27 ] :: [   PASS   ] :: Command 'grep "selinux_status_close void" res.txt' (Expected 0, got 0)
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+::   Duration: 2s
+::   Assertions: 12 good, 0 bad
+::   RESULT: PASS (Test)

@@ -1,3 +1,73 @@
 PURPOSE of /CoreOS/libselinux/Sanity/selabel-functions
 Description: Test selabel functions
 Author: Jan Zarsky <jzarsky@redhat.com>
+
+Inputs
+
+compiled C source code
+
+Outputs
+
+Test passes or fail based on log file content
+
+Expected log output example
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+::   selabel_lookup and selabel_lookup_raw
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+:: [ 06:17:59 ] :: [   INFO   ] :: Handle
+:: [ 06:17:59 ] :: [  BEGIN   ] :: Running './test_lookup CTX_FILE NULL NULL 0 0 some_input 0 nohandle'
+/usr/share/beakerlib/testing.sh: line 896: 45881 Segmentation fault      (core dumped) ./test_lookup CTX_FILE NULL NULL 0 0 some_input 0 nohandle
+:: [ 06:18:00 ] :: [   PASS   ] :: Command './test_lookup CTX_FILE NULL NULL 0 0 some_input 0 nohandle' (Expected 139, got 139)
+:: [ 06:18:00 ] :: [  BEGIN   ] :: Running './test_lookup CTX_MEDIA NULL NULL 0 0 some_input 0 nohandle'
+/usr/share/beakerlib/testing.sh: line 896: 45913 Segmentation fault      (core dumped) ./test_lookup CTX_MEDIA NULL NULL 0 0 some_input 0 nohandle
+:: [ 06:18:01 ] :: [   PASS   ] :: Command './test_lookup CTX_MEDIA NULL NULL 0 0 some_input 0 nohandle' (Expected 139, got 139)
+:: [ 06:18:02 ] :: [  BEGIN   ] :: Running './test_lookup CTX_X NULL NULL 0 0 some_input 0 nohandle'
+/usr/share/beakerlib/testing.sh: line 896: 45945 Segmentation fault      (core dumped) ./test_lookup CTX_X NULL NULL 0 0 some_input 0 nohandle
+:: [ 06:18:03 ] :: [   PASS   ] :: Command './test_lookup CTX_X NULL NULL 0 0 some_input 0 nohandle' (Expected 139, got 139)
+:: [ 06:18:03 ] :: [  BEGIN   ] :: Running './test_lookup CTX_DB NULL NULL 0 0 some_input 0 nohandle'
+/usr/share/beakerlib/testing.sh: line 896: 45977 Segmentation fault      (core dumped) ./test_lookup CTX_DB NULL NULL 0 0 some_input 0 nohandle
+:: [ 06:18:04 ] :: [   PASS   ] :: Command './test_lookup CTX_DB NULL NULL 0 0 some_input 0 nohandle' (Expected 139, got 139)
+:: [ 06:18:04 ] :: [   INFO   ] :: Path
+:: [ 06:18:05 ] :: [  BEGIN   ] :: Running './test_lookup CTX_FILE NULL NULL 0 0 NULL 0'
+selabel_lookup - ERROR: Invalid argument
+selabel_lookup_raw - ERROR: Invalid argument
+selabel_options: SELABEL_OPT_PATH = (null), SELABEL_OPT_SUBSET = (null), SELABEL_OPT_VALIDATE = 0, SELABEL_OPT_BASEONLY = 0
+Executing: selabel_open(SELABEL_CTX_FILE, &selabel_option, 4)
+Executing: selabel_lookup(hnd, &selabel_context, (null), 0)
+Executing: selabel_lookup_raw(hnd, &selabel_context, (null), 0)
+:: [ 06:18:05 ] :: [   PASS   ] :: Command './test_lookup CTX_FILE NULL NULL 0 0 NULL 0' (Expected 22, got 22)
+:: [ 06:18:05 ] :: [  BEGIN   ] :: Running './test_lookup CTX_MEDIA NULL NULL 0 0 NULL 0'
+selabel_lookup - ERROR: Invalid argument
+selabel_lookup_raw - ERROR: Invalid argument
+selabel_options: SELABEL_OPT_PATH = (null), SELABEL_OPT_SUBSET = (null), SELABEL_OPT_VALIDATE = 0, SELABEL_OPT_BASEONLY = 0
+Executing: selabel_open(SELABEL_CTX_MEDIA, &selabel_option, 4)
+Executing: selabel_lookup(hnd, &selabel_context, (null), 0)
+Executing: selabel_lookup_raw(hnd, &selabel_context, (null), 0)
+:: [ 06:18:05 ] :: [   PASS   ] :: Command './test_lookup CTX_MEDIA NULL NULL 0 0 NULL 0' (Expected 22, got 22)
+:: [ 06:18:05 ] :: [  BEGIN   ] :: Running './test_lookup CTX_X NULL NULL 0 0 NULL 0'
+selabel_lookup - ERROR: Invalid argument
+selabel_lookup_raw - ERROR: Invalid argument
+selabel_options: SELABEL_OPT_PATH = (null), SELABEL_OPT_SUBSET = (null), SELABEL_OPT_VALIDATE = 0, SELABEL_OPT_BASEONLY = 0
+Executing: selabel_open(SELABEL_CTX_X, &selabel_option, 4)
+Executing: selabel_lookup(hnd, &selabel_context, (null), 0)
+Executing: selabel_lookup_raw(hnd, &selabel_context, (null), 0)
+:: [ 06:18:05 ] :: [   PASS   ] :: Command './test_lookup CTX_X NULL NULL 0 0 NULL 0' (Expected 22, got 22)
+:: [ 06:18:05 ] :: [  BEGIN   ] :: Running './test_lookup CTX_DB NULL NULL 0 0 NULL 0'
+selabel_lookup - ERROR: Invalid argument
+selabel_lookup_raw - ERROR: Invalid argument
+selabel_options: SELABEL_OPT_PATH = (null), SELABEL_OPT_SUBSET = (null), SELABEL_OPT_VALIDATE = 0, SELABEL_OPT_BASEONLY = 0
+Executing: selabel_open(SELABEL_CTX_DB, &selabel_option, 4)
+Executing: selabel_lookup(hnd, &selabel_context, (null), 0)
+Executing: selabel_lookup_raw(hnd, &selabel_context, (null), 0)
+:: [ 06:18:05 ] :: [   PASS   ] :: Command './test_lookup CTX_DB NULL NULL 0 0 NULL 0' (Expected 22, got 22)
+:: [ 06:18:05 ] :: [  BEGIN   ] :: Running './test_lookup CTX_ANDROID_PROP NULL NULL 0 0 NULL 0'
+selabel_open - ERROR: Operation not supported
+selabel_options: SELABEL_OPT_PATH = (null), SELABEL_OPT_SUBSET = (null), SELABEL_OPT_VALIDATE = 0, SELABEL_OPT_BASEONLY = 0
+Executing: selabel_open(SELABEL_CTX_ANDROID_PROP, &selabel_option, 4)
+:: [ 06:18:05 ] :: [   PASS   ] :: Command './test_lookup CTX_ANDROID_PROP NULL NULL 0 0 NULL 0' (Expected 255, got 255)
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+::   Duration: 6s
+::   Assertions: 9 good, 0 bad
+::   RESULT: PASS (selabel_lookup and selabel_lookup_raw)

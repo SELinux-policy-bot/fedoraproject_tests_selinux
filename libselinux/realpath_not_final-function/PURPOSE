@@ -1,3 +1,61 @@
 PURPOSE of /CoreOS/libselinux/Sanity/realpath_not_final-function
 Description: Test realpath_not_final function
 Author: Jan Zarsky <jzarsky@redhat.com>
+
+Inputs
+
+compiled C source code
+
+Outputs
+
+Test passes or fail based on log file content
+
+Expected log output example
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+::   Test
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+:: [ 06:17:21 ] :: [  BEGIN   ] :: Running './test NULL'
+/usr/share/beakerlib/testing.sh: line 896: 39526 Segmentation fault      (core dumped) ./test NULL
+:: [ 06:17:22 ] :: [   PASS   ] :: Command './test NULL' (Expected 139, got 139)
+:: [ 06:17:22 ] :: [  BEGIN   ] :: Running './test /somedir/somefile NULL'
+symlink_realpath(/somedir/somefile) realpath() failed: No such file or directory
+Executing: realpath_not_final(/somedir/somefile, resolved_path)
+realpath_not_final: /somedir
+:: [ 06:17:22 ] :: [   PASS   ] :: Command './test /somedir/somefile NULL' (Expected 255, got 255)
+:: [ 06:17:22 ] :: [  BEGIN   ] :: Running './test NULL NULL'
+/usr/share/beakerlib/testing.sh: line 896: 39584 Segmentation fault      (core dumped) ./test NULL NULL
+:: [ 06:17:23 ] :: [   PASS   ] :: Command './test NULL NULL' (Expected 139, got 139)
+:: [ 06:17:23 ] :: [  BEGIN   ] :: Running './test /tmp | tee output'
+Executing: realpath_not_final(/tmp, resolved_path)
+realpath_not_final: /tmp
+:: [ 06:17:23 ] :: [   PASS   ] :: Command './test /tmp | tee output' (Expected 0, got 0)
+:: [ 06:17:23 ] :: [  BEGIN   ] :: Running 'grep 'realpath_not_final: /tmp' output'
+realpath_not_final: /tmp
+:: [ 06:17:23 ] :: [   PASS   ] :: Command 'grep 'realpath_not_final: /tmp' output' (Expected 0, got 0)
+:: [ 06:17:24 ] :: [  BEGIN   ] :: Running './test //tmp | tee output'
+Executing: realpath_not_final(//tmp, resolved_path)
+realpath_not_final: //tmp
+:: [ 06:17:24 ] :: [   PASS   ] :: Command './test //tmp | tee output' (Expected 0, got 0)
+:: [ 06:17:24 ] :: [  BEGIN   ] :: Running 'grep -E 'realpath_not_final: /tmp|realpath_not_final: //tmp' output'
+realpath_not_final: //tmp
+:: [ 06:17:24 ] :: [   PASS   ] :: Command 'grep -E 'realpath_not_final: /tmp|realpath_not_final: //tmp' output' (Expected 0, got 0)
+:: [ 06:17:24 ] :: [  BEGIN   ] :: Running './test ///tmp | tee output'
+Executing: realpath_not_final(///tmp, resolved_path)
+realpath_not_final: //tmp
+:: [ 06:17:24 ] :: [   PASS   ] :: Command './test ///tmp | tee output' (Expected 0, got 0)
+:: [ 06:17:24 ] :: [  BEGIN   ] :: Running 'grep -E 'realpath_not_final: /tmp|realpath_not_final: //tmp' output'
+realpath_not_final: //tmp
+:: [ 06:17:24 ] :: [   PASS   ] :: Command 'grep -E 'realpath_not_final: /tmp|realpath_not_final: //tmp' output' (Expected 0, got 0)
+:: [ 06:17:24 ] :: [  BEGIN   ] :: Running './test ////tmp | tee output'
+Executing: realpath_not_final(////tmp, resolved_path)
+realpath_not_final: //tmp
+:: [ 06:17:24 ] :: [   PASS   ] :: Command './test ////tmp | tee output' (Expected 0, got 0)
+:: [ 06:17:24 ] :: [  BEGIN   ] :: Running 'grep -E 'realpath_not_final: /tmp|realpath_not_final: //tmp' output'
+realpath_not_final: //tmp
+:: [ 06:17:24 ] :: [   PASS   ] :: Command 'grep -E 'realpath_not_final: /tmp|realpath_not_final: //tmp' output' (Expected 0, got 0)
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+::   Duration: 3s
+::   Assertions: 11 good, 0 bad
+::   RESULT: PASS (Test)

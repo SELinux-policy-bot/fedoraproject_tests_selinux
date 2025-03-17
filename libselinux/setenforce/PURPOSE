@@ -3,3 +3,43 @@ Author: Milos Malik <mmalik@redhat.com>
 
 Does setenforce work as expected? Does it produce correct audit messages?
 
+Inputs
+
+Various setups related to setenforce
+
+Outputs
+
+Test passes or fail based on ausearch resutls
+
+Expected log output example
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+::   basic use
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+:: [ 06:20:45 ] :: [  BEGIN   ] :: Running 'setenforce 1'
+:: [ 06:20:45 ] :: [   PASS   ] :: Command 'setenforce 1' (Expected 0, got 0)
+:: [ 06:20:45 ] :: [  BEGIN   ] :: Running 'grep 1 /sys/fs/selinux/enforce'
+1
+:: [ 06:20:45 ] :: [   PASS   ] :: Command 'grep 1 /sys/fs/selinux/enforce' (Expected 0, got 0)
+:: [ 06:20:45 ] :: [  BEGIN   ] :: Running 'setenforce 0'
+:: [ 06:20:45 ] :: [   PASS   ] :: Command 'setenforce 0' (Expected 0, got 0)
+:: [ 06:20:45 ] :: [  BEGIN   ] :: Running 'grep 0 /sys/fs/selinux/enforce'
+0
+:: [ 06:20:45 ] :: [   PASS   ] :: Command 'grep 0 /sys/fs/selinux/enforce' (Expected 0, got 0)
+:: [ 06:20:45 ] :: [  BEGIN   ] :: Running 'setenforce 1'
+:: [ 06:20:46 ] :: [   PASS   ] :: Command 'setenforce 1' (Expected 0, got 0)
+:: [ 06:20:51 ] :: [  BEGIN   ] :: Running 'ausearch --input-logs -m MAC_STATUS -i -ts 03/10/2025 06:20:44 | grep 'type=MAC_STATUS.*enforcing=1.*old_enforcing=0''
+type=MAC_STATUS msg=audit(03/10/2025 06:20:45.979:2609) : enforcing=1 old_enforcing=0 auid=root ses=10 enabled=1 old-enabled=1 lsm=selinux res=yes
+:: [ 06:20:51 ] :: [   PASS   ] :: Command 'ausearch --input-logs -m MAC_STATUS -i -ts 03/10/2025 06:20:44 | grep 'type=MAC_STATUS.*enforcing=1.*old_enforcing=0'' (Expected 0, got 0)
+:: [ 06:20:51 ] :: [  BEGIN   ] :: Running 'ausearch --input-logs -m MAC_STATUS -i -ts 03/10/2025 06:20:44 | grep 'type=MAC_STATUS.*enforcing=0.*old_enforcing=1''
+type=MAC_STATUS msg=audit(03/10/2025 06:20:45.759:2608) : enforcing=0 old_enforcing=1 auid=root ses=10 enabled=1 old-enabled=1 lsm=selinux res=yes
+:: [ 06:20:51 ] :: [   PASS   ] :: Command 'ausearch --input-logs -m MAC_STATUS -i -ts 03/10/2025 06:20:44 | grep 'type=MAC_STATUS.*enforcing=0.*old_enforcing=1'' (Expected 0, got 0)
+:: [ 06:20:51 ] :: [  BEGIN   ] :: Running 'ausearch --input-logs -m MAC_STATUS -i -ts 03/10/2025 06:20:44 | grep 'type=SYSCALL.*comm=setenforce''
+type=SYSCALL msg=audit(03/10/2025 06:20:45.759:2608) : arch=aarch64 syscall=write success=yes exit=1 a0=0x3 a1=0xffffd04eebc0 a2=0x1 a3=0xff78bbc00020 items=0 ppid=75829 pid=79376 auid=root uid=root gid=root euid=root suid=root fsuid=root egid=root sgid=root fsgid=root tty=pts0 ses=10 comm=setenforce exe=/usr/sbin/setenforce subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 key=(null)
+type=SYSCALL msg=audit(03/10/2025 06:20:45.979:2609) : arch=aarch64 syscall=write success=yes exit=1 a0=0x3 a1=0xffffc38319d0 a2=0x1 a3=0xff32e45b8020 items=0 ppid=75829 pid=79426 auid=root uid=root gid=root euid=root suid=root fsuid=root egid=root sgid=root fsgid=root tty=pts0 ses=10 comm=setenforce exe=/usr/sbin/setenforce subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 key=(null)
+:: [ 06:20:51 ] :: [   PASS   ] :: Command 'ausearch --input-logs -m MAC_STATUS -i -ts 03/10/2025 06:20:44 | grep 'type=SYSCALL.*comm=setenforce'' (Expected 0, got 0)
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+::   Duration: 7s
+::   Assertions: 8 good, 0 bad
+::   RESULT: PASS (basic use)

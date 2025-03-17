@@ -1,3 +1,40 @@
 PURPOSE of /CoreOS/libselinux/Sanity/selinux_restorecon-functions
 Description: Test functions in selinux_restorecon.c
 Author: Jan Zarsky <jzarsky@redhat.com>
+
+Inputs
+
+compiled C source code
+
+Outputs
+
+Test passes or fail based on log files content
+
+Expected log output example
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+::   /sys directory
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+:: [ 06:19:36 ] :: [  BEGIN   ] :: Calling selinux_restorecon on /tmp :: actually running 'strace -ostrace.out -s 64 ./test_restorecon /var/log RECURSE NOCHANGE'
+Running selinux_restorecon("/var/log", 0x00000a);
+:: [ 06:19:36 ] :: [   PASS   ] :: Calling selinux_restorecon on /tmp (Expected 0, got 0)
+:: [ 06:19:37 ] :: [  BEGIN   ] :: Running 'grep -E "security\.(restorecon_last|sehash)" strace.out'
+getxattr("/var/log", "security.sehash", 0xffffd9c79128, 32) = -1 ENODATA (No data available)
+getxattr("/var/log/journal", "security.sehash", 0xffffd9c79128, 32) = -1 ENODATA (No data available)
+getxattr("/var/log/journal/9f26e28ec0b04e2bbb812e4227ff5bb3", "security.sehash", 0xffffd9c79128, 32) = -1 ENODATA (No data available)
+getxattr("/var/log/chrony", "security.sehash", 0xffffd9c79128, 32) = -1 ENODATA (No data available)
+getxattr("/var/log/private", "security.sehash", 0xffffd9c79128, 32) = -1 ENODATA (No data available)
+getxattr("/var/log/audit", "security.sehash", 0xffffd9c79128, 32) = -1 ENODATA (No data available)
+:: [ 06:19:37 ] :: [   PASS   ] :: Command 'grep -E "security\.(restorecon_last|sehash)" strace.out' (Expected 0, got 0)
+:: [ 06:19:37 ] :: [  BEGIN   ] :: Calling selinux_restorecon on /sys :: actually running 'strace -ostrace.out -s 64 ./test_restorecon /sys RECURSE NOCHANGE'
+Running selinux_restorecon("/sys", 0x00000a);
+:: [ 06:19:55 ] :: [   PASS   ] :: Calling selinux_restorecon on /sys (Expected 0, got 0)
+:: [ 06:19:55 ] :: [  BEGIN   ] :: Running 'grep -E "security\.(restorecon_last|sehash)" strace.out'
+:: [ 06:19:55 ] :: [   PASS   ] :: Command 'grep -E "security\.(restorecon_last|sehash)" strace.out' (Expected 1, got 1)
+:: [ 06:19:55 ] :: [  BEGIN   ] :: Running 'rm -f strace.out'
+:: [ 06:19:55 ] :: [   PASS   ] :: Command 'rm -f strace.out' (Expected 0, got 0)
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+::   Duration: 19s
+::   Assertions: 5 good, 0 bad
+::   RESULT: PASS (/sys directory)

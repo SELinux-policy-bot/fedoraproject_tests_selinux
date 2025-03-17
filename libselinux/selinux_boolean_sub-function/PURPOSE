@@ -1,3 +1,57 @@
 PURPOSE of /CoreOS/libselinux/Sanity/selinux_boolean_sub-function
 Description: Test selinux_boolean_sub function
 Author: Jan Zarsky <jzarsky@redhat.com>
+
+Inputs
+
+compiled C source code
+
+Outputs
+
+Test passes or fail based on log file content
+
+Expected log output example
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+::   Test
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+:: [ 06:19:03 ] :: [  BEGIN   ] :: Running './test NULL | tee output'
+Executing: selinux_boolean_sub((null))
+selinux_boolean_sub: (null)
+:: [ 06:19:04 ] :: [   PASS   ] :: Command './test NULL | tee output' (Expected 0, got 0)
+:: [ 06:19:04 ] :: [  BEGIN   ] :: Running 'grep 'selinux_boolean_sub: (null)' output'
+selinux_boolean_sub: (null)
+:: [ 06:19:04 ] :: [   PASS   ] :: Command 'grep 'selinux_boolean_sub: (null)' output' (Expected 0, got 0)
+:: [ 06:19:04 ] :: [  BEGIN   ] :: Running './test my_nonexisting_record | tee output'
+Executing: selinux_boolean_sub(my_nonexisting_record)
+selinux_boolean_sub: my_nonexisting_record
+:: [ 06:19:04 ] :: [   PASS   ] :: Command './test my_nonexisting_record | tee output' (Expected 0, got 0)
+:: [ 06:19:04 ] :: [  BEGIN   ] :: Running 'grep 'selinux_boolean_sub: my_nonexisting_record' output'
+selinux_boolean_sub: my_nonexisting_record
+:: [ 06:19:04 ] :: [   PASS   ] :: Command 'grep 'selinux_boolean_sub: my_nonexisting_record' output' (Expected 0, got 0)
+:: [ 06:19:04 ] :: [  BEGIN   ] :: Running './test allow_auditadm_exec_content | tee output'
+Executing: selinux_boolean_sub(allow_auditadm_exec_content)
+selinux_boolean_sub: auditadm_exec_content
+:: [ 06:19:04 ] :: [   PASS   ] :: Command './test allow_auditadm_exec_content | tee output' (Expected 0, got 0)
+:: [ 06:19:04 ] :: [  BEGIN   ] :: Running 'grep 'selinux_boolean_sub: auditadm_exec_content' output'
+selinux_boolean_sub: auditadm_exec_content
+:: [ 06:19:04 ] :: [   PASS   ] :: Command 'grep 'selinux_boolean_sub: auditadm_exec_content' output' (Expected 0, got 0)
+:: [ 06:19:04 ] :: [  BEGIN   ] :: Running './test allow_domain_fd_use | tee output'
+Executing: selinux_boolean_sub(allow_domain_fd_use)
+selinux_boolean_sub: domain_fd_use
+:: [ 06:19:04 ] :: [   PASS   ] :: Command './test allow_domain_fd_use | tee output' (Expected 0, got 0)
+:: [ 06:19:04 ] :: [  BEGIN   ] :: Running 'grep 'selinux_boolean_sub: domain_fd_use' output'
+selinux_boolean_sub: domain_fd_use
+:: [ 06:19:04 ] :: [   PASS   ] :: Command 'grep 'selinux_boolean_sub: domain_fd_use' output' (Expected 0, got 0)
+:: [ 06:19:04 ] :: [  BEGIN   ] :: Running './test virt_sandbox_use_nfs | tee output'
+Executing: selinux_boolean_sub(virt_sandbox_use_nfs)
+selinux_boolean_sub: virt_use_nfs
+:: [ 06:19:04 ] :: [   PASS   ] :: Command './test virt_sandbox_use_nfs | tee output' (Expected 0, got 0)
+:: [ 06:19:05 ] :: [  BEGIN   ] :: Running 'grep 'selinux_boolean_sub: virt_use_nfs' output'
+selinux_boolean_sub: virt_use_nfs
+:: [ 06:19:05 ] :: [   PASS   ] :: Command 'grep 'selinux_boolean_sub: virt_use_nfs' output' (Expected 0, got 0)
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+::   Duration: 2s
+::   Assertions: 10 good, 0 bad
+::   RESULT: PASS (Test)
