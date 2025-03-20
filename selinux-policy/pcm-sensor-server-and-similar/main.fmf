@@ -34,6 +34,7 @@ tag:
   - NoRHIVOS
 link:
   - verifies: https://issues.redhat.com/browse/RHEL-52838
+  - verifies: https://issues.redhat.com/browse/RHEL-80452
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8, rhel-9

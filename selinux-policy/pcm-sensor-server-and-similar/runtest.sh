@@ -63,6 +63,16 @@ rlJournalStart
         sleep 2
     rlPhaseEnd
 
+    if rlSEDefined "pcmsensor_t" ; then
+    rlPhaseStartTest "RHEL-80452"
+        rlSEMatchPathCon ${FILE_PATH} ${FILE_CONTEXT}
+        rlSESearchRule "allow pcmsensor_t pcmsensor_t : capability2 { perfmon } [ ]"
+        rlSESearchRule "allow pcmsensor_t pcmsensor_t : perf_event { cpu kernel open read } [ ]"
+        rlSESearchRule "allow pcmsensor_t pcmsensor_t : tcp_socket { accept bind create listen } [ ]"
+        rlSESearchRule "allow pcmsensor_t node_t : tcp_socket { node_bind } [ ]"
+    rlPhaseEnd
+    fi
+
     rm -f output.txt
     virt-what >& output.txt
     if [ -s output.txt ] ; then
