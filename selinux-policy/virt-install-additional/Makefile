@@ -65,8 +65,10 @@ $(METADATA): Makefile
 	@echo "Architectures:   aarch64 s390x x86_64" >> $(METADATA)
 	@echo "Bug:             RHEL-56029" >> $(METADATA) # RHEL-9
 	@echo "Bug:             RHEL-65038" >> $(METADATA) # RHEL-10
+	@echo "Bug:             RHEL-65266" >> $(METADATA) # RHEL-10
 	@echo "Bug:             RHEL-65373" >> $(METADATA) # RHEL-10
 	@echo "Bug:             RHEL-65383" >> $(METADATA) # RHEL-10
+	@echo "Bug:             RHEL-65385" >> $(METADATA) # RHEL-10
 	@echo "Bug:             RHEL-65789" >> $(METADATA) # RHEL-10
 	@echo "Bug:             RHEL-69118" >> $(METADATA) # RHEL-10
 	@echo "Bug:             RHEL-69920" >> $(METADATA) # RHEL-10

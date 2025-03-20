@@ -39,8 +39,10 @@ tag:
 link:
   - verifies: https://issues.redhat.com/browse/RHEL-56029
   - verifies: https://issues.redhat.com/browse/RHEL-65038
+  - verifies: https://issues.redhat.com/browse/RHEL-65266
   - verifies: https://issues.redhat.com/browse/RHEL-65373
   - verifies: https://issues.redhat.com/browse/RHEL-65383
+  - verifies: https://issues.redhat.com/browse/RHEL-65385
   - verifies: https://issues.redhat.com/browse/RHEL-65789
   - verifies: https://issues.redhat.com/browse/RHEL-69118
   - verifies: https://issues.redhat.com/browse/RHEL-69920

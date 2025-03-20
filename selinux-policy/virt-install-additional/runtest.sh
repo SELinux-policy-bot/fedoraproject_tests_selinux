@@ -277,6 +277,57 @@ rlJournalStart
         rlRun "modprobe -r scsi_debug"
     rlPhaseEnd
 
+    rlPhaseStartTest "RHEL-65266"
+        rlSESearchRule "allow virtqemud_t sysfs_t : file { write } [ ]"
+        rlRun "service virtqemud start"
+        rlRun "service virtnodedevd start"
+        rlRun "mkdir -p devices"
+        rlRun "pushd devices"
+        rlRun "virsh nodedev-list"
+        for I in `virsh nodedev-list` ; do
+            rlRun "virsh nodedev-dumpxml $I > $I"
+        done
+        if grep balloon * ; then
+            J=`grep -l balloon *`
+            rlRun "virsh nodedev-reattach $J"
+        else
+            rlLog "no balloon device was found - cannot reattach it"
+        fi
+        rlRun "popd"
+        rlRun "rm -rf devices"
+        sleep 2
+        rlRun "service virtnodedevd stop"
+        rlRun "service virtqemud stop"
+    rlPhaseEnd
+
+    rlPhaseStartTest "RHEL-65385"
+        rlSESearchRule "allow virtqemud_t sysfs_t : file { write } [ ]"
+        if rlIsRHEL 8 ; then
+            rlRun "service libvirtd start"
+        fi
+        rlRun "service virtqemud start"
+        rlRun "service virtnetworkd start"
+        rlRun "virsh net-list"
+        rlRun "virsh net-dumpxml default > default.xml"
+        rlRun "virsh net-destroy default"
+        rlRun "virsh net-undefine default"
+        rlRun "sed -i \"s/^\(.*bridge\) \(.*\)$/\1 macTableManager='libvirt' \2/\" default.xml"
+        rlRun "virsh net-create ./default.xml"
+        sleep 2
+        rlRun "virsh net-list"
+        rlRun "virt-install --memory 128 --pxe --virt-type qemu --os-variant alpinelinux3.8 --disk none --wait 0 --name test7" 0,1
+        sleep 10
+        rlRun "virsh list"
+        rlRun "virsh list | grep 'test7.*running'"
+        rlRun "virsh destroy test7"
+        rlRun "virsh undefine test7" 0,1
+        rlRun "service virtnetworkd stop"
+        rlRun "service virtqemud stop"
+        if rlIsRHEL 8 ; then
+            rlRun "service libvirtd stop"
+        fi
+    rlPhaseEnd
+
     rlPhaseStartCleanup
         sleep 2
         rlSECheckAVC
