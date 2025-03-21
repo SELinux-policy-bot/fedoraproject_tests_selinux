@@ -205,6 +205,11 @@ EOF
         rlSESearchRule "allow systemd_ssh_generator_t vsock_device_t : chr_file { getattr ioctl open read } [ ]"
         rlSESearchRule "allow systemd_ssh_generator_t systemd_unit_file_t : file { create getattr write open } [ ]"
     rlPhaseEnd
+
+    rlPhaseStartTest "RHEL-75879"
+        rlRun "seinfo -a systemd_generator -x"
+        rlSESearchRule "allow systemd_fstab_generator_t syslogd_t : unix_dgram_socket { sendto } [ ]"
+    rlPhaseEnd
     fi
 
     ### generators from other packages: install them all?
