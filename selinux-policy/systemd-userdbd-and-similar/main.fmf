@@ -19,7 +19,7 @@ recommend:
   - expect
   - openssh-clients
   - systemd
-  - initscripts
+  - /usr/sbin/service
   - shadow-utils
 environment:
     AVC_ERROR: +no_avc_check
@@ -32,8 +32,8 @@ tag:
   - NoRHEL7
   - NoRHEL8
   - NoRHEL9
-  - failinfedora
   - targeted
+  - failinfedora
   - NoRHIVOS
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1835630

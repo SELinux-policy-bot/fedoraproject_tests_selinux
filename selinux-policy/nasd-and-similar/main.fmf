@@ -33,4 +33,5 @@ extra-task: /CoreOS/selinux-policy/Regression/nasd-and-similar
 extra-nitrate: TC#0614607
 id: ad784a9d-5cf4-4aac-b583-68458860acd9
 tag:
+  - failinfedora
   - NoRHIVOS

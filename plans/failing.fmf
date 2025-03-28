@@ -1,0 +1,11 @@
+summary: test plan which contains failing tests
+adjust:
+- when: trigger == commit
+  enabled: false
+  because: do not run this plan on changes caused by a PR/MR
+discover:
+  how: fmf
+  filter: "tag:failinfedora"
+execute:
+  how: tmt
+

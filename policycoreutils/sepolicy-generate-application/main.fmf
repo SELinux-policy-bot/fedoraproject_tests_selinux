@@ -10,5 +10,7 @@ require:
 recommend:
   - abrt
 tier: '3'
+tag:
+  - failinfedora
 enabled: true
 extra-nitrate: TC#0615932

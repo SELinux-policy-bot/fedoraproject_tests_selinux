@@ -8,4 +8,8 @@ discover:
   filter: "tag:-Tier1 & tag:-Tier2 & tag:-Tier3 & tag:-CI-Tier-1 & tag:-failinfedora"
 execute:
   how: tmt
+provision:
+  hardware:
+    cpu:
+      cores: '>= 2'
 

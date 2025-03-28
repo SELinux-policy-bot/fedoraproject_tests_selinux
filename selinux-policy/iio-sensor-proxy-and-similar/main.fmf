@@ -30,6 +30,7 @@ tag:
   - NoRHEL7
   - NoRHEL8
   - targeted
+  - failinfedora
   - NoRHIVOS
 link:
   - verifies: https://issues.redhat.com/browse/RHEL-17346

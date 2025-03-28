@@ -31,6 +31,7 @@ tag:
   - NoRHEL8
   - NoRHEL9
   - targeted
+  - failinfedora
   - NoRHIVOS
 link:
   - verifies: https://issues.redhat.com/browse/RHEL-52838

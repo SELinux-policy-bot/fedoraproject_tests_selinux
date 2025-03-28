@@ -35,6 +35,7 @@ tag:
   - NoRHEL6
   - NoRHEL7
   - targeted
+  - failinfedora
   - NoRHIVOS
 link:
   - verifies: https://issues.redhat.com/browse/RHEL-56029

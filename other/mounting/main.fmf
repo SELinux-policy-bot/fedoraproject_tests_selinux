@@ -14,6 +14,7 @@ tag:
   - NoRHEL4
   - NoRHEL5
   - NoRHEL6
+  - failinfedora
   - targeted
 adjust:
   - enabled: false

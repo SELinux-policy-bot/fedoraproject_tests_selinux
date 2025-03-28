@@ -27,6 +27,7 @@ tag:
   - NoRHEL6
   - NoRHEL7
   - NoRHEL8
+  - failinfedora
   - NoRHIVOS
 link:
   - verifies: https://issues.redhat.com/browse/RHEL-29439

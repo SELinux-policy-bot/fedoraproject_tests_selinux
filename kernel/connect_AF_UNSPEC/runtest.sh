@@ -33,7 +33,7 @@ rlJournalStart
         rlRun "rm -f $EXE6" 0 "Removing the IPv6 reproducer binary"
         rlRun "kill %1" 0 "Kill the IPv4 server"
         rlRun "kill %2" 0 "Kill the IPv6 server"
-        rlRun "wait $(jobs -p)" 0 "Wait for the servers to terminate"
+        rlRun "wait $(jobs -p | tr '\n' ' ')" 0,143 "Wait for the servers to terminate"
     rlPhaseEnd
 rlJournalPrintText
 rlJournalEnd

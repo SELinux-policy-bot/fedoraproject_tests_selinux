@@ -10,7 +10,7 @@ require:
   - library(selinux-policy/common)
 recommend:
   - audit
-  - initscripts
+  - /usr/sbin/service
   - libselinux
   - libselinux-utils
   - policycoreutils
@@ -29,6 +29,7 @@ tag:
   - NoRHEL6
   - NoRHEL7
   - fedora-wanted
+  - failinfedora
   - targeted
   - NoRHIVOS
 link:

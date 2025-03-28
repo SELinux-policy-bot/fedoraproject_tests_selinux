@@ -5,6 +5,8 @@ description: |
     This TC verifies that CephFS security label support works as expected.
 duration: 30m
 tier: 2
+tag:
+  - failinfedora
 adjust:
 -   enabled: false
     when: distro < rhel-8

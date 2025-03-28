@@ -30,7 +30,6 @@ tag:
   - NoRHEL7
   - f33friendly
   - targeted
-  - failinfedora
   - NoRHIVOS
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1358526

@@ -22,3 +22,5 @@ adjust:
     because: RHEL-8.2 and below are not expected to have the bug fixed
 link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1733259
+tag:
+  - failinfedora
