@@ -18,6 +18,7 @@ tag:
   - TierCandidatesPASS
   - f32friendly
   - f33friendly
+  - fusa
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6

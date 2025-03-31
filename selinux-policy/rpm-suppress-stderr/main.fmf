@@ -9,6 +9,8 @@ test: ./test.sh
 framework: beakerlib
 duration: 10m
 enabled: true
+tag:
+  - NoRHIVOS
 link:
   - https://issues.redhat.com/browse/RHEL-59192
 adjust:

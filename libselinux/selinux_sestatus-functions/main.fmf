@@ -21,6 +21,7 @@ tag:
   - f32friendly
   - f33friendly
   - targeted
+  - fusa
 tier: '1'
 adjust:
   - enabled: false

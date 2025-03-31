@@ -20,6 +20,7 @@ tag:
   - f32friendly
   - f33friendly
   - targeted
+  - fusa
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5
