@@ -16,6 +16,7 @@ recommend:
   - selinux-policy-targeted
   - setools-console
   - /usr/sbin/service
+  - gdm
 environment:
     AVC_ERROR: +no_avc_check
 duration: 10m
@@ -30,6 +31,7 @@ tag:
 link:
   - verifies: https://issues.redhat.com/browse/RHEL-69450
   - verifies: https://issues.redhat.com/browse/RHEL-69526
+  - verifies: https://issues.redhat.com/browse/RHEL-85849
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8

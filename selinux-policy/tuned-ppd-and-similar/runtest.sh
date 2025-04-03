@@ -74,13 +74,25 @@ rlJournalStart
         rlSESearchRule "allow init_t ${FILE_CONTEXT} : file { getattr open read execute } [ ]"
     rlPhaseEnd
 
+    if rlSEDefined "xdm_t tuned_ppd_t" ; then
+    rlPhaseStartTest "RHEL-85849"
+        rlSESearchRule "allow xdm_t tuned_ppd_t : dbus { send_msg } [ ]"
+        rlSESearchRule "allow tuned_ppd_t xdm_t : dbus { send_msg } [ ]"
+    rlPhaseEnd
+    fi
+
     if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
+        rlRun "service gdm start"
+        rlRun "service gdm status"
+        sleep 2
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
         rlRun "busctl introspect net.hadess.PowerProfiles /org/freedesktop/UPower/PowerProfiles"
         rlRun "busctl introspect net.hadess.PowerProfiles /net/hadess/PowerProfiles"
         rlRun "restorecon -Rv /etc /run /var -e /var/ARTIFACTS" 0-255
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
+        sleep 2
+        rlRun "service gdm stop"
     rlPhaseEnd
     fi
 
