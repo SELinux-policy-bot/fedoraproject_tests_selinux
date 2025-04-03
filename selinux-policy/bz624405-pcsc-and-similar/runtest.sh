@@ -89,8 +89,13 @@ rlJournalStart
         rlSEMatchPathCon "/usr/sbin/pcscd" "pcscd_exec_t"
         rlSESearchRule "dontaudit pcscd_t pcscd_t : process { setsched } [ ]"
     rlPhaseEnd
+
+    rlPhaseStartTest "bz#2355930 + bz#2356058 + bz#2357154"
+        rlSESearchRule "allow init_t pcscd_t : process2 { nnp_transition } [ ]"
+    rlPhaseEnd
     fi
 
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- bz#624405"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
@@ -101,9 +106,10 @@ rlJournalStart
             fi
         fi
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
-        rlRun "restorecon -Rv /run /var -e /var/ARTIFACTS" 0-255
+        rlRun "restorecon -Rv /etc /run /var -e /var/ARTIFACTS" 0-255
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2
