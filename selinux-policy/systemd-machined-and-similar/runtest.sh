@@ -120,6 +120,10 @@ rlJournalStart
         rlSESearchRule "allow systemd_machined_t unconfined_service_t : file { getattr open read ioctl } [ ]"
         rlSESearchRule "allow systemd_machined_t systemd_machined_t : cap_userns { kill } [ ]"
     rlPhaseEnd
+
+    rlPhaseStartTest "RHEL-85379 + RHEL-86528"
+        rlSESearchRule "allow system_dbusd_t systemd_machined_var_lib_t : dir { read } [ ]"
+    rlPhaseEnd
     fi
 
     rlPhaseStartTest "real scenario -- standalone service"
@@ -134,7 +138,7 @@ rlJournalStart
     rlPhaseStartTest "real scenario -- bz#1900869 + bz#1900888"
         rlRun "mkdir -pZ /var/lib/machines/test"
         rlRun "dnf -y --installroot=/var/lib/machines/test/ install dhcp-client dnf filesystem glibc glibc-langpack-en glibc-langpack-de iproute iputils less passwd systemd vim-minimal ${INSTALL_OPTION}"
-        rlRun "du -sh /var/lib/machines/test"
+        rlRun "restorecon -Rv /var/lib/machines"
         if ${TEST_POLICY_NEEDED} ; then
             rlRun "semodule -i testpolicy.cil"
             rlRun "semodule -lfull | grep testpolicy"
@@ -144,7 +148,11 @@ rlJournalStart
         rlRun "ps -efZ | grep -e ${PROCESS_CONTEXT} -e unconfined_service_t"
         rlRun "machinectl list"
         rlRun "machinectl status test"
+        rlRun "journalctl -M test --system"
+        rlRun "journalctl -M test --user"
         rlWatchdog "machinectl login test" 20
+        rlRun "machinectl list-images"
+        rlRun "machinectl image-status test"
         if rlIsFedora ; then
             rlRun "rm -f /tmp/id"
             rlRun "machinectl copy-to test /usr/bin/id /tmp/id"
