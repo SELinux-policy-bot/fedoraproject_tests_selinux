@@ -132,6 +132,7 @@ rlJournalStart
         done
     rlPhaseEnd
 
+    if ! rlIsRHEL "<9.5"; then
     rlPhaseStartTest "RHEL-16104"
         rlSEMatchPathCon "/var" "var_t"
         rlSEMatchPathCon "/var/log" "var_log_t"
@@ -156,6 +157,7 @@ rlJournalStart
         rlRun "userdel -rfZ sysadm-user"
         rlRun "setsebool ssh_sysadm_login off"
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2
