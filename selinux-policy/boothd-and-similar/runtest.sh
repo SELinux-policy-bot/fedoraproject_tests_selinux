@@ -60,7 +60,7 @@ rlJournalStart
         sleep 2
     rlPhaseEnd
 
-    if seinfo -t | grep -q boothd ; then
+    if seinfo -t | grep -q boothd && ! rlIsRHEL "<9.6" && ! rlIsCentOS "<9.6" ; then
     rlPhaseStartTest "RHEL-45907"
         rlSEMatchPathCon "${FILE_PATH}" "${FILE_CONTEXT}"
         rlSEMatchPathCon "/run/systemd/userdb" "systemd_userdbd_runtime_t"
@@ -80,7 +80,7 @@ rlJournalStart
     rlPhaseEnd
     fi
 
-    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ]; then
     rlPhaseStartTest "real scenario -- standalone service"
         IF_NAME=`route | grep default | awk '{ print $8 }'`
         IP_ADDRESS=`ip addr show ${IF_NAME} | grep 'inet ' | cut -d / -f 1 | awk '{ print $2 }' | head -n 1`
