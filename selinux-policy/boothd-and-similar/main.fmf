@@ -40,6 +40,9 @@ adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7
     because: the booth package is not available there
+  - enabled: false
+    when: distro ~< rhel-9.6
+    because: RHEL-57104 and other is fixed in RHEL-9.6, RHEL-8 not affected
 extra-summary: /CoreOS/selinux-policy/Regression/boothd-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/boothd-and-similar
 extra-nitrate: TC#0617767
