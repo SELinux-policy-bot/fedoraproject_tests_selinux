@@ -70,7 +70,7 @@ rlJournalStart
         [ -x "$FILEPATH" ] || continue
 	CONTEXT=$(stat -c"%C" "${FILEPATH}")
         [ "$?" = 0 ] || continue
-	if [[ ${CONTEXT} =~ ":init_exec_t:" ]] || [[ ${CONTEXT} =~ ":lib_t:" ]] || [[ ${CONTEXT} =~ ":usr_t:" ]]
+	if [[ ${CONTEXT} =~ ":init_exec_t:" ]] || [[ ${CONTEXT} =~ ":lib_t:" ]] || [[ ${CONTEXT} =~ ":usr_t:" ]] || [[ ${CONTEXT} =~ ":systemd_generic_generator_exec_t:" ]]
 	then
 	  SD_SYSTEM_GENERATORS_NOTCONFINED="${SD_SYSTEM_GENERATORS_NOTCONFINED} $FILEPATH"
 	else
@@ -120,7 +120,7 @@ rlJournalStart
     rlPhaseStartTest "systemd-fstab-generator /etc"
 	rlFileBackup "/etc/fstab"
 	rlRun "mkdir -p /newproc"
-	echo "/proc /newproc none bind 0 0" >> /etc/fstab
+	rlRun "echo \"/proc /newproc none bind 0 0\" >> /etc/fstab"
 	rlRun "SYSTEMD_LOG_LEVEL=debug systemd-run -u sdfg-manual.service /usr/lib/systemd/system-generators/systemd-fstab-generator /run/systemd/generator"
 	rlRun "journalctl -u sdfg-manual.service"
 	rlRun "systemctl daemon-reload"
@@ -132,14 +132,15 @@ rlJournalStart
 
     # fstab-generator 2 - use a local fstab-like file
     rlPhaseStartTest "systemd-fstab-generator /tmp"
-	echo "/dev/loop42 /mnt/loop ext4 defaults 0 0" >> /tmp/fstab
+	rlRun "> /tmp/fstab"
+	rlRun "echo \"/dev/loop17 /mnt/loop ext4 defaults 0 0\" >> /tmp/fstab"
 	rlRun "mkdir -p /mnt/loop"
 	rlRun "chcon --reference /etc/fstab /tmp/fstab"
 	rlRun "dd if=/dev/zero of=/tmp/loopfile bs=16M count=1"
 	rlRun "chcon -t user_tmp_t /tmp/loopfile"
-	rlRun "losetup /dev/loop42 /tmp/loopfile"
+	rlRun "losetup /dev/loop17 /tmp/loopfile"
 	rlRun "losetup -j /tmp/loopfile"
-	rlRun "mkfs.ext4 /dev/loop42"
+	rlRun "mkfs.ext4 /dev/loop17"
 	rlRun "systemd-run -E SYSTEMD_FSTAB=/tmp/fstab -u sdfg-tmpfstab.service /usr/lib/systemd/system-generators/systemd-fstab-generator /run/systemd/generator"
 	rlRun "diff /run/systemd/generator/mnt-loop.mount mnt-loop.mount"
 	rlRun "ls -lZa /mnt/loop"
@@ -161,6 +162,8 @@ rlJournalStart
     # exists and is executable, and if it is, pulls the rc-local.service unit into the
     # boot process.
     # the service unit file already exists: /usr/lib/systemd/system/rc-local.service
+    # the generator just creates
+    # /run/systemd/generator/multi-user.target.wants/rc-local.service symlink
     rlPhaseStartTest "systemd-rc-local-generator"
 	cat > /etc/rc.d/rc.local << EOF
 #!/bin/bash
@@ -237,8 +240,9 @@ EOF
     rlPhaseStartCleanup
         sleep 2
 	rlRun "rmdir /mnt/loop"
-	rlRun "losetup -d /dev/loop42"
-	rlRun "/bin/rm /tmp/loopfile"
+	rlRun "losetup -d /dev/loop17"
+	rlRun "rm -f /dev/loop17"
+	rlRun "rm /tmp/loopfile"
         rlFileRestore
 	# fixme: remove non-natural generators
 	rlRun "systemctl daemon-reload"

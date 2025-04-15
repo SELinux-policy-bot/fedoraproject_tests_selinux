@@ -4,9 +4,9 @@
 Documentation=man:fstab(5) man:systemd-fstab-generator(8)
 SourcePath=/tmp/fstab
 Before=local-fs.target
-After=blockdev@dev-loop42.target
+After=blockdev@dev-loop17.target
 
 [Mount]
-What=/dev/loop42
+What=/dev/loop17
 Where=/mnt/loop
 Type=ext4
