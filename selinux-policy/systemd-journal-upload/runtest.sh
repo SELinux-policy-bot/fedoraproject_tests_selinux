@@ -23,11 +23,16 @@ rlJournalStart
         sleep 2
     rlPhaseEnd
 
-    if seinfo -t | grep -q ${PROCESS_CONTEXT} ; then
+    if rlSEDefined ${PROCESS_CONTEXT} ; then
     rlPhaseStartTest "RHEL-57774 + RHEL-62196"
         rlSEMatchPathCon "/usr/lib/systemd/systemd-journal-upload" "systemd_journal_upload_exec_t"
-        rlSEMatchPathCon "/run/systemd/journal-upload.conf.d" "systemd_conf_t"
-        rlSESearchRule "allow systemd_journal_upload_t systemd_conf_t : dir { read } [ ]"
+        if rlSEDefined "systemd_conf_t" ; then
+            rlSEMatchPathCon "/run/systemd/journal-upload.conf.d" "systemd_conf_t"
+            rlSESearchRule "allow systemd_journal_upload_t systemd_conf_t : dir { read } [ ]"
+        else
+            rlSEMatchPathCon "/run/systemd/journal-upload.conf.d" "init_var_run_t"
+            rlSESearchRule "allow systemd_journal_upload_t init_var_run_t : dir { read } [ ]"
+        fi
     rlPhaseEnd
     fi
 
