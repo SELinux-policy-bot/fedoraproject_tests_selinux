@@ -53,11 +53,13 @@ rlJournalStart
         sleep 2
     rlPhaseEnd
 
+    if ! rlIsRHEL "<9.5" ; then
     rlPhaseStartTest "bz#2183432 + RHEL-34135"
         rlRun "ls -Z /proc/sys/net/ipv6/conf/all/disable_ipv6 | grep :sysctl_net_t"
         rlSESearchRule "allow logwatch_mail_t sysctl_net_t : dir { search } [ ]"
         rlSESearchRule "allow logwatch_mail_t sysctl_net_t : file { getattr open read } [ ]"
     rlPhaseEnd
+    fi
 
     if ! rlIsRHEL 9 && ! rlIsCentOS 9 ; then
     rlPhaseStartTest "bz#2270484"
