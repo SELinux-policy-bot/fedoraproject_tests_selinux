@@ -419,33 +419,35 @@ rlJournalStart
     rlPhaseEnd
     fi
 
-    if rlSEDefined "chronyd_restricted_t" ; then
-    rlPhaseStartTest "RHEL-82299 + RHEL-82308"
-        rlSESearchRule "allow chronyc_t chronyd_restricted_t : unix_dgram_socket { sendto } [ ]"
-        rlSESearchRule "allow chronyd_restricted_t chronyc_t : unix_dgram_socket { sendto } [ ]"
-    rlPhaseEnd
-    fi
-
-    if [ -f ${CHRONYD_RESTRICTED_UNIT_FILE} ]; then
-      rlPhaseStartTest "chronyd-restricted -- bz#2169949 + RHEL-18219"
-        rlRun "systemctl stop ${SERVICE_NAME}"
-        rlRun "mkdir -p ${CHRONYD_RESTRICTED_UNIT_DROPIN_DIR}"
-        if ! grep ^SELinuxContext= ${CHRONYD_RESTRICTED_UNIT_FILE} ; then
-            # temporary configuration change until it becomes a part of the chrony package
-            rlRun "echo -e '[Service]\nSELinuxContext=system_u:system_r:chronyd_restricted_t:s0\n' > ${CHRONYD_RESTRICTED_UNIT_DROPIN_FILE}"
-            rlRun "systemctl daemon-reload"
+    if ! ( rlIsRHEL 9 && rlIsRHEL "<9.7" ) && ! ( rlIsRHEL 10 && rlIsRHEL "<10.1" ) ; then
+        if rlSEDefined "chronyd_restricted_t" ; then
+        rlPhaseStartTest "RHEL-82299 + RHEL-82308"
+            rlSESearchRule "allow chronyc_t chronyd_restricted_t : unix_dgram_socket { sendto } [ ]"
+            rlSESearchRule "allow chronyd_restricted_t chronyc_t : unix_dgram_socket { sendto } [ ]"
+        rlPhaseEnd
         fi
-        rlRun "systemctl start ${CHRONYD_RESTRICTED_SERVICE}"
-        sleep 3
-        rlRun "ps -o pid,uid,command,context -C chronyd | grep -1 system_u:system_r:chronyd_restricted_t:"
-        rlRun "systemctl status ${CHRONYD_RESTRICTED_SERVICE}"
-        rlRun "chronyc reload sources" 0,1
-        rlRun "systemctl restart ${CHRONYD_RESTRICTED_SERVICE}"
-        rlRun "systemctl status ${CHRONYD_RESTRICTED_SERVICE}"
-        rlRun "systemctl stop ${CHRONYD_RESTRICTED_SERVICE}"
-        rlRun "rm -f ${CHRONYD_RESTRICTED_UNIT_DROPIN_FILE}"
-        rlRun "systemctl daemon-reload"
-      rlPhaseEnd
+
+        if [ -f ${CHRONYD_RESTRICTED_UNIT_FILE} ]; then
+          rlPhaseStartTest "chronyd-restricted -- bz#2169949 + RHEL-18219"
+            rlRun "systemctl stop ${SERVICE_NAME}"
+            rlRun "mkdir -p ${CHRONYD_RESTRICTED_UNIT_DROPIN_DIR}"
+            if ! grep ^SELinuxContext= ${CHRONYD_RESTRICTED_UNIT_FILE} ; then
+                # temporary configuration change until it becomes a part of the chrony package
+                rlRun "echo -e '[Service]\nSELinuxContext=system_u:system_r:chronyd_restricted_t:s0\n' > ${CHRONYD_RESTRICTED_UNIT_DROPIN_FILE}"
+                rlRun "systemctl daemon-reload"
+            fi
+            rlRun "systemctl start ${CHRONYD_RESTRICTED_SERVICE}"
+            sleep 3
+            rlRun "ps -o pid,uid,command,context -C chronyd | grep -1 system_u:system_r:chronyd_restricted_t:"
+            rlRun "systemctl status ${CHRONYD_RESTRICTED_SERVICE}"
+            rlRun "chronyc reload sources" 0,1
+            rlRun "systemctl restart ${CHRONYD_RESTRICTED_SERVICE}"
+            rlRun "systemctl status ${CHRONYD_RESTRICTED_SERVICE}"
+            rlRun "systemctl stop ${CHRONYD_RESTRICTED_SERVICE}"
+            rlRun "rm -f ${CHRONYD_RESTRICTED_UNIT_DROPIN_FILE}"
+            rlRun "systemctl daemon-reload"
+          rlPhaseEnd
+        fi
     fi
 
     rlPhaseStartCleanup
