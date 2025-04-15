@@ -67,7 +67,7 @@ rlJournalStart
         sleep 2
     rlPhaseEnd
 
-    if rlIsRHEL 9 || rlIsCentOS 9 ; then
+    if ( rlIsRHEL 9 && rlIsRHEL ">9.5" ) || rlIsCentOS 9 ; then
     rlPhaseStartTest "RHEL-61117"
         rlSEMatchPathCon ${FILE_PATH} ${FILE_CONTEXT}
         rlSESearchRule "allow powerprofiles_t powerprofiles_t : capability2 { bpf } [ ]"
