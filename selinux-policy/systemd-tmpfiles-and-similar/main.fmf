@@ -40,8 +40,9 @@ link:
   - verifies: https://issues.redhat.com/browse/RHEL-44191
 adjust:
   - enabled: false
-    when: distro == rhel-4, rhel-5, rhel-6, rhel-7
+    when: distro < rhel-9.5
     continue: false
+    because: RHEL-40374 is fixed in RHEL-9.5 and RHEL-44191 in RHEL-10
 extra-summary: /CoreOS/selinux-policy/Regression/systemd-tmpfiles-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/systemd-tmpfiles-and-similar
 extra-nitrate: TC#0617577
