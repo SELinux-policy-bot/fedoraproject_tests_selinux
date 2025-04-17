@@ -105,9 +105,11 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "real scenario -- standalone service"
-        rlRun "mkdir -p /run/modprobe.d"
-        rlRun "echo 'blacklist cipher_null' > /run/modprobe.d/test.conf"
-        rlRun "restorecon -Rv /run/modprobe.d"
+        if ! rlIsRHEL "<9.6" ; then
+            rlRun "mkdir -p /run/modprobe.d"
+            rlRun "echo 'blacklist cipher_null' > /run/modprobe.d/test.conf"
+            rlRun "restorecon -Rv /run/modprobe.d"
+        fi
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         rlRun "echo ${KERNEL_MODULE} > /etc/modules-load.d/${KERNEL_MODULE}.conf"
         rlRun "lsmod"
@@ -142,12 +144,14 @@ rlJournalStart
         rlSESearchRule "allow systemd_modules_load_t kmsg_device_t : chr_file { write } [ ]"
     rlPhaseEnd
 
+    if ! ( rlIsRHEL 9 && rlIsRHEL "<9.6" ) ; then
     rlPhaseStartTest "RHEL-54591"
         rlSEMatchPathCon "/usr/lib/systemd/systemd-modules-load" "systemd_modules_load_exec_t"
         rlSEMatchPathCon "/run/modprobe.d" "modules_conf_t"
         rlSEMatchPathCon "/run/modprobe.d/fips.conf" "modules_conf_t"
         rlSESearchRule "allow systemd_modules_load_t modules_conf_t : file { getattr open read } [ ]"
     rlPhaseEnd
+    fi
     fi
 
     rlPhaseStartCleanup
