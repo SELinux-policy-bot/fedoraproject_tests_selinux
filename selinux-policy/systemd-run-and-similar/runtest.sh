@@ -74,12 +74,14 @@ rlJournalStart
         rlRun "ls -alZ /var/lib/myservice0 /var/lib/private/myservice0"
     rlPhaseEnd
 
+    if ! rlIsRHEL "<9.7" ; then
     rlPhaseStartTest "RHEL-61928 + RHEL-62185"
         rlSESearchRule "allow system_dbusd_t unconfined_service_t : unix_stream_socket { read write } [ ]"
         rlRun -s "systemd-run --wait -- systemd-run --user --machine=adm@ --wait true"
         rlRun "grep -i success $rlRun_LOG"
         rm -f $rlRun_LOG
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2
