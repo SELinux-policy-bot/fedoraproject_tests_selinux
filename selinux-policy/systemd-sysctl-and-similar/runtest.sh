@@ -51,24 +51,26 @@ rlJournalStart
     rlPhaseEnd
 
     if ! rlIsRHEL 8 && ! rlIsCentOS 8 ; then
-    rlPhaseStartTest "bz#2056207 + bz#2056999"
-        rlSEMatchPathCon "/usr/lib/systemd/systemd-sysctl" "systemd_sysctl_exec_t"
-        rlRun "ls -Z /proc/sys/fs/suid_dumpable | grep :proc_security_t"
-        rlRun "ls -Z /proc/sys/fs/protected_hardlinks | grep :proc_security_t"
-        rlRun "ls -Z /proc/sys/fs/protected_symlinks | grep :proc_security_t"
-        rlRun "ls -Z /proc/sys/kernel/kptr_restrict | grep :proc_security_t"
-        rlSESearchRule "allow systemd_sysctl_t proc_security_t : file { read } [ ]"
-    rlPhaseEnd
+        rlPhaseStartTest "bz#2056207 + bz#2056999"
+            rlSEMatchPathCon "/usr/lib/systemd/systemd-sysctl" "systemd_sysctl_exec_t"
+            rlRun "ls -Z /proc/sys/fs/suid_dumpable | grep :proc_security_t"
+            rlRun "ls -Z /proc/sys/fs/protected_hardlinks | grep :proc_security_t"
+            rlRun "ls -Z /proc/sys/fs/protected_symlinks | grep :proc_security_t"
+            rlRun "ls -Z /proc/sys/kernel/kptr_restrict | grep :proc_security_t"
+            rlSESearchRule "allow systemd_sysctl_t proc_security_t : file { read } [ ]"
+        rlPhaseEnd
 
-    rlPhaseStartTest "RHEL-56988 + RHEL-58380"
-        rlRun "man sysctl.d | grep /run/sysctl"
-        rlRun "mkdir -pZ /run/sysctl.d"
-        rlRun "echo 'net.ipv4.conf.eno1.rp_filter=0' > /run/sysctl.d/51-rp_filter.conf"
-        rlRun "restorecon -Rv /run/sysctl.d"
-        rlRun "service systemd-sysctl stop"
-        rlRun "service systemd-sysctl start"
-        rlRun "service systemd-sysctl status" 0,3
-    rlPhaseEnd
+        if ! rlIsRHEL "<9.6" ; then
+        rlPhaseStartTest "RHEL-56988 + RHEL-58380"
+            rlRun "man sysctl.d | grep /run/sysctl"
+            rlRun "mkdir -pZ /run/sysctl.d"
+            rlRun "echo 'net.ipv4.conf.eno1.rp_filter=0' > /run/sysctl.d/51-rp_filter.conf"
+            rlRun "restorecon -Rv /run/sysctl.d"
+            rlRun "service systemd-sysctl stop"
+            rlRun "service systemd-sysctl start"
+            rlRun "service systemd-sysctl status" 0,3
+        rlPhaseEnd
+        fi
     fi
 
     rlPhaseStartTest "real scenario"
