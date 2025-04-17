@@ -34,7 +34,7 @@ link:
   - verifies: https://issues.redhat.com/browse/RHEL-85849
 adjust:
   - enabled: false
-    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8
+    when: distro < rhel-9.5
     because: the tuned-ppd package is not available there
 extra-summary: /CoreOS/selinux-policy/Regression/tuned-ppd-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/tuned-ppd-and-similar
