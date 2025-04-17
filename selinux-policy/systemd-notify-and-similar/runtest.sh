@@ -103,6 +103,7 @@ rlJournalStart
         rlRun "systemctl daemon-reload"
     rlPhaseEnd
 
+    if ! rlIsRHEL "<9.5" ; then
     rlPhaseStartTest "RHEL-25514 + RHEL-25605"
         rlSEMatchPathCon "/usr/bin/systemd-notify" "systemd_notify_exec_t"
         rlSEMatchPathCon "/run/systemd/notify" "init_var_run_t"
@@ -118,6 +119,7 @@ rlJournalStart
         rlRun "rm -f /etc/systemd/system/reproducer.service"
         rlRun "systemctl daemon-reload"
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2

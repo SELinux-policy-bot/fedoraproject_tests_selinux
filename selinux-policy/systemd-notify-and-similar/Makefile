@@ -29,7 +29,7 @@ export TESTVERSION=1.0
 
 BUILT_FILES=
 
-FILES=$(METADATA) runtest.sh Makefile PURPOSE local-notifier.service notifier.sh reproducer.service
+FILES=$(METADATA) runtest.sh Makefile PURPOSE local-notifier.service notifier.sh reproducer.service ssh.exp
 
 .PHONY: all install download clean
 
