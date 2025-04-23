@@ -31,14 +31,18 @@
 
 PACKAGE1="selinux-policy"
 PACKAGE2="systemd"
+INSTALL_OPTION=""
+if dnf install --help | grep -q skip-broken ; then
+    INSTALL_OPTION="${INSTALL_OPTION} --skip-broken"
+fi
 
 function create_u() {
 expect -f  - <<<'
     set timeout -1
     spawn homectl create test_u --disk-size=500M
-    expect "*: "
+    expect "*test_u: "
     send -- "Red_123hat\r"
-    expect "*: "
+    expect "*test_u*: "
     send -- "Red_123hat\r"
     expect eof
     foreach {pid spawnid os_error_flag value} [wait] break
@@ -74,10 +78,12 @@ function passwd_u() {
 expect -f  - <<<'
    set timeout -1
    spawn homectl passwd test_u
-   expect "*: "
+   expect "*test_u: "
    send -- "Sim_123pl1\r"
-   expect "*: "
+   expect "*test_u*: "
    send -- "Sim_123pl1\r"
+   expect "*test_u: "
+   send -- "Red_123hat\r"
    expect eof
    foreach {pid spawnid os_error_flag value} [wait] break
    exit $value
@@ -88,7 +94,7 @@ function auth_u() {
 expect -f  - <<<'
    set timeout -1
    spawn homectl authenticate test_u
-   expect "*: "
+   expect "*test_u: "
    send -- "Sim_123pl1\r"
    expect eof
    foreach {pid spawnid os_error_flag value} [wait] break
@@ -100,7 +106,7 @@ function resize_u() {
 expect -f  - <<<'
    set timeout -1
    spawn homectl resize test_u 425.0M
-   expect "*: "
+   expect "*test_u: "
    send -- "Sim_123pl1\r"
    expect eof
    foreach {pid spawnid os_error_flag value} [wait] break
@@ -153,7 +159,7 @@ rlJournalStart
     rlPhaseStartTest "homectl inspect"
         sleep 20
         tst_Time="$(date '+%T')"
-        rlRun "homectl inspect test_u"
+        rlRun "homectl inspect test_u --no-pager"
         sleep 5
         rlRun "ausearch -m AVC -m USER_AVC --start $tst_Time --input-logs" 1
     rlPhaseEnd
@@ -221,7 +227,6 @@ rlJournalStart
         rlSEMatchPathCon "/var/cache/systemd/" "systemd_cache_t"
         rlSEMatchPathCon "/var/cache/systemd/home/" "systemd_homed_cache_t"
         rlSESearchRule "allow systemd_homed_t systemd_homed_cache_t : dir { read } [ ]"
-
         rlRun "service systemd-homed restart"
     rlPhaseEnd
 
