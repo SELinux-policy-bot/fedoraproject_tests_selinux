@@ -2000,6 +2000,8 @@ rlSELibraryLoaded() {
         rlSE_REQUIRES="setools-console expect policycoreutils-python"
     elif rlIsRHEL 7 ; then
         rlSE_REQUIRES="setools-console expect policycoreutils-python selinux-policy-devel"
+    elif rlIsRHEL 8 9 || rlIsCentOS 8 9 ; then
+        rlSE_REQUIRES="setools-console expect policycoreutils-python-utils selinux-policy-devel"
     else
         rlSE_REQUIRES="setools-console expect policycoreutils-python-utils selinux-policy-devel audit-rules"
     fi
