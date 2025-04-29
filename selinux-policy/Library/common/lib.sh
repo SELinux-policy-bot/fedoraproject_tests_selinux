@@ -2001,7 +2001,7 @@ rlSELibraryLoaded() {
     elif rlIsRHEL 7 ; then
         rlSE_REQUIRES="setools-console expect policycoreutils-python selinux-policy-devel"
     else
-        rlSE_REQUIRES="setools-console expect policycoreutils-python-utils selinux-policy-devel"
+        rlSE_REQUIRES="setools-console expect policycoreutils-python-utils selinux-policy-devel audit-rules"
     fi
 
     __INTERNAL_rlSEenable_full_auditing
