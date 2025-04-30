@@ -70,8 +70,10 @@ EOF"
     rlPhaseEnd
 
     rlPhaseStartTest "is the checksum option listed?"
-        rlRun "man semodule | col -b | grep checksum"
-        rlRun "man semodule | col -b | grep 'SHA256.*checksum'"
+        if [ -e "/usr/share/man/man8/semodule.8.gz" ]; then
+            rlRun "man semodule | col -b | grep checksum"
+            rlRun "man semodule | col -b | grep 'SHA256.*checksum'"
+        fi
         rlRun "semodule --help | grep checksum"
         rlRun "semodule --help | grep 'checksum.*SHA256'"
     rlPhaseEnd

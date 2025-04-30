@@ -98,10 +98,14 @@ rlJournalStart
         rlRun "rpm -ql ${PACKAGE} | grep /usr/share/man/man8/sestatus.8"
         for OPTION in b v ; do
             rlRun "sestatus --help 2>&1 | grep -- -${OPTION}"
-            rlRun "man sestatus | col -b | grep -- -${OPTION}"
+            if [ -e "/usr/share/man/man8/sestatus.8.gz" ]; then
+                rlRun "man sestatus | col -b | grep -- -${OPTION}"
+            fi
         done
         if ! rlIsRHEL 6 ; then
-            rlRun "man -w sestatus.conf"
+            if [ -e "/usr/share/man/man5/sestatus.conf.5.gz" ]; then
+                rlRun "man -w sestatus.conf"
+            fi
         fi
     rlPhaseEnd
     fi

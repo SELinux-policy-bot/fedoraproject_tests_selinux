@@ -100,7 +100,9 @@ rlJournalStart
         rlRun "checkpolicy -c 0 2>&1 | grep \"value 0 not in range\""
         rlRun "checkpolicy -t 2>&1 | grep \"option requires an argument\""
         rlRun "checkpolicy -t xyz 2>&1 | grep -i \"unknown target platform\""
-        rlRun "man checkpolicy | col -b | grep -- '-m]'" 1
+        if [ -e "/usr/share/man/man8/checkmodule.8.gz" ]; then
+            rlRun "man checkpolicy | col -b | grep -- '-m]'" 1
+        fi
         rlRun "checkpolicy --help 2>&1 | grep -- '-m]'" 1
     rlPhaseEnd
 
@@ -179,10 +181,12 @@ rlJournalStart
         rlRun "cat $OUTPUT_FILE"
         rlAssertGrep "\[-S\]" $OUTPUT_FILE
 
-        # check -S option in man page
-        rlRun "PAGER=cat man checkpolicy >$OUTPUT_FILE"
-        rlRun "cat $OUTPUT_FILE"
-        rlAssertGrep "\[-S\]" $OUTPUT_FILE
+        if [ -e "/usr/share/man/man8/checkmodule.8.gz" ];then
+            # check -S option in man page
+            rlRun "PAGER=cat man checkpolicy >$OUTPUT_FILE"
+            rlRun "cat $OUTPUT_FILE"
+            rlAssertGrep "\[-S\]" $OUTPUT_FILE
+        fi
 
         # run checkpolicy with the -S option
         rlWatchdog "checkpolicy -S -M -o policy.out policy.conf.from.secilc" 15

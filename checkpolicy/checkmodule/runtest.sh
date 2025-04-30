@@ -65,11 +65,15 @@ rlJournalStart
         rlRun "checkmodule ${TEST_FILE}" 1
         rlRun "checkmodule -b ${TEST_FILE}" 1
         if rlIsRHEL 5 ; then
-            rlRun "man checkmodule | col -b | grep -- -d"
+            if [ -e "/usr/share/man/man8/checkmodule.8.gz" ]; then
+                rlRun "man checkmodule | col -b | grep -- -d"
+            fi
             rlRun "checkmodule --help 2>&1 | grep -- -d"
         fi
-        rlRun "man checkmodule | col -b | grep -- -h"
-        rlRun "man checkmodule | col -b | grep -- -U"
+        if [ -e "/usr/share/man/man8/checkmodule.8.gz" ]; then
+            rlRun "man checkmodule | col -b | grep -- -h"
+            rlRun "man checkmodule | col -b | grep -- -U"
+        fi
         rlRun "checkmodule --help 2>&1 | grep -- -h"
         rlRun "checkmodule --help 2>&1 | grep -- -U"
     rlPhaseEnd

@@ -62,7 +62,9 @@ rlJournalStart
 
         if ! rlIsRHEL "<9.6" ; then
         rlPhaseStartTest "RHEL-56988 + RHEL-58380"
-            rlRun "man sysctl.d | grep /run/sysctl"
+            if [ -e "/usr/share/man/man5/sysctl.d.5.gz" ]; then
+                rlRun "man sysctl.d | grep /run/sysctl"
+            fi
             rlRun "mkdir -pZ /run/sysctl.d"
             rlRun "echo 'net.ipv4.conf.eno1.rp_filter=0' > /run/sysctl.d/51-rp_filter.conf"
             rlRun "restorecon -Rv /run/sysctl.d"
