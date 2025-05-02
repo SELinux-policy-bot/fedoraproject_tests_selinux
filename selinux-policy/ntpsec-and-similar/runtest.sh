@@ -58,11 +58,13 @@ rlJournalStart
         sleep 2
     rlPhaseEnd
 
+    if ! rlIsRHEL "<9.4" ; then
     rlPhaseStartTest "bz#2246805 + RHEL-15085"
         rlSEMatchPathCon "/usr/sbin/ntpd" "ntpd_exec_t"
         rlSESearchRule "allow ntpd_t ntske_port_t : tcp_socket { name_connect } [ ]"
         rlSEMatchPortCon tcp 4460 ntske_port_t
     rlPhaseEnd
+    fi
 
     if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
