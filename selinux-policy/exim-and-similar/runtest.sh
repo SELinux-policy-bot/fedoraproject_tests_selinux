@@ -89,7 +89,7 @@ rlJournalStart
     rlPhaseEnd
     fi
 
-    if rlIsRHEL 8 9 || rlIsCentOS 8 9 ; then
+    if rlIsRHEL 8 || ( rlIsRHEL 9 && rlIsRHEL ">9.3" ) || rlIsCentOS 8 9 ; then
     rlPhaseStartTest "RHEL-21902 + RHEL-21903"
         rlSEMatchPathCon "/var/spool/exim/exim_daemon_notify" "exim_spool_t"
         rlSESearchRule "allow exim_t exim_t : unix_dgram_socket { sendto } [ ]"
@@ -109,18 +109,20 @@ rlJournalStart
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
 
-    rlPhaseStartTest "real scenario -- RHEL-14110 + RHEL-14186"
-        rlSEMatchPathCon "/var/spool/exim/input" "exim_spool_t"
-        rlSESearchRule "allow system_mail_t exim_spool_t : dir { create } [ ]"
-        rlRun "sed -i 's/^.*\(split_spool_directory\).*=.*$/\1 = true/' /etc/exim/exim.conf"
-        rlRun "service exim start"
-        rlRun "service atd start"
-        rlRun "echo '/usr/bin/id -Z' | at now"
-        sleep 15s
-        rlRun "ls -lZ /var/spool/exim/input"
-        rlRun "service atd stop"
-        rlRun "service exim stop"
-    rlPhaseEnd
+        if ! ( rlIsRHEL 9 && rlIsRHEL "<9.4" ) ; then
+        rlPhaseStartTest "real scenario -- RHEL-14110 + RHEL-14186"
+            rlSEMatchPathCon "/var/spool/exim/input" "exim_spool_t"
+            rlSESearchRule "allow system_mail_t exim_spool_t : dir { create } [ ]"
+            rlRun "sed -i 's/^.*\(split_spool_directory\).*=.*$/\1 = true/' /etc/exim/exim.conf"
+            rlRun "service exim start"
+            rlRun "service atd start"
+            rlRun "echo '/usr/bin/id -Z' | at now"
+            sleep 15s
+            rlRun "ls -lZ /var/spool/exim/input"
+            rlRun "service atd stop"
+            rlRun "service exim stop"
+        rlPhaseEnd
+        fi
     fi
 
     rlPhaseStartCleanup
