@@ -111,9 +111,11 @@ rlJournalStart
         rlSESearchRule "allow cups_pdf_t cups_pdf_t : unix_dgram_socket { create connect } [ ]"
     rlPhaseEnd
 
-    rlPhaseStartTest "bz#2234765"
-        rlSESearchRule "allow cups_pdf_t kernel_t : unix_stream_socket { connectto } [ ]"
-    rlPhaseEnd
+        if ! rlIsRHEL "<9.3" ; then
+        rlPhaseStartTest "bz#2234765"
+            rlSESearchRule "allow cups_pdf_t kernel_t : unix_stream_socket { connectto } [ ]"
+        rlPhaseEnd
+        fi
     fi
 
     rlPhaseStartTest "real scenario -- confined users"
