@@ -287,13 +287,15 @@ rlJournalStart
         # rlRun "grep resolve /etc/nsswitch.conf"
     rlPhaseEnd
 
-    rlPhaseStartTest "bz#2173604"
-        rlSEMatchPathCon "/usr/bin/chronyc" "chronyc_exec_t"
-        rlRun "ls -dZ /proc/sys/net/ipv6/conf/all | grep :sysctl_net_t"
-        rlRun "ls -dZ /proc/sys/net/ipv6/conf/all/disable_ipv6 | grep :sysctl_net_t"
-        rlSESearchRule "allow chronyc_t sysctl_net_t : dir { search } [ ]"
-        rlSESearchRule "allow chronyc_t sysctl_net_t : file { getattr open read } [ ]"
-    rlPhaseEnd
+        if ! rlIsRHEL "<9.3" ; then
+        rlPhaseStartTest "bz#2173604"
+            rlSEMatchPathCon "/usr/bin/chronyc" "chronyc_exec_t"
+            rlRun "ls -dZ /proc/sys/net/ipv6/conf/all | grep :sysctl_net_t"
+            rlRun "ls -dZ /proc/sys/net/ipv6/conf/all/disable_ipv6 | grep :sysctl_net_t"
+            rlSESearchRule "allow chronyc_t sysctl_net_t : dir { search } [ ]"
+            rlSESearchRule "allow chronyc_t sysctl_net_t : file { getattr open read } [ ]"
+        rlPhaseEnd
+        fi
     fi
 
     if ! rlIsRHEL 5 6 7 ; then
