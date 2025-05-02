@@ -92,10 +92,12 @@ rlJournalStart
         rlRun "fio --filename=/root/pokus --iodepth=16 --rw=write --ioengine=io_uring_cmd --bs=16k --size=2G --numjobs=30 --runtime=100s --group_reporting=1 --name=mytest" 0-255
     rlPhaseEnd
 
+    if ! rlIsRHEL "<9.4"; then
     rlPhaseStartTest "RHEL-11792"
         rlSESearchRule "allow unconfined_t unconfined_t : io_uring { cmd } [ ]"
         rlSESearchRule "allow unconfined_service_t unconfined_service_t : io_uring { cmd } [ ]"
     rlPhaseEnd
+    fi
 
     if seinfo -t | grep -q secretmem_t ; then
     rlPhaseStartTest "bz#2270895 + RHEL-60837"
