@@ -58,19 +58,21 @@ rlJournalStart
     rlPhaseEnd
 
     if ! rlIsRHEL 8 && ! rlIsCentOS 8 ; then
-    rlPhaseStartTest "bz#2208696"
-        rlSEMatchPathCon "${FILE_PATH}" "${FILE_CONTEXT}"
-        rlSEMatchPathCon "/var/run" "var_run_t"
-        rlSEMatchPathCon "/var/run/smtpd.sock" "sendmail_var_run_t"
-        rlSESearchRule "allow sendmail_t sendmail_t : capability { sys_chroot fowner } [ ]"
-        rlSESearchRule "type_transition sendmail_t var_run_t : sock_file sendmail_var_run_t"
-        rlSESearchRule "allow sendmail_t sendmail_var_run_t : sock_file { create setattr unlink write } [ ]"
-    rlPhaseEnd
+        if ! rlIsRHEL "<9.4" ; then
+        rlPhaseStartTest "bz#2208696"
+            rlSEMatchPathCon "${FILE_PATH}" "${FILE_CONTEXT}"
+            rlSEMatchPathCon "/var/run" "var_run_t"
+            rlSEMatchPathCon "/var/run/smtpd.sock" "sendmail_var_run_t"
+            rlSESearchRule "allow sendmail_t sendmail_t : capability { sys_chroot fowner } [ ]"
+            rlSESearchRule "type_transition sendmail_t var_run_t : sock_file sendmail_var_run_t"
+            rlSESearchRule "allow sendmail_t sendmail_var_run_t : sock_file { create setattr unlink write } [ ]"
+        rlPhaseEnd
 
-    rlPhaseStartTest "bz#2246115"
-        rlSEMatchPathCon "/run/smtpd.sock" "sendmail_var_run_t"
-        rlSESearchRule "allow sendmail_t sendmail_t : unix_stream_socket { connectto } [ ]"
-    rlPhaseEnd
+        rlPhaseStartTest "bz#2246115"
+            rlSEMatchPathCon "/run/smtpd.sock" "sendmail_var_run_t"
+            rlSESearchRule "allow sendmail_t sendmail_t : unix_stream_socket { connectto } [ ]"
+        rlPhaseEnd
+        fi
 
     rlPhaseStartTest "RHEL-15175"
         # actions on the /var/run/smtpd.pid file
