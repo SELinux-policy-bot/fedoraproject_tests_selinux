@@ -125,6 +125,7 @@ rlJournalStart
         rlRun "setsebool ssh_sysadm_login off"
     rlPhaseEnd
 
+    if ! ( IrIsRHEL 8 && rlIsRHEL "<8.8" ) && ! ( rlIsRHEL 9 && rlIsRHEL "<9.3" ); then
     rlPhaseStartTest "bz#2136189 + bz#2153782"
         rlSESearchRule "allow journalctl_t journalctl_t : capability { sys_resource } [ ]"
         rlSESearchRule "allow journalctl_t journalctl_t : process { setrlimit } [ ]"
@@ -138,6 +139,7 @@ rlJournalStart
         rlRun "userdel -rfZ ${USER_NAME}"
         rlRun "setsebool ssh_sysadm_login off"
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2
