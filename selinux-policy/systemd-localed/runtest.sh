@@ -21,6 +21,7 @@ rlJournalStart
         sleep 2
     rlPhaseEnd
 
+    if ! ( rlIsRHEL 9 && rlIsRHEL "<9.4" ) ; then
     rlPhaseStartTest "bz#2240159 + RHEL-16715 + RHEL-16716"
         rlSEMatchPathCon "/usr/lib/systemd/systemd-localed" "systemd_localed_exec_t"
         rlSEMatchPathCon "/etc/X11/xorg.conf.d" "xserver_etc_t"
@@ -39,6 +40,7 @@ rlJournalStart
         rlRun "service systemd-localed stop"
         rlRun "service systemd-localed status" 3
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2
