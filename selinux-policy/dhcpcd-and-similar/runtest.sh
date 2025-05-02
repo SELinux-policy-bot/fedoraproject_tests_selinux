@@ -85,7 +85,7 @@ rlJournalStart
         rlSESearchRule "allow dhcpc_t dhcpc_var_run_t : sock_file { create unlink }"
     rlPhaseEnd
 
-    if rlIsRHEL 9 || rlIsCentOS 9 ; then
+    if ( rlIsRHEL 9 && rlIsRHEL ">9.3" ) || rlIsCentOS 9 ; then
     rlPhaseStartTest "RHEL-15326"
         rlSESearchRule "allow dhcpc_t dhcpc_t : capability2 { bpf } [ ]"
     rlPhaseEnd
