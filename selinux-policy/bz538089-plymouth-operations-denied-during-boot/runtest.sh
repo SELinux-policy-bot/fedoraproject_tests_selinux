@@ -145,7 +145,7 @@ rlJournalStart
     rlPhaseEnd
     fi
 
-    if ! rlIsRHEL 5 6 7 8 ; then
+    if ! rlIsRHEL "<9.3" ; then
     rlPhaseStartTest "bz#2184803"
         rlSESearchRule "allow plymouthd_t plymouthd_t : capability2 { bpf } [ ]"
     rlPhaseEnd
