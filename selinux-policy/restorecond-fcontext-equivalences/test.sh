@@ -12,6 +12,7 @@ rlJournalStart
         rlRun "echo -en '\n/bin/*\n/sbin/*\n/lib/*\n/lib64/*\n' >> /etc/selinux/restorecond.conf"
     rlPhaseEnd
 
+    if ! rlIsRHEL "<9.4" ; then
     rlPhaseStartTest "RHEL-5032"
         rlRun "service restorecond start"
         rlRun "service restorecond status"
@@ -20,6 +21,7 @@ rlJournalStart
         rm -f $rlRun_LOG
         rlRun "service restorecond stop"
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         rlFileRestore
