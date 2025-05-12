@@ -114,13 +114,15 @@ rlJournalStart
     rlPhaseEnd
     fi
 
-    if ! rlIsRHEL 8 && ! rlIsCentOS 8 ; then
+    if ! rlIsRHEL "<9.6" && ! rlIsCentOS 8 ; then
     rlPhaseStartTest "RHEL-76352 + RHEL-77087 + RHEL-78088"
         rlSESearchRule "allow systemd_machined_t unconfined_service_t : dir { search } [ ]"
         rlSESearchRule "allow systemd_machined_t unconfined_service_t : file { getattr open read ioctl } [ ]"
         rlSESearchRule "allow systemd_machined_t systemd_machined_t : cap_userns { kill } [ ]"
     rlPhaseEnd
+    fi
 
+    if ! rlIsRHEL "<9.7" && ! rlIsCentOS 8 ; then
     rlPhaseStartTest "RHEL-85379 + RHEL-86528"
         rlSESearchRule "allow system_dbusd_t systemd_machined_var_lib_t : dir { read } [ ]"
     rlPhaseEnd
