@@ -24,3 +24,4 @@ link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1838257
 extra-summary: /CoreOS/libsepol/Sanity/bz1838257-rpm-scripts-use-deprecated-telinit
 extra-task: /CoreOS/libsepol/Sanity/bz1838257-rpm-scripts-use-deprecated-telinit
+id: bfadc6af-3873-4dd9-a7af-3f97bd92e150

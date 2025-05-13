@@ -9,6 +9,8 @@ framework: beakerlib
 duration: 1h
 tier: 1
 enabled: true
+tag:
+  - fusa
 adjust:
   - enabled: false
     when: distro < rhel-6
