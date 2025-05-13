@@ -10,3 +10,4 @@ link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1731501
 extra-summary: /CoreOS/policycoreutils/Sanity/bz1731501-Test-semodule-l-checksum
 extra-task: /CoreOS/policycoreutils/Sanity/bz1731501-Test-semodule-l-checksum
+id: 115f6c6a-426a-4f92-9ea3-9dfca5624c6e

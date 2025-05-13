@@ -5,3 +5,4 @@ component:
   - policycoreutils
 extra-summary: /CoreOS/policycoreutils/Sanity/fixfiles-F-B-N
 extra-task: /CoreOS/policycoreutils/Sanity/fixfiles-F-B-N
+id: d70961fa-6c8b-442d-9706-c8ef47969685
