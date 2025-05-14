@@ -5,6 +5,7 @@ require:
   - python3-policycoreutils
   - policycoreutils-python-utils
   - python3-libsemanage
+  - setools-console
 link:
   - verifies: https://issues.redhat.com/browse/RHEL-73348
 id: f4ecd93d-d4bc-45fc-8386-193dd4f922e4

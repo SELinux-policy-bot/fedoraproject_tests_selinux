@@ -6,14 +6,16 @@ rlJournalStart
     rlPhaseStartSetup
         rlRun "tmp=\$(mktemp -d)" 0 "Create tmp directory"
         rlRun "set -o pipefail"
+        rlRun "source /etc/selinux/config"
+        rlRun "ETC_RW_T_LABEL=\"$(seinfo -t | grep etc_rw_t | head -1 | awk '{$1=$1};1')\""
     rlPhaseEnd
 
     rlPhaseStartTest
         rlRun "mkdir -p $tmp/test/subtest | cut -d ' ' -f 1"
         rlRun "ls -Zd $tmp/test $tmp/test/subtest | cut -d ' ' -f 1"
 
-        rlRun "python3 update_context.py $tmp/test pki_tomcat_etc_rw_t"
-        LABEL=system_u:object_r:pki_tomcat_etc_rw_t:s0
+        rlRun "python3 update_context.py $tmp/test ${ETC_RW_T_LABEL} ${SELINUXTYPE}"
+        LABEL="system_u:object_r:${ETC_RW_T_LABEL}:s0"
         LABEL_TEST=$(ls -Zd $tmp/test | cut -d ' ' -f 1)
         LABEL_SUBTEST=$(ls -Zd $tmp/test/subtest | cut -d ' ' -f 1)
         rlRun "ls -Zd $tmp/test $tmp/test/subtest"
@@ -23,6 +25,6 @@ rlJournalStart
 
     rlPhaseStartCleanup
         rlRun "semanage fcontext -D"
-        rlRun "rm -r $tmp" 0 "Remove tmp directory"
+        rlRun "rm -rf $tmp" 0 "Remove tmp directory"
     rlPhaseEnd
 rlJournalEnd
