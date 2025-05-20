@@ -81,6 +81,14 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    if rlSEDefined "tuned_ppd_t sssd_t" ; then
+    rlPhaseStartTest "bz#2367076"
+        rlSEMatchPathCon "/var/lib/sss/pipes/nss" "sssd_var_lib_t"
+        rlSESearchRule "allow tuned_ppd_t sssd_var_lib_t : sock_file { write } [ ]"
+        rlSESearchRule "allow tuned_ppd_t sssd_t : unix_stream_socket { connectto } [ ]"
+    rlPhaseEnd
+    fi
+
     if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         if [ -f /usr/lib/systemd/system/gdm.service ] ; then
