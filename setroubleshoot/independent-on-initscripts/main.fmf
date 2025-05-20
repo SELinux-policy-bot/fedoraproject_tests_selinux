@@ -1,0 +1,17 @@
+summary: Is setroubleshoot still dependent on initscripts* packages?
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - setroubleshoot
+test: ./test.sh
+framework: beakerlib
+recommend:
+  - setroubleshoot-server
+duration: 5m
+enabled: true
+link:
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2365614
+  - verifies: https://issues.redhat.com/browse/RHEL-90842
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8, rhel-9, centos-stream-8, centos-stream-9
+    continue: false
