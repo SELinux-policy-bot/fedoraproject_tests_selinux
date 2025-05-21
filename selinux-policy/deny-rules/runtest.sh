@@ -19,6 +19,7 @@ rlJournalStart
     fi
 
     rlPhaseStartSetup
+        rlRun "rlImport 'selinux-policy/common'" 0,1
         rlAssertRpm libsepol
         rlAssertRpm libsemanage
         rlAssertRpm libselinux
@@ -41,6 +42,8 @@ rlJournalStart
             rlRun "echo 'PasswordAuthentication yes' > /etc/ssh/sshd_config.d/001-enable-password.conf"
         fi
         rlRun "service sshd restart"
+        rlSESetTimestamp
+        sleep 2
     rlPhaseEnd
 
     rlPhaseStartTest "prevent the reading of a file"
@@ -114,7 +117,8 @@ rlJournalStart
         fi
         rlRun "echo -e '( deny ${USER_TYPE} ${USER_TYPE} ( system ( module_load module_request )))' > testpolicy.cil"
         rlRun "echo -e '( deny kmod_t kmod_t ( system ( module_load module_request )))' >> testpolicy.cil"
-        rlRun "semodule -i testpolicy.cil"
+        rlRun "echo -e '( deny kmod_t modules_object_t ( system ( module_load )))' >> testpolicy.cil"
+	rlRun "semodule -i testpolicy.cil"
         rlRun "semodule -lfull | grep testpolicy"
         rlRun -s "./ssh.exp ${USER_NAME} ${USER_SECRET} localhost modprobe dummy"
         rlRun "grep -i 'permission denied' $rlRun_LOG"
@@ -133,6 +137,7 @@ rlJournalStart
             rlRun "rm -f /etc/ssh/sshd_config.d/001-enable-password.conf"
         fi
         rlRun "service sshd restart"
+        rlSECheckAVC --ignore 'type=AVC .*  denied  { unlink } .* comm=rm .*:sysadm_t:.*:machineid_t:.*tclass=file' --ignore 'type=AVC .*  denied  { module_load } .* comm=modprobe .*:kmod_t:.*:modules_object_t:.*tclass=system'
     rlPhaseEnd
 rlJournalEnd
 
