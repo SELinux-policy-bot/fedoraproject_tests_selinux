@@ -51,6 +51,7 @@ rlJournalStart
         rlAssertRpm ${SERVICE_PACKAGE}
 
         rlServiceStop ${SERVICE_NAME}
+        rlServiceStart gdm
 
         rlSESetEnforce
         rlSEStatus
@@ -77,6 +78,11 @@ rlJournalStart
         rlSESearchRule "allow system_dbusd_t switcheroo_control_t : dbus { send_msg } [ ]"
         rlSESearchRule "allow unconfined_t switcheroo_control_t : dbus { send_msg } [ ]"
         rlSESearchRule "allow switcheroo_control_t unconfined_t : dbus { send_msg } [ ]"
+    rlPhaseEnd
+
+    rlPhaseStartTest "RHEL-93335 + RHEL-93535"
+        rlSESearchRule "allow xdm_t switcheroo_control_t : dbus { send_msg } [ ]"
+        rlSESearchRule "allow switcheroo_control_t xdm_t : dbus { send_msg } [ ]"
     rlPhaseEnd
     fi
 

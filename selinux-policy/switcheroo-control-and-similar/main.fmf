@@ -21,6 +21,7 @@ recommend:
   - switcheroo-control
   - python3-gobject-base
   - /usr/sbin/service
+  - gdm
 environment:
     AVC_ERROR: +no_avc_check
 duration: 10m
@@ -34,6 +35,8 @@ tag:
   - NoRHIVOS
 link:
   - verifies: https://issues.redhat.com/browse/RHEL-24268
+  - verifies: https://issues.redhat.com/browse/RHEL-93335
+  - verifies: https://issues.redhat.com/browse/RHEL-93535
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7

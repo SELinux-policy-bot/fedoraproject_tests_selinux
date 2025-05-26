@@ -13,5 +13,8 @@ link:
   - verifies: https://issues.redhat.com/browse/RHEL-90842
 adjust:
   - enabled: false
-    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8, rhel-9, centos-stream-8, centos-stream-9
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8, rhel-9, centos-stream-8,
+        centos-stream-9
     continue: false
+extra-nitrate: TC#0619234
+id: 945c84e9-8e15-4ab6-a2be-65841c8e0a8a

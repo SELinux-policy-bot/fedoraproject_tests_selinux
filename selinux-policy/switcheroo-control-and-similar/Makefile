@@ -55,7 +55,7 @@ $(METADATA): Makefile
 	@echo "TestTime:        15m" >> $(METADATA)
 	@echo "RunFor:          selinux-policy" >> $(METADATA)
 	@echo "RunFor:          switcheroo-control" >> $(METADATA)
-	@echo "Requires:        audit libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted setools-console switcheroo-control python3-gobject-base /usr/sbin/service" >> $(METADATA)
+	@echo "Requires:        audit libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted setools-console switcheroo-control python3-gobject-base /usr/sbin/service gdm" >> $(METADATA)
 	@echo "RhtsRequires:    library(selinux-policy/common)" >> $(METADATA)
 	@echo "Priority:        Normal" >> $(METADATA)
 	@echo "License:         GPLv2" >> $(METADATA)
@@ -64,6 +64,8 @@ $(METADATA): Makefile
 	@echo "Environment:     AVC_ERROR=+no_avc_check" >> $(METADATA)
 	@echo "Releases:        -RHEL4 -RHEL5 -RHEL6 -RHEL7" >> $(METADATA)
 	@echo "Bug:             RHEL-24268" >> $(METADATA) # RHEL-9
+	@echo "Bug:             RHEL-93335" >> $(METADATA) # RHEL-9
+	@echo "Bug:             RHEL-93535" >> $(METADATA) # RHEL-10
 
 	rhts-lint $(METADATA)
 
