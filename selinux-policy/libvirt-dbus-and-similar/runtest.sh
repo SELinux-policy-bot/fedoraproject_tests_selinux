@@ -77,7 +77,9 @@ rlJournalStart
     fi
 
     rlPhaseStartTest "real scenario -- confined users"
-        rlRun "service virtqemud start"
+        if [ -f /usr/lib/systemd/system/virtqemud.service ] ; then
+            rlRun "service virtqemud start"
+        fi
         rlSEConfigureSSH
         rlRun "setsebool ssh_sysadm_login on"
         for SELINUX_USER in staff_u sysadm_u ; do
@@ -89,13 +91,15 @@ rlJournalStart
             rlRun "userdel -rfZ ${USER_NAME}"
         done
         rlRun "setsebool ssh_sysadm_login off"
-        rlRun "service virtqemud stop"
+        if [ -f /usr/lib/systemd/system/virtqemud.service ] ; then
+            rlRun "service virtqemud stop"
+        fi
     rlPhaseEnd
 
     if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
-        rlRun "restorecon -Rv /var /run -e /var/ARTIFACTS" 0-255
+        rlRun "restorecon -Rv /etc /var /run -e /var/ARTIFACTS" 0-255
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
     fi

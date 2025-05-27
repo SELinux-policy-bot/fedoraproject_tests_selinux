@@ -278,7 +278,9 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "RHEL-65266"
-        rlSESearchRule "allow virtqemud_t sysfs_t : file { write } [ ]"
+        if seinfo -a | grep -q virt_driver_domain ; then
+            rlSESearchRule "allow virtqemud_t sysfs_t : file { write } [ ]"
+        fi
         rlRun "service virtqemud start"
         rlRun "service virtnodedevd start"
         rlRun "mkdir -p devices"
@@ -301,7 +303,9 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "RHEL-65385"
-        rlSESearchRule "allow virtqemud_t sysfs_t : file { write } [ ]"
+        if seinfo -a | grep -q virt_driver_domain ; then
+            rlSESearchRule "allow virtqemud_t sysfs_t : file { write } [ ]"
+        fi
         if rlIsRHEL 8 ; then
             rlRun "service libvirtd start"
         fi
