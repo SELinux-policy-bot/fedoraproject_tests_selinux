@@ -39,6 +39,7 @@ link:
   - verifies: https://issues.redhat.com/browse/RHEL-69517
   - verifies: https://issues.redhat.com/browse/RHEL-72860
   - verifies: https://issues.redhat.com/browse/RHEL-72861
+  - verifies: https://issues.redhat.com/browse/RHEL-93731
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8
@@ -46,3 +47,4 @@ adjust:
 extra-summary: /CoreOS/selinux-policy/Regression/samba-bgqd-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/samba-bgqd-and-similar
 extra-nitrate: TC#0617974
+id: 1da15d16-92c5-405e-bc80-ed0ab0ea65a8
