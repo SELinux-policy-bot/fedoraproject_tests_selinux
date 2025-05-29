@@ -1,0 +1,23 @@
+summary: Test selabel_lookup with local fcontext modifications
+description: We need to be sure that different of local fcontext modifications are consistently resolved
+test: ./test.sh
+framework: beakerlib
+contact: Petr Lautrbach <lautrbach@redhat.com>
+component:
+  - libselinux
+require:
+  - libselinux-utils
+  - policycoreutils-python-utils
+enabled: true
+duration: 10m
+tier: 1
+tag:
+  - CI-Tier-1
+  - NoRHEL4
+  - NoRHEL5
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6
+    continue: false
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2360183
