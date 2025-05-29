@@ -96,6 +96,14 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    if rlIsRHEL '>9.6' || rlIsRHEL '>10.0' || rlIsFedora ; then
+    rlPhaseStartTest "RHEL-94268"
+        rlRun "ls -dZ /proc/sys/net/ | grep :sysctl_net_t"
+        rlRun "ls -Z /proc/sys/net/ipv6/conf/all/disable_ipv6 | grep :sysctl_net_t"
+        rlSESearchRule "allow exim_t sysctl_net_t : dir { search } [ ]"
+    rlPhaseEnd
+    fi
+
     if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
