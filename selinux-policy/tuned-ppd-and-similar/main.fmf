@@ -32,7 +32,11 @@ link:
   - verifies: https://issues.redhat.com/browse/RHEL-69450
   - verifies: https://issues.redhat.com/browse/RHEL-69526
   - verifies: https://issues.redhat.com/browse/RHEL-85849
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2359851
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2360026
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2361423
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2367076
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2367711
 adjust:
   - enabled: false
     when: distro < rhel-9.5

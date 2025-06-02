@@ -60,6 +60,7 @@ rlJournalStart
         rlAssertRpm ${SERVICE_PACKAGE}
 
         rlServiceStop ${SERVICE_NAME}
+        rlFileBackup /etc/tuned/ppd_base_profile
 
         rlSESetEnforce
         rlSEStatus
@@ -89,6 +90,16 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    if rlSEDefined "tuned_rw_etc_t tuned_ppd_t" ; then
+    rlPhaseStartTest "bz#2359851 + bz#2360026 + bz#2361423 + bz#2367711"
+        rlSEMatchPathCon "/etc/tuned" "tuned_etc_t"
+        rlSEMatchPathCon "/etc/tuned/ppd_base_profile" "tuned_rw_etc_t"
+        rlSESearchRule "type_transition tuned_ppd_t tuned_etc_t : file tuned_rw_etc_t ppd_base_profile"
+        rlSESearchRule "allow tuned_ppd_t tuned_etc_t : dir { write add_name } [ ]"
+        rlSESearchRule "allow tuned_ppd_t tuned_rw_etc_t : file { create write } [ ]"
+    rlPhaseEnd
+    fi
+
     if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         if [ -f /usr/lib/systemd/system/gdm.service ] ; then
@@ -100,7 +111,21 @@ rlJournalStart
         rlRun "busctl introspect net.hadess.PowerProfiles /org/freedesktop/UPower/PowerProfiles"
         rlRun "busctl introspect net.hadess.PowerProfiles /net/hadess/PowerProfiles"
         rlRun "restorecon -Rv /etc /run /var -e /var/ARTIFACTS" 0-255
-        rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
+        rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status" 1
+        rlRun "ls -Z /etc/tuned/ppd_base_profile"
+        rlRun "tuned-adm active"
+        rlRun "rm -f /etc/tuned/ppd_base_profile"
+        if tuned-adm active | grep -q powersave ; then
+            rlRun "tuned-adm profile balanced"
+        else
+            rlRun "tuned-adm profile powersave"
+        fi
+        sleep 2
+        rlRun "ls -Z /etc/tuned/ppd_base_profile"
+        rlRun "tuned-adm auto_profile"
+        rlRun "ls -Z /etc/tuned/ppd_base_profile | grep :tuned_rw_etc_t"
+        rlRun "tuned-adm verify"
+        rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "stop status" 1
         if [ -f /usr/lib/systemd/system/gdm.service ] ; then
             sleep 2
             rlRun "service gdm stop"
@@ -112,6 +137,7 @@ rlJournalStart
         sleep 2
         rlSECheckAVC
 
+        rlFileRestore
         rlServiceRestore ${SERVICE_NAME}
     rlPhaseEnd
 rlJournalPrintText
