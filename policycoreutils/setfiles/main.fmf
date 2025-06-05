@@ -5,6 +5,8 @@ component:
   - policycoreutils
 recommend:
   - policycoreutils
+require:
+  - e2fsprogs
 duration: 30m
 enabled: true
 tag:
