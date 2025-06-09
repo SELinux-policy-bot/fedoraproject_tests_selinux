@@ -34,6 +34,7 @@ PACKAGE="policycoreutils"
 rlJournalStart
     rlPhaseStartSetup
         rlAssertRpm ${PACKAGE}
+        rlRun "rpm -qa | grep selinux-policy"
         rlRun "make -f /usr/share/selinux/devel/Makefile"
         rlRun "ls -l testpolicy.pp"
     rlPhaseEnd
@@ -48,6 +49,9 @@ rlJournalStart
         fi
         for POLICY_TYPE in minimum mls targeted ; do
             if [ ! -d /etc/selinux/${POLICY_TYPE} ] ; then
+                continue
+            fi
+            if ! stat /etc/selinux/${POLICY_TYPE}/policy/policy.* >& /dev/null ; then
                 continue
             fi
             rlRun "semanage user -l -S ${POLICY_TYPE}"

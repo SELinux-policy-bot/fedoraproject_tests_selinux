@@ -69,7 +69,7 @@ adjust:
     when: distro == rhel-4, rhel-5, rhel-6
     continue: false
   - enabled: false
-    when: arch == s390x
+    when: arch == aarch64, s390x
     continue: false
 extra-nitrate: TC#0300433
 extra-summary: /CoreOS/selinux-policy/Regression/rngd-and-similar

@@ -34,12 +34,16 @@ PACKAGE="policycoreutils"
 rlJournalStart
     rlPhaseStartSetup
         rlAssertRpm ${PACKAGE}
+        rlRun "rpm -qa | grep selinux-policy"
     rlPhaseEnd
 
     rlPhaseStartTest
         rlRun "semanage interface --help" 0,1
         for POLICY_TYPE in minimum mls targeted ; do
             if [ ! -d /etc/selinux/${POLICY_TYPE} ] ; then
+                continue
+            fi
+            if ! stat /etc/selinux/${POLICY_TYPE}/policy/policy.* >& /dev/null ; then
                 continue
             fi
             rlRun "semanage interface -l -S ${POLICY_TYPE}"

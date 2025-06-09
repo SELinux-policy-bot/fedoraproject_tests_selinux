@@ -37,8 +37,7 @@ rlJournalStart
         if rlIsRHEL "<9" ; then
             rlAssertRpm selinux-policy-minimum
         fi
-        rlAssertRpm selinux-policy-mls
-        rlAssertRpm selinux-policy-targeted
+        rlRun "rpm -qa | grep selinux-policy"
         rlRun "rpm -qa | grep kernel"
         rlRun "uname -a"
         TEST_FILE=`mktemp`
@@ -120,7 +119,7 @@ rlJournalStart
             LIST="mls targeted"
         fi
         for POLICY_TYPE in $LIST ; do
-            if [ ! -e /etc/selinux/${POLICY_TYPE}/policy/policy.* ] ; then
+            if ! stat /etc/selinux/${POLICY_TYPE}/policy/policy.* >& /dev/null ; then
                 continue
             fi
             rlRun "echo -e 'q\n' | checkpolicy -Mdb /etc/selinux/${POLICY_TYPE}/policy/policy.* | tee ${OUTPUT_FILE}"
@@ -142,6 +141,10 @@ rlJournalStart
             LIST="mls targeted"
         fi
         for POLICY_TYPE in $LIST ; do
+            if ! stat /etc/selinux/${POLICY_TYPE}/policy/policy.* >& /dev/null ; then
+                rlLog "${POLICY_TYPE} policy file is not available, skipping"
+                continue
+            fi
             if rlIsRHEL 5 6 ; then
                 VERSIONS=`seq ${MIN_VERSION} 1 ${MAX_VERSION}`
             else

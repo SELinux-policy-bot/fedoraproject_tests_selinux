@@ -35,7 +35,7 @@ rlJournalStart
     rlPhaseStartSetup
         rlAssertRpm ${PACKAGE}
         rlAssertRpm cronie
-        rlAssertRpm container-selinux
+        rlRun "rpm -qa | grep -e container-selinux -e selinux-policy"
         rlRun "setenforce 1"
         rlRun "sestatus"
         OUTPUT_FILE=`mktemp`

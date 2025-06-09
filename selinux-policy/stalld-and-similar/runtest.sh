@@ -111,7 +111,7 @@ rlJournalStart
         rlRun "grep ^AGGR= /etc/sysconfig/stalld"
         rlRun "sed -i 's/^AGGR=.*$/AGGR=\"--backend queue_track\"/' /etc/sysconfig/stalld"
         rlRun "grep ^AGGR= /etc/sysconfig/stalld"
-        rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status stop status" 5
+        rlSEService - ${SERVICE_NAME} - ${PROCESS_CONTEXT} "start status stop status" 5
         rlRun "sed -i 's/^AGGR=.*$/AGGR=/' /etc/sysconfig/stalld"
         rlRun "grep ^AGGR= /etc/sysconfig/stalld"
     rlPhaseEnd
@@ -129,7 +129,7 @@ rlJournalStart
         rlRun "journalctl -u ${SERVICE_NAME} > after.txt"
         rlRun "setsebool domain_can_write_kmsg on"
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status" 1
-        rlRun "restorecon -Rv /run /var -e /var/ARTIFACTS" 0-255
+        rlRun "restorecon -Rv /etc /run /var -e /var/ARTIFACTS" 0-255
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "stop status" 1
         rlRun "setsebool domain_can_write_kmsg off"
         rlRun "diff before.txt after.txt | grep -i -e 'operation not permitted' -e 'permission denied'" 1
