@@ -49,6 +49,11 @@ rlJournalStart
             rlAssertRpm ${SERVICE_PACKAGE}
         fi
 
+        if [ -e /etc/pki/tls/cert.pem ] ; then
+            CERTIFICATE_MISSING="false"
+        else
+            CERTIFICATE_MISSING="true"
+        fi
         rlServiceStop ${SERVICE_NAME} postfix sendmail
 
         rlSESetEnforce
@@ -86,6 +91,9 @@ rlJournalStart
             # for environments where the service is not yet confined
             PROCESS_CONTEXT="unconfined_service_t"
         fi
+        if ${CERTIFICATE_MISSING} ; then
+            rlRun "touch /etc/pki/tls/cert.pem"
+        fi
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
         rlRun "sestatus | mailx -s test-email root@localhost"
         rlRun "restorecon -Rv /etc /var /run -e /var/ARTIFACTS" 0-255
@@ -98,6 +106,9 @@ rlJournalStart
         sleep 2
         rlSECheckAVC
 
+        if ${CERTIFICATE_MISSING} ; then
+            rlRun "rm -f /etc/pki/tls/cert.pem"
+        fi
         rlServiceRestore ${SERVICE_NAME} postfix sendmail
     rlPhaseEnd
 rlJournalPrintText
