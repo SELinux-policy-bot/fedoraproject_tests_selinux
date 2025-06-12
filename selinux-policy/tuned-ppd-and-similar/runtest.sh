@@ -121,9 +121,9 @@ rlJournalStart
             rlRun "tuned-adm profile powersave"
         fi
         sleep 2
-        rlRun "ls -Z /etc/tuned/ppd_base_profile"
+        rlRun "ls -lZ /etc/tuned/ppd_base_profile"
         rlRun "tuned-adm auto_profile"
-        rlRun "ls -Z /etc/tuned/ppd_base_profile | grep :tuned_rw_etc_t"
+        rlRun "ls -lZ /etc/tuned/ppd_base_profile"
         rlRun "tuned-adm verify"
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "stop status" 1
         if [ -f /usr/lib/systemd/system/gdm.service ] ; then
