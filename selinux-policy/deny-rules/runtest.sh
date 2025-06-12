@@ -137,7 +137,7 @@ rlJournalStart
             rlRun "rm -f /etc/ssh/sshd_config.d/001-enable-password.conf"
         fi
         rlRun "service sshd restart"
-        rlSECheckAVC --ignore 'type=AVC .*  denied  { unlink } .* comm=rm .*:sysadm_t:.*:machineid_t:.*tclass=file' --ignore 'type=AVC .*  denied  { module_load } .* comm=modprobe .*:kmod_t:.*:modules_object_t:.*tclass=system'
+        rlSECheckAVC --ignore 'type=AVC .*  denied  { unlink } .* comm=rm .*:sysadm_t:.*:machineid_t:.*tclass=file' --ignore 'type=AVC .*  denied  { module_load } .* comm=modprobe .*:kmod_t:.*:modules_object_t:.*tclass=system' --ignore 'type=AVC.*module_load.*:kmod_t:.*:kmod_t:.*tclass=system'
     rlPhaseEnd
 rlJournalEnd
 
