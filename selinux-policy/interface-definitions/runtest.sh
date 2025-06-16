@@ -8,10 +8,13 @@ rlJournalStart
         rlAssertRpm policycoreutils
     rlPhaseEnd
 
+    if ! rlIsRHEL 9 && ! rlIsCentOS 9 ; then
+    # the bug is fixed on RHEL-8 but it was auto-closed on RHEL-9
     rlPhaseStartTest "RHEL-2616 + RHEL-16185"
         rlRun "sepolgen-ifgen -v -d 2>/dev/null | sort | uniq > output.txt"
         rlRun "grep -i missing output.txt" 1
     rlPhaseEnd
+    fi
 
     rlPhaseStartTest "bz#2254169 + bz#2254206 + bz#2277925"
         rlRun "yum -y reinstall selinux-policy-devel >& output.txt"
