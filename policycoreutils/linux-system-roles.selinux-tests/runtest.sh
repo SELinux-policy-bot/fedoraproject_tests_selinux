@@ -51,7 +51,7 @@ rlJournalStart
             if [ $ansible_test = "tests_all_transitions.yml" ]; then
                 continue
             fi
-            rlRun "ansible-playbook -i localhost, -c local -v $ansible_test"
+            rlRun "ansible-playbook --skip-tags tests::bootc-e2e -i localhost, -c local -v $ansible_test"
         done
 
     rlPhaseEnd
