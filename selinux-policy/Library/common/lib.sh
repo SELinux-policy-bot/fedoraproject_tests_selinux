@@ -29,7 +29,7 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #   library-prefix = rlSE
-#   library-version = 43
+#   library-version = 44
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 : <<'=cut'
@@ -2005,6 +2005,13 @@ rlSELibraryLoaded() {
     else
         rlSE_REQUIRES="setools-console expect policycoreutils-python-utils selinux-policy-devel audit-rules"
     fi
+
+    # make sure that these directories exist in home directories of
+    # tested users since the time they were created
+    rlRun "mkdir -p /etc/skel/.{cache,config,local}"
+
+    # make sure the /etc directory is labeled correctly
+    rlRun "restorecon -Rv /etc"
 
     __INTERNAL_rlSEenable_full_auditing
 
