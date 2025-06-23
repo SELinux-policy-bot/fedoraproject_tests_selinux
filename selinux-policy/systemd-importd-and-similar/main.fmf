@@ -1,0 +1,42 @@
+summary: SELinux interferes with systemd-importd and related programs
+description: |+
+    SELinux interferes with systemd-importd and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+  - systemd
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - systemd
+  - /usr/sbin/service
+  - shadow-utils
+  - systemd-container
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - targeted
+  - failinfedora
+  - NoRHIVOS
+link:
+  - verifies: https://issues.redhat.com/browse/RHEL-98490
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-alt-7
+    because: the systemd-importd program is not available there
+extra-nitrate: TC#0619330
+id: b692e9f4-64d8-4cb3-bba9-f4281d8075a2
