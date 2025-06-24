@@ -30,6 +30,8 @@ tag:
   - NoRHEL8
   - targeted
   - reboot
+  - rhel9_broken
+  - rhel10_broken
   - NoRHIVOS
 link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1954145

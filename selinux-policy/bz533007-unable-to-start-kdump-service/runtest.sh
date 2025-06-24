@@ -32,7 +32,7 @@
 if ! grep crashkernel= /proc/cmdline ; then
     grubby --update-kernel ALL --args crashkernel=512M
     sync
-    rhts-reboot
+    tmt-reboot
 fi
 
 PACKAGE="selinux-policy"

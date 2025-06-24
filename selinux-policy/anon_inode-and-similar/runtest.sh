@@ -34,7 +34,7 @@ if rlIsRHEL 9 || rlIsCentOS 9 ; then
         grubby --update-kernel ALL --args io_uring.enable=y
         grubby --update-kernel ALL --args sysctl.kernel.io_uring_disabled=0
         sync
-        rhts-reboot
+        tmt-reboot
     fi
 fi
 
