@@ -69,9 +69,11 @@ rlJournalStart
         rlSEMatchPathCon "/var/lib" "var_lib_t"
         rlSEMatchPathCon "/var/lib/myservice0" "var_lib_t"
         rlSESearchRule "allow init_t var_lib_t : lnk_file { getattr read } [ ]"
+        rlRun "setsebool daemons_use_tty on"
         rlRun "systemd-run -p DynamicUser=yes -p StateDirectory=myservice0  touch /var/lib/myservice0/foo"
         rlRun "systemd-run -p DynamicUser=yes -p StateDirectory=myservice0 --pipe wc -c /var/lib/myservice0/foo"
         rlRun "ls -alZ /var/lib/myservice0 /var/lib/private/myservice0"
+        rlRun "setsebool daemons_use_tty off"
     rlPhaseEnd
 
     if ! rlIsRHEL "<9.7" ; then

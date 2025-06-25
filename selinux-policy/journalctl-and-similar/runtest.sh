@@ -62,15 +62,21 @@ rlJournalStart
 
     rlPhaseStartTest "bz#1288255"
         rlSEMatchPathCon "${FILE_PATH}" "${FILE_CONTEXT}"
-        rlSESearchRule "allow staff_t ${FILE_CONTEXT} : file { getattr open read execute } [ ]"
-        rlSESearchRule "allow sysadm_t ${FILE_CONTEXT} : file { getattr open read execute } [ ]"
-        rlSESearchRule "allow user_t ${FILE_CONTEXT} : file { getattr open read execute } [ ]"
-        rlSESearchRule "allow staff_t ${PROCESS_CONTEXT} : process { transition } [ ]"
-        rlSESearchRule "allow sysadm_t ${PROCESS_CONTEXT} : process { transition } [ ]"
-        rlSESearchRule "allow user_t ${PROCESS_CONTEXT} : process { transition } [ ]"
-        rlSESearchRule "type_transition staff_t ${FILE_CONTEXT} : process ${PROCESS_CONTEXT} [ ]"
-        rlSESearchRule "type_transition sysadm_t ${FILE_CONTEXT} : process ${PROCESS_CONTEXT} [ ]"
-        rlSESearchRule "type_transition user_t ${FILE_CONTEXT} : process ${PROCESS_CONTEXT} [ ]"
+        if rlSEDefined "staff_t" ; then
+            rlSESearchRule "allow staff_t ${FILE_CONTEXT} : file { getattr open read execute } [ ]"
+            rlSESearchRule "allow staff_t ${PROCESS_CONTEXT} : process { transition } [ ]"
+            rlSESearchRule "type_transition staff_t ${FILE_CONTEXT} : process ${PROCESS_CONTEXT} [ ]"
+        fi
+        if rlSEDefined "sysadm_t" ; then
+            rlSESearchRule "allow sysadm_t ${FILE_CONTEXT} : file { getattr open read execute } [ ]"
+            rlSESearchRule "allow sysadm_t ${PROCESS_CONTEXT} : process { transition } [ ]"
+            rlSESearchRule "type_transition sysadm_t ${FILE_CONTEXT} : process ${PROCESS_CONTEXT} [ ]"
+        fi
+        if rlSEDefined "user_t" ; then
+            rlSESearchRule "allow user_t ${FILE_CONTEXT} : file { getattr open read execute } [ ]"
+            rlSESearchRule "allow user_t ${PROCESS_CONTEXT} : process { transition } [ ]"
+            rlSESearchRule "type_transition user_t ${FILE_CONTEXT} : process ${PROCESS_CONTEXT} [ ]"
+        fi
     rlPhaseEnd
 
     rlPhaseStartTest "bz#1685689"
@@ -90,7 +96,7 @@ rlJournalStart
         rlSESearchRule "allow journalctl_t journalctl_t : process { setrlimit } [ ]"
     rlPhaseEnd
 
-    if ! rlIsFedora ; then
+    if ! rlIsFedora && rlSEDefined "user_t" ; then
     rlPhaseStartTest "bz#2017838"
         rlSEMatchPathCon "/run/log/journal/somehash/system.journal" "syslogd_var_run_t"
         rlSEMatchPathCon "/var/lib/systemd/catalog/database" "init_var_lib_t"

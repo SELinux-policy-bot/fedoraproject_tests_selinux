@@ -51,7 +51,9 @@ rlJournalStart
 
     rlPhaseStartTest "RHEL-40374 + RHEL-44191"
         rlSEMatchPathCon "/usr/bin/systemd-tmpfiles" "systemd_tmpfiles_exec_t"
-        rlSESearchRule "allow staff_t systemd_tmpfiles_exec_t : file { getattr open read map execute execute_no_trans } [ ]"
+        if rlSEDefined "staff_t" ; then
+            rlSESearchRule "allow staff_t systemd_tmpfiles_exec_t : file { getattr open read map execute execute_no_trans } [ ]"
+        fi
         rlRun "setsebool ssh_sysadm_login on"
         CREATED_USERS=""
         for SELINUX_USER in ${ALLOWED_USERS} ; do
