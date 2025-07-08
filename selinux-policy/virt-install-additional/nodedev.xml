@@ -1,0 +1,7 @@
+<device>
+<parent>PLACEHOLDER</parent>
+<capability type="mdev">
+<type id="vfio_ccw-io" />
+<uuid>8d312cf6-f92a-485c-8db8-ba9299848f46</uuid>
+</capability>
+</device>

@@ -332,6 +332,41 @@ rlJournalStart
         fi
     rlPhaseEnd
 
+    rlPhaseStartTest "RHEL-98559"
+        if rlSEDefined "virtnodedevd_t mdevctl_conf_t" ; then
+            rlSEMatchPathCon "/etc/mdevctl.d" "mdevctl_conf_t"
+            rlSESearchRule "allow virtnodedevd_t mdevctl_conf_t : dir { create } [ ]"
+        fi
+        rlRun "service virtqemud start"
+        rlRun "service virtnodedevd start"
+        rlRun "virsh nodedev-list | grep pci"
+        LAST_PCI_DEVICE=`virsh nodedev-list | grep pci | tail -n 1`
+        rlRun "sed -i \"s/PLACEHOLDER/${LAST_PCI_DEVICE}/\" nodedev.xml"
+        rlRun "cat nodedev.xml"
+        rlRun "virsh nodedev-define ./nodedev.xml"
+        sleep 1
+        rlRun "service virtnodedevd stop"
+        rlRun "service virtqemud stop"
+    rlPhaseEnd
+
+    rlPhaseStartTest "RHEL-101417"
+        if [ -d /sys/bus/pci/devices ] ; then
+            rlRun "find /sys/bus/pci/devices -type f -name config -ls"
+        fi
+        if seinfo -a | grep -q virt_driver_domain ; then
+            rlSESearchRule "allow virtqemud_t sysfs_t : file { write } [ ]"
+        fi
+        rlRun "service virtqemud start"
+        rlRun "service virtnodedevd start"
+        rlRun "virsh nodedev-list | grep pci"
+        for I in `virsh nodedev-list | grep pci` ; do
+            rlRun "virsh nodedev-reset $I" 0,1
+            sleep 1
+        done
+        rlRun "service virtnodedevd stop"
+        rlRun "service virtqemud stop"
+    rlPhaseEnd
+
     rlPhaseStartCleanup
         sleep 2
         rlSECheckAVC
