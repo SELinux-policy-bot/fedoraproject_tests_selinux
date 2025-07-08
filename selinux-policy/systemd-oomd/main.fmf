@@ -1,0 +1,39 @@
+summary: systemd-oomd - userspace out-of-memory (OOM) killer
+description: |+
+    Testing systemd-oomd service
+
+contact: Zdenek Pytela <zpytela@redhat.com>
+component:
+  - selinux-policy
+  - systemd
+test: ./runtest.sh
+framework: beakerlib
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - expect
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 5m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - NoRHEL8
+  - NoRHEL9
+  - NoRHEL10
+  - TierCandidatesPASS
+  - targeted
+  - NoRHIVOS
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8, rhel-9, rhel-10
+    continue: false

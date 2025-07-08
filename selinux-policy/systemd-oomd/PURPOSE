@@ -1,0 +1,5 @@
+PURPOSE of /CoreOS/selinux-policy/Sanity/systemd-oomd
+Author: Zdenek Pytela <zpytela@redhat.com>
+
+Test systemd-oomd service
+
