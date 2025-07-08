@@ -100,6 +100,18 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    if rlSEDefined "tuned_ppd_t" ; then
+    rlPhaseStartTest "RHEL-101686 + RHEL-101687"
+        rlSEMatchPathCon "/sys/devices/system/cpu/intel_pstate" "sysfs_t"
+        rlSESearchRule "allow tuned_ppd_t sysfs_t : dir { watch } [ ]"
+    rlPhaseEnd
+
+    rlPhaseStartTest "bz#2358952 + bz#2359047 + bz#2360121"
+        rlSEMatchPathCon "/sys/firmware/acpi" "sysfs_t"
+        rlSESearchRule "allow tuned_ppd_t sysfs_t : dir { watch_reads } [ ]"
+    rlPhaseEnd
+    fi
+
     if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         if [ -f /usr/lib/systemd/system/gdm.service ] ; then
