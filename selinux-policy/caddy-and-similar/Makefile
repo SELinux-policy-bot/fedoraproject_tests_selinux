@@ -61,7 +61,7 @@ $(METADATA): Makefile
 	@echo "License:         GPLv2" >> $(METADATA)
 	@echo "Confidential:    no" >> $(METADATA)
 	@echo "Destructive:     no" >> $(METADATA)
-	@echo "Releases:        -RHEL4 -RHEL5 -RHEL6 -RHEL7 -RHEL8" >> $(METADATA)
+	@echo "Releases:        -RHEL4 -RHEL5 -RHEL6 -RHEL7 -RHEL10" >> $(METADATA)
 	@echo "Bug:             1706651" >> $(METADATA) # Fedora 30
 	@echo "Bug:             2122886" >> $(METADATA) # Fedora 36
 
