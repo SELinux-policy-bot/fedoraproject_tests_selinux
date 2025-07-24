@@ -61,7 +61,7 @@ rlJournalStart
 		rlAssertNotGrep "semodule.*failed" ${OUTPUT_FILE} -i
 		rlRun "semodule -l | grep ${MODULE_NAME}"
 		rlRun "semanage module -a ${MODULE_NAME}.pp 2>&1 | tee ${OUTPUT_FILE}"
-		rlAssertNotGrep "could not commit semanage transaction|no such file or directory" ${OUTPUT_FILE} -Ei
+		rlAssertNotGrep "could not commit semanage transaction|no such file or directory|No data available" ${OUTPUT_FILE} -Ei
 		rlRun "semanage module -l | grep ${MODULE_NAME}"
 	rlPhaseEnd
 
@@ -73,7 +73,7 @@ rlJournalStart
 		rlAssertNotGrep "semodule.*failed" ${OUTPUT_FILE} -i
 		rlRun "semodule -l | grep ${MODULE_NAME}"
 		rlRun "semanage module -a ${MODULE_NAME}.pp 2>&1 | tee ${OUTPUT_FILE}"
-		rlAssertNotGrep "could not commit semanage transaction|no such file or directory" ${OUTPUT_FILE} -Ei
+		rlAssertNotGrep "could not commit semanage transaction|no such file or directory|No data available" ${OUTPUT_FILE} -Ei
 		rlRun "semanage module -l | grep ${MODULE_NAME}"
 	rlPhaseEnd
 
@@ -102,7 +102,7 @@ rlJournalStart
 		rlAssertGrep "semodule.*failed" ${OUTPUT_FILE} -i
 		rlRun "semodule -l | grep ${MODULE_NAME}" 1
 		rlRun "semanage module -a ${MODULE_NAME}.pp 2>&1 | tee ${OUTPUT_FILE}"
-		rlAssertGrep "could not commit semanage transaction|no such file or directory" ${OUTPUT_FILE} -Ei
+		rlAssertGrep "could not commit semanage transaction|no such file or directory|No data available" ${OUTPUT_FILE} -Ei
 		rlRun "semanage module -l | grep ${MODULE_NAME}" 1
 	rlPhaseEnd
 
@@ -114,7 +114,7 @@ rlJournalStart
 		rlAssertGrep "semodule.*failed" ${OUTPUT_FILE} -i
 		rlRun "semodule -l | grep ${MODULE_NAME}" 1
 		rlRun "semanage module -a ${MODULE_NAME}.pp 2>&1 | tee ${OUTPUT_FILE}"
-		rlAssertGrep "could not commit semanage transaction|no such file or directory" ${OUTPUT_FILE} -Ei
+		rlAssertGrep "could not commit semanage transaction|no such file or directory|No data available" ${OUTPUT_FILE} -Ei
 		rlRun "semanage module -l | grep ${MODULE_NAME}" 1
 	rlPhaseEnd
 
