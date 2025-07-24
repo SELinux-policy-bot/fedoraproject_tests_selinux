@@ -7,6 +7,9 @@
 # Include Beakerlib environment
 . /usr/share/beakerlib/beakerlib.sh || exit 1
 
+# Set this parameter to 1 to also generate a flamegraph.
+GENERATE_FLAMEGRAPH="${GENERATE_FLAMEGRAPH:-0}"
+
 FG_URL="https://github.com/brendangregg/FlameGraph"
 FG_DIR="FlameGraph"
 
@@ -17,7 +20,9 @@ rlJournalStart
     rlPhaseStartSetup
         rlRun "uname -r" 0 "Print running kernel version"
 
-        rlRun "git clone $FG_URL $FG_DIR"
+        if [ "$GENERATE_FLAMEGRAPH" != 0 ]; then
+            rlRun "git clone $FG_URL $FG_DIR"
+        fi
     rlPhaseEnd
 
     rlPhaseStartTest
@@ -30,7 +35,9 @@ rlJournalStart
             "Capture perf data on systemd-journald"
         rlRun "kill %1"
 
-        rlRun "perf script -i perf.data | $FG_DIR/stackcollapse-perf.pl | $FG_DIR/flamegraph.pl > flamegraph.svg"
+        if [ "$GENERATE_FLAMEGRAPH" != 0 ]; then
+            rlRun "perf script -i perf.data | $FG_DIR/stackcollapse-perf.pl | $FG_DIR/flamegraph.pl > flamegraph.svg"
+        fi
 
         rlRun "perf report -i perf.data -g none --pretty raw | grep $TARGET_SYMBOL"
         PERCENT="$(perf report -g none --pretty raw | grep $TARGET_SYMBOL | \
@@ -42,10 +49,12 @@ rlJournalStart
 
     rlPhaseStartCleanup
         rlFileSubmit "perf.data"
-        rlFileSubmit "flamegraph.svg"
+        if [ "$GENERATE_FLAMEGRAPH" != 0 ]; then
+            rlFileSubmit "flamegraph.svg"
 
-        rlRun "rm -rf $FG_DIR"
-        rlRun "rm -f perf.data flamegraph.svg"
+            rlRun "rm -rf $FG_DIR flamegraph.svg"
+        fi
+        rlRun "rm -f perf.data"
     rlPhaseEnd
 rlJournalPrintText
 rlJournalEnd

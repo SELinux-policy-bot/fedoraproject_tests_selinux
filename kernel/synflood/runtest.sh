@@ -7,6 +7,9 @@
 # Include Beakerlib environment
 . /usr/share/beakerlib/beakerlib.sh || exit 1
 
+# Set this parameter to 1 to also generate a flamegraph.
+GENERATE_FLAMEGRAPH="${GENERATE_FLAMEGRAPH:-0}"
+
 TEST_PORT=8080
 
 FG_URL="https://github.com/brendangregg/FlameGraph"
@@ -32,7 +35,9 @@ else
 
         rlRun "uname -r"
 
-        rlRun "git clone $FG_URL $FG_DIR"
+        if [ "$GENERATE_FLAMEGRAPH" != 0 ]; then
+            rlRun "git clone $FG_URL $FG_DIR"
+        fi
     rlPhaseEnd
 
     rlPhaseStartTest
@@ -64,10 +69,14 @@ else
     rlPhaseEnd
 
     rlPhaseStartCleanup
-        rlRun "perf script -i perf.data | $FG_DIR/stackcollapse-perf.pl | $FG_DIR/flamegraph.pl > flamegraph.svg"
+        if [ "$GENERATE_FLAMEGRAPH" != 0 ]; then
+            rlRun "perf script -i perf.data | $FG_DIR/stackcollapse-perf.pl | $FG_DIR/flamegraph.pl > flamegraph.svg"
+            rlFileSubmit "flamegraph.svg"
+            rlRun "rm -f flamegraph.svg"
+        fi
         rlRun "xz -T0 perf.data"
 
-        for file in "perf.data.xz" "flamegraph.svg" "perf-report.txt"; do
+        for file in "perf.data.xz" "perf-report.txt"; do
             rlFileSubmit "$file"
             rlRun "rm -f $file"
         done
