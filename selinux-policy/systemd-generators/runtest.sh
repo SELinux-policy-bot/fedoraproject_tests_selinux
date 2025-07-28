@@ -213,6 +213,16 @@ EOF
         rlRun "seinfo -a systemd_generator -x"
         rlSESearchRule "allow systemd_fstab_generator_t syslogd_t : unix_dgram_socket { sendto } [ ]"
     rlPhaseEnd
+
+    rlPhaseStartTest "RHEL-98656"
+        rlSEMatchPathCon "/usr/lib/systemd/system-generators/systemd-cryptsetup-generator" "systemd_cryptsetup_generator_exec_t"
+        rlSESearchRule "allow systemd_cryptsetup_generator_t systemd_unit_file_t : file { getattr create open write } [ ]"
+    rlPhaseEnd
+
+    rlPhaseStartTest "RHEL-100415 + RHEL-100721"
+        rlSEMatchPathCon "/usr/lib/systemd/system-generators/vsftpd-generator" "systemd_vsftpd_generator_exec_t"
+        rlSESearchRule "allow systemd_vsftpd_generator_t bin_t : file { execute execute_no_trans map } [ ]"
+    rlPhaseEnd
     fi
 
     ### generators from other packages: install them all?
