@@ -71,7 +71,6 @@ rlJournalStart
             rlLog "The ${SERVICE_NAME} service is not SELinux confined."
         else
         rlSEMatchPathCon "${FILE_PATH}" "${FILE_CONTEXT}"
-        rlSEMatchPathCon "/proc/pressure" "proc_psi_t"
         rlSESearchRule "allow systemd_oomd_t proc_psi_t : file { getattr ioctl lock open read } [ ]"
         rlSESearchRule "allow systemd_oomd_t domain : dir { getattr ioctl lock open read search } [ ]"
         rlSESearchRule "allow systemd_oomd_t domain : file { getattr ioctl lock open read } [ ]"
@@ -93,12 +92,14 @@ rlJournalStart
         rlRun "systemctl status ${SERVICE_NAME}"
 
         # enable swap-based killing on all units in the root slice
+        mkdir -p /etc/systemd/system/-.slice.d
         cat >> /etc/systemd/system/-.slice.d/override.conf << EOF
 [Slice]
 ManagedOOMSwap=kill
 EOF
 
         # memory pressure example settings
+        mkdir -p /etc/systemd/system/user@.service.d
         cat >> /etc/systemd/system/user@.service.d/override.conf << EOF
 [Service]
 ManagedOOMMemoryPressure=kill
