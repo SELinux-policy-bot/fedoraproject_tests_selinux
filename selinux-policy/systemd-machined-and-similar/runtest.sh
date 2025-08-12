@@ -173,6 +173,13 @@ rlJournalStart
         rlRun "rm -rf /var/lib/machines/test"
     rlPhaseEnd
 
+    rlPhaseStartTest "RHEL-105966 + RHEL-108849"
+        rlRun "mkdir -pZ /var/lib/machines/test"
+        rlRun "machinectl list-images"
+        rlRun "machinectl image-status test"
+        rlRun "rm -rf /var/lib/machines/test"
+    rlPhaseEnd
+
     rlPhaseStartCleanup
         sleep 2
         rlSECheckAVC

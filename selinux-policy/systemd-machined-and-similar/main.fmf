@@ -41,6 +41,8 @@ link:
   - verifies: https://issues.redhat.com/browse/RHEL-78088
   - verifies: https://issues.redhat.com/browse/RHEL-85379
   - verifies: https://issues.redhat.com/browse/RHEL-86528
+  - verifies: https://issues.redhat.com/browse/RHEL-105966
+  - verifies: https://issues.redhat.com/browse/RHEL-108849
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-alt-7
