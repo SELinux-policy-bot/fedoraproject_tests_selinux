@@ -1,0 +1,37 @@
+summary: SELinux interferes with valkey and related programs
+description: |+
+    SELinux interferes with valkey-server, valkey-sentinel and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - selinux-policy
+test: ./runtest.sh
+framework: beakerlib
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - valkey
+  - /usr/sbin/service
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tier: '3'
+link:
+  - verifies: https://issues.redhat.com/browse/RHEL-102631
+  - verifies: https://issues.redhat.com/browse/RHEL-108982
+tag:
+  - Tier3
+  - Tier3se
+  - NoRHIVOS
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8
+    because: the package is not available there
