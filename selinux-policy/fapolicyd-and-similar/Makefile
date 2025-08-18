@@ -55,7 +55,7 @@ $(METADATA): Makefile
 	@echo "TestTime:        10m" >> $(METADATA)
 	@echo "RunFor:          fapolicyd" >> $(METADATA)
 	@echo "RunFor:          selinux-policy" >> $(METADATA)
-	@echo "Requires:        audit initscripts libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted setools-console fapolicyd fapolicyd-selinux" >> $(METADATA)
+	@echo "Requires:        audit /usr/sbin/service libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted setools-console fapolicyd fapolicyd-selinux systemd-container" >> $(METADATA)
 	@echo "RhtsRequires:    library(selinux-policy/common)" >> $(METADATA)
 	@echo "Environment:     AVC_ERROR=+no_avc_check" >> $(METADATA)
 	@echo "Priority:        Normal" >> $(METADATA)
@@ -67,6 +67,7 @@ $(METADATA): Makefile
 	@echo "Bug:             1874491" >> $(METADATA) # Fedora 33
 	@echo "Bug:             1876538" >> $(METADATA) # Fedora 33
 	@echo "Bug:             1932225" >> $(METADATA)
+	@echo "Bug:             RHEL-77071" >> $(METADATA) # RHEL-10
 
 	rhts-lint $(METADATA)
 
