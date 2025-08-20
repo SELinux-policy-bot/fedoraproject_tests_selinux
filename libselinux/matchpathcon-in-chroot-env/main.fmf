@@ -14,7 +14,7 @@ recommend:
   - policycoreutils
 duration: 15m
 enabled: true
-tier: '1'
+tier: 1
 tag:
   - targeted
   - CI-Tier-1

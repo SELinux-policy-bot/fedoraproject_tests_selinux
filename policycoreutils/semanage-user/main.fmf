@@ -23,6 +23,7 @@ tag:
   - f33friendly
   - rhel-7.0
   - targeted
+tier: 1
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=953826
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=987444

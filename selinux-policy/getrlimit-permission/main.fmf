@@ -25,12 +25,10 @@ tag:
   - NoRHEL4
   - NoRHEL5
   - NoRHEL6
-  - Tier1
-  - Tier1se
   - f33friendly
   - targeted
   - NoRHIVOS
-tier: '1'
+tier: 1
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1549691
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1549772

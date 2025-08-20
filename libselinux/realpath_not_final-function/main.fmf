@@ -19,6 +19,7 @@ tag:
   - f32friendly
   - f33friendly
   - fusa
+tier: 1
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1404644
 adjust:

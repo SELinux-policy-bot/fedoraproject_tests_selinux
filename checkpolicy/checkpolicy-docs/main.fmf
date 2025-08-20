@@ -17,13 +17,11 @@ tag:
   - CI-Tier-1
   - NoRHEL4
   - TIPpass_Security
-  - Tier1
-  - Tier1se
   - f31friendly
   - f32friendly
   - targeted
   - NoRHIVOS
-tier: '1'
+tier: 1
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1328966
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1328979

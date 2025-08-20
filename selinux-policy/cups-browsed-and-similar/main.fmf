@@ -28,13 +28,10 @@ tag:
   - NoRHEL5
   - NoRHEL6
   - RHEL8
-  - Tier1
-  - Tier1security
-  - Tier1se
   - f32friendly
   - targeted
   - NoRHIVOS
-tier: '1'
+tier: 1
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1395801
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1401634

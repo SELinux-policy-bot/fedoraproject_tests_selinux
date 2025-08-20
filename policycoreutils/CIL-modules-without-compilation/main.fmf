@@ -15,13 +15,11 @@ tag:
   - NoRHEL5
   - NoRHEL6
   - TIPpass_Security
-  - Tier1
-  - Tier1se
   - TierCandidatesPASS
   - f32friendly
   - f33friendly
   - targeted
-tier: '1'
+tier: 1
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6

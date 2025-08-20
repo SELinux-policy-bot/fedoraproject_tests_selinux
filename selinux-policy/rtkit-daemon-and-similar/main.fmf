@@ -23,19 +23,16 @@ environment:
 duration: 10m
 enabled: true
 tag:
-  - CI-Tier-1
   - NoRHEL4
   - NoRHEL5
   - TIPpass_FIPS
   - TIPpass_Security
-  - Tier2
-  - Tier2se
   - TierCandidatesPASS
   - f31friendly
   - f32friendly
   - targeted
   - NoRHIVOS
-tier: '2'
+tier: 2
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1626982
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1703241

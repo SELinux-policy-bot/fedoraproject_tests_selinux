@@ -28,6 +28,7 @@ tag:
   - f32friendly
   - f33friendly
   - targeted
+tier: 1
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1400705
 adjust:

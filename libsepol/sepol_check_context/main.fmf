@@ -19,6 +19,7 @@ tag:
   - f32friendly
   - f33friendly
   - targeted
+tier: 1
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5

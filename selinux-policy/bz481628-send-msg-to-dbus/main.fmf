@@ -32,6 +32,7 @@ tag:
   - TierCandidatesPASS
   - targeted
   - NoRHIVOS
+tier: 1
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=463267
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=481628

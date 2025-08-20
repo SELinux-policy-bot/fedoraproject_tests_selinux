@@ -22,6 +22,7 @@ tag:
   - f33friendly
   - targeted
   - NoRHIVOS
+tier: 1
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5

@@ -17,14 +17,12 @@ enabled: true
 tag:
   - NoRHEL4
   - TIPpass_Security
-  - Tier1
-  - Tier1se
   - TierCandidatesFAIL
   - TipWaived7
   - f32friendly
   - f33friendly
   - targeted
-tier: '1'
+tier: 1
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=526460
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=583915
