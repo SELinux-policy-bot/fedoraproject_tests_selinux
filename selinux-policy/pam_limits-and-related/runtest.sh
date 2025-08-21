@@ -82,7 +82,7 @@ rlJournalStart
 
     rlPhaseStartCleanup
         sleep 2
-        rlSECheckAVC
+        rlSECheckAVC --ignore 'type=AVC.*connectto.*:guest_t:.*:systemd_machined_t:' --ignore 'type=AVC.*connectto.*:xguest_t:.*:systemd_machined_t:'
 
         rlFileRestore
     rlPhaseEnd

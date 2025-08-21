@@ -35,3 +35,5 @@ adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8
     because: the package is not available there
+extra-nitrate: TC#0619564
+id: 337de041-c42f-4292-99d4-f687ec629fc9

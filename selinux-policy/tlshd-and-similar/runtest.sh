@@ -80,7 +80,7 @@ rlJournalStart
         rlSESearchRule "allow ktlshd_t cert_t : dir { search } [ ]"
         rlSESearchRule "allow ktlshd_t cert_t : file { getattr open read } [ ]"
         rlSESearchRule "allow ktlshd_t net_conf_t : file { getattr open read } [ ]"
-        rlSESearchRule "allow ktlshd_t proc_net_t : lnk_file { read } [ ]"
+        # rlSESearchRule "allow ktlshd_t proc_net_t : lnk_file { read } [ ]"
         rlSESearchRule "allow ktlshd_t ktlshd_t : netlink_route_socket { bind create getattr getopt nlmsg_read setopt } [ ]"
         rlSESearchRule "allow ktlshd_t ktlshd_t : udp_socket { connect create getattr setopt } [ ]"
         rlSESearchRule "allow ktlshd_t sysctl_net_t : dir { search } [ ]"

@@ -202,7 +202,7 @@ EOF
     rlPhaseStartTest "RHEL-72549"
         rlSEMatchPathCon "/usr/lib/systemd/system-generators/systemd-ssh-generator" "systemd_ssh_generator_exec_t"
         rlSEMatchPathCon "/dev/vsock" "vsock_device_t"
-        rlSEMatchPathCon "/run/systemd/generator/sshd-vsock.socket" "systemd_unit_file_t"
+        rlSEMatchPathCon "/run/systemd/generator/sshd-vsock.socket" "systemd_generator_unit_file_t"
         rlSESearchRule "allow init_t systemd_ssh_generator_exec_t : file { getattr open read execute } [ ]"
         rlSESearchRule "type_transition init_t systemd_ssh_generator_exec_t : process systemd_ssh_generator_t"
         rlSESearchRule "allow systemd_ssh_generator_t vsock_device_t : chr_file { getattr ioctl open read } [ ]"

@@ -100,6 +100,7 @@ rlJournalStart
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         rlRun "modprobe mac80211_hwsim"
+        rlRun "lsmod | grep mac80211_hwsim"
         rlRun "sed -i 's/^interface=.*$//' /etc/hostapd/hostapd.conf"
         rlRun "sed -i 's/^hw_mode=.*$//' /etc/hostapd/hostapd.conf"
         rlRun "sed -i 's/^channel=.*$//' /etc/hostapd/hostapd.conf"

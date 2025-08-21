@@ -40,6 +40,9 @@ adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7
     because: the iio-sensor-proxy package is not available there
+  - enabled: false
+    when: arch == s390x
+    because: the service is not activatable there
 extra-summary: /CoreOS/selinux-policy/Regression/iio-sensor-proxy-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/iio-sensor-proxy-and-similar
 extra-nitrate: TC#0617897
