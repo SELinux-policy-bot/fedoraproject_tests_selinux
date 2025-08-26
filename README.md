@@ -3,6 +3,16 @@
 This repository contains set of test for SELinux kernel, userspace and policy.
 Tests are written using [beakerlib](https://github.com/beakerlib/beakerlib) with [TMT Metadata Specification](https://tmt.readthedocs.io/en/latest/spec.html).
 
+
+## Gating Guidelines
+Test tiers define a test's priority for our **gating process**.
+
+* **`tier: 1`**: Critical tests that must pass for any code merge. 
+* **`tier: 2`**: Important but non-critical tests.
+* **`tier: 3`**: Non-critical tests.
+
+All other tier metadata (e.g., `tag:Tier1`) is now deprecated.
+
 ## Plans
 
     $ tmt plans
