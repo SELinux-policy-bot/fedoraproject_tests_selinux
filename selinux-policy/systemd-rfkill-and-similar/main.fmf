@@ -29,13 +29,11 @@ tag:
   - NoRHEL5
   - NoRHEL6
   - TIPpass
-  - Tier2
-  - Tier2se
   - f32friendly
   - f33friendly
   - targeted
   - fusa
-tier: '2'
+tier: 2
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1290255
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1309839

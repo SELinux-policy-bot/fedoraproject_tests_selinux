@@ -29,12 +29,10 @@ tag:
   - TIPpass
   - TIPpass_FIPS
   - TIPpass_Security
-  - Tier3
-  - Tier3se
   - TipWaived7
   - targeted
   - NoRHIVOS
-tier: '3'
+tier: 3
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=807157
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=857086

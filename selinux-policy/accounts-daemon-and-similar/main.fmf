@@ -33,12 +33,10 @@ tag:
   - NoRHEL6
   - TIPpass
   - TIPpass_Security
-  - Tier3
-  - Tier3se
   - TierCandidatesPASS
   - targeted
   - NoRHIVOS
-tier: '3'
+tier: 3
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1456760
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1507089

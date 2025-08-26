@@ -29,14 +29,12 @@ tag:
   - NoRHEL6
   - TIPpass
   - TIPpass_Security
-  - Tier2
-  - Tier2se
   - TierCandidatesPASS
   - f31friendly
   - f32friendly
   - targeted
   - NoRHIVOS
-tier: '2'
+tier: 2
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=869810
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=869813

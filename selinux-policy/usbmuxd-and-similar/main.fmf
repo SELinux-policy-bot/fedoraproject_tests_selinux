@@ -26,14 +26,12 @@ tag:
   - NoRHEL5
   - NoRHEL6
   - TIPpass_Security
-  - Tier3
-  - Tier3se
   - TipWaived7
   - f31friendly
   - f32friendly
   - targeted
   - NoRHIVOS
-tier: '3'
+tier: 3
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1521054
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1582205

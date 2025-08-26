@@ -30,11 +30,9 @@ tag:
   - NoRHEL5
   - NoRHEL6
   - NoRHEL7
-  - Tier2
-  - Tier2se
   - targeted
   - NoRHIVOS
-tier: '2'
+tier: 2
 link:
   - verifies: https://issues.redhat.com/browse/RHEL-40374
   - verifies: https://issues.redhat.com/browse/RHEL-44191

@@ -29,14 +29,12 @@ tag:
   - NoRHEL7
   - TIPpass
   - TIPpass_Security
-  - Tier2
-  - Tier2se
   - epel
   - rhel8-epel
   - rhel9-epel
   - targeted
   - NoRHIVOS
-tier: '2'
+tier: 2
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1640801
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1649257

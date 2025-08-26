@@ -28,14 +28,12 @@ tag:
   - NoRHEL4
   - NoRHEL5
   - NoRHEL6
-  - Tier2
-  - Tier2se
   - TierCandidatesPASS
   - f31friendly
   - f32friendly
   - targeted
   - NoRHIVOS
-tier: '2'
+tier: 2
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1589086
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1625786

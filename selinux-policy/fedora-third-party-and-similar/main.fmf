@@ -30,11 +30,9 @@ tag:
   - NoRHEL7
   - NoRHEL8
   - NoRHEL9
-  - Tier2
-  - Tier2se
   - targeted
   - NoRHIVOS
-tier: '2'
+tier: 2
 link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2093453
 adjust:

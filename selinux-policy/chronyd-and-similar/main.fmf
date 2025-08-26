@@ -36,13 +36,11 @@ tag:
   - TIPfail_fedora
   - TIPfail_infra
   - TIPpass
-  - Tier3
-  - Tier3se
   - TipWaived6
   - f33friendly
   - targeted
   - NoRHIVOS
-tier: '3'
+tier: 3
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=974992
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=978993

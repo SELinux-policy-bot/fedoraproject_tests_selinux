@@ -26,13 +26,11 @@ tag:
   - NoRHEL4
   - NoRHEL5
   - TIPpass_Security
-  - Tier2
-  - Tier2se
   - TipWaived6
   - TipWaived7
   - targeted
   - NoRHIVOS
-tier: '2'
+tier: 2
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=698923
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=713218
