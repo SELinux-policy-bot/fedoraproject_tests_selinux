@@ -114,7 +114,9 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "RHEL-77071"
-        rlSESearchRule "allow fapolicyd_t systemd_machined_t : unix_stream_socket { connectto } [ ]"
+        if rlIsCentOS 10 || rlIsRHEL 10 ; then
+            rlSESearchRule "allow fapolicyd_t systemd_machined_t : unix_stream_socket { connectto } [ ]"
+        fi
         rlRun "service systemd-machined start"
         rlRun "service systemd-machined status -l"
         rlRun "service fapolicyd start"
