@@ -20,6 +20,9 @@ recommend:
   - policycoreutils
 environment:
     AVC_ERROR: +no_avc_check
+check:
+  - how: avc
+    result: xfail
 duration: 5m
 enabled: true
 tag:

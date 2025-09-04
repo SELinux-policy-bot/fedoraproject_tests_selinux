@@ -21,3 +21,6 @@ link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1595706
 environment:
   AVC_ERROR: +no_avc_check
+check:
+  - how: avc
+    result: xfail
