@@ -1,0 +1,17 @@
+summary: general test plan for image mode
+enabled: true
+adjust+:
+- when: trigger == build
+  enabled: false
+  because: do not run this plan on a new build
+- when: trigger == commit
+  enabled: false
+  because: do not run this plan on changes caused by a PR/MR
+discover:
+  how: fmf
+  filter: 'tag:-tf_broken & tag:-multihost & tag:-reboot & tag:-avoidImageMode'
+prepare:
+- how: install
+  package: https://download.copr.fedorainfracloud.org/results/mmalik/mnt-tests/epel-10-x86_64/09597416-mnt-tests/mnt-tests-1.0-1.el10.noarch.rpm
+execute:
+  how: tmt
