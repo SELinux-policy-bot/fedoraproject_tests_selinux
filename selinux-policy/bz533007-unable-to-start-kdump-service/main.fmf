@@ -37,6 +37,7 @@ tag:
   - targeted
   - NoRHIVOS
   - rhel10_broken
+  - reboot
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=533007
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=533366

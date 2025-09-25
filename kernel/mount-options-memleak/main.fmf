@@ -15,3 +15,5 @@ adjust:
     because: RHEL-6 and below are not worth supporting by this test
 link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2187402
+tag:
+  - reboot
