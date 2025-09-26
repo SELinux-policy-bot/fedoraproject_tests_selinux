@@ -21,6 +21,7 @@ tag:
   - NoRHEL7
   - targeted
   - NoRHIVOS
+  - avoidImageMode
 link:
   - verifies: https://issues.redhat.com/browse/RHEL-5032
 adjust:

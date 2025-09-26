@@ -19,8 +19,8 @@ tag:
   - TierCandidatesPASS
   - f32friendly
   - f33friendly
-  - rhel-7.0
   - targeted
+  - avoidImageMode
 tier: 1
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=953826

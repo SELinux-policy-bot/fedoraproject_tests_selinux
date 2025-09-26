@@ -48,6 +48,7 @@ tag:
   - targeted
   - failinfedora
   - NoRHIVOS
+  - avoidImageMode
 adjust:
   - enabled: false
     when: distro < centos-stream-9

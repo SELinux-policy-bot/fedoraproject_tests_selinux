@@ -25,12 +25,11 @@ tag:
   - NoRHEL6
   - NoRHEL7
   - targeted
-  - rhel10_broken
 link:
   - relates: https://issues.redhat.com/browse/RHEL-29967
 adjust:
   - enabled: false
-    when: distro == rhel-4, rhel-5, rhel-6, rhel-7
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-10
     continue: false
 extra-summary: /CoreOS/setools/Sanity/apol
 extra-task: /CoreOS/setools/Sanity/apol

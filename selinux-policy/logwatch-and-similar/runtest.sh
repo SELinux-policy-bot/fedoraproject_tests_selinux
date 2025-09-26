@@ -45,7 +45,7 @@ rlJournalStart
         rlAssertRpm ${SERVICE_PACKAGE}
 
         rlServiceStop ${SERVICE_NAME}
-        rlFileBackup /usr/lib/systemd/system/logwatch.timer
+        rlFileBackup /etc/systemd/system/logwatch.timer
 
         rlSESetEnforce
         rlSEStatus
@@ -75,27 +75,31 @@ rlJournalStart
     fi
 
     rlPhaseStartTest "real scenario -- standalone service"
+        rlRun "mkdir -p /var/cache/logwatch"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
             # for environments where the SELinux domain does not exist yet
             PROCESS_CONTEXT="unconfined_service_t"
         fi
         rlSEService - ${SERVICE_NAME} - ${PROCESS_CONTEXT} "start status" 1
-        rlRun "restorecon -Rv /var /run -e /var/ARTIFACTS" 0-255
+        rlRun "restorecon -Rv /etc /var /run -e /var/ARTIFACTS" 0-255
         rlSEService - ${SERVICE_NAME} - ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
 
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.timer ] ; then
     rlPhaseStartTest "real scenario -- timer"
         rlRun "systemctl enable ${SERVICE_NAME}.timer"
         rlRun "systemctl start ${SERVICE_NAME}.timer"
         rlRun "systemctl list-timers --all"
         NEXT_TIME=`date -d "now + 1 minute" "+%H:%M"`
-        rlRun "sed -i 's/AccuracySec=.*$/AccuracySec=1s\nOnCalendar=*-*-* $NEXT_TIME/' /usr/lib/systemd/system/${SERVICE_NAME}.timer"
+        rlRun "cp -f /usr/lib/systemd/system/${SERVICE_NAME}.timer /etc/systemd/system/"
+        rlRun "sed -i 's/AccuracySec=.*$/AccuracySec=1s\nOnCalendar=*-*-* $NEXT_TIME/' /etc/systemd/system/${SERVICE_NAME}.timer"
         rlRun "systemctl daemon-reload"
         rlRun "systemctl list-timers --all"
         rlRun "sleep 2m"
         rlRun "systemctl stop ${SERVICE_NAME}.timer"
         rlRun "systemctl disable ${SERVICE_NAME}.timer"
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2

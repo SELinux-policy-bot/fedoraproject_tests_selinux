@@ -7,6 +7,8 @@ contact: Ondrej Mosnacek <omosnace@redhat.com>
 component:
   - kernel
 framework: beakerlib
+recommend:
+  - systemtap
 duration: 15m
 tier: 2
 enabled: true

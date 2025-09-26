@@ -36,6 +36,7 @@ tag:
   - rhel9_broken
   - rhel10_broken
   - NoRHIVOS
+  - avoidImageMode
 link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2207725
 adjust:

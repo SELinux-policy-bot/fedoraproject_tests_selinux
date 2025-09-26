@@ -12,6 +12,7 @@ recommend:
 duration: 40m
 tag:
   - NoRHIVOS
+  - avoidImageMode
 extra-summary: linux-system-roles.selinux-tests
 extra-task: linux-system-roles.selinux-tests
 id: 4889350b-d9fa-4cbf-86ff-f16a1c729f9e

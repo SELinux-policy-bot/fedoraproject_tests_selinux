@@ -11,6 +11,7 @@ duration: 10m
 enabled: true
 tag:
   - NoRHIVOS
+  - avoidImageMode
 link:
   - https://issues.redhat.com/browse/RHEL-59192
 adjust:

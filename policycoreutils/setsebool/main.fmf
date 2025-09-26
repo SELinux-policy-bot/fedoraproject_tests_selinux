@@ -24,6 +24,7 @@ tag:
   - f33friendly
   - failinrhel8ci
   - targeted
+  - avoidImageMode
 tier: 1
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1002529

@@ -56,7 +56,7 @@ rlJournalStart
         rlRun "rpm -qf ${FILE_PATH}"
 
         rlServiceStop ${SERVICE_NAME}
-        rlFileBackup /usr/lib/systemd/system/iio-sensor-proxy.service
+        rlFileBackup /etc/systemd/system/iio-sensor-proxy.service
         rlServiceStart gdm
 
         rlSESetEnforce
@@ -76,11 +76,12 @@ rlJournalStart
 
     if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
-        rlRun "sed -i 's/^.*Environment=.*$/Environment=FAKE_COMPASS=1/' /usr/lib/systemd/system/iio-sensor-proxy.service"
+        rlRun "cp -f /usr/lib/systemd/system/iio-sensor-proxy.service /etc/systemd/system/"
+        rlRun "sed -i 's/^.*Environment=.*$/Environment=FAKE_COMPASS=1/' /etc/systemd/system/iio-sensor-proxy.service"
         rlRun "systemctl daemon-reload"
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
         rlRun "restorecon -Rv /etc /run /var -e /var/ARTIFACTS" 0-255
-        rlRun "sed -i 's/^.*Environment=.*$/Environment=FAKE_LIGHT_SENSOR=1/' /usr/lib/systemd/system/iio-sensor-proxy.service"
+        rlRun "sed -i 's/^.*Environment=.*$/Environment=FAKE_LIGHT_SENSOR=1/' /etc/systemd/system/iio-sensor-proxy.service"
         rlRun "systemctl daemon-reload"
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status" 1
         rlRun "gdbus introspect --system --dest net.hadess.SensorProxy --object-path /net/hadess/SensorProxy"

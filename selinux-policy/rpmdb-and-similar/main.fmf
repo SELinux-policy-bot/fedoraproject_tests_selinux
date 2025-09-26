@@ -30,6 +30,7 @@ tag:
   - NoRHEL8
   - targeted
   - NoRHIVOS
+  - avoidImageMode
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1461313
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1899548

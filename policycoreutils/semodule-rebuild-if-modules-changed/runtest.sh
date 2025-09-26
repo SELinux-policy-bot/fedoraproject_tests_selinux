@@ -7,7 +7,11 @@
 # Include Beakerlib environment
 . /usr/share/beakerlib/beakerlib.sh || exit 1
 
-STORE_ROOT=/var/lib/selinux
+if grep -q ^store-root /etc/selinux/semanage.conf
+    STORE_ROOT=`grep ^store-root /etc/selinux/semanage.conf | cut -d = -f 2`
+else
+    STORE_ROOT=/var/lib/selinux
+fi
 STORE_TYPE=targeted
 MODULES_ROOT="$STORE_ROOT/$STORE_TYPE/active/modules"
 STORE_POLICY="$STORE_ROOT/$STORE_TYPE/active/policy.kern"

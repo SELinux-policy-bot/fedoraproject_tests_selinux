@@ -9,6 +9,7 @@ duration: 10m
 enabled: true
 tag:
   - NoRHIVOS
+  - avoidImageMode
 link:
   - verifies: https://issues.redhat.com/browse/RHEL-60503
 extra-nitrate: TC#0617969

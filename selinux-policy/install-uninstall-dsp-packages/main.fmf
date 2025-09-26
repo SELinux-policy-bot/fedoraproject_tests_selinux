@@ -30,6 +30,7 @@ tag:
   - NoRHIVOS
   - rhel9_broken
   - rhel10_broken
+  - avoidImageMode
 link:
 adjust:
   - enabled: false

@@ -18,6 +18,7 @@ tag:
   - targeted
   - failinfedora
   - NoRHIVOS
+  - avoidImageMode
 link:
   - verifies: https://issues.redhat.com/browse/RHEL-2616
   - verifies: https://issues.redhat.com/browse/RHEL-16185

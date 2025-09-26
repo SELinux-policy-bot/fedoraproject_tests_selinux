@@ -118,12 +118,12 @@ rlJournalStart
         rlRun "echo -e '( deny ${USER_TYPE} ${USER_TYPE} ( system ( module_load module_request )))' > testpolicy.cil"
         rlRun "echo -e '( deny kmod_t kmod_t ( system ( module_load module_request )))' >> testpolicy.cil"
         rlRun "echo -e '( deny kmod_t modules_object_t ( system ( module_load )))' >> testpolicy.cil"
-	rlRun "semodule -i testpolicy.cil"
+        rlRun "semodule -i testpolicy.cil"
         rlRun "semodule -lfull | grep testpolicy"
         rlRun -s "./ssh.exp ${USER_NAME} ${USER_SECRET} localhost modprobe dummy"
         rlRun "grep -i 'permission denied' $rlRun_LOG"
         rm -f $rlRun_LOG
-        rlRun "lsmod | grep dummy" 1
+        rlRun "lsmod | grep ^dummy" 1
         rlRun "semodule -r testpolicy"
         rlRun "modprobe dummy"
         rlRun "lsmod | grep dummy"

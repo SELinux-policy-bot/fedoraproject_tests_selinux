@@ -33,6 +33,7 @@ tag:
   - f32friendly
   - targeted
   - NoRHIVOS
+  - avoidImageMode
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=451970
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=562833

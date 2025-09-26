@@ -23,3 +23,5 @@ adjust:
   - enabled: false
     when: distro < rhel-7
 id: a900e46c-6cf9-49e1-9625-5beb609760c5
+tag:
+  - avoidImageMode

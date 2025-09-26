@@ -19,6 +19,7 @@ tag:
   - f33friendly
   - rhel8-buildroot
   - targeted
+  - avoidImageMode
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5

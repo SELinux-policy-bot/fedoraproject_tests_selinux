@@ -10,3 +10,4 @@ duration: 5m
 enabled: true
 tag:
  - failinfedora
+ - avoidImageMode

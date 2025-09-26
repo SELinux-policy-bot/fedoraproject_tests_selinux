@@ -23,6 +23,7 @@ enabled: true
 tag:
   - targeted
   - NoRHIVOS
+  - avoidImageMode
 tier: 2
 adjust:
   - enabled: false

@@ -33,3 +33,4 @@ extra-nitrate: TC#0614676
 id: 4400999a-aa60-4522-b0f7-d7b0656110a3
 tag:
   - NoRHIVOS
+  - avoidImageMode

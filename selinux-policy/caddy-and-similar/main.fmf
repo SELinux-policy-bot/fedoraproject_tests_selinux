@@ -28,6 +28,7 @@ tag:
   - rhel8-epel
   - rhel9-epel
   - NoRHIVOS
+  - avoidImageMode
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7, centos-stream-10, rhel-10

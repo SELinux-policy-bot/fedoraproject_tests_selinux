@@ -198,6 +198,7 @@ rlJournalStart
     fi
 
     rlPhaseStartTest "real scenario for kpropd"
+        rlRun "mkdir -p /var/kerberos/krb5kdc"
         rlRun "touch /var/kerberos/krb5kdc/kpropd.acl"
         rlRun "rm -f /etc/krb5.conf"
         rlRun "cp ./krb5.conf /etc"

@@ -31,6 +31,7 @@ tag:
   - Tier3
   - Tier3se
   - NoRHIVOS
+  - avoidImageMode
 adjust:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8

@@ -36,6 +36,7 @@ tag:
   - f31friendly
   - f32friendly
   - targeted
+  - avoidImageMode
 tier: 1
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=739587

@@ -21,6 +21,7 @@ tag:
   - f32friendly
   - f33friendly
   - targeted
+  - avoidImageMode
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1415988
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1754873

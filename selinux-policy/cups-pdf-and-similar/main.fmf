@@ -36,6 +36,7 @@ tag:
   - rhel8-epel
   - rhel9-epel
   - NoRHIVOS
+  - avoidImageMode
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=560220
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=563977

@@ -51,7 +51,7 @@ rlJournalStart
         rlRun "rpm -qf ${FILE_PATH}"
 
         rlServiceStop ${SERVICE_NAME}
-        rlFileBackup /usr/lib/systemd/system/ksm.service
+        rlFileBackup /etc/systemd/system/ksm.service
 
         rlSESetEnforce
         rlSEStatus
@@ -79,16 +79,19 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    if [ -f /usr/lib/systemd/system/ksm.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
             PROCESS_CONTEXT="unconfined_service_t"
         fi
-        rlRun "sed -i 's/^ConditionVirtualization=.*$//' /usr/lib/systemd/system/ksm.service"
+        rlRun "cp -f /usr/lib/systemd/system/ksm.service /etc/systemd/system/"
+        rlRun "sed -i 's/^ConditionVirtualization=.*$//' /etc/systemd/system/ksm.service"
         rlRun "systemctl daemon-reload"
         rlSEService - ${SERVICE_NAME} - ${PROCESS_CONTEXT} "start status" 1
         rlRun "restorecon -Rv /etc /run /var -e /var/ARTIFACTS" 0-255
         rlSEService - ${SERVICE_NAME} - ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2

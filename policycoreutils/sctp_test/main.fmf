@@ -15,3 +15,5 @@ link:
 extra-summary: /selinux/policycoreutils/sctp_test
 extra-task: /selinux/policycoreutils/sctp_test
 extra-nitrate: TC#0614834
+tag:
+  - avoidImageMode
