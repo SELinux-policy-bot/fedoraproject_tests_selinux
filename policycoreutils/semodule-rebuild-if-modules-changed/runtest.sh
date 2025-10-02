@@ -7,7 +7,7 @@
 # Include Beakerlib environment
 . /usr/share/beakerlib/beakerlib.sh || exit 1
 
-if grep -q ^store-root /etc/selinux/semanage.conf
+if grep -q ^store-root /etc/selinux/semanage.conf ; then
     STORE_ROOT=`grep ^store-root /etc/selinux/semanage.conf | cut -d = -f 2`
 else
     STORE_ROOT=/var/lib/selinux
