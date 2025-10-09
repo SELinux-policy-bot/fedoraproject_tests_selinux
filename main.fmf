@@ -34,3 +34,7 @@ tags: [generic]
 
 /setools:
     component: setools
+
+adjust+:
+    - duration+: '*15'
+      when: rhivos_preload is defined and rhivos_preload == true
