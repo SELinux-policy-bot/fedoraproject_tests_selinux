@@ -53,7 +53,7 @@ link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1629678
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1718814
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1979182
-adjust:
+adjust+:
   - enabled: false
     when: arch != x86_64
     continue: false

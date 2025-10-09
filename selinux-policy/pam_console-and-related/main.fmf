@@ -43,7 +43,7 @@ link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=204986
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=251104
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1817690
-adjust:
+adjust+:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6 or distro > fedora-38
     continue: false

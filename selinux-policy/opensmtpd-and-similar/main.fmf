@@ -37,7 +37,7 @@ link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2208696
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2246115
   - verifies: https://issues.redhat.com/browse/RHEL-15175
-adjust:
+adjust+:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7
     because: the opensmtpd package is not available there

@@ -18,7 +18,7 @@ tag:
   - NoRHIVOS
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1402140
-adjust:
+adjust+:
   - enabled: false
     when: distro == rhel-4, rhel-5
     continue: false

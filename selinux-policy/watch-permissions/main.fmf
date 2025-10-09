@@ -21,7 +21,7 @@ duration: 15m
 enabled: true
 link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1915034
-adjust:
+adjust+:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8, centos-stream-8
     because: the watch permission is not defined there

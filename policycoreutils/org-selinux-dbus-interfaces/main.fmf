@@ -25,7 +25,7 @@ tag:
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1415988
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1754873
-adjust:
+adjust+:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6
     continue: false

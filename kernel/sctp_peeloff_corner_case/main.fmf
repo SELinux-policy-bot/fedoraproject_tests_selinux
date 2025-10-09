@@ -17,7 +17,7 @@ require:
 duration: 10m
 tier: 2
 enabled: true
-adjust:
+adjust+:
   - enabled: false
     when: distro < rhel-8
     because: RHEL-7 and below don't have SCTP SELinux support

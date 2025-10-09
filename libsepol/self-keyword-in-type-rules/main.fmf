@@ -16,7 +16,7 @@ require:
 duration: 15m
 tier: 2
 enabled: true
-adjust:
+adjust+:
   - enabled: false
     when: distro < rhel-9.1
     because: RHEL-8 and below are not expected to support this

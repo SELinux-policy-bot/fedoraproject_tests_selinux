@@ -40,7 +40,7 @@ link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1959747
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1965411
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1973886
-adjust:
+adjust+:
   - enabled: false
     when: distro >= rhel-9
     because: the usbmuxd package is not available there

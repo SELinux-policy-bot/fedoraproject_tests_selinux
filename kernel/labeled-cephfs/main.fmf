@@ -8,6 +8,6 @@ tier: 2
 tag:
   - failinfedora
   - avoidImageMode
-adjust:
+adjust+:
 -   enabled: false
     when: distro < rhel-8

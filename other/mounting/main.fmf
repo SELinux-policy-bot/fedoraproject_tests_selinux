@@ -16,7 +16,7 @@ tag:
   - NoRHEL6
   - failinfedora
   - targeted
-adjust:
+adjust+:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6
     continue: false

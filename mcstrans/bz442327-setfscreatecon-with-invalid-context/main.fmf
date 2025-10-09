@@ -36,7 +36,7 @@ tier: 3
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=442327
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=800470
-adjust:
+adjust+:
   - enabled: false
     when: distro == rhel-4
     continue: false

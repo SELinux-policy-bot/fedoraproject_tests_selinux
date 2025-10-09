@@ -39,7 +39,7 @@ link:
   - verifies: https://issues.redhat.com/browse/RHEL-39514
   - verifies: https://issues.redhat.com/browse/RHEL-66584
   - verifies: https://issues.redhat.com/browse/RHEL-70849
-adjust:
+adjust+:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8, centos-stream-8
     because: the package is not available there

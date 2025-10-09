@@ -37,7 +37,7 @@ link:
   - verifies: https://issues.redhat.com/browse/RHEL-57104
   - verifies: https://issues.redhat.com/browse/RHEL-58060
   - verifies: https://issues.redhat.com/browse/RHEL-75471
-adjust:
+adjust+:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7
     because: the booth package is not available there

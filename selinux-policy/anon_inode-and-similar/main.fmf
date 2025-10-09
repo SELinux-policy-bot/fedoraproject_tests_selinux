@@ -42,7 +42,7 @@ link:
   - verifies: https://issues.redhat.com/browse/RHEL-11792
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2270895
   - verifies: https://issues.redhat.com/browse/RHEL-60837
-adjust:
+adjust+:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8, centos-stream-8
     because: the anon_inode class is not defined there

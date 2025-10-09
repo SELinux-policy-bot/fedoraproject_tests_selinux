@@ -39,7 +39,7 @@ link:
   - verifies: https://issues.redhat.com/browse/RHEL-98656
   - verifies: https://issues.redhat.com/browse/RHEL-100415
   - verifies: https://issues.redhat.com/browse/RHEL-100721
-adjust:
+adjust+:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7
     continue: false

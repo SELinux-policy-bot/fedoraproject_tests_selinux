@@ -21,7 +21,7 @@ recommend:
 environment:
     AVC_ERROR: +no_avc_check
 duration: 10m
-adjust:
+adjust+:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8, centos-stream-8
     because: the nas package is not available there

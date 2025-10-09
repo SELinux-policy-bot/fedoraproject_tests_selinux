@@ -40,7 +40,7 @@ link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1608480
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1926696
   - verifies: https://issues.redhat.com/browse/RHEL-16104
-adjust:
+adjust+:
   - enabled: false
     when: distro == rhel-4
     continue: false

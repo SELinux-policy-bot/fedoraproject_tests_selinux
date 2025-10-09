@@ -29,7 +29,7 @@ tag:
   - rhel9-epel
   - NoRHIVOS
   - avoidImageMode
-adjust:
+adjust+:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7, centos-stream-10, rhel-10
     because: the caddy package is not available there

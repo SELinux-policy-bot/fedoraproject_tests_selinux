@@ -15,7 +15,7 @@ tag:
   - CI-Tier-1
   - NoRHEL4
   - NoRHEL5
-adjust:
+adjust+:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6
     continue: false

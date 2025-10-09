@@ -51,7 +51,7 @@ link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1960513
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1065002
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1572696
-adjust:
+adjust+:
   - enabled: false
     when: distro >= rhel-9
     because: the amanda package is not available there

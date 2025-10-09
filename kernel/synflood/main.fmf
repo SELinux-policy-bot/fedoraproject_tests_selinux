@@ -21,7 +21,7 @@ duration: 1h
 # currently disabled due to being unreliable
 enabled: false
 tier: 3
-adjust:
+adjust+:
   - enabled: false
     when: distro < rhel-8
     because: The test doesn't work well on RHEL-7

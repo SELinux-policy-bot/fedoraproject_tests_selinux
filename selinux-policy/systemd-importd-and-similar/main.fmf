@@ -34,7 +34,7 @@ tag:
   - NoRHIVOS
 link:
   - verifies: https://issues.redhat.com/browse/RHEL-98490
-adjust:
+adjust+:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-alt-7
     because: the systemd-importd program is not available there

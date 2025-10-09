@@ -25,7 +25,7 @@ link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2315587
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2315812
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2316163
-adjust:
+adjust+:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8, rhel-9, centos-stream-8, centos-stream-9, rhel-10, centos-stream-10
     because: the systemd-homed program is not available there

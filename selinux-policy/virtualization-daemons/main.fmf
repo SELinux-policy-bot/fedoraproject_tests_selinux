@@ -49,7 +49,7 @@ tag:
   - failinfedora
   - NoRHIVOS
   - avoidImageMode
-adjust:
+adjust+:
   - enabled: false
     when: distro < centos-stream-9
     because: the virtualization daemons are not available there

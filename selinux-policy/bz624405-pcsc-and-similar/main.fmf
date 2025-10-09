@@ -50,7 +50,7 @@ link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2355930
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2356058
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2357154
-adjust:
+adjust+:
   - enabled: false
     when: arch == s390, s390x
     continue: false

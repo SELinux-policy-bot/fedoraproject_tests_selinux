@@ -27,7 +27,7 @@ tag:
   - targeted
 link:
   - relates: https://issues.redhat.com/browse/RHEL-29967
-adjust:
+adjust+:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-10
     continue: false

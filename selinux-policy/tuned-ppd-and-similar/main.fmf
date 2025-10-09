@@ -42,7 +42,7 @@ link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2367711
   - verifies: https://issues.redhat.com/browse/RHEL-101686
   - verifies: https://issues.redhat.com/browse/RHEL-101687
-adjust:
+adjust+:
   - enabled: false
     when: distro < rhel-9.5
     because: the tuned-ppd package is not available there

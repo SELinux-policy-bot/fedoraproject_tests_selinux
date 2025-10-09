@@ -13,7 +13,7 @@ tag:
   - NoRHIVOS
 link:
   - relates: https://issues.redhat.com/browse/RHEL-16233
-adjust:
+adjust+:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8
     because: the getpolicyload program is not available there

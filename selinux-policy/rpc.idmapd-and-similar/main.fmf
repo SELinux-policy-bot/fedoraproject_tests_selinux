@@ -30,7 +30,7 @@ tag:
   - failinfedora
   - NoRHIVOS
 tier: 3
-adjust:
+adjust+:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7
     continue: false

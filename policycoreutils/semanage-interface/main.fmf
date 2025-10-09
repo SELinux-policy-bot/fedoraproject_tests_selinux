@@ -24,7 +24,7 @@ tag:
 tier: 1
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=953826
-adjust:
+adjust+:
   - enabled: false
     when: distro == rhel-4
     continue: false

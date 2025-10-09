@@ -30,7 +30,7 @@ tag:
 link:
   - verifies: https://issues.redhat.com/browse/RHEL-57774
   - verifies: https://issues.redhat.com/browse/RHEL-62196
-adjust:
+adjust+:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7
     continue: false

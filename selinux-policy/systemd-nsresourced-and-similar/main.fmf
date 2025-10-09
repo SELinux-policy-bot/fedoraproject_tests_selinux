@@ -33,7 +33,7 @@ tag:
   - NoRHIVOS
 link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2290477
-adjust:
+adjust+:
   - enabled: false
     when: distro <= fedora-40
     continue: false

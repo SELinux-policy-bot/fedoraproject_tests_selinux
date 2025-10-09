@@ -39,7 +39,7 @@ tag:
   - NoRHIVOS
 link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2274709
-adjust:
+adjust+:
   - enabled: false
     when: distro >= rhel-9
     because: the abrt* packages are not available there

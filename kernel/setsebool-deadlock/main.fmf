@@ -14,7 +14,7 @@ require:
 duration: 5m
 tier: 3
 enabled: true
-adjust:
+adjust+:
  -  enabled: false
     when: distro < fedora-34
     because: some kernels on Fedora 33 and below don't have the fix

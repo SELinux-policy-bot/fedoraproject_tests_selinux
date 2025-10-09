@@ -17,7 +17,7 @@ environment:
 duration: 20m
 tier: 2
 enabled: true
-adjust:
+adjust+:
   - enabled: false
     when: distro < fedora-38
     because: This hardening applies only to F38+

@@ -37,7 +37,7 @@ link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1069843
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1087384
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1111581
-adjust:
+adjust+:
   - enabled: false
     when: distro == rhel-4, rhel-alt-7, rhel-9, rhel-10
     because: the thttpd package is not available there

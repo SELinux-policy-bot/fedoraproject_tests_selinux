@@ -1,5 +1,5 @@
 summary: Tier2 test plan
-adjust:
+adjust+:
 - when: trigger == commit
   enabled: false
   because: do not run this plan on changes caused by a PR/MR

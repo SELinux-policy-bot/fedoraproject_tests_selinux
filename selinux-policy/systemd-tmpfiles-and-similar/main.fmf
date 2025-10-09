@@ -36,7 +36,7 @@ tier: 2
 link:
   - verifies: https://issues.redhat.com/browse/RHEL-40374
   - verifies: https://issues.redhat.com/browse/RHEL-44191
-adjust:
+adjust+:
   - enabled: false
     when: distro < rhel-9.5
     continue: false

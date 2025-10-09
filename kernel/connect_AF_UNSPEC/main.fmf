@@ -13,7 +13,7 @@ require:
 duration: 5m
 tier: 2
 enabled: true
-adjust:
+adjust+:
   - enabled: false
     when: distro ~< rhel-8.1
     because: RHEL-8.0 is not expected to have the bug fixed

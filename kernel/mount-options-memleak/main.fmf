@@ -9,8 +9,8 @@ framework: beakerlib
 duration: 1h
 tier: 2
 enabled: true
-adjust:
-    enabled: false
+adjust+:
+  - enabled: false
     when: distro < rhel-7
     because: RHEL-6 and below are not worth supporting by this test
 link:

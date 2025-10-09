@@ -37,7 +37,7 @@ link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2118784
   - verifies: https://issues.redhat.com/browse/RHEL-61928
   - verifies: https://issues.redhat.com/browse/RHEL-62185
-adjust:
+adjust+:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7
     continue: false

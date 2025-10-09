@@ -35,7 +35,7 @@ tier: '3'
 link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2246805
   - verifies: https://issues.redhat.com/browse/RHEL-15085
-adjust:
+adjust+:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8, centos-stream-8, rhel-10, centos-stream-10
     because: the ntpsec package is not available there

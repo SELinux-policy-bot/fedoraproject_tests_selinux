@@ -11,7 +11,7 @@ require:
 duration: 15m
 tier: 2
 enabled: true
-adjust:
+adjust+:
 - enabled: false
   when: distro < rhel-7
   because: RHEL-6 and below are not worth supporting by this test

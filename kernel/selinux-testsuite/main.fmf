@@ -11,7 +11,7 @@ tier: 1
 enabled: true
 tag:
   - fusa
-adjust:
+adjust+:
   - enabled: false
     when: distro < rhel-6
   - enabled: false

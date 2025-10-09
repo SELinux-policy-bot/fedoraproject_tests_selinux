@@ -36,7 +36,7 @@ link:
   - verifies: https://issues.redhat.com/browse/RHEL-17346
   - verifies: https://issues.redhat.com/browse/RHEL-62355
   - verifies: https://issues.redhat.com/browse/RHEL-70850
-adjust:
+adjust+:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7
     because: the iio-sensor-proxy package is not available there

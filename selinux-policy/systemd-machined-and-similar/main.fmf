@@ -43,7 +43,7 @@ link:
   - verifies: https://issues.redhat.com/browse/RHEL-86528
   - verifies: https://issues.redhat.com/browse/RHEL-105966
   - verifies: https://issues.redhat.com/browse/RHEL-108849
-adjust:
+adjust+:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-alt-7
     because: the systemd-machined program is not available there

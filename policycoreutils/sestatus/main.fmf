@@ -21,7 +21,7 @@ link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=705027
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=705031
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1723859
-adjust:
+adjust+:
   - enabled: false
     when: distro == rhel-4
     continue: false

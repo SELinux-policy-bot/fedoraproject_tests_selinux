@@ -36,7 +36,7 @@ tag:
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1808527
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1840265
-adjust:
+adjust+:
   - enabled: false
     when: arch == s390x
     continue: false

@@ -23,7 +23,7 @@ tag:
   - targeted
   - NoRHIVOS
 tier: 1
-adjust:
+adjust+:
   - enabled: false
     when: distro == rhel-4, rhel-5
     continue: false

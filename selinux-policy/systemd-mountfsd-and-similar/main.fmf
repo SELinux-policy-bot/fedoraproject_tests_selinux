@@ -32,7 +32,7 @@ tag:
   - NoRHEL9
   - targeted
   - NoRHIVOS
-adjust:
+adjust+:
   - enabled: false
     when: distro <= fedora-40
     continue: false

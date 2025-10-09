@@ -16,7 +16,7 @@ require:
 duration: 30m
 tier: 2
 enabled: true
-adjust:
+adjust+:
   - enabled: false
     when: distro < rhel-8.3
     because: RHEL-8.2 and below are not expected to have the bug fixed

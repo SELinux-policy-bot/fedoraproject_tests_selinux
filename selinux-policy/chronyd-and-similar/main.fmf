@@ -86,7 +86,7 @@ link:
   - verifies: https://issues.redhat.com/browse/RHEL-18219
   - verifies: https://issues.redhat.com/browse/RHEL-82299
   - verifies: https://issues.redhat.com/browse/RHEL-82308
-adjust:
+adjust+:
   - enabled: false
     when: distro == rhel-4
     continue: false

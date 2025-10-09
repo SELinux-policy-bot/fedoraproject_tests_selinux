@@ -16,7 +16,7 @@ tier: 1
 link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2063353
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2108174
-adjust:
+adjust+:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6
     because: the test is not relevant there

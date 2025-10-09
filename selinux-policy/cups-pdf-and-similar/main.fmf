@@ -48,7 +48,7 @@ link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1700442
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=1832521
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2234765
-adjust:
+adjust+:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-alt-7, rhel-10, centos-stream-10
     continue: false
