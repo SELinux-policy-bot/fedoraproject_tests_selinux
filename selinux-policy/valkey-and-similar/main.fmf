@@ -36,5 +36,11 @@ adjust+:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8
     because: the package is not available there
+  - enabled: false
+    when: distro ~< rhel-9.8
+    because: RHEL-108982 was fixed only here in rhel-9
+  - enabled: false
+    when: distro ~< rhel-10.1
+    because: RHEL-102631 was fixed only here in rhel-10
 extra-nitrate: TC#0619564
 id: 337de041-c42f-4292-99d4-f687ec629fc9
