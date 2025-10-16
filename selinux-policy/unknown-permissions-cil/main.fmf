@@ -1,0 +1,19 @@
+summary: test coverage for Unknown permissions are now handled as errors in CIL
+description: |+
+    Unknown permissions are now handled as errors in CIL
+contact: Jan Janasek <jjanasek@redhat.com>
+component:
+  - selinux-policy
+require:
+  - libselinux
+  - libselinux-utils
+  - policycoreutils-devel
+  - selinux-policy
+  - selinux-policy-targeted
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 20m
+enabled: true
+tier: 2
+link:
+  - verifies: https://issues.redhat.com/browse/SELINUX-2380
