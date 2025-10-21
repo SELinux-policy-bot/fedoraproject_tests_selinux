@@ -37,6 +37,8 @@ link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2270733
   - verifies: https://issues.redhat.com/browse/RHEL-33081
   - verifies: https://issues.redhat.com/browse/RHEL-43417
+  - verifies: https://issues.redhat.com/browse/RHEL-113937
+  - verifies: https://issues.redhat.com/browse/RHEL-113941
 adjust+:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-alt-7

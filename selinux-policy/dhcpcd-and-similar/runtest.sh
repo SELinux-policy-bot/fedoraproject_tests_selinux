@@ -109,6 +109,15 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    if rlIsRHEL '> 9.7' || rlIsRHEL '> 10.1' ; then
+    rlPhaseStartTest "RHEL-113937 + RHEL-113941"
+        rlSEMatchPathCon "/usr/libexec/dhcpcd-run-hooks" "bin_t"
+        CONF_FILE_CONTEXT=`secon --type --file /etc/chrony.conf`
+        rlSESearchRule "allow dhcpc_t ${CONF_FILE_CONTEXT} : file { write } [ ]"
+    rlPhase
+    fi
+
+
     rlPhaseStartTest "real scenario -- standalone service"
         if ! rlIsRHEL "<9.5" ; then
             rlRun "ip netns add test-ns"
