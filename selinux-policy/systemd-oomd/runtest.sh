@@ -30,6 +30,7 @@
 . /usr/share/beakerlib/beakerlib.sh || exit 1
 
 PACKAGE="selinux-policy"
+SERVICE_PACKAGE="systemd-oomd"
 SERVICE_NAME="systemd-oomd"
 FILE_PATH="/usr/lib/systemd/systemd-oomd"
 FILE_CONTEXT="systemd_oomd_exec_t"
@@ -61,7 +62,7 @@ rlJournalStart
         rlSESetTimestamp
         rlRun "cat /etc/system-release"
         rlRun "uname -a"
-        rlRun "rpm -qa \"selinux-*\" \"systemd*\"|sort"
+        rlRun "rpm -qa | grep -e selinux-policy -e systemd | sort"
     rlPhaseEnd
 
     rlPhaseStartTest "SELinux contexts and rules"
@@ -146,3 +147,4 @@ EOF
     rlPhaseEnd
     rlJournalPrintText
 rlJournalEnd
+

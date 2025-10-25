@@ -60,6 +60,7 @@ $(METADATA): Makefile
 	@echo "Requires:        policycoreutils" >> $(METADATA)
 	@echo "Requires:        selinux-policy" >> $(METADATA)
 	@echo "Requires:        selinux-policy-targeted" >> $(METADATA)
+	@echo "Requires:        systemd-oomd" >> $(METADATA)
 	@echo "RhtsRequires:    library(selinux-policy/common)" >> $(METADATA)
 	@echo "Priority:        Normal" >> $(METADATA)
 	@echo "License:         GPLv2" >> $(METADATA)
@@ -73,7 +74,7 @@ $(METADATA): Makefile
 	@echo "Releases:        -RHEL7" >> $(METADATA)
 	@echo "Releases:        -RHEL8" >> $(METADATA)
 	@echo "Releases:        -RHEL9" >> $(METADATA)
-	@echo "Releases:        -RHEL10" >> $(METADATA)
+	@echo "Bug:             RHEL-106998" >> $(METADATA) # RHEL-10
 
 	rhts-lint $(METADATA)
 
