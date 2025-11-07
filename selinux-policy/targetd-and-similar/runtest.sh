@@ -169,7 +169,7 @@ rlJournalStart
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "rm -f /etc/target/saveconfig.json"
         rlRun "rm -f /etc/target/targetd.yaml"
-        rlRun "targetctl clear"
+        rlRun "targetctl clear" 0-255
         rlRun "targetctl save"
         rlRun "echo \"password: Str0nGp4ssw0rD\" > /etc/target/targetd.yaml"
         rlRun "sed -i \"s/use_lvmetad = 1/use_lvmetad = 0/\" /etc/lvm/lvm.conf"
