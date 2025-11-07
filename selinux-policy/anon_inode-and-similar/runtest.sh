@@ -107,6 +107,10 @@ rlJournalStart
         rlSESearchRule "type_transition sysadm_t sysadm_t : anon_inode secretmem_t [secretmem]"
         rlRun "stress-ng --resources 16 --timeout 5 --log-file /dev/null"
     rlPhaseEnd
+
+    rlPhaseStartTest "RHEL-116154 + RHELTEST-2022"
+        rlSESearchRule "allow unconfined_t secretmem_t : anon_inode { map read write } [ ]"
+    rlPhaseEnd
     fi
 
     rlPhaseStartCleanup
