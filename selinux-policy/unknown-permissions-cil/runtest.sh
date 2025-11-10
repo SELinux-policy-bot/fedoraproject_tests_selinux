@@ -36,110 +36,110 @@ rlJournalStart
         rlAssertRpm ${PACKAGE}
         rlAssertRpm ${PACKAGE}-targeted
         rlRun "sestatus"
-	echo "(type test_domain_t)" > $FILE
-	echo "(type test_file_t)" >> $FILE
+	echo "(type my_test_domain_t)" > $FILE
+	echo "(type my_test_file_t)" >> $FILE
         sleep 2
     rlPhaseEnd
 
 
     rlPhaseStartTest "permission watch"
-       echo "(allow test_domain_t test_file_t (dir (watch)))" >> $FILE 
+       echo "(allow my_test_domain_t my_test_file_t (dir (watch)))" >> $FILE 
        rlRun "semodule -i $FILE"
        head -n -1 $FILE > "temp.txt" && mv "temp.txt" $FILE
-       echo "(allow test_domain_t test_file_t (dir (watching)))" >> $FILE 
+       echo "(allow my_test_domain_t my_test_file_t (dir (watching)))" >> $FILE 
        rlRun "semodule -i $FILE" 1
        head -n -1 $FILE > "temp.txt" && mv "temp.txt" $FILE
     rlPhaseEnd
 
     rlPhaseStartTest "permission that is not defined in a class"
-       echo "(allow test_domain_t test_file_t (dir (add_name)))" >> $FILE 
+       echo "(allow my_test_domain_t my_test_file_t (dir (add_name)))" >> $FILE 
        rlRun "semodule -i $FILE"
        head -n -1 $FILE > "temp.txt" && mv "temp.txt" $FILE
-       echo "(allow test_domain_t test_file_t (file (add_name)))" >> $FILE 
+       echo "(allow my_test_domain_t my_test_file_t (file (add_name)))" >> $FILE 
        rlRun "semodule -i $FILE" 1
        head -n -1 $FILE > "temp.txt" && mv "temp.txt" $FILE
     rlPhaseEnd
     
     rlPhaseStartTest "permission sendto"
-        echo "(allow test_domain_t test_file_t (node (sendto)))" >> $FILE 
+        echo "(allow my_test_domain_t my_test_file_t (node (sendto)))" >> $FILE 
         rlRun "semodule -i $FILE"
         head -n -1 $FILE > "temp.txt" && mv "temp.txt" $FILE
-        echo "(allow test_domain_t test_file_t (node (sendsto)))" >> $FILE 
+        echo "(allow my_test_domain_t my_test_file_t (node (sendsto)))" >> $FILE 
         rlRun "semodule -i $FILE" 1
         head -n -1 $FILE > "temp.txt" && mv "temp.txt" $FILE
-        echo "(allow test_domain_t test_file_t (dir (sendto)))" >> $FILE 
+        echo "(allow my_test_domain_t my_test_file_t (dir (sendto)))" >> $FILE 
         rlRun "semodule -i $FILE" 1
         head -n -1 $FILE > "temp.txt" && mv "temp.txt" $FILE
     rlPhaseEnd
 
     rlPhaseStartTest "permission stop"
-       echo "(allow test_domain_t test_file_t (system (stop)))" >> $FILE 
+       echo "(allow my_test_domain_t my_test_file_t (system (stop)))" >> $FILE 
        rlRun "semodule -i $FILE"
        head -n -1 $FILE > "temp.txt" && mv "temp.txt" $FILE
-       echo "(allow test_domain_t test_file_t (system (stops)))" >> $FILE 
+       echo "(allow my_test_domain_t my_test_file_t (system (stops)))" >> $FILE 
        rlRun "semodule -i $FILE" 1
        head -n -1 $FILE > "temp.txt" && mv "temp.txt" $FILE
-       echo "(allow test_domain_t test_file_t (dir (stop)))" >> $FILE 
+       echo "(allow my_test_domain_t my_test_file_t (dir (stop)))" >> $FILE 
        rlRun "semodule -i $FILE" 1
        head -n -1 $FILE > "temp.txt" && mv "temp.txt" $FILE
     rlPhaseEnd
     
     rlPhaseStartTest "permission reload"
-       echo "(allow test_domain_t test_file_t (service (reload)))" >> $FILE 
+       echo "(allow my_test_domain_t my_test_file_t (service (reload)))" >> $FILE 
        rlRun "semodule -i $FILE"
        head -n -1 $FILE > "temp.txt" && mv "temp.txt" $FILE
-       echo "(allow test_domain_t test_file_t (service (reloads)))" >> $FILE 
+       echo "(allow my_test_domain_t my_test_file_t (service (reloads)))" >> $FILE 
        rlRun "semodule -i $FILE" 1
        head -n -1 $FILE > "temp.txt" && mv "temp.txt" $FILE
-       echo "(allow test_domain_t test_file_t (dir (reload)))" >> $FILE 
+       echo "(allow my_test_domain_t my_test_file_t (dir (reload)))" >> $FILE 
        rlRun "semodule -i $FILE" 1
        head -n -1 $FILE > "temp.txt" && mv "temp.txt" $FILE
     rlPhaseEnd
     
     rlPhaseStartTest "permission use"
-       echo "(allow test_domain_t test_file_t (fd (use)))" >> $FILE 
+       echo "(allow my_test_domain_t my_test_file_t (fd (use)))" >> $FILE 
        rlRun "semodule -i $FILE"
        head -n -1 $FILE > "temp.txt" && mv "temp.txt" $FILE
-       echo "(allow test_domain_t test_file_t (fd (using)))" >> $FILE 
+       echo "(allow my_test_domain_t my_test_file_t (fd (using)))" >> $FILE 
        rlRun "semodule -i $FILE" 1
        head -n -1 $FILE > "temp.txt" && mv "temp.txt" $FILE
-       echo "(allow test_domain_t test_file_t (dir (use)))" >> $FILE 
+       echo "(allow my_test_domain_t my_test_file_t (dir (use)))" >> $FILE 
        rlRun "semodule -i $FILE" 1
        head -n -1 $FILE > "temp.txt" && mv "temp.txt" $FILE
     rlPhaseEnd
     
     rlPhaseStartTest "permission flow_in"
-       echo "(allow test_domain_t test_file_t (packet (flow_in)))" >> $FILE 
+       echo "(allow my_test_domain_t my_test_file_t (packet (flow_in)))" >> $FILE 
        rlRun "semodule -i $FILE"
        head -n -1 $FILE > "temp.txt" && mv "temp.txt" $FILE
-       echo "(allow test_domain_t test_file_t (packet (flows_in)))" >> $FILE 
+       echo "(allow my_test_domain_t my_test_file_t (packet (flows_in)))" >> $FILE 
        rlRun "semodule -i $FILE" 1
        head -n -1 $FILE > "temp.txt" && mv "temp.txt" $FILE
-       echo "(allow test_domain_t test_file_t (system (flow_in)))" >> $FILE 
+       echo "(allow my_test_domain_t my_test_file_t (system (flow_in)))" >> $FILE 
        rlRun "semodule -i $FILE" 1
        head -n -1 $FILE > "temp.txt" && mv "temp.txt" $FILE
     rlPhaseEnd
     
     rlPhaseStartTest "permission contains"
-       echo "(allow test_domain_t test_file_t (context (contains)))" >> $FILE 
+       echo "(allow my_test_domain_t my_test_file_t (context (contains)))" >> $FILE 
        rlRun "semodule -i $FILE"
        head -n -1 $FILE > "temp.txt" && mv "temp.txt" $FILE
-       echo "(allow test_domain_t test_file_t (context (contain)))" >> $FILE 
+       echo "(allow my_test_domain_t my_test_file_t (context (contain)))" >> $FILE 
        rlRun "semodule -i $FILE" 1
        head -n -1 $FILE > "temp.txt" && mv "temp.txt" $FILE
-       echo "(allow test_domain_t test_file_t (fd (contains)))" >> $FILE 
+       echo "(allow my_test_domain_t my_test_file_t (fd (contains)))" >> $FILE 
        rlRun "semodule -i $FILE" 1
        head -n -1 $FILE > "temp.txt" && mv "temp.txt" $FILE
     rlPhaseEnd
     
     rlPhaseStartTest "permission lock"
-       echo "(allow test_domain_t test_file_t (shm (lock)))" >> $FILE 
+       echo "(allow my_test_domain_t my_test_file_t (shm (lock)))" >> $FILE 
        rlRun "semodule -i $FILE"
        head -n -1 $FILE > "temp.txt" && mv "temp.txt" $FILE
-       echo "(allow test_domain_t test_file_t (shm (locked)))" >> $FILE 
+       echo "(allow my_test_domain_t my_test_file_t (shm (locked)))" >> $FILE 
        rlRun "semodule -i $FILE" 1
        head -n -1 $FILE > "temp.txt" && mv "temp.txt" $FILE
-       echo "(allow test_domain_t test_file_t (system (lock)))" >> $FILE 
+       echo "(allow my_test_domain_t my_test_file_t (system (lock)))" >> $FILE 
        rlRun "semodule -i $FILE" 1
        head -n -1 $FILE > "temp.txt" && mv "temp.txt" $FILE
     rlPhaseEnd
