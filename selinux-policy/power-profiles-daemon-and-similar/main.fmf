@@ -34,6 +34,7 @@ link:
   - verifies: https://issues.redhat.com/browse/RHEL-61117
   - verifies: https://issues.redhat.com/browse/RHEL-62356
   - verifies: https://issues.redhat.com/browse/RHEL-100718
+  - verifies: https://issues.redhat.com/browse/RHEL-105423
 adjust+:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8, rhel-10, centos-stream-10

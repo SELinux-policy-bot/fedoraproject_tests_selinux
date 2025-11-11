@@ -86,6 +86,14 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    rlPhaseStartTest "RHEL-105423"
+        if [ -d /sys/firmware/acpi ] ; then
+            rlRun "ls -dZ /sys/firmware/acpi | grep :sysfs_t"
+            rlRun "ls -lZ /sys/firmware/acpi"
+        fi
+        rlSESearchRule "allow powerprofiles_t sysfs_t : dir { watch } [ ]"
+    rlPhaseEnd
+
     if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1

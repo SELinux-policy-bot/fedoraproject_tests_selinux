@@ -66,6 +66,7 @@ $(METADATA): Makefile
 	@echo "Bug:             RHEL-61117" >> $(METADATA) # RHEL-9
 	@echo "Bug:             RHEL-62356" >> $(METADATA) # RHEL-10
 	@echo "Bug:             RHEL-100718" >> $(METADATA) # RHEL-9
+	@echo "Bug:             RHEL-105423" >> $(METADATA) # RHEL-9
 
 	rhts-lint $(METADATA)
 
