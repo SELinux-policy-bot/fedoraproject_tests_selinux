@@ -74,6 +74,7 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    if ! rlIsRHEL '<9.7'; then
     rlPhaseStartTest "RHEL-100718"
         if [ -d /sys/devices/system/cpu/cpufreq ] ; then
             for CUR_FILE in `find /sys/devices/system/cpu/cpufreq -type f -name energy_performance_preference` ; do
@@ -83,6 +84,7 @@ rlJournalStart
         fi
         rlSESearchRule "allow powerprofiles_t fs_t : filesystem { getattr } [ ]"
     rlPhaseEnd
+    fi
 
     if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
@@ -92,16 +94,20 @@ rlJournalStart
         rlRun "powerprofilesctl version"
         rlRun "restorecon -Rv /etc /run /var -e /var/ARTIFACTS" 0-255
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status" 1
-        ORIG_PROFILE=`powerprofilesctl get`
-        if echo ${ORIG_PROFILE} | grep -q balanced ; then
-            rlRun "powerprofilesctl set power-saver" 0,1
+        if ! rlIsRHEL '<9.7' ; then
+            ORIG_PROFILE=`powerprofilesctl get`
+            if echo ${ORIG_PROFILE} | grep -q balanced ; then
+                rlRun "powerprofilesctl set power-saver" 0,1
+            else
+                rlRun "powerprofilesctl set balanced" 0,1
+            fi
+            sleep 2
+            rlRun "powerprofilesctl get"
+            rlRun "powerprofilesctl set ${ORIG_PROFILE}"
+            sleep 2
         else
-            rlRun "powerprofilesctl set balanced" 0,1
+            rlRun "powerprofilesctl get"
         fi
-        sleep 2
-        rlRun "powerprofilesctl get"
-        rlRun "powerprofilesctl set ${ORIG_PROFILE}"
-        sleep 2
         rlRun "powerprofilesctl launch echo" 0,1
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "stop status" 1
     rlPhaseEnd
