@@ -32,7 +32,7 @@ link:
   - verifies: https://issues.redhat.com/browse/RHEL-62196
 adjust+:
   - enabled: false
-    when: distro == rhel-4, rhel-5, rhel-6, rhel-7
+    when: distro < rhel-9.7
     continue: false
 extra-summary: /CoreOS/selinux-policy/Regression/systemd-journal-upload
 extra-task: /CoreOS/selinux-policy/Regression/systemd-journal-upload
