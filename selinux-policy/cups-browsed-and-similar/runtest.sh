@@ -94,7 +94,12 @@ rlJournalStart
 
     rlPhaseStartCleanup
         sleep 2
-        rlSECheckAVC
+        # Ignore specific avc denial on rhel-9 due to RHEL-47401
+        if rlIsRHEL 9 || rlIsCentOS 9; then
+            rlSECheckAVC --ignore 'type=AVC.*comm=cups-browsed.*name=lpoptions.*scontext=.*:cupsd_t:.*tcontext=.*:admin_home_t:.*tclass=file'
+        else
+            rlSECheckAVC
+        fi
 
         rlFileRestore
         rlServiceRestore ${SERVICE_NAME}
