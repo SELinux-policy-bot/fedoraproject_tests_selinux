@@ -48,9 +48,9 @@ rlJournalStart
         rlRun "rpm -qa kernel\*"
         rlRun "uname -r"
         if ! rlCheckRpm kernel-automotive ; then
-          rlRun "yum -y install kernel-modules-`uname -r`"
+          rlRun "yum -y install kernel-modules-`uname -r`" 0,1
         else
-          rlRun "dnf -y install kernel-automotive-modules-`uname -r`"
+          rlRun "dnf -y install kernel-automotive-modules-`uname -r`" 0,1
         fi
 
         rlServiceStop ${SERVICE_NAME}

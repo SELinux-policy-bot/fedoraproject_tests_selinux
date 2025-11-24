@@ -74,12 +74,15 @@ rlJournalStart
     if which dhclient >& /dev/null ; then
     rlPhaseStartTest "real scenario"
         rlRun "rm -rf /run/chrony-dhcp"
-        rlRun "restorecon -Rv /run /var -e /var/ARTIFACTS" 0-255
+        rlRun "restorecon -Rv /etc /run /var -e /var/ARTIFACTS" 0-255
         rlRun "dhclient"
         DHCLIENT_PID=`pgrep dhclient`
         rlRun "ps -efZ | grep dhclient"
         rlRun "ps -efZ | grep ':dhcpc_t:.*dhclient'"
         if ! rlIsRHEL 8 && ! rlIsCentOS 8 ; then
+            rlRun "grep CHRONY_SOURCEDIR /etc/dhcp/dhclient.d/chrony.sh"
+            rlRun "grep sourcedir /etc/chrony.conf"
+            sleep 5
             rlRun "ls -alZ /run/chrony-dhcp"
         fi
     rlPhaseEnd

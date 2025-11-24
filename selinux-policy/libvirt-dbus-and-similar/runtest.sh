@@ -52,7 +52,7 @@ rlJournalStart
         rlAssertRpm ${SERVICE_PACKAGE}
 
         rlServiceStop ${SERVICE_NAME}
-        rlRun "yum -y install libvirt\* --skip-broken -x \*i686\* -x glibc32"
+        rlRun "yum -y install libvirt\* --skip-broken -x \*i686\* -x glibc32" 0,1
 
         rlSESetEnforce
         rlSEStatus

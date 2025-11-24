@@ -84,7 +84,7 @@ rlJournalStart
         rlRun "sed -i 's/^.*Environment=.*$/Environment=FAKE_LIGHT_SENSOR=1/' /etc/systemd/system/iio-sensor-proxy.service"
         rlRun "systemctl daemon-reload"
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status" 1
-        rlRun "gdbus introspect --system --dest net.hadess.SensorProxy --object-path /net/hadess/SensorProxy"
+        rlRun "gdbus introspect --system --dest net.hadess.SensorProxy --object-path /net/hadess/SensorProxy" 0,1
         rlWatchdog "monitor-sensor --all" 10
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "stop status" 1
     rlPhaseEnd
