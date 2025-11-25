@@ -1,0 +1,27 @@
+summary: 'restorecon -i' should ignore missing files/directories
+description: Does 'restorecon -i' work as expected?
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - libselinux
+  - policycoreutils
+recommend:
+  - libselinux
+  - policycoreutils
+duration: 5m
+enabled: true
+tag:
+  - CI-Tier-1
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - NoRHEL8
+  - targeted
+tier: 1
+link:
+  - verifies: https://issues.redhat.com/browse/RHEL-110181
+  - verifies: https://issues.redhat.com/browse/RHEL-123884
+adjust+:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8
+    continue: false
