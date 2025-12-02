@@ -1,0 +1,100 @@
+policy_module(test_policy,1.0.0)
+
+type test_lowerfile_t;
+files_type(test_lowerfile_t)
+
+type test_lowerfile_no_map_t;
+files_type(test_lowerfile_no_map_t)
+
+type test_lowerfile_no_write_t;
+files_type(test_lowerfile_no_write_t)
+
+type test_lowerfile_no_read_t;
+files_type(test_lowerfile_no_read_t)
+
+type test_mountedfile_t;
+files_type(test_mountedfile_t)
+
+type test_mounter_t;
+domain_type(test_mounter_t)
+
+allow test_mounter_t self:capability { sys_admin dac_read_search dac_override };
+
+# test_mounter_t has full access to test_lowerfile_t
+manage_dirs_pattern(test_mounter_t, test_lowerfile_t, test_lowerfile_t)
+manage_files_pattern(test_mounter_t, test_lowerfile_t, test_lowerfile_t)
+manage_chr_files_pattern(test_mounter_t, test_lowerfile_t, test_lowerfile_t)
+allow test_mounter_t test_lowerfile_t:file map;
+
+# test_mounter_t can't map test_lowerfile_t
+rw_files_pattern(test_mounter_t, test_lowerfile_no_map_t, test_lowerfile_no_map_t)
+
+# test_mounter_t can't write test_lowerfile_no_write_t
+read_files_pattern(test_mounter_t, test_lowerfile_no_write_t, test_lowerfile_no_write_t)
+allow test_mounter_t test_lowerfile_no_write_t:file map;
+
+# test_mounter_t can't read test_lowerfile_no_read_t
+write_files_pattern(test_mounter_t, test_lowerfile_no_read_t, test_lowerfile_no_read_t)
+allow test_mounter_t test_lowerfile_no_read_t:file map;
+
+allow test_mounter_t test_mountedfile_t:dir { getattr setattr };
+allow test_mounter_t test_mountedfile_t:filesystem { relabelfrom relabelto mount };
+
+kernel_read_system_state(test_mounter_t)
+kernel_read_proc_symlinks(test_mounter_t)
+kernel_request_load_module(test_mounter_t)
+kernel_search_proc(test_mounter_t)
+
+fs_getattr_xattr_fs(test_mounter_t)
+fs_relabelfrom_xattr_fs(test_mounter_t)
+
+mount_entry_type(test_mounter_t)
+mount_rw_pid_files(test_mounter_t)
+
+selinux_getattr_fs(test_mounter_t)
+
+files_mounton_all_mountpoints(test_mounter_t)
+
+# Domain with full mountedfile access
+type test_access_full_t;
+domain_type(test_access_full_t)
+
+manage_dirs_pattern(test_access_full_t, test_mountedfile_t, test_mountedfile_t)
+manage_files_pattern(test_access_full_t, test_mountedfile_t, test_mountedfile_t)
+allow test_access_full_t test_mountedfile_t:file map;
+
+corecmd_bin_entry_type(test_access_full_t)
+
+# Domain with lowerfile access, but no mountedfile access (exploiting Bug 2)
+type test_access_exploit_t;
+domain_type(test_access_exploit_t)
+
+manage_files_pattern(test_access_exploit_t, test_lowerfile_t, test_lowerfile_t)
+
+corecmd_bin_entry_type(test_access_exploit_t)
+
+# for dyntransition test_access_full_t -> test_access_exploit_t
+allow test_access_full_t self:process { setcurrent };
+allow test_access_full_t test_access_exploit_t:process { dyntransition };
+
+attribute test_domain;
+typeattribute test_mounter_t test_domain;
+typeattribute test_access_full_t test_domain;
+typeattribute test_access_exploit_t test_domain;
+
+require {
+	type TEST_TYPE;
+	role TEST_ROLE;
+}
+allow TEST_TYPE test_domain:process transition;
+role TEST_ROLE types test_domain;
+
+allow test_domain TEST_TYPE:fd use;
+allow test_domain TEST_TYPE:fifo_file rw_inherited_fifo_file_perms;
+allow test_domain TEST_TYPE:process { sigchld };
+
+files_search_tmp(test_domain)
+
+term_use_all_terms(test_domain)
+
+userdom_search_user_tmp_dirs(test_domain)

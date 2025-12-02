@@ -1,0 +1,22 @@
+summary: Regression test for overlayfs mmap/mprotect bugs
+description: |
+  Tests various scenarios with overlayfs and mmap/mprotect syscalls.
+  This also covers CVE-2026-46054.
+contact: Ondrej Mosnacek <omosnace@redhat.com>
+component:
+  - kernel
+framework: beakerlib
+require:
+  - selinux-policy-devel
+  - gcc
+duration: 5m
+tier: 2
+enabled: true
+link:
+  - verifies: https://issues.redhat.com/browse/RHEL-127505
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2026-46054
+environment:
+  AVC_ERROR: +no_avc_check
+check:
+  - how: avc
+    result: xfail
