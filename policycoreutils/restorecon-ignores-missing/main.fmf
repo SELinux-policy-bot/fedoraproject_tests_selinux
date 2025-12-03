@@ -1,5 +1,5 @@
-summary: 'restorecon -i' should ignore missing files/directories
-description: Does 'restorecon -i' work as expected?
+summary: restorecon -i should ignore missing files/directories
+description: Does restorecon -i work as expected?
 contact: Milos Malik <mmalik@redhat.com>
 component:
   - libselinux
@@ -25,3 +25,5 @@ adjust+:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8
     continue: false
+extra-nitrate: TC#0619904
+id: baf5db72-ac2b-4d70-90a2-806073285d7c
