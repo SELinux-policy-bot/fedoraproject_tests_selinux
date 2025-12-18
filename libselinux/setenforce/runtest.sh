@@ -50,6 +50,7 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "basic use"
+        rlRun "which auditctl" 0 "'auditctl' have to be present for proper functioning, failing test otherwise"
         START_DATE_TIME=`date "+%m/%d/%Y %T"`
         sleep 1
         rlRun "setenforce 1"
