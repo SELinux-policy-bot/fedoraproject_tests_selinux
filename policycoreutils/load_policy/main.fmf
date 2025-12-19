@@ -28,6 +28,10 @@ adjust+:
   - enabled: false
     when: distro == rhel-4, rhel-5
     continue: false
+  - when: distro >= rhel-10
+    recommend+:
+      - audit-rules
+    because: since RHEL 10 package audit was split and early packages have wrong dependency
 extra-nitrate: TC#0542457
 extra-summary: /CoreOS/policycoreutils/Sanity/load_policy
 extra-task: /CoreOS/policycoreutils/Sanity/load_policy
