@@ -4,6 +4,7 @@ description: |+
 
 contact: Milos Malik <mmalik@redhat.com>
 component:
+  - gnome-remote-desktop
   - selinux-policy
 test: ./runtest.sh
 framework: beakerlib
@@ -20,6 +21,7 @@ recommend:
   - /usr/sbin/service
   - gnome-remote-desktop
   - gdm
+  - freerdp
 environment:
     AVC_ERROR: +no_avc_check
 duration: 10m

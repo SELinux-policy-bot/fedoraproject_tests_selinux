@@ -73,6 +73,15 @@ rlJournalStart
 
     if [ -f /usr/lib/systemd/system/gnome-remote-desktop.service ] ; then
     rlPhaseStartTest "real scenario"
+        rlRun "rm -rf ~gnome-remote-desktop/.local/share/gnome-remote-desktop"
+        rlRun "sudo -u gnome-remote-desktop mkdir -p ~gnome-remote-desktop/.local/share/gnome-remote-desktop"
+        rlRun "sudo -u gnome-remote-desktop winpr-makecert -silent -rdp -path ~gnome-remote-desktop/.local/share/gnome-remote-desktop tls"
+        rlRun "grdctl --system rdp set-tls-key ~gnome-remote-desktop/.local/share/gnome-remote-desktop/tls.key"
+        rlRun "grdctl --system rdp set-tls-cert ~gnome-remote-desktop/.local/share/gnome-remote-desktop/tls.crt"
+        rlRun "grdctl --system rdp set-credentials nobody nothing"
+        rlRun "grdctl --system rdp enable"
+        rlRun "systemctl enable --now gdm"
+        sleep 2
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
         rlRun "grdctl --headless status"
         rlRun "grdctl --system status"
@@ -81,6 +90,7 @@ rlJournalStart
         rlRun "grdctl --system status"
         rlRun "restorecon -Rv /etc /run /var -e /var/ARTIFACTS" 0-255
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
+        rlRun "systemctl stop gdm"
     rlPhaseEnd
     fi
 
