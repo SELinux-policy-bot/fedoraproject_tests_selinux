@@ -1,0 +1,22 @@
+summary: Test for unexpected denials from sysctl -a
+description: |
+    Verifes that running sysctl -a doesn't trigger unexpected capability
+    checks that would result in AVC denials even when access is allowed.
+contact: Ondrej Mosnacek <omosnace@redhat.com>
+component:
+  - kernel
+framework: beakerlib
+require:
+  - selinux-policy-devel
+duration: 10m
+tier: 2
+check:
+  - avc
+enabled: true
+adjust+:
+  - enabled: false
+    when: distro < rhel-9
+    because: RHEL-8 and below are not worth supporting by this test
+link:
+  - verifies: https://issues.redhat.com/browse/RHEL-135610
+  - verifies: https://issues.redhat.com/browse/RHEL-145590
