@@ -13,6 +13,7 @@ require:
 recommend:
   - audit
   - libselinux-utils
+  - nfs-utils
   - policycoreutils
   - selinux-policy
   - selinux-policy-targeted
@@ -39,6 +40,7 @@ link:
   - verifies: https://issues.redhat.com/browse/RHEL-98656
   - verifies: https://issues.redhat.com/browse/RHEL-100415
   - verifies: https://issues.redhat.com/browse/RHEL-100721
+  - verifies: https://issues.redhat.com/browse/RHEL-111556
 adjust+:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7

@@ -56,6 +56,7 @@ $(METADATA): Makefile
 	@echo "RunFor:          selinux-policy" >> $(METADATA)
 	@echo "Requires:        audit" >> $(METADATA)
 	@echo "Requires:        libselinux-utils" >> $(METADATA)
+	@echo "Requires:        nfs-utils" >> $(METADATA)
 	@echo "Requires:        policycoreutils" >> $(METADATA)
 	@echo "Requires:        selinux-policy" >> $(METADATA)
 	@echo "Requires:        selinux-policy-targeted" >> $(METADATA)
@@ -78,6 +79,7 @@ $(METADATA): Makefile
 	@echo "Bug:             RHEL-98656" >> $(METADATA) # RHEL-10
 	@echo "Bug:             RHEL-100415" >> $(METADATA) # RHEL-10
 	@echo "Bug:             RHEL-100721" >> $(METADATA) # RHEL-10
+	@echo "Bug:             RHEL-111556" >> $(METADATA) # RHEL-10
 
 	rhts-lint $(METADATA)
 

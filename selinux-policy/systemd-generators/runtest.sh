@@ -225,6 +225,16 @@ EOF
     rlPhaseEnd
     fi
 
+    if seinfo -a | grep -q systemd_generator ; then
+    rlPhaseStartTest "RHEL-111556"
+        rlSEMatchPathCon "/usr/lib/systemd/system-generators/nfs-server-generator" "systemd_nfs_generator_exec_t"
+        rlSESearchRule "allow init_t systemd_nfs_generator_exec_t : file { getattr open read map execute } [ ]"
+        rlSESearchRule "type_transition init_t systemd_nfs_generator_exec_t : process systemd_nfs_generator_t"
+        rlSESearchRule "allow init_t systemd_nfs_generator_t : process { transition } [ ]"
+        rlSESearchRule "allow systemd_nfs_generator_t systemd_nfs_generator_t : udp_socket { getattr create setopt connect } [ ]"
+    rlPhaseEnd
+    fi
+
     ### generators from other packages: install them all?
     # dnf install "/usr/lib/systemd/system-generators/*"
     # cloud-init-generator nfs-server-generator rpc-pipefs-generator selinux-autorelabel-generator.sh zram-generator
