@@ -36,6 +36,7 @@ link:
   - verifies: https://issues.redhat.com/browse/RHEL-17346
   - verifies: https://issues.redhat.com/browse/RHEL-62355
   - verifies: https://issues.redhat.com/browse/RHEL-70850
+  - verifies: https://issues.redhat.com/browse/RHEL-110090
 adjust+:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7

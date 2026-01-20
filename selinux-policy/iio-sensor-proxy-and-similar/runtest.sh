@@ -72,6 +72,15 @@ rlJournalStart
         rlSESearchRule "allow iiosensorproxy_t xdm_t : dbus { send_msg } [ ]"
         rlSESearchRule "allow iiosensorproxy_t iiosensorproxy_t : capability2 { bpf } [ ]"
     rlPhaseEnd
+
+    rlPhaseStartTest "RHEL-110090"
+        rlRun "semanage fcontext -l | grep '/dev/iio:device.*character.*iio_device_t'"
+        rlSEMatchPathCon "/dev/iio:device3" "iio_device_t"
+        rlSESearchRule "allow iiosensorproxy_t sysfs_t : dir { write } [ ]"
+        rlSESearchRule "allow iiosensorproxy_t sysfs_t : file { write } [ ]"
+        rlSESearchRule "allow iiosensorproxy_t iiosensorproxy_t : unix_dgram_socket { create } [ ]"
+        rlSESearchRule "allow iiosensorproxy_t iio_device_t : chr_file { read } [ ]"
+    rlPhaseEnd
     fi
 
     if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
