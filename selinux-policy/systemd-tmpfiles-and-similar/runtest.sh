@@ -76,6 +76,27 @@ rlJournalStart
         done
     rlPhaseEnd
 
+    rlPhaseStartTest "RHEL-139855"
+        SOFT_LIMIT=1000
+        HARD_LIMIT=1500
+        LIMIT_NOFILE="$(systemctl show --value --property DefaultLimitNOFILE)"
+        LIMIT_NOFILE_SOFT="$(systemctl show --value --property DefaultLimitNOFILESoft)"
+        rlAssertNotEquals "DefaultLimitNOFILE is set to: ${LIMIT_NOFILE}" $HARD_LIMIT $LIMIT_NOFILE
+        rlAssertNotEquals "DefaultLimitNOFILESoft is set to: ${LIMIT_NOFILE_SOFT}" $SOFT_LIMIT $LIMIT_NOFILE_SOFT
+        rlRun "mkdir /run/systemd/system.conf.d/"
+        rlRun "cat >/run/systemd/system.conf.d/99-NOFILE.conf <<EOF
+               [Manager]
+               DefaultLimitNOFILE=${SOFT_LIMIT}:${HARD_LIMIT}
+               EOF"
+        rlRun "systemctl daemon-reload"
+        LIMIT_NOFILE="$(systemctl show --value --property DefaultLimitNOFILE)"
+        LIMIT_NOFILE_SOFT="$(systemctl show --value --property DefaultLimitNOFILESoft)"
+        rlAssertEquals "DefaultLimitNOFILE has changed after daemon reload" $HARD_LIMIT $LIMIT_NOFILE
+        rlAssertEquals "DefaultLimitNOFILESoft has changed after daemon reload" $SOFT_LIMIT $LIMIT_NOFILE_SOFT
+        rlRun "systemctl restart systemd-tmpfiles-clean.service"
+        rlRun "rm /run/systemd/system.conf.d/99-NOFILE.conf"
+    rlPhaseEnd
+
     rlPhaseStartCleanup
         sleep 2
         rlSECheckAVC
