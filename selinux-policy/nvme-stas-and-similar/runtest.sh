@@ -44,8 +44,6 @@ rlJournalStart
 
         rlServiceStart avahi-daemon
         rlServiceStop stacd stafd
-        rlFileBackup /usr/lib/systemd/system/stacd.service
-        rlFileBackup /usr/lib/systemd/system/stafd.service
 
         rlSESetEnforce
         rlSEStatus
@@ -91,9 +89,11 @@ rlJournalStart
         for CUR_FILE in /usr/lib/systemd/system/stacd.service \
             /usr/lib/systemd/system/stafd.service ; do
             if grep -q '^ExecStart=.*python' ${CUR_FILE} ; then
-                rlRun "sed -i 's|^ExecStart=.*python.* /|ExecStart=/|' ${CUR_FILE}"
+                rlRun "cp -f ${CUR_FILE} /etc/systemd/system/"
+                COPIED_FILE=`echo ${CUR_FILE} | sed 's|/usr/lib|/etc|'`
+                rlRun "sed -i 's|^ExecStart=.*python.* /|ExecStart=/|' ${COPIED_FILE}"
                 rlRun "systemctl daemon-reload"
-                rlRun "grep '^ExecStart=' ${CUR_FILE}"
+                rlRun "grep '^ExecStart=' ${COPIED_FILE}"
             fi
         done
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
@@ -112,7 +112,7 @@ rlJournalStart
         rlRun "stasadm -v"
         rlRun "stasadm hostid"
         rlRun "stasadm hostnqn"
-        rlRun "restorecon -Rv /var /run -e /var/ARTIFACTS" 0-255
+        rlRun "restorecon -Rv /etc /var /run -e /var/ARTIFACTS" 0-255
         rlSEService - stacd stacd ${PROCESS_CONTEXT} "restart status stop status" 1
         rlSEService - stafd stafd ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
@@ -121,7 +121,9 @@ rlJournalStart
         sleep 2
         rlSECheckAVC
 
-        rlFileRestore
+        rlRun "rm -f /etc/systemd/system/stacd.service"
+        rlRun "rm -f /etc/systemd/system/stafd.service"
+        rlRun "systemctl daemon-reload"
         rlServiceRestore stacd stafd
     rlPhaseEnd
 rlJournalPrintText
