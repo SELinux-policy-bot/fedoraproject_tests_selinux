@@ -1,0 +1,21 @@
+summary: Verify no invalid denials for fanotify_mark() on an anonymous pipe
+description: |
+    Verify that calling fanotify_mark() on an anonymous pipe just fails
+    with EINVAL and doesn't fail on SELinux checks earlier.
+contact: Ondrej Mosnacek <omosnace@redhat.com>
+component:
+  - kernel
+framework: beakerlib
+require:
+  - gcc
+duration: 5m
+tier: 2
+check:
+  - how: avc
+enabled: true
+adjust+:
+  - enabled: false
+    when: distro < rhel-9
+    because: On RHEL-8 fanotify mark is allowed on anonymous pipes.
+link:
+  - verifies: https://issues.redhat.com/browse/RHEL-53850
