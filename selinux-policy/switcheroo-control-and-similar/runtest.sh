@@ -80,10 +80,12 @@ rlJournalStart
         rlSESearchRule "allow switcheroo_control_t unconfined_t : dbus { send_msg } [ ]"
     rlPhaseEnd
 
-    rlPhaseStartTest "RHEL-93335 + RHEL-93535"
-        rlSESearchRule "allow xdm_t switcheroo_control_t : dbus { send_msg } [ ]"
-        rlSESearchRule "allow switcheroo_control_t xdm_t : dbus { send_msg } [ ]"
-    rlPhaseEnd
+        if ! rlIsRHEL "<9.7" && ! ( rlIsRHEL 10 && rlIsRHEL "<10.1" ); then
+        rlPhaseStartTest "RHEL-93335 + RHEL-93535"
+            rlSESearchRule "allow xdm_t switcheroo_control_t : dbus { send_msg } [ ]"
+            rlSESearchRule "allow switcheroo_control_t xdm_t : dbus { send_msg } [ ]"
+        rlPhaseEnd
+        fi
     fi
 
     if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
