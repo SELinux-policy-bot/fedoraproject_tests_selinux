@@ -88,10 +88,12 @@ rlJournalStart
         rlSESearchRule "allow samba_bgqd_t cupsd_t : unix_stream_socket { connectto } [ ]"
     rlPhaseEnd
 
-    rlPhaseStartTest "RHEL-93731"
-        rlSEMatchPathCon "/var/lib/samba/private/msg.sock/668534" "samba_var_t"
-        rlSESearchRule "allow samba_bgqd_t smbd_t : unix_dgram_socket { sendto } [ ]"
-    rlPhaseEnd
+        if ! rlIsRHEL "<9.8" && ! ( rlIsRHEL 10 && rlIsRHEL "<10.2" ); then
+        rlPhaseStartTest "RHEL-93731 + RHEL-95985"
+            rlSEMatchPathCon "/var/lib/samba/private/msg.sock/668534" "samba_var_t"
+            rlSESearchRule "allow samba_bgqd_t smbd_t : unix_dgram_socket { sendto } [ ]"
+        rlPhaseEnd
+        fi
     fi
 
     if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
