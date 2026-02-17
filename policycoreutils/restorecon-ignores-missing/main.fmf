@@ -15,15 +15,16 @@ tag:
   - NoRHEL5
   - NoRHEL6
   - NoRHEL7
-  - NoRHEL8
   - targeted
 tier: 1
 link:
   - verifies: https://issues.redhat.com/browse/RHEL-110181
   - verifies: https://issues.redhat.com/browse/RHEL-123884
+  - verifies: https://issues.redhat.com/browse/RHEL-123885
 adjust+:
   - enabled: false
-    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8
+    when: distro < rhel-8 or distro ~< rhel-9.8 or distro ~< rhel-10.2
     continue: false
+    because: Fixed in RHEL-8.10, RHEL-10.2, RHEL-9 fix expected in RHEL-9.8
 extra-nitrate: TC#0619904
 id: baf5db72-ac2b-4d70-90a2-806073285d7c
