@@ -104,6 +104,7 @@ rlJournalStart
         rlSESearchRule "allow systemd_resolved_t efivarfs_t : file { getattr open read } [ ]"
     rlPhaseEnd
 
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         if ! rlIsRHEL "<9.6" ; then
             rlRun "mkdir -p /run/modprobe.d"
@@ -121,6 +122,7 @@ rlJournalStart
         rlRun "rm -f /etc/modules-load.d/${KERNEL_MODULE}.conf"
         rlRun "rm -f /run/modprobe.d/test.conf"
     rlPhaseEnd
+    fi
 
     if modinfo `grep ^ib /etc/rdma/modules/rdma.conf` >& /dev/null ; then
     rlPhaseStartTest "bz#1942267"

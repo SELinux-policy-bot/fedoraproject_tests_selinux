@@ -183,15 +183,18 @@ rlJournalStart
         rlRun "firewall-cmd --remove-port 1234/tcp --permanent"
     rlPhaseEnd
 
+    DESTINATION="org.fedoraproject.FirewallD1"
+    if busctl | grep -iq ${DESTINATION} ; then
     rlPhaseStartTest "real scenario -- DBus service"
-        DESTINATION="org.fedoraproject.FirewallD1"
         rlRun "gdbus introspect --system --object-path / --dest ${DESTINATION} >& /dev/null"
         sleep 1
         rlRun "ps -efZ | grep -v grep | grep ${PROCESS_NAME}"
         rlRun "ps -efZ | grep -v grep | grep \"${PROCESS_CONTEXT}.*${PROCESS_NAME}\""
         rlServiceStop "firewalld"
     rlPhaseEnd
+    fi
 
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         rlRun "rm -rf /run/firewalld"
@@ -218,6 +221,7 @@ rlJournalStart
             rlRun "ls -Z /run/xtables.lock | grep :iptables_var_run_t"
         fi
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2

@@ -95,6 +95,7 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- bz#894387"
         if rlIsRHEL 5 6 ; then
             rlRun "setsebool icecast_connect_any on"
@@ -123,6 +124,7 @@ rlJournalStart
             rlRun "setsebool icecast_use_any_tcp_ports off"
         fi
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2

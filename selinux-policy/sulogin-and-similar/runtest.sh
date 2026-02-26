@@ -23,6 +23,7 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    if [ -f /usr/lib/systemd/system/rescue.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "grep ExecStart= /usr/lib/systemd/system/rescue.service"
         rlRun "strings /usr/lib/systemd/systemd-sulogin-shell | grep bin/sulogin"
@@ -33,6 +34,7 @@ rlJournalStart
         sleep 2
         rlRun "service rescue status" 3
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2

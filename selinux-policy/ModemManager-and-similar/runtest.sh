@@ -76,13 +76,9 @@ rlJournalStart
         fi
     rlPhaseEnd
 
-    if ! rlIsRHEL 5 ; then
+    DESTINATION="org.freedesktop.ModemManager1"
+    if busctl | grep -iq ${DESTINATION} ; then
     rlPhaseStartTest "real scenario -- DBus service"
-        if rlIsRHEL 6 ; then
-            DESTINATION="org.freedesktop.ModemManager"
-        else
-            DESTINATION="org.freedesktop.ModemManager1"
-        fi
         rlRun "gdbus introspect --system --object-path / --dest ${DESTINATION} >& /dev/null" 0,1
         sleep 1
         rlRun "ps -efZ | grep -v grep | grep ${PROCESS_NAME}"
@@ -108,7 +104,9 @@ rlJournalStart
         rlSEMatchPathCon "/usr/sbin/ModemManager" "modemmanager_exec_t"
         rlSESearchRule "allow modemmanager_t sysfs_t : file { append write } [ ]"
     rlPhaseEnd
+    fi
 
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1

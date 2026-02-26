@@ -226,6 +226,7 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.socket ] ; then
     rlPhaseStartTest "real scenario -- xinetd service"
         HOST_ADDRESS="127.0.0.1"
         PORT_NUMBER="10080" # number or socket path
@@ -258,6 +259,7 @@ rlJournalStart
             rlRun "systemctl disable ${SERVICE_NAME}.socket"
         fi
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2

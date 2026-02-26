@@ -66,6 +66,7 @@ rlJournalStart
         rlSESearchRule "allow rpmdb_t user_devpts_t : chr_file { read write } [ ]"
     rlPhaseEnd
 
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "touch /var/lib/rpm/.rebuilddb"
         rlSEService - ${SERVICE_NAME} - ${PROCESS_CONTEXT} "start status" 1
@@ -73,6 +74,7 @@ rlJournalStart
         rlRun "touch /var/lib/rpm/.rebuilddb"
         rlSEService - ${SERVICE_NAME} - ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
+    fi
 
     rlPhaseStartTest "rpmdb executed by root/unconfined_t"
         rlRun "restorecon -Rv /var/lib/rpm"

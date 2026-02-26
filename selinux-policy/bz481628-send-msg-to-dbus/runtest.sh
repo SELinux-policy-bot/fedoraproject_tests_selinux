@@ -104,9 +104,11 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         rlSEService "nopassword" ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "reload status" 1
     rlPhaseEnd
+    fi
 
     if ! rlIsRHEL 5 6 7 ; then
     rlPhaseStartTest "bz#1688671"

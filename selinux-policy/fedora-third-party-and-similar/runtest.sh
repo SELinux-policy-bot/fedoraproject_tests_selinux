@@ -70,6 +70,7 @@ rlJournalStart
         rlSESearchRule "allow ${PROCESS_CONTEXT} passwd_file_t : file { getattr open read } [ ]"
     rlPhaseEnd
 
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
             # for OSes where the SELinux domain does not exist yet
@@ -81,6 +82,7 @@ rlJournalStart
         rlRun "fedora-third-party list"
         rlSEService - ${SERVICE_NAME} - ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2

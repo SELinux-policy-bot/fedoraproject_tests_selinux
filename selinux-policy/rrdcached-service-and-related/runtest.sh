@@ -84,11 +84,13 @@ rlJournalStart
         rlSESearchRule "typeattribute ${PROCESS_CONTEXT} syslog_client_type"
     rlPhaseEnd
 
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario"
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 2
         rlRun "restorecon -Rv /run /var -e /var/ARTIFACTS" 0-255
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 2
     rlPhaseEnd
+    fi
 
     # TODO: add test scenario for rrdcached.socket
 

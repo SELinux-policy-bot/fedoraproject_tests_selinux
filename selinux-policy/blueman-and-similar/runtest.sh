@@ -83,9 +83,9 @@ rlJournalStart
         rlSESearchRule "allow policykit_t blueman_t : dbus { send_msg }"
     rlPhaseEnd
 
-    if ! rlIsRHEL 5 ; then
+    DESTINATION="org.blueman.Mechanism"
+    if busctl | grep -iq ${DESTINATION} ; then
     rlPhaseStartTest "real scenario -- DBus service"
-        DESTINATION="org.blueman.Mechanism"
         rlRun "gdbus introspect --system --object-path / --dest ${DESTINATION} >& /dev/null"
         sleep 1
         rlRun "ps -efZ | grep -v grep | grep ${PROCESS_NAME}"

@@ -76,9 +76,9 @@ rlJournalStart
     rlPhaseEnd
     fi
 
-    if ! rlIsRHEL 5 ; then
+    DESTINATION="org.freedesktop.RealtimeKit1"
+    if busctl | grep -iq ${DESTINATION} ; then
     rlPhaseStartTest "real scenario -- DBus service"
-        DESTINATION="org.freedesktop.RealtimeKit1"
         rlRun "gdbus introspect --system --object-path / --dest ${DESTINATION} >& /dev/null"
         sleep 1
         rlRun "ps -efZ | grep -v grep | grep ${PROCESS_NAME}"
@@ -97,7 +97,7 @@ rlJournalStart
     rlPhaseEnd
     fi
 
-    if ! rlIsRHEL 5 6 ; then
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then

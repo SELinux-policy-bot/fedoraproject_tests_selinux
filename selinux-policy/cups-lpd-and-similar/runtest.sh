@@ -102,6 +102,7 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.socket ] ; then
     rlPhaseStartTest "real scenario -- bz#1919399 + bz#1947397"
         rlRun "systemctl start cups.service"
         rlRun "systemctl enable cups-lpd.socket"
@@ -115,7 +116,9 @@ rlJournalStart
         rlRun "systemctl disable cups-lpd.socket"
         rlRun "systemctl stop cups.service"
     rlPhaseEnd
+    fi
 
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.socket ] ; then
     rlPhaseStartTest "real scenario -- xinetd service"
         HOST_ADDRESS="127.0.0.1" # IP address or nothing
         PORT_NUMBER="515" # number or socket path
@@ -147,6 +150,7 @@ rlJournalStart
             rlRun "systemctl disable ${SERVICE_NAME}.socket"
         fi
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2

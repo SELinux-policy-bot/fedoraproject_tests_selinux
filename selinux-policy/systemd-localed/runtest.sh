@@ -27,7 +27,9 @@ rlJournalStart
         rlSEMatchPathCon "/etc/X11/xorg.conf.d" "xserver_etc_t"
         rlSESearchRule "allow systemd_localed_t xserver_etc_t : dir { create } [ ]"
     rlPhaseEnd
+    fi
 
+    if [ -f /usr/lib/systemd/system/systemd-localed.service ] ; then
     rlPhaseStartTest "real scenario -- bz#2240159"
         if [ -d /etc/X11/xorg.conf.d ] ; then
             rlRun "rpm -qf /etc/X11/xorg.conf.d" 0,1

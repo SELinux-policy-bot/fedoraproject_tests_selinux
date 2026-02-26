@@ -95,11 +95,13 @@ rlJournalStart
         rlSEMatchPathCon "/usr/libexec/polkit-1/polkitd" "policykit_exec_t"
         rlSESearchRule "allow policykit_t fs_t : filesystem { getattr }"
     rlPhaseEnd
+    fi
 
+    DESTINATION="org.freedesktop.PolicyKit1"
+    if busctl | grep -iq ${DESTINATION} ; then
     rlPhaseStartTest "real scenario -- DBus service"
         rlRun "killall polkitd" 0,1
         sleep 1
-        DESTINATION="org.freedesktop.PolicyKit1"
         rlRun "gdbus introspect --system --object-path / --dest ${DESTINATION} >& /dev/null"
         sleep 1
         rlRun "ps -efZ | grep -v grep | grep ${PROCESS_NAME}"
@@ -133,7 +135,7 @@ rlJournalStart
     rlPhaseEnd
     fi
 
-    if ! rlIsRHEL 5 6 ; then
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
@@ -147,6 +149,7 @@ rlJournalStart
         rlRun "restorecon -Rv /var /run -e /var/ARTIFACTS" 0-255
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
+    fi
 
     rlPhaseStartTest "real scenario -- confined users"
         CREATED_USERS=""
@@ -166,7 +169,6 @@ rlJournalStart
             rlRun "userdel -rfZ ${USER_NAME}"
         done
     rlPhaseEnd
-    fi
 
     rlPhaseStartCleanup
         sleep 2

@@ -69,6 +69,7 @@ rlJournalStart
         rlSESearchRule "allow httpd_t sysctl_net_t : file { getattr open read } [ ]"
     rlPhaseEnd
 
+    if ls /usr/lib/systemd/system/caddy*.service ; then
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "semanage fcontext -l -C | grep caddy"
         for SERVICE_NAME in caddy caddy-api ; do
@@ -77,6 +78,7 @@ rlJournalStart
             rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
         done
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2

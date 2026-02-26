@@ -84,6 +84,7 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         # because of the fowner capability
         rlRun "setsebool httpd_run_stickshift on"
@@ -97,6 +98,7 @@ rlJournalStart
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
         rlRun "setsebool httpd_run_stickshift off"
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2

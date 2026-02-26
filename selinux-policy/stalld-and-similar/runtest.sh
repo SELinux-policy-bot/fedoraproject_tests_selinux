@@ -117,6 +117,7 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
             PROCESS_CONTEXT="unconfined_service_t"
@@ -134,6 +135,7 @@ rlJournalStart
         rlRun "setsebool domain_can_write_kmsg off"
         rlRun "diff before.txt after.txt | grep -i -e 'operation not permitted' -e 'permission denied'" 1
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2

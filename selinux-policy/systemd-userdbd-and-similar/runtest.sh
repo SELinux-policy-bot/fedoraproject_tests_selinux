@@ -100,6 +100,7 @@ rlJournalStart
         rlRun "setsebool ssh_sysadm_login off"
     rlPhaseEnd
 
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
@@ -109,7 +110,9 @@ rlJournalStart
         rlRun "restorecon -Rv /etc /run /var -e /var/ARTIFACTS" 0-255
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
+    fi
 
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.socket ] ; then
     rlPhaseStartTest "real scenario -- ${SERVICE_NAME}.socket"
         rlRun "systemctl stop systemd-userdbd.socket"
         rlRun "systemctl status systemd-userdbd.socket" 3
@@ -118,6 +121,7 @@ rlJournalStart
         rlRun "ls -dZ /run/systemd/userdb | grep :systemd_userdbd_runtime_t"
         rlRun "ls -Z /run/systemd/userdb/io.systemd.Multiplexer | grep :systemd_userdbd_runtime_t"
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2

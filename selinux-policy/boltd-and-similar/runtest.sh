@@ -109,14 +109,17 @@ rlJournalStart
         rlSESearchRule "allow boltd_t xguest_t : dbus { send_msg } [ ]"
     rlPhaseEnd
 
+    DESTINATION="org.freedesktop.bolt"
+    if busctl | grep -iq ${DESTINATION} ; then
     rlPhaseStartTest "real scenario -- system D-bus"
-        DESTINATION="org.freedesktop.bolt"
         rlRun "gdbus introspect --system --object-path / --dest ${DESTINATION} >& /dev/null"
         sleep 2
         rlRun "ps -efZ | grep -v grep | grep ${PROCESS_NAME}"
         rlRun "ps -efZ | grep -v grep | grep \"${PROCESS_CONTEXT}.*${PROCESS_NAME}\""
     rlPhaseEnd
+    fi
 
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
@@ -130,6 +133,7 @@ rlJournalStart
         rlRun "restorecon -Rv /run /var -e /var/ARTIFACTS" 0-255
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
+    fi
 
     rlPhaseStartTest "real scenario -- confined users"
         CREATED_USERS=""

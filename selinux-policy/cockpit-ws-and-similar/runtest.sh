@@ -143,6 +143,7 @@ rlJournalStart
     fi
     fi
 
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
@@ -156,6 +157,7 @@ rlJournalStart
         rlRun "restorecon -Rv /run /var -e /var/ARTIFACTS" 0-255
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
+    fi
 
     rlPhaseStartTest "bz#1402316 + bz#1402495"
         rlSEMatchPathCon "/usr/libexec/cockpit-session" "cockpit_session_exec_t"
@@ -190,6 +192,7 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.socket ] ; then
     rlPhaseStartTest "real scenario -- xinetd service"
         HOST_ADDRESS="127.0.0.1" # IP address or nothing
         PORT_NUMBER="9090" # number or socket path
@@ -221,6 +224,7 @@ rlJournalStart
             rlRun "systemctl disable ${SERVICE_NAME}.socket"
         fi
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2

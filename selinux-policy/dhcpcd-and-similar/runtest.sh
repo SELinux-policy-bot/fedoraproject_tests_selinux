@@ -117,7 +117,7 @@ rlJournalStart
     rlPhase
     fi
 
-
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         if ! rlIsRHEL "<9.5" ; then
             rlRun "ip netns add test-ns"
@@ -136,6 +136,7 @@ rlJournalStart
         rlRun "restorecon -Rv /etc /var /run -e /var/ARTIFACTS" 0-255
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2

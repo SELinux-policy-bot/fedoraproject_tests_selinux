@@ -71,6 +71,7 @@ rlJournalStart
         rlSESearchRule "allow cupsd_t cupsd_tmp_t : lnk_file { create unlink } [ ]"
     rlPhaseEnd
 
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario"
         rlRun "echo -en '\nBrowsePoll localhost\n' >> /etc/cups/cups-browsed.conf"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
@@ -91,6 +92,7 @@ rlJournalStart
         fi
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2

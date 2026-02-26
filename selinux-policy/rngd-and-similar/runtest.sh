@@ -155,6 +155,7 @@ rlJournalStart
         rlPhaseEnd
     fi
 
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         rlRun "modprobe tpm-rng" 0,1
@@ -183,6 +184,7 @@ rlJournalStart
         rlRun "grep ^RNGD_ARGS= /etc/sysconfig/rngd"
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 2
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2

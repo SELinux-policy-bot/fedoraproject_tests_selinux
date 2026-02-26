@@ -38,8 +38,7 @@ rlJournalStart
         rlSESatisfyRequires
         rlAssertRpm ${PACKAGE}
         rlAssertRpm ${PACKAGE}-targeted
-        rlAssertRpm krb5-libs
-        rlAssertRpm krb5-server
+        rlRun "rpm -qa | grep krb | sort"
 
         rlServiceStop kprop kadmin
         rlFileBackup /etc/shadow
@@ -197,6 +196,7 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    if [ -f /usr/lib/systemd/system/kprop.service ] ; then
     rlPhaseStartTest "real scenario for kpropd"
         rlRun "mkdir -p /var/kerberos/krb5kdc"
         rlRun "touch /var/kerberos/krb5kdc/kpropd.acl"
@@ -207,6 +207,7 @@ rlJournalStart
         rlRun "restorecon -Rv /run /var -e /var/ARTIFACTS" 0-255
         rlSEService ${ROOT_PASSWORD} kprop kpropd kpropd_t "restart status stop status" 1
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2

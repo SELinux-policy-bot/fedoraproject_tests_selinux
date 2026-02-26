@@ -74,6 +74,7 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "mkdir -p /var/cache/logwatch"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
@@ -84,6 +85,7 @@ rlJournalStart
         rlRun "restorecon -Rv /etc /var /run -e /var/ARTIFACTS" 0-255
         rlSEService - ${SERVICE_NAME} - ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
+    fi
 
     if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.timer ] ; then
     rlPhaseStartTest "real scenario -- timer"

@@ -75,9 +75,9 @@ rlJournalStart
     rlPhaseEnd
     fi
 
-    if ! rlIsRHEL 5 ; then
+    DESTINATION="org.freedesktop.fwupd"
+    if busctl | grep -iq ${DESTINATION} ; then
     rlPhaseStartTest "real scenario -- DBus service"
-        DESTINATION="org.freedesktop.fwupd"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
             # RHEL-4, RHEL-5, RHEL-6 is excluded
             PROCESS_CONTEXT="unconfined_service_t"
@@ -89,6 +89,7 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "echo ${ROOT_PASSWORD} | passwd --stdin root"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
@@ -99,6 +100,7 @@ rlJournalStart
         rlRun "restorecon -Rv /etc /run /var -e /var/ARTIFACTS" 0-255
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
+    fi
 
     if rlSEDefined "fwupd_t" ; then
     rlPhaseStartTest "bz#1772619"

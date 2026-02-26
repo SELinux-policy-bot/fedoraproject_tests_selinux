@@ -63,6 +63,7 @@ rlJournalStart
         rlSESearchRule "type_transition ${SOURCE_TYPE} ${FILE_CONTEXT} : process ${PROCESS_CONTEXT} $BOOLEANS"
     rlPhaseEnd
 
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         if grep -q _cmd /etc/synce4l.conf ; then
             rlRun "sed -i 's/^\(.*_cmd\) .*$/\1 echo 0/' /etc/synce4l.conf"
@@ -76,6 +77,7 @@ rlJournalStart
         rlRun "restorecon -Rv /var /run -e /var/ARTIFACTS" 0-255
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "restart status stop status" 1
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2

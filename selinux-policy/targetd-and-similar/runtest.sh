@@ -166,6 +166,7 @@ rlJournalStart
         rlSESearchRule "allow targetd_t sysctl_net_t : file { getattr open read } [ ]"
     rlPhaseEnd
 
+    if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "rm -f /etc/target/saveconfig.json"
         rlRun "rm -f /etc/target/targetd.yaml"
@@ -194,6 +195,7 @@ rlJournalStart
         rlRun "losetup -d ${LOOP_DEVICE}"
         rlRun "rm -f ${LOOP_FILE}"
     rlPhaseEnd
+    fi
 
     rlPhaseStartCleanup
         sleep 2
