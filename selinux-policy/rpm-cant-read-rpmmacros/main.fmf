@@ -1,0 +1,40 @@
+summary: setroubleshootd process should not cause an AVC when trying to read /root/.rpmmacros
+description: |+
+    setroubleshootd process should not cause an AVC when trying to read /root/.rpmmacros
+
+contact: Veronika Syncakova <vsyncako@redhat.com>
+component:
+  - selinux-policy
+test: ./runtest.sh
+framework: beakerlib
+require:
+  - library(selinux-policy/common)
+  - setroubleshoot-server
+recommend:
+  - audit
+  - libselinux
+  - selinux-policy
+  - selinux-policy-targeted
+environment:
+    AVC_ERROR: +no_avc_check
+check:
+  - how: avc
+    result: xfail
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - targeted
+  - NoRHIVOS
+tier: 2
+link:
+  - verifies: https://issues.redhat.com/browse/RHEL-147470
+  - verifies: https://issues.redhat.com/browse/RHEL-142548
+adjust+:
+  - enabled: false
+    when: distro < rhel-9.9
+    continue: false
+    because: RHEL-147470 is fixed in RHEL-9.9 and RHEL-142548 in RHEL-10.3
