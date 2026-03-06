@@ -18,6 +18,7 @@ recommend:
   - dhcpcd
   - /usr/sbin/service
   - iproute
+  - systemd-resolved
 environment:
     AVC_ERROR: +no_avc_check
 duration: 10m
@@ -26,6 +27,7 @@ tag:
   - NoRHEL4
   - NoRHEL5
   - NoRHEL6
+  - NoRHEL7
   - targeted
   - NoRHIVOS
   - avoidImageMode
@@ -39,6 +41,8 @@ link:
   - verifies: https://issues.redhat.com/browse/RHEL-43417
   - verifies: https://issues.redhat.com/browse/RHEL-113937
   - verifies: https://issues.redhat.com/browse/RHEL-113941
+  - verifies: https://issues.redhat.com/browse/RHEL-147153
+  - verifies: https://issues.redhat.com/browse/RHEL-147155
 adjust+:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-alt-7

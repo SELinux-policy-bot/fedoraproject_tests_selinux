@@ -54,7 +54,7 @@ $(METADATA): Makefile
 	@echo "Type:            Regression" >> $(METADATA)
 	@echo "TestTime:        10m" >> $(METADATA)
 	@echo "RunFor:          selinux-policy" >> $(METADATA)
-	@echo "Requires:        audit libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted setools-console dhcpcd /usr/sbin/service iproute" >> $(METADATA)
+	@echo "Requires:        audit libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted setools-console dhcpcd /usr/sbin/service iproute systemd-resolved" >> $(METADATA)
 	@echo "RhtsRequires:    library(selinux-policy/common)" >> $(METADATA)
 	@echo "Environment:     AVC_ERROR=+no_avc_check" >> $(METADATA)
 	@echo "Priority:        Normal" >> $(METADATA)
@@ -71,6 +71,8 @@ $(METADATA): Makefile
 	@echo "Bug:             RHEL-43417" >> $(METADATA) # RHEL-10
 	@echo "Bug:             RHEL-113937" >> $(METADATA) # RHEL-10
 	@echo "Bug:             RHEL-113941" >> $(METADATA) # RHEL-9
+	@echo "Bug:             RHEL-147153" >> $(METADATA) # RHEL-10
+	@echo "Bug:             RHEL-147155" >> $(METADATA) # RHEL-9
 
 	rhts-lint $(METADATA)
 

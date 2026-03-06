@@ -51,6 +51,7 @@ rlJournalStart
         rlAssertRpm ${PACKAGE}
         rlAssertRpm ${PACKAGE}-targeted
         rlAssertRpm ${SERVICE_PACKAGE}
+        rlRun "rpm -qa | grep systemd | sort"
 
         rlServiceStop ${SERVICE_NAME}
         rlFileBackup /etc/shadow
@@ -111,10 +112,18 @@ rlJournalStart
 
     if rlIsRHEL '> 9.7' || rlIsRHEL '> 10.1' ; then
     rlPhaseStartTest "RHEL-113937 + RHEL-113941"
-        rlSEMatchPathCon "/usr/libexec/dhcpcd-run-hooks" "bin_t"
+        rlSEMatchPathCon "/usr/libexec/dhcpcd-run-hooks" "dhcpc_hook_exec_t"
         CONF_FILE_CONTEXT=`secon --type --file /etc/chrony.conf`
-        rlSESearchRule "allow dhcpc_t ${CONF_FILE_CONTEXT} : file { write } [ ]"
-    rlPhase
+        rlSESearchRule "allow dhcpc_hook_t ${CONF_FILE_CONTEXT} : file { write } [ ]"
+    rlPhaseEnd
+    fi
+
+    if rlIsRHEL '> 9.8' || rlIsRHEL '> 10.2' ; then
+    rlPhaseStartTest "RHEL-147153 + RHEL-147155"
+        rlSEMatchPathCon "/usr/bin/resolvectl" "bin_t"
+        rlSESearchRule "allow dhcpc_hook_t dhcpc_hook_t : unix_dgram_socket { create ioctl } [ ]"
+        rlSESearchRule "allow dhcpc_hook_t init_t : unix_stream_socket { getattr } [ ]"
+    rlPhaseEnd
     fi
 
     if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
