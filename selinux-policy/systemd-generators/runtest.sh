@@ -165,6 +165,7 @@ rlJournalStart
     # the generator just creates
     # /run/systemd/generator/multi-user.target.wants/rc-local.service symlink
     rlPhaseStartTest "systemd-rc-local-generator"
+      if [ -x /usr/lib/systemd/system-generators/systemd-rc-local-generator ]; then
 	cat > /etc/rc.d/rc.local << EOF
 #!/bin/bash
 echo "This is a script to check rc-local generator."
@@ -177,6 +178,7 @@ EOF
 	rlRun "systemctl start rc-local.service"
 	rlRun "systemctl status rc-local.service"
 	rlRun "systemctl stop rc-local.service"
+      fi
     rlPhaseEnd
 
     ### sysv-generator
@@ -184,6 +186,7 @@ EOF
     # for SysV init[1] scripts in /etc/init.d/* at boot and when configuration
     # of the system manager is reloaded.
     rlPhaseStartTest "systemd-sysv-generator"
+      if [ -x /usr/lib/systemd/system-generators/systemd-sysv-generator ]; then
 	cat > /etc/rc.d/init.d/sysv-generator-test.sh << EOF
 #!/bin/bash
 echo "This is a script to check sysv generator."
@@ -196,6 +199,7 @@ EOF
 	rlRun "systemctl start sysv-generator-test.service"
 	rlRun "systemctl status sysv-generator-test.service"
 	rlRun "systemctl stop sysv-generator-test.service"
+      fi
     rlPhaseEnd
 
     if rlIsCentOS 10 || rlIsRHEL 10 ; then
