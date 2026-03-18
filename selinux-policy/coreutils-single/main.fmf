@@ -1,0 +1,38 @@
+summary: Test that the corecmd_bin_sys_resource permits sys_resource capability request when turned on.
+description: |+
+    Test that the corecmd_bin_sys_resource permits sys_resource capability request when turned on.
+ 
+contact: Veronika Syncakova <vsyncako@redhat.com>
+test: ./runtest.sh
+framework: beakerlib
+component:
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - libselinux
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+environment:
+    AVC_ERROR: +no_avc_check
+check:
+  - how: avc
+    result: xfail
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - NoRHEL8
+  - NoRHIVOS
+link:
+  - verifies: https://redhat.atlassian.net/browse/RHEL-141858
+adjust+:
+  - enabled: false
+    when: distro < rhel-10.3
+    continue: false
+    because: RHEL-141858 is fixed in RHEL-10.3
