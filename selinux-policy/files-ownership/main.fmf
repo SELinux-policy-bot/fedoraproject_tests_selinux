@@ -1,0 +1,25 @@
+summary: test if selinux-policy owns tree with interface files
+contact: Veronika Syncakova <vsyncako@redhat.com>
+test: ./runtest.sh
+duration: 5m
+enabled: true
+require:
+  - selinux-policy
+recommend:
+  - selinux-policy-targeted
+  - selinux-policy-mls
+  - selinux-policy-minimum
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - NoRHEL8
+adjust+:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8
+    continue: false
+link:
+  - verifies: https://redhat.atlassian.net/browse/RHEL-141659
+  - verifies: https://redhat.atlassian.net/browse/RHEL-157952
+  - verifies: https://redhat.atlassian.net/browse/FC-1681
