@@ -18,6 +18,7 @@ recommend:
   - logwatch
   - sendmail
   - /usr/sbin/service
+  - iproute
 environment:
     AVC_ERROR: +no_avc_check
 duration: 15m
@@ -35,6 +36,8 @@ link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2183432
   - verifies: https://issues.redhat.com/browse/RHEL-34135
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2270484
+  - verifies: https://issues.redhat.com/browse/RHEL-160896
+  - verifies: https://issues.redhat.com/browse/RHEL-160897
 adjust+:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8, centos-stream-8

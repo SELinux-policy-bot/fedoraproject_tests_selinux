@@ -74,9 +74,19 @@ rlJournalStart
     rlPhaseEnd
     fi
 
+    if rlIsRHEL '>= 9.8' || rlIsRHEL '>= 10.2' ; then
+    rlPhaseStartTest "RHEL-160896 + RHEL-160897"
+        rlSESearchRule "allow logwatch_t nsfs_t : file { getattr } [ ]"
+    rlPhaseEnd
+    fi
+
     if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
         rlRun "mkdir -p /var/cache/logwatch"
+        NS_NAME="test-ns-${RANDOM}"
+        rlRun "ip netns add ${NS_NAME}"
+        rlRun "ip netns list | grep ${NS_NAME}"
+        rlRun "ls -lZ /run/netns/ | grep :nsfs_t"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
             # for environments where the SELinux domain does not exist yet
             PROCESS_CONTEXT="unconfined_service_t"
@@ -84,6 +94,8 @@ rlJournalStart
         rlSEService - ${SERVICE_NAME} - ${PROCESS_CONTEXT} "start status" 1
         rlRun "restorecon -Rv /etc /var /run -e /var/ARTIFACTS" 0-255
         rlSEService - ${SERVICE_NAME} - ${PROCESS_CONTEXT} "restart status stop status" 1
+        rlRun "ip netns del ${NS_NAME}"
+        rlRun "ip netns list | grep ${NS_NAME}" 1
     rlPhaseEnd
     fi
 
