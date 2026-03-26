@@ -55,7 +55,7 @@ $(METADATA): Makefile
 	@echo "TestTime:        10m" >> $(METADATA)
 	@echo "RunFor:          selinux-policy" >> $(METADATA)
 	@echo "RunFor:          valkey" >> $(METADATA)
-	@echo "Requires:        audit libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted setools-console valkey /usr/sbin/service" >> $(METADATA)
+	@echo "Requires:        audit libselinux libselinux-utils policycoreutils selinux-policy selinux-policy-targeted setools-console valkey /usr/sbin/service valkey-rdma" >> $(METADATA)
 	@echo "RhtsRequires:    library(selinux-policy/common)" >> $(METADATA)
 	@echo "Priority:        Normal" >> $(METADATA)
 	@echo "License:         GPLv2" >> $(METADATA)
@@ -65,6 +65,8 @@ $(METADATA): Makefile
 	@echo "Releases:        -RHEL4 -RHEL5 -RHEL6 -RHEL7 -RHEL8" >> $(METADATA)
 	@echo "Bug:             RHEL-102631" >> $(METADATA) # RHEL-10
 	@echo "Bug:             RHEL-108982" >> $(METADATA) # RHEL-9
+	@echo "Bug:             RHEL-154814" >> $(METADATA) # RHEL-10
+	@echo "Bug:             RHEL-161115" >> $(METADATA) # RHEL-9
 
 	rhts-lint $(METADATA)
 

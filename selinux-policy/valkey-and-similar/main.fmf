@@ -18,6 +18,7 @@ recommend:
   - selinux-policy-targeted
   - setools-console
   - valkey
+  - valkey-rdma
   - /usr/sbin/service
 environment:
     AVC_ERROR: +no_avc_check
@@ -27,6 +28,8 @@ tier: '3'
 link:
   - verifies: https://issues.redhat.com/browse/RHEL-102631
   - verifies: https://issues.redhat.com/browse/RHEL-108982
+  - verifies: https://issues.redhat.com/browse/RHEL-154814
+  - verifies: https://issues.redhat.com/browse/RHEL-161115
 tag:
   - Tier3
   - Tier3se

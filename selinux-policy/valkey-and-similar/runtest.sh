@@ -66,6 +66,12 @@ rlJournalStart
         rlSEMatchPathCon "/usr/lib/systemd/system/valkey.service" "redis_unit_file_t"
     rlPhaseEnd
 
+    if rpm -q valkey-rdma >& /dev/null ; then
+    rlPhaseStartTest "RHEL-154814 + RHEL-161115"
+        rlSESearchRule "allow redis_t redis_t : netlink_rdma_socket { getattr create setopt bind } [ ]"
+    rlPhaseEnd
+    fi
+
     if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- ${SERVICE_NAME} service"
         if ! rlSEDefined ${PROCESS_CONTEXT} ; then
