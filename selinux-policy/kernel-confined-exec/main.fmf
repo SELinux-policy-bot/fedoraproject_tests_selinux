@@ -14,6 +14,9 @@ require:
   - gcc
 environment:
     AVC_ERROR: +no_avc_check
+check:
+  - how: avc
+    result: xfail
 duration: 20m
 tier: 2
 enabled: true
