@@ -26,6 +26,12 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+if ! grep psi=1 /proc/cmdline ; then
+    grubby --update-kernel ALL --args psi=1
+    sync
+    tmt-reboot
+fi
+
 # Include rhts environment
 . /usr/share/beakerlib/beakerlib.sh || exit 1
 
