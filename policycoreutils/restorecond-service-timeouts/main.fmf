@@ -1,0 +1,30 @@
+summary: the restorecond service fails to start because of timeout
+description: the restorecond service fails to start because of timeout
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - policycoreutils
+recommend:
+  - policycoreutils
+  - policycoreutils-restorecond
+duration: 5m
+enabled: true
+tag:
+  - CI-Tier-1
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - NoRHEL8
+  - targeted
+tier: 1
+link:
+  - verifies: https://issues.redhat.com/browse/RHEL-142541
+  - verifies: https://issues.redhat.com/browse/RHEL-165247
+adjust:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7
+    because: the test is not relevant there
+  - enabled: false
+    when: distro == rhel-8, centos-stream-8
+    because: the bug is not yet fixed there
+
