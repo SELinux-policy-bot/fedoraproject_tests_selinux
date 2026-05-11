@@ -3,7 +3,7 @@ test: ./runtest.sh
 framework: beakerlib
 component:
   - libselinux
-recommends:
+recommend:
   - libselinux
   - libselinux-utils
   - policycoreutils

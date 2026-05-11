@@ -2,7 +2,7 @@ summary: Test semanage operation with /var/lib/selinux on NFS
 test: ./test.sh
 framework: beakerlib
 component: libsemanage
-requires:
+require:
   - nfs-utils
   - policycoreutils-python-utils
 duration: 10m
