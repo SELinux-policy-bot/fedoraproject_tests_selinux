@@ -55,7 +55,7 @@ $(METADATA): Makefile
 	@echo "Requires:        yum-utils" >> $(METADATA)
 	@echo "Requires:        python3 sqlite" >> $(METADATA)
 	@echo "Provides:        library(selinux-policy/common)" >> $(METADATA)
-	@echo "RhtsRequires:    library(distribution/epel)" >> $(METADATA)
+	@echo "RhtsRequires:    library(epel/epel)" >> $(METADATA)
 	@echo "License:         GPLv2" >> $(METADATA)
 	@echo "Destructive:     no" >> $(METADATA)
 	@echo "Environment:     AVC_ERROR=+no_avc_check" >> $(METADATA)

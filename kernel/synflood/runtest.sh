@@ -29,7 +29,7 @@ if [ $(nproc) -lt 64 ]; then
     rlPhaseEnd
 else
     rlPhaseStartSetup
-        rlImport "distribution/epel"
+        rlImport "epel/epel"
         rlRun "command -v hping3 || epelyum install -y hping3" 0 \
             "Make sure hping3 is installed (EPEL-only on RHEL)"
 

@@ -8,7 +8,7 @@ component:
 - kernel
 framework: beakerlib
 require:
-- library(distribution/epel)
+- library(epel/epel)
 - /usr/bin/nc
 - perf
 - git
