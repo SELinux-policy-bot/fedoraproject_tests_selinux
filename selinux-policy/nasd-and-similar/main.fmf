@@ -6,7 +6,9 @@ contact: Milos Malik <mmalik@redhat.com>
 component:
   - nas
 require:
-  - library(selinux-policy/common)
+  - type: library
+    name: /selinux-policy/Library/common
+    nick: selinux-policy
 recommend:
   - audit
   - libselinux

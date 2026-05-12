@@ -1,0 +1,15 @@
+summary: selinux-policy Beakerlib library
+require:
+- type: library
+  url: https://github.com/beakerlib/epel.git
+  name: /epel
+recommend:
+- audit
+- setools-console
+- expect
+- policycoreutils
+- /usr/sbin/semanage
+- selinux-policy-devel
+- yum-utils
+- python3
+- sqlite

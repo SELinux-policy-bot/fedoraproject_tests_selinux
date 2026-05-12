@@ -12,7 +12,9 @@ component:
   - pam
   - selinux-policy
 require:
-  - library(selinux-policy/common)
+  - type: library
+    name: /selinux-policy/Library/common
+    nick: selinux-policy
 recommend:
   - audit
   - libselinux

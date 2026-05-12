@@ -9,7 +9,9 @@ component:
 test: ./runtest.sh
 framework: beakerlib
 require:
-  - library(selinux-policy/common)
+  - type: library
+    name: /selinux-policy/Library/common
+    nick: selinux-policy
 recommend:
   - selinux-policy
   - selinux-policy-targeted
