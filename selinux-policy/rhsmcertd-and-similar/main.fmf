@@ -1,0 +1,28 @@
+summary: Test that rhsmcertd have access to gconf_home_t site-packages
+description: |+
+    rhsmcertd is denied read access to /root/.local/lib/pythonX.Y/site-packages/
+    which has gconf_home_t context. This occurs when user runs 'pip install --user' from root.
+
+contact: Veronika Syncakova <vsyncako@redhat.com>
+component:
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+recommend:
+  - audit
+  - selinux-policy
+  - python3
+  - python3-pip
+duration: 15m
+enabled: true
+tag:
+  - NoRHEL7
+  - NoRHEL8
+environment:
+    AVC_ERROR: +no_avc_check
+link:
+  - verifies: https://redhat.atlassian.net/browse/RHEL-106483
+adjust+:
+  - enabled: false
+    when: distro < rhel-9
+    continue: false
