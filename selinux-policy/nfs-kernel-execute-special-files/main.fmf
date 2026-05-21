@@ -1,0 +1,29 @@
+summary: Test access(2) on special files shared through NFS
+description: |
+    Verifies that calling access(2) on special files (symlink, blk file,
+    chr file, fifo) doesn't fail on SELinux denials on the server side.
+contact: Ondrej Mosnacek <omosnace@redhat.com>
+component:
+  - selinux-policy
+framework: beakerlib
+require:
+  - library(selinux-policy/common)
+  - python3
+  - nfs-utils
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 5m
+tier: 2
+enabled: true
+adjust+:
+  - enabled: false
+    when: distro < fedora-45
+    because: Not yet fixed in Fedora
+  - enabled: false
+    when: distro < centos-stream-11
+    because: Not yet fixed in CentOS
+  - enabled: false
+    when: distro < rhel-11
+    because: Not yet fixed in RHEL
+link:
+  - verifies: https://redhat.atlassian.net/browse/RHEL-72728
