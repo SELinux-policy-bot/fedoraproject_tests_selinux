@@ -1,0 +1,26 @@
+summary: SELinux interferes with coredump access in systemd-nspawn containers
+description: |+
+    Test for RHEL-139983 - coredump directory access in systemd-nspawn containers
+
+contact: Veronika Syncakova <vsyncako@redhat.com>
+component:
+  - selinux-policy
+require:
+  - library(selinux-policy/common)
+  - systemd
+  - systemd-container
+recommend:
+  - audit
+  - libselinux
+  - setools-console
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 15m
+enabled: true
+tag:
+  - NoRHEL8
+link:
+  - verifies: https://redhat.atlassian.net/browse/RHEL-139983
+adjust+:
+  - enabled: false
+    when: distro < rhel-9
