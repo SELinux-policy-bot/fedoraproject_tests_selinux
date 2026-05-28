@@ -1,0 +1,28 @@
+summary: Run internal checkpolicy tests
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - checkpolicy
+require:
+  - bison
+  - checkpolicy
+  - flex
+  - gcc
+  - libsepol-devel
+  - make
+recommend:
+  - libsepol-static
+duration: 5m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - targeted
+  - avoidImageMode
+adjust+:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7
+    because: the test is not relevant there
+extra-nitrate: TC#0620041
+id: 3df4f40d-61a0-4267-b7db-6ff9f5254406
