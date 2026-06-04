@@ -1,7 +1,6 @@
-summary: Test that seunshare/sandbox doesn't execute shell commands when given
+summary: Test that seunshare/sandbox doesn't execute shell commands when given 
     filenames with special characters.
 contact: Veronika Syncakova <vsyncako@redhat.com>
-
 component:
   - policycoreutils
 require:
@@ -22,3 +21,5 @@ adjust+:
   - enabled: false
     when: distro < rhel-8
     continue: false
+id: cd507040-e105-4873-972b-7fe10bb597fa
+
