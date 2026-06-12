@@ -9,6 +9,7 @@ require:
   - type: library
     name: /selinux-policy/Library/common
     nick: selinux-policy
+    url: https://src.fedoraproject.org/tests/selinux.git
 recommend:
   - audit
   - libselinux
