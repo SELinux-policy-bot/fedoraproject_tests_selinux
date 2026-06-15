@@ -19,9 +19,6 @@ recommend:
   - selinux-policy-targeted
 environment:
     AVC_ERROR: +no_avc_check
-check:
-  - how: avc
-    result: xfail
 duration: 10m
 enabled: true
 tag:

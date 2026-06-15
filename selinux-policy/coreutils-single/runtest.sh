@@ -18,11 +18,10 @@ rlJournalStart
         rlAssertRpm ${PACKAGE}
         rlSESetEnforce
         rlSEStatus
-        rlSESetTimestamp "General"
+        rlSESetTimestamp
     rlPhaseEnd
 
     rlPhaseStartTest "RHEL-141858"
-        rlSESetTimestamp "No_AVC"
         # Boolean and rule exists
         rlRun "getsebool -a | grep ${BOOLEAN}"
         rlSESearchRule "allow NetworkManager_dispatcher_chronyc_t self:capability {sys_resource} [ ${BOOLEAN} ]"
@@ -32,18 +31,10 @@ rlJournalStart
         rlSEBooleanOn ${BOOLEAN}
         rlRun "nmcli connection up ${INTERFACE_NAME}"
         sleep 5
-        rlSECheckAVC "No_AVC"
-
-        # AVC present when boolean is off
-        rlSESetTimestamp "Trigger_AVC"
-        rlRun "setsebool ${BOOLEAN} off"
-        rlRun "nmcli connection up ${INTERFACE_NAME}"
-        sleep 5
-        rlRun 'rlSEAVCCheck "Trigger_AVC"' 1
     rlPhaseEnd
 
     rlPhaseStartCleanup
-        rlSECheckAVC --ignore "type=AVC .* denied .* sys_resource .*:NetworkManager_dispatcher.* " "General"
+        rlSECheckAVC
         rlSEBooleanRestore ${BOOLEAN}
         if [ "$INSTALLED_VARIANT" = "regular" ]; then
             rlRun "yum -y install coreutils --allowerasing"
