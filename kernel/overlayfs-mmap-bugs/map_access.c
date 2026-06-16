@@ -11,16 +11,22 @@ int main(int argc, const char **argv)
 {
 	const char *file, *context;
 	void *ptr;
-	int rdonly, fd, ctxfd, ret;
+	int rdonly, execmem, flags, prot, fd, ctxfd, ret;
 
-	if (argc < 3  || argc > 4 || (strcmp(argv[2], "RDONLY") && strcmp(argv[2], "RDWR"))) {
+	if (argc < 4  || argc > 5 ||
+	    (strcmp(argv[2], "RDONLY") && strcmp(argv[2], "RDWR")) ||
+	    (strcmp(argv[3], "SHARED") && strcmp(argv[3], "PRIVATE"))
+	   ) {
 		fprintf(stderr, "Usage %s <file> RDONLY|RDWR\n", argv[0]);
 		return EINVAL;
 	}
 
 	file = argv[1];
 	rdonly = strcmp(argv[2], "RDONLY") == 0;
-	context = argc >= 4 ? argv[3] : NULL;
+	execmem = strcmp(argv[3], "PRIVATE") == 0;
+	flags = strcmp(argv[3], "PRIVATE") == 0 ? MAP_PRIVATE : MAP_SHARED;
+	prot = PROT_READ | (!rdonly || execmem ? PROT_WRITE : 0) | (execmem ? PROT_EXEC : 0);
+	context = argc >= 5 ? argv[4] : NULL;
 
 	fd = open(file, rdonly ? O_RDONLY : O_RDWR);
 	if (fd == -1) {
@@ -29,8 +35,7 @@ int main(int argc, const char **argv)
 	}
 
 	/* try direct mmap */
-	ptr = mmap(NULL, 1, rdonly ? PROT_READ : PROT_READ|PROT_WRITE,
-		   MAP_SHARED, fd, 0);
+	ptr = mmap(NULL, 1, prot, flags, fd, 0);
 	if (ptr == MAP_FAILED) {
 		perror("mmap");
 		return 3;
@@ -38,7 +43,7 @@ int main(int argc, const char **argv)
 	munmap(ptr, 1);
 
 	/* try mmap with PROT_NONE followed by mprotect with full access */
-	ptr = mmap(NULL, 1, PROT_NONE, MAP_SHARED, fd, 0);
+	ptr = mmap(NULL, 1, PROT_NONE, flags, fd, 0);
 	if (ptr == MAP_FAILED) {
 		perror("mmap PROT_NONE");
 		return 4;
@@ -58,7 +63,7 @@ int main(int argc, const char **argv)
 		close(ctxfd);
 	}
 
-	ret = mprotect(ptr, 1, rdonly ? PROT_READ : PROT_READ|PROT_WRITE);
+	ret = mprotect(ptr, 1, prot);
 	if (ret == -1) {
 		perror("mprotect");
 		return 5;

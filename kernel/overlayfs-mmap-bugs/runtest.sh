@@ -41,28 +41,32 @@ rlJournalStart
             "Clear the audit log"
     rlPhaseEnd
 
-    rlPhaseStartTest
+    rlPhaseStartTest "CVE-2026-46054"
         # Bug 1
         # Should get below AVC:
         # avc:  denied  { map } for scontext=...test_mounter_t... tcontext=...test_lowerfile_no_map_t... tclass=file
-        rlRun "runcon -t test_access_full_t ./map_access ./mountpoint/file_no_map RDONLY" 3 "Test Bug 1"
+        rlRun "runcon -t test_access_full_t ./map_access ./mountpoint/file_no_map RDONLY SHARED" 3 "Test Bug 1"
 
         # Bug 2, result 1
         # Shouldn't get below AVC:
         # avc:  denied  { use } for scontext=...test_access_full_t... tcontext=...test_mounter_t... tclass=fd
         rlRun "setsebool domain_fd_use 0"
-        rlRun "runcon -t test_access_full_t ./map_access ./mountpoint/file_ok RDONLY" 0 "Test Bug 2, result 1"
+        rlRun "runcon -t test_access_full_t ./map_access ./mountpoint/file_ok RDONLY SHARED" 0 "Test Bug 2, result 1"
         rlRun "setsebool domain_fd_use 1"
 
         # Bug 2, result 2
         # Shouldn't get below AVC:
         # avc:  denied  { read } for scontext=...test_access_full_t... tcontext=...test_lowerfile_t... tclass=file
-        rlRun "runcon -t test_access_full_t ./map_access ./mountpoint/file_ok RDONLY" 0 "Test Bug 2, result 2"
+        rlRun "runcon -t test_access_full_t ./map_access ./mountpoint/file_ok RDONLY SHARED" 0 "Test Bug 2, result 2"
 
         # Bug 2, result 3
         # Should get below AVC:
         # avc:  denied  { read } for scontext=...test_access_exploit_t... tcontext=...test_mountedfile_t... tclass=file
-        rlRun "runcon -t test_access_full_t ./map_access ./mountpoint/file_ok RDONLY $DYNTRANSCON" 5 "Test Bug 2, result 3"
+        rlRun "runcon -t test_access_full_t ./map_access ./mountpoint/file_ok RDONLY SHARED $DYNTRANSCON" 5 "Test Bug 2, result 3"
+    rlPhaseEnd
+
+    rlPhaseStartTest "execmem regression"
+        rlRun "runcon -t test_access_full_t ./map_access ./mountpoint/file_ok RDONLY PRIVATE" 0 "Verify no execmem denied"
     rlPhaseEnd
 
     rlPhaseStartCleanup

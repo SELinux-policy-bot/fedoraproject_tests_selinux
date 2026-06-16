@@ -25,6 +25,8 @@ manage_dirs_pattern(test_mounter_t, test_lowerfile_t, test_lowerfile_t)
 manage_files_pattern(test_mounter_t, test_lowerfile_t, test_lowerfile_t)
 manage_chr_files_pattern(test_mounter_t, test_lowerfile_t, test_lowerfile_t)
 allow test_mounter_t test_lowerfile_t:file map;
+# extra permission for execmem regression test
+allow test_mounter_t test_lowerfile_t:file { execute };
 
 # test_mounter_t can't map test_lowerfile_t
 rw_files_pattern(test_mounter_t, test_lowerfile_no_map_t, test_lowerfile_no_map_t)
@@ -76,6 +78,10 @@ corecmd_bin_entry_type(test_access_exploit_t)
 # for dyntransition test_access_full_t -> test_access_exploit_t
 allow test_access_full_t self:process { setcurrent };
 allow test_access_full_t test_access_exploit_t:process { dyntransition };
+
+# extra permissions for execmem regression test
+allow test_access_full_t test_mountedfile_t:file { execute };
+allow test_access_full_t self:process { execmem };
 
 attribute test_domain;
 typeattribute test_mounter_t test_domain;
