@@ -123,6 +123,18 @@ rlJournalStart
         rlSESearchRule "type_transition bootupd_t bootloader_exec_t : process bootloader_t"
         rlSESearchRule "allow bootupd_t bootloader_t : process { transition } [ ]"
     rlPhaseEnd
+
+    rlPhaseStartTest "RHEL-174888"
+        rlSEMatchPathCon "/usr/bin/lsblk" "bin_t"
+        rlSEMatchPathCon "/etc/passwd" "passwd_file_t"
+        rlSEMatchPathCon "/run/mount/utab" "mount_var_run_t"
+        rlSEMatchPathCon "/var/lib/sss/mc/passwd" "sssd_public_t"
+        rlSEMatchPathCon "/var/lib/sss" "sssd_var_lib_t"
+        rlSESearchRule "allow bootupd_t mount_var_run_t : dir { search } [ ]"
+        rlSESearchRule "allow bootupd_t passwd_file_t : file { getattr open read } [ ]"
+        rlSESearchRule "allow bootupd_t sssd_public_t : dir { search } [ ]"
+        rlSESearchRule "allow bootupd_t sssd_var_lib_t : dir { search } [ ]"
+    rlPhaseEnd
     fi
 
     if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
