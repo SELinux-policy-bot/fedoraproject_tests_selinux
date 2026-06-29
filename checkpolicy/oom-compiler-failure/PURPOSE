@@ -1,0 +1,21 @@
+PURPOSE of /CoreOS/checkpolicy/Regression/oom-compiler-failure
+Author: Petr Matyas <pmatyas@redhat.com>
+
+Description: checkpolicy and checkmodule must fail cleanly under OOM conditions
+
+When a policy compiler (checkpolicy, checkmodule) encounters a memory
+allocation failure mid-compilation it must abort and return a non-zero exit
+status.  It must not write a partial or otherwise incorrect output binary,
+which could be silently loaded by semodule and corrupt the running policy.
+
+The test constrains the virtual address space of the compiler subprocess to
+8 MB using "ulimit -v", which is below the minimum required to compile a real
+targeted policy binary but above the threshold needed to load shared libraries
+and start execution.  Two compilers are exercised:
+
+  checkpolicy -b  (recompiling the active kernel policy binary)
+  checkmodule -b  (recompiling the base module extracted from the policy store)
+
+Assertions for each compiler:
+  1. Exit status is non-zero.
+  2. The output file was not created or is empty.

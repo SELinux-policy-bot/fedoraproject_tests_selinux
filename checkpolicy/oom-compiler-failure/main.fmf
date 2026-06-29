@@ -1,0 +1,18 @@
+summary: checkpolicy and checkmodule must fail cleanly under OOM conditions
+description: |+
+    Simulate an out-of-memory condition by capping the virtual address space of
+    the compiler subprocess with ulimit -v.  Verify that both checkpolicy and
+    checkmodule exit with a non-zero status and do not produce an output binary
+    when memory is exhausted during compilation.
+
+contact: Petr Matyas <pmatyas@redhat.com>
+component:
+  - checkpolicy
+test: ./runtest.sh
+framework: beakerlib
+require:
+  - checkpolicy
+  - policycoreutils
+enabled: true
+tier: 2
+id: 4afebe54-b8f3-41d0-b9bc-91d46d436236
