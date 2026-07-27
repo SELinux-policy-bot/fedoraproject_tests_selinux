@@ -55,6 +55,20 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "bz#562833"
+      if rlIsRHEL ">=11.0" || rlIsCentOS ">=11.0" || rlIsFedora ">=45" ; then
+        for PREFIX in "" "/var/named/chroot" ; do
+            rlSEMatchPathCon "${PREFIX}/dev/null" "null_device_t"
+            rlSEMatchPathCon "${PREFIX}/dev/random" "random_device_t"
+            rlSEMatchPathCon "${PREFIX}/dev/zero" "zero_device_t"
+            rlSEMatchPathCon "${PREFIX}/etc/named.conf" "named_conf_t"
+            rlSEMatchPathCon "${PREFIX}/run/named" "named_var_run_t"
+            rlSEMatchPathCon "${PREFIX}/var/log" "var_log_t"
+            rlSEMatchPathCon "${PREFIX}/var/log/named.log" "named_log_t"
+            rlSEMatchPathCon "${PREFIX}/var/named/data" "named_cache_t"
+            rlSEMatchPathCon "${PREFIX}/var/named/slaves" "named_cache_t"
+            rlSEMatchPathCon "${PREFIX}/var/named" "named_cache_t"
+        done
+      else
         for PREFIX in "" "/var/named/chroot" ; do
             rlSEMatchPathCon "${PREFIX}/dev/null" "null_device_t"
             rlSEMatchPathCon "${PREFIX}/dev/random" "random_device_t"
@@ -67,6 +81,7 @@ rlJournalStart
             rlSEMatchPathCon "${PREFIX}/var/named/slaves" "named_cache_t"
             rlSEMatchPathCon "${PREFIX}/var/named" "named_zone_t"
         done
+      fi
     rlPhaseEnd
 
     rlPhaseStartTest "bz#578187"
