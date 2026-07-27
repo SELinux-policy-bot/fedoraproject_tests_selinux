@@ -35,7 +35,7 @@ PACKAGE="selinux-policy"
 # This should be updated as needed after verifying that the new version
 # doesn't break testing and after applying all necessary tweaks in the TC.
 # Run with GIT_BRANCH=master to run the latest upstream version.
-DEFAULT_COMMIT="72e60b6018321a3da9d5e328477e29ee7366e498"
+DEFAULT_COMMIT="d03e89292da66e638d795c06840037d27131d82c"
 # Default pull requests to merge before running the test.
 # If non-empty, then after checking out GIT_BRANCH the listed upstream pull
 # requests (by number) are merged, creating a new temporary local branch.
@@ -152,12 +152,14 @@ rlJournalStart
             /usr/bin/unbuffer
             attr
             audit
+            btrfs-progs
             checkpolicy
             curl
             dosfstools
             e2fsprogs
             elfutils-libelf-devel
             expect
+            f2fs-tools
             gcc
             git
             grep
@@ -169,6 +171,7 @@ rlJournalStart
             libselinux-devel
             libselinux-utils
             libsepol-devel
+            liburing-devel
             libuuid-devel
             lksctp-tools-devel
             mktemp
@@ -230,7 +233,6 @@ rlJournalStart
         make_vars="SELINUXFS=$selinuxfs SUPPORTS_CIL=$use_cil"
 
         # test turns this boolean off
-        rlRun "BACKUP_allow_domain_fd_use=\$(boolGet allow_domain_fd_use)"
         rlRun "BACKUP_domain_can_mmap_files=\$(boolGet domain_can_mmap_files)"
         # test expects that domains cannot map files by default
         rlRun "boolSet domain_can_mmap_files off"
@@ -325,6 +327,16 @@ rlJournalStart
             rlRun "sed -i 's/3\.18/3.9/' $file" 0 \
                 "Fix up kernel version in nnp test"
         done
+        if rlIsRHELLike "<8"; then
+            rlRun "sed -i 's|\$basedir/test_validate|true|' tests/file_contexts/test" 0 \
+                "Disable test for a known libselinux issue"
+            rlRun "sed -i 's|sub test_68_7_ctx {|sub test_68_7_ctx { ok(1); return;|' tests/overlay/test" 0 \
+                "Disable test for a known overlayfs issue"
+            if [ $(getconf PAGESIZE) -ne 4096 ]; then
+                # Btrfs on RHEL-7 doesn't work with PAGE_SIZE != 4096
+                exclude_tests+=" filesystem/btrfs fs_filesystem/btrfs"
+            fi
+        fi
         if rlIsRHELLike "<8.2"; then
             rlRun "sed -i '/SUBDIRS += bpf/d;/export CFLAGS += -DHAVE_BPF/d' tests/Makefile" 0 \
                 "RHEL < 8.2 doesn't ship libbpf => disable BPF subtests"
@@ -333,6 +345,27 @@ rlJournalStart
             # CONFIG_KEY_DH_OPERATIONS not enabled on RHEL-8 :(
             # on RHEL-7, KEYCTL_DH_COMPUTE is not defined in the header
             exclude_tests+=" keys"
+        fi
+        if rlIsRHELLike "<9.3"; then
+            # RHEL 9.2 and below has some necessary features missing from
+            # liburing
+            exclude_tests+=" io_uring"
+        fi
+        if rlIsRHELLike "<9.6"; then
+            # Stub out some tests that would require BPF token support
+            # in libbpf (earliest known with support is RHEL-9.6)
+            {
+                echo "int test_bpf_map_create(void) { return 0; }"
+                echo "int test_bpf_prog_load(void) { return 0; }"
+                echo "int test_bpf_token_cap_cross_success(void) { return 0; }"
+                echo "int test_bpf_token_cap_cross_failure(void) { return 0; }"
+            } | \
+            rlRun "tee tests/bpf/token_test.c" 0 \
+                "Disable BPF token tests (no support in libbpf)"
+            rlRun "sed -i 's/TARGETS = bpf_test token_child_helper/TARGETS = bpf_test/' tests/bpf/Makefile" 0 \
+                "Disable BPF token tests (no support in libbpf)"
+            rlRun "sed -i 's/ token_test_common.c//g' tests/bpf/Makefile" 0 \
+                "Disable BPF token tests (no support in libbpf)"
         fi
 
         rlRun "sed -i 's/tm\.tv_sec = [0-9]*;/tm.tv_sec = $NETWORK_TIMEOUT;/' ./tests/*/*.c" 0 \
@@ -353,6 +386,13 @@ EOF
         fi
 
         if rlIsRHELLike; then
+            # TODO: add kernel version based expectancy once these are fxed:
+            # - https://redhat.atlassian.net/browse/RHEL-222799
+            # - https://redhat.atlassian.net/browse/RHEL-222800
+            # - https://redhat.atlassian.net/browse/RHEL-222801
+            rlRun "sed -i 's/connect -f/connect/g' tests/inet_socket/test" 0 \
+                "TCP fastopen bug not yet fixed in RHEL - disable those tests"
+
             if kver_lt "3.10.0-349"; then
                 # c4684bbdac07 [security] selinux: Permit bounded transitions under NO_NEW_PRIVS or NOSUID
                 # da74590f6501 [security] selinux: reject setexeccon() on MNT_NOSUID applications with -EACCES
@@ -454,6 +494,11 @@ EOF
                     tests/filesystem/test tests/fs_filesystem/test" 0 \
                     "Apply workaround for disabled CONFIG_QFMT_V2"
             fi
+
+            if sysctl kernel.io_uring_disabled &>/dev/null; then
+                rlRun "sysctl kernel.io_uring_disabled=0" 0 \
+                    "Make sure io_uring is enabled"
+            fi
         fi
 
         # CKI mainline kernels don't ship with module build infrastructure
@@ -517,10 +562,13 @@ EOF
             "Remove rule for creation of PATH audit records"
         rlRun "rm -f \"\$AUDIT_FILE\""
         # rlSEBooleanRestore
-        # rlSEBooleanRestore allow_domain_fd_use
-        # none of above-mentioned commands is able to correctly restore the value in the boolean
+        # the above-mentioned command is unable to correctly restore the value in the boolean
         rlRun "boolSet domain_can_mmap_files $BACKUP_domain_can_mmap_files"
-        rlRun "boolSet allow_domain_fd_use $BACKUP_allow_domain_fd_use"
+
+        if rlIsRHELLike && sysctl kernel.io_uring_disabled &>/dev/null; then
+            rlRun "sysctl kernel.io_uring_disabled=2" 0 \
+                "Restore kernel.io_uring_disabled sysctl default value"
+        fi
 
         rlRun "pushd selinux-testsuite"
         # Submit report to beaker.
