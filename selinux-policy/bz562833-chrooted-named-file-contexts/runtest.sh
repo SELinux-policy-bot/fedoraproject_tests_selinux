@@ -50,7 +50,7 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "bz#451970"
-        rlSEMatchPathCon "/usr/sbin/named" "named_exec_t"
+        rlSEMatchPathCon "$(readlink -en /usr/sbin/named)" "named_exec_t"
         rlSESearchRule "allow named_t port_t : udp_socket { name_bind }"
     rlPhaseEnd
 
@@ -70,7 +70,7 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "bz#578187"
-        rlSEMatchPathCon "/usr/sbin/named" "named_exec_t"
+        rlSEMatchPathCon "$(readlink -en /usr/sbin/named)" "named_exec_t"
         for PREFIX in "" "/var/named/chroot" ; do
             rlSEMatchPathCon "${PREFIX}/var/named/dynamic" "named_cache_t"
         done
@@ -78,7 +78,7 @@ rlJournalStart
     rlPhaseEnd
 
     rlPhaseStartTest "bz#698257"
-        rlSEMatchPathCon "/usr/sbin/named" "named_exec_t"
+        rlSEMatchPathCon "$(readlink -en /usr/sbin/named)" "named_exec_t"
         if rlIsRHEL 5 ; then
             rlSEMatchPathCon "/var/named/chroot/var/log/update-debug.log" "named_log_t"
         fi
@@ -87,7 +87,7 @@ rlJournalStart
 
     if ! rlIsRHEL 5 ; then
         rlPhaseStartTest "bz#739886"
-            rlSEMatchPathCon "/usr/sbin/rndc" "ndc_exec_t"
+            rlSEMatchPathCon "$(readlink -en /usr/sbin/rndc)" "ndc_exec_t"
             rlRun "ls -Z /proc/loadavg | grep :proc_t"
             rlSESearchRule "allow ndc_t proc_t : file { getattr open read }"
         rlPhaseEnd
@@ -103,7 +103,7 @@ rlJournalStart
         rlPhaseEnd
 
         rlPhaseStartTest "bz#1110397 + bz#1166281"
-            rlSEMatchPathCon "/usr/sbin/rndc" "ndc_exec_t"
+            rlSEMatchPathCon "$(readlink -en /usr/sbin/rndc)" "ndc_exec_t"
             rlSEMatchPathCon "/dev/random" "random_device_t"
             rlSEMatchPathCon "/dev/urandom" "urandom_device_t"
             rlSESearchRule "allow ndc_t random_device_t : chr_file { getattr open read }"
@@ -117,7 +117,7 @@ rlJournalStart
         rlPhaseEnd
 
         rlPhaseStartTest "bz#1103439 + bz#1199473"
-            rlSEMatchPathCon "/usr/sbin/named" "named_exec_t"
+            rlSEMatchPathCon "$(readlink -en /usr/sbin/named)" "named_exec_t"
             rlSEMatchPortCon udp 1935 flash_port_t
             rlSEMatchPortCon udp 2605 bgp_port_t
             rlSEMatchPortCon udp 4321 whois_port_t
@@ -141,7 +141,7 @@ rlJournalStart
 
     if ! rlIsRHEL 5 6 ; then
         rlPhaseStartTest "bz#1012051"
-            rlSEMatchPathCon "/usr/sbin/named" "named_exec_t"
+            rlSEMatchPathCon "$(readlink -en /usr/sbin/named)" "named_exec_t"
             rlSESearchRule "allow named_t named_t : key { read write }"
         rlPhaseEnd
 
@@ -203,7 +203,7 @@ rlJournalStart
 
     if ! rlIsRHEL 5 6 7 8 && ! rlIsCentOS 5 6 7 8 ; then
         rlPhaseStartTest "bz#1827591 + bz#1923929"
-            rlSEMatchPathCon "/usr/sbin/rndc" "ndc_exec_t"
+            rlSEMatchPathCon "$(readlink -en /usr/sbin/rndc)" "ndc_exec_t"
             rlSESearchRule "dontaudit ndc_t ndc_t : process { setsched } [ ]"
         rlPhaseEnd
     fi
