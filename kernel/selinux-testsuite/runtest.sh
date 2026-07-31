@@ -194,7 +194,7 @@ rlJournalStart
         rlRun "installDeps \$REQUIRES" 0 "Install requires"
 
         # The CRB repo with libbpf-devel might not be enabled on RHEL
-        if rlIsRHEL '>=8' && ! [ -e /run/ostree-booted ]; then
+        if ! rpm --quiet -q libbpf-devel && rlIsRHEL '>=8' && ! [ -e /run/ostree-booted ]; then
             for repo in "rhel-CRB" "beaker-CRB"; do
                 rpm -q libbpf-devel &>/dev/null && break
                 rlRun "dnf install --enablerepo $repo -y libbpf-devel" 0-255
