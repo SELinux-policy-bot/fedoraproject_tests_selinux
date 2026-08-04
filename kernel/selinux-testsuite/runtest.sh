@@ -222,7 +222,7 @@ rlJournalStart
             selinuxfs=/selinux
         fi
 
-        if rlIsRHEL '<7.3'; then
+        if rlIsRHELLike '<7.3'; then
             use_cil=n
         else
             use_cil=y
@@ -311,7 +311,7 @@ rlJournalStart
 
         # needed to avoid a flood of AVCs when run via restraint
         # (RHEL-6 doesn't have unconfined_service_t)
-        if ! rlIsRHEL '<7'; then
+        if ! rlIsRHELLike '<7'; then
             rlRun "sed -i 's/type unconfined_t;/type unconfined_t, unconfined_service_t;/' policy/test_policy.if" 0
             rlRun "sed -i 's/\\(allow \\\$1 initrc_t:fd use;\\)/\\1 allow \$1 unconfined_service_t:fd use;/' policy/test_policy.if" 0
         else
@@ -325,11 +325,11 @@ rlJournalStart
             rlRun "sed -i 's/3\.18/3.9/' $file" 0 \
                 "Fix up kernel version in nnp test"
         done
-        if rlIsRHEL "<8.2"; then
+        if rlIsRHELLike "<8.2"; then
             rlRun "sed -i '/SUBDIRS += bpf/d;/export CFLAGS += -DHAVE_BPF/d' tests/Makefile" 0 \
                 "RHEL < 8.2 doesn't ship libbpf => disable BPF subtests"
         fi
-        if rlIsRHEL "<9"; then
+        if rlIsRHELLike "<9"; then
             # CONFIG_KEY_DH_OPERATIONS not enabled on RHEL-8 :(
             # on RHEL-7, KEYCTL_DH_COMPUTE is not defined in the header
             exclude_tests+=" keys"
@@ -352,7 +352,7 @@ rlJournalStart
 EOF
         fi
 
-        if rlIsRHEL; then
+        if rlIsRHELLike; then
             if kver_lt "3.10.0-349"; then
                 # c4684bbdac07 [security] selinux: Permit bounded transitions under NO_NEW_PRIVS or NOSUID
                 # da74590f6501 [security] selinux: reject setexeccon() on MNT_NOSUID applications with -EACCES
