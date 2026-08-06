@@ -436,11 +436,9 @@ EOF
                     "Fix up kernel version in sctp test"
             fi
 
-            # TODO: wait for 786fc12457268cc9b555dde6c22ae7300d4b40e1
-            # to be backported
-            #if kver_ge 5.14.0-326; then
-            #    force_tests+=" inet_socket/mptcp"
-            #fi
+            if kver_ge 5.14.0-380; then
+                force_tests+=" inet_socket/mptcp"
+            fi
 
             if ! grep -q 'CONFIG_SCSI_ISCSI_ATTRS=y' "/lib/modules/$(uname -r)/config"; then
                 rlRun "sed -i -e 's/runcon -t test_netlink_iscsi_socket_t/true/' \
