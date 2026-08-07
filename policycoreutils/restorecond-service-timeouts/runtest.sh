@@ -12,18 +12,21 @@ rlJournalStart
     rlPhaseStartTest "RHEL-142541 + RHEL-165247"
         rlRun "grep ^Type=simple /usr/lib/systemd/system/restorecond.service"
         rlRun "touch /run/restorecond.pid"
-        rlRun "ls -lZ /run/restorecond.pid"
-        rlRun "ls -lZ /run/restorecond.pid | grep :var_run_t"
+        rlRun "chattr +i /run/restorecond.pid"
         rlRun "systemctl start restorecond.service"
         sleep 2
         rlRun -s "systemctl status restorecond.service -l"
         rlRun "grep -i -e '/run/restorecond.pid' -e 'failed.*timeout' $rlRun_LOG" 1
         rm -f $rlRun_LOG
+
+        rlRun "chattr -i /run/restorecond.pid"
+        rlRun "rm -f /run/restorecond.pid"
         rlRun "systemctl restart restorecond.service"
         sleep 2
         rlRun -s "systemctl status restorecond.service -l"
         rlRun "grep -i -e '/run/restorecond.pid' -e 'failed.*timeout' $rlRun_LOG" 1
         rm -f $rlRun_LOG
+        rlAssertNotExists /run/restorecond.pid
     rlPhaseEnd
 
     rlPhaseStartCleanup

@@ -4,6 +4,7 @@ contact: Milos Malik <mmalik@redhat.com>
 component:
   - policycoreutils
 recommend:
+  - e2fsprogs
   - policycoreutils
   - policycoreutils-restorecond
 duration: 5m
@@ -27,4 +28,5 @@ adjust:
   - enabled: false
     when: distro == rhel-8, centos-stream-8
     because: the bug is not yet fixed there
+id: 24e8b000-43ab-4db7-8066-502cfc6ec48a
 
