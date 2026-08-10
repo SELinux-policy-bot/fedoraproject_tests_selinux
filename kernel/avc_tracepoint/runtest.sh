@@ -15,8 +15,7 @@ rlJournalStart
     rlPhaseStartTest
         rlAssertExists /sys/kernel/tracing/events/avc/selinux_audited/enable
         rlRun "perf list | grep avc:selinux_audited"
-        rlRun "perf record -o perf.data -e avc:selinux_audited \
-            -g --call-graph dwarf \
+        rlRun "perf record -o perf.data -e avc:selinux_audited -g \
             runcon system_u:system_r:kernel_t:s0 echo" 0-255
         rlRun "perf script -i perf.data"
         rlAssertGreater "'perf script' output should have more than 0 lines" \
