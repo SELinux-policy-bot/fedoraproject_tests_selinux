@@ -1,0 +1,18 @@
+summary: M4 bad-data tests for modular policy preprocessing
+contact: Akhil Kohli <akkohli@redhat.com>
+test: ./runtest.sh
+framework: beakerlib
+component:
+  - selinux-policy
+  - checkpolicy
+require:
+  - checkpolicy
+  - m4
+  - git
+  - policycoreutils
+  - selinux-policy-devel
+recommend:
+  - selinux-policy
+  - selinux-policy-targeted
+duration: 15m
+enabled: true

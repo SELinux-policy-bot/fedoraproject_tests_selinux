@@ -1,0 +1,10 @@
+PURPOSE of /CoreOS/selinux-policy/Sanity/m4-bad-data
+Author: Akhil Kohli <akkohli@redhat.com>
+
+Description: Negative bad-data tests for the M4 preprocessing stage of modular
+SELinux policy builds (.if, .te, and .fc inputs before checkmodule).
+
+Execution is via FMF/TMT (main.fmf -> runtest.sh) using beakerlib rlRun
+phases. Support macros prefer SELINUX_POLICY_SRC, else installed
+selinux-policy-devel (/usr/share/selinux/devel/include/support), else a
+git clone (Fedora falls back to rawhide when f$N is missing).
