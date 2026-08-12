@@ -72,7 +72,9 @@ rlJournalStart
         rlSESearchRule "allow iiosensorproxy_t xdm_t : dbus { send_msg } [ ]"
         rlSESearchRule "allow iiosensorproxy_t iiosensorproxy_t : capability2 { bpf } [ ]"
     rlPhaseEnd
+    fi
 
+    if seinfo -t | grep -q iio_device_t ; then
     rlPhaseStartTest "RHEL-110090"
         rlRun "semanage fcontext -l | grep '/dev/iio:device.*character.*iio_device_t'"
         rlSEMatchPathCon "/dev/iio:device3" "iio_device_t"
