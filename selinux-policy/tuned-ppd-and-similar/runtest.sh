@@ -136,7 +136,7 @@ rlJournalStart
         rlRun "ls -lZ /etc/tuned/ppd_base_profile"
         rlRun "tuned-adm auto_profile"
         rlRun "ls -lZ /etc/tuned/ppd_base_profile"
-        rlRun "tuned-adm verify"
+        rlRun "tuned-adm verify -i"
         rlSEService - ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "stop status" 1
         if [ -f /usr/lib/systemd/system/gdm.service ] ; then
             sleep 2
