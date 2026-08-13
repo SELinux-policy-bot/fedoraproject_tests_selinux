@@ -367,6 +367,15 @@ rlJournalStart
         rlRun "service virtqemud stop"
     rlPhaseEnd
 
+    rlPhaseStartTest "RHEL-236185"
+        rlSEMatchPathCon "/usr/bin/udevadm" "udev_exec_t"
+        if seinfo -a | grep -q virt_driver_domain ; then
+            rlSESearchRule "allow virtqemud_t udev_exec_t : file { execute map } [ ]"
+            rlSESearchRule "type_transition virtqemud_t udev_exec_t : process udev_t"
+            rlSESearchRule "allow virtqemud_t udev_t : process { transition } [ ]"
+        fi
+    rlPhaseEnd
+
     rlPhaseStartCleanup
         sleep 2
         rlSECheckAVC
