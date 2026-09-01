@@ -1,0 +1,22 @@
+summary: Rebuild and install checkpolicy
+description: |+
+    Rebuilds checkpolicy package from its source RPM and installs it to the system.
+    This is necessary for checkpolicy reverse dependecy testing - checkpolicy statically links
+    libsepol-static and so we need to rebuild checkpolicy and run its tests every time libsepol is updated.
+
+contact:
+  - Jan Onderka <jonderka@redhat.com>
+  - Petr Lautrbach <lautrbach@redhat.com>
+test: ./runtest.sh
+framework: beakerlib
+require:
+  - libsepol-static
+  - checkpolicy
+recommend:
+  - dnf-utils
+  - rpm-build
+duration: 10m
+enabled: true
+tag:
+  - avoidImageMode
+id: 9cbc42ad-95a9-4c15-b33d-e515d683360a
