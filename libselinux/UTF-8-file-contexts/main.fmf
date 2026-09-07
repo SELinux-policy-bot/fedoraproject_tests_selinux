@@ -1,0 +1,19 @@
+summary: Verify UTF-8 paths in local file contexts
+description: |+
+    Verify that semanage fcontext can add and use a local file-context rule
+    for a path containing UTF-8 characters.
+
+contact: Petr Lautrbach <lautrbach@redhat.com>
+component:
+  - libselinux
+require:
+  - libselinux-utils
+  - policycoreutils
+  - policycoreutils-python-utils
+enabled: true
+duration: 5m
+tier: 1
+tag:
+  - CI-Tier-1
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2427550
