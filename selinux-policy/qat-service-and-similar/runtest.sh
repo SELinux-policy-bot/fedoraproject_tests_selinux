@@ -29,7 +29,7 @@
 . /usr/share/beakerlib/beakerlib.sh || exit 1
 
 PACKAGE="selinux-policy"
-FILE_PATH="/usr/bin/qat_init.sh"
+FILE_PATH=`which qat_init.sh`
 SERVICE_NAME="qat"
 PROCESS_NAME="qat_init.sh"
 if seinfo -t | grep -q qatlib ; then
@@ -62,18 +62,25 @@ rlJournalStart
         rlSESearchRule "allow qatlib_t hugetlbfs_t : dir { getattr } [ ]"
     rlPhaseEnd
 
-    rlPhaseStartTest "RHEL-211089"
-        rlSEMatchPathCon "/dev/hugepages/qat" "hugetlbfs_t"
+    rlPhaseStartTest "RHEL-211089 + RHEL-251355"
+        rlRun "matchpathcon /dev/hugepages/qat | grep -i none"
         rlSESearchRule "allow qatlib_t hugetlbfs_t : dir { search create add_name write setattr } [ ]"
     rlPhaseEnd
     fi
 
     if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
     rlPhaseStartTest "real scenario -- standalone service"
-        rlSEService - ${SERVICE_NAME} - ${PROCESS_CONTEXT} "start status" 1
+        rlRun "modprobe intel_qat"
+        rlRun "lsmod | grep qat"
+        rlRun "service ${SERVICE_NAME} start" 0,1
+        rlRun "service ${SERVICE_NAME} status -l --no-pager" 0,1,3
+        sleep 2
         rlRun "restorecon -Rv /etc /run /var -e /var/ARTIFACTS" 0-255
-        rlSEService - ${SERVICE_NAME} - ${PROCESS_CONTEXT} "restart status" 1
-        rlSEService - ${SERVICE_NAME} - ${PROCESS_CONTEXT} "stop status" 1
+        rlRun "service ${SERVICE_NAME} restart" 0,1
+        rlRun "service ${SERVICE_NAME} status -l --no-pager" 0,1,3
+        sleep 2
+        rlRun "service ${SERVICE_NAME} stop" 0,1
+        rlRun "service ${SERVICE_NAME} status -l --no-pager" 0,1,3
     rlPhaseEnd
     fi
 

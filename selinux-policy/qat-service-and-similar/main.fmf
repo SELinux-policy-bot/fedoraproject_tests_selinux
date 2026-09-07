@@ -37,6 +37,7 @@ tag:
 link:
   - verifies: https://issues.redhat.com/browse/RHEL-211077
   - verifies: https://issues.redhat.com/browse/RHEL-211089
+  - verifies: https://issues.redhat.com/browse/RHEL-251355
 adjust+:
   - enabled: false
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7
@@ -46,4 +47,5 @@ adjust+:
     because: the qatlib package is not available there
 extra-summary: /CoreOS/selinux-policy/Regression/qat-service-and-similar
 extra-task: /CoreOS/selinux-policy/Regression/qat-service-and-similar
-
+extra-nitrate: TC#0620332
+id: 5ed71da6-94c5-491a-8f88-1d78900d93d4
