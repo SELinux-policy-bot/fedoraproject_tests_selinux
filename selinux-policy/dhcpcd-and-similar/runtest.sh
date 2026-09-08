@@ -124,6 +124,10 @@ rlJournalStart
         rlSESearchRule "allow dhcpc_hook_t dhcpc_hook_t : unix_dgram_socket { create ioctl } [ ]"
         rlSESearchRule "allow dhcpc_hook_t init_t : unix_stream_socket { getattr } [ ]"
     rlPhaseEnd
+
+    rlPhaseStartTest "RHEL-255621 + RHEL-255624"
+        rlSESearchRule "allow dhcpc_hook_t init_t : system { status } [ ]"
+    rlPhaseEnd
     fi
 
     if [ -f /usr/lib/systemd/system/${SERVICE_NAME}.service ] ; then
