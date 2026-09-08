@@ -1,0 +1,18 @@
+summary: Verify sort-local-fcontexts in semanage.conf
+description: |+
+    Verify that sort-local-fcontexts controls whether file_contexts.local
+    matching follows insertion order or specificity order.
+
+contact: Petr Lautrbach <lautrbach@redhat.com>
+component:
+  - libsemanage
+require:
+  - policycoreutils-python-utils
+duration: 10m
+enabled: true
+tag:
+  - CI-Tier-1
+tier: 1
+link:
+  - relates: https://bugzilla.redhat.com/show_bug.cgi?id=678577
+  - relates: https://github.com/SELinuxProject/selinux/issues/40
