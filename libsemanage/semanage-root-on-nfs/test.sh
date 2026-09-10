@@ -8,6 +8,14 @@ if [ -z "$STORE_ROOT" ]; then
     STORE_ROOT=/var/lib/selinux
 fi
 
+clean_nfs() {
+        rlLog "Cleanup nfs mounts and mount points"
+        rlRun "umount $STORE_ROOT"
+        rlRun "systemctl disable nfs-server --now"
+        rlRun "umount /srv/nfs/selinux"
+        rlRun "rm -rf /srv"
+}
+
 rlJournalStart
     rlPhaseStartSetup
         rlRun "tmp=\$(mktemp -d)" 0 "Create tmp directory"
@@ -25,7 +33,11 @@ rlJournalStart
 EOF"
         rlRun "exportfs -a"
         rlRun "showmount -e 127.0.0.1"
-        rlRun "mount 127.0.0.1:/selinux $STORE_ROOT"
+        rlWatchdog 'mount 127.0.0.1:/selinux $STORE_ROOT' 15 KILL
+        if ! mountpoint -q "$STORE_ROOT"; then
+            clean_nfs
+            rlDie "NFS mount did not finish successfully"
+        fi
     rlPhaseEnd
 
     rlPhaseStartTest "semanage root on nfs"
@@ -34,10 +46,7 @@ EOF"
     rlPhaseEnd
 
     rlPhaseStartCleanup
-        rlRun "umount $STORE_ROOT"
-        rlRun "systemctl disable nfs-server --now"
-        rlRun "umount /srv/nfs/selinux"
-        rlRun "rm -rf /srv"
+        clean_nfs
         rlRun "popd"
         rlRun "rm -r $tmp" 0 "Remove tmp directory"
     rlPhaseEnd
