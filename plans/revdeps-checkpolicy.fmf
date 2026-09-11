@@ -1,0 +1,31 @@
+summary: Reverse-dependency checkpolicy tests
+
+description: |+
+    Rebuilds checkpolicy package from its source RPM and installs it to the system.
+    This is necessary for checkpolicy reverse dependecy testing - checkpolicy statically links
+    libsepol-static and so we need to rebuild checkpolicy and run checkpolicy tests every time
+    libsepol is updated.
+
+environment:
+    INSTALL_CHECKPOLICY_RPM: true
+prepare:
+    - name: Install epel-release
+      how: shell
+      script: bash -c "dnf -y install epel-release || :"
+      order: 10
+    - name: Enable CRB repo
+      how: shell
+      script: bash -c "crb enable || :"
+      order: 10
+
+discover:
+    - name: rebuild and install checkpolicy
+      how: fmf
+      test:
+        - /other/rebuild-and-install-checkpolicy
+    - name: Run checkpolicy tests
+      how: fmf
+      filter: "component: checkpolicy & tag: -tf_broken"
+
+execute:
+    how: tmt
