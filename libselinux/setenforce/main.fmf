@@ -1,4 +1,5 @@
-summary: Does setenforce work as expected? Does it produce correct audit messages?
+summary: Does setenforce work as expected? Does it produce correct audit 
+    messages?
 description: |+
     Does setenforce work as expected? Does it produce correct audit messages?
 
@@ -29,7 +30,9 @@ adjust+:
   - when: distro >= rhel-10
     recommend+:
       - audit-rules
-    because: since RHEL 10 package audit was split and early packages have wrong dependency
+    because: since RHEL 10 package audit was split and early packages have wrong
+        dependency
 extra-nitrate: TC#0543754
 extra-summary: /CoreOS/libselinux/Sanity/setenforce
 extra-task: /CoreOS/libselinux/Sanity/setenforce
+id: 43a548c0-42f3-4ff1-a152-036bb8454d30

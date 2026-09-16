@@ -1,7 +1,8 @@
-summary: Test that creating a new SELinux context doesn't fail during policy load
+summary: Test that creating a new SELinux context doesn't fail during policy 
+    load
 description: |
-  Verifies that there are no ENOMEM errors when the kernel encounters a new
-  SELinux context during a policy load.
+    Verifies that there are no ENOMEM errors when the kernel encounters a new
+    SELinux context during a policy load.
 contact: Ondrej Mosnacek <omosnace@redhat.com>
 component:
   - kernel
@@ -15,3 +16,4 @@ enabled: true
 link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1335986
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1656787
+id: f8431741-3b66-4789-9ad1-22899e1c15f7

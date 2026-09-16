@@ -41,5 +41,8 @@ adjust+:
     when: distro == rhel-4
     continue: false
 extra-nitrate: TC#0062266
-extra-summary: /CoreOS/mcstrans/Regression/bz442327-setfscreatecon-with-invalid-context
-extra-task: /CoreOS/mcstrans/Regression/bz442327-setfscreatecon-with-invalid-context
+extra-summary: 
+    /CoreOS/mcstrans/Regression/bz442327-setfscreatecon-with-invalid-context
+extra-task: 
+    /CoreOS/mcstrans/Regression/bz442327-setfscreatecon-with-invalid-context
+id: 48ce781c-5c3f-4628-a5bb-08102c66055f

@@ -1,5 +1,4 @@
 path: /kernel/labeled-cephfs
-
 summary: Test for correct CephFS SELinux labeling
 description: |
     This TC verifies that CephFS security label support works as expected.
@@ -9,5 +8,6 @@ tag:
   - failinfedora
   - avoidImageMode
 adjust+:
--   enabled: false
+  - enabled: false
     when: distro < rhel-8
+id: 6e6d39db-58d7-4fda-b2c1-783769054f61

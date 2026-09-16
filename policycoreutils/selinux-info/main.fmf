@@ -1,4 +1,5 @@
-summary: Test sestatus, avcstat, getenforce and other information gathering tools
+summary: Test sestatus, avcstat, getenforce and other information gathering 
+    tools
 description: ''
 contact: Milos Malik <mmalik@redhat.com>
 component:
@@ -25,3 +26,4 @@ adjust+:
 extra-nitrate: TC#0571360
 extra-summary: /CoreOS/policycoreutils/Sanity/selinux-info
 extra-task: /CoreOS/policycoreutils/Sanity/selinux-info
+id: d8d0bd48-c399-4050-a565-e02e14f65473

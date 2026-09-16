@@ -1,6 +1,6 @@
 summary: Does semanage accept spaces in fcontext patterns?
 description: |+
-  Does semanage accept spaces in fcontext patterns?
+    Does semanage accept spaces in fcontext patterns?
 
 contact: Milos Malik <mmalik@redhat.com>
 component:
@@ -34,3 +34,4 @@ adjust+:
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7
     continue: false
 extra-nitrate: TC#0614100
+id: a019739f-0c19-4358-968e-fd947e25f7b1

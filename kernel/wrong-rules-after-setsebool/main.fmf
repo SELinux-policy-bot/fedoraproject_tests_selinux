@@ -6,11 +6,11 @@ description: |
     https://src.fedoraproject.org/tests/selinux/pull-request/203#comment-71053
 contact: Ondrej Mosnacek <omosnace@redhat.com>
 component:
-- kernel
+  - kernel
 framework: beakerlib
 require:
-- policycoreutils
-- setools-console
+  - policycoreutils
+  - setools-console
 duration: 5m
 tier: 2
 enabled: true
@@ -18,3 +18,4 @@ adjust+:
   - enabled: false
     when: distro < rhel-7
     because: RHEL-6 and below are not worth supporting by this test
+id: 2a705b3e-a70c-4f28-8aa9-921b724e11fa

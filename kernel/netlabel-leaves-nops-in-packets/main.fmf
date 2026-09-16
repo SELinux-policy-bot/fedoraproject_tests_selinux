@@ -1,4 +1,5 @@
-summary: Netlabel shouldn't leave NOPs in IP options when removing the CIPSO option
+summary: Netlabel shouldn't leave NOPs in IP options when removing the CIPSO 
+    option
 description: |
     Test that seeting netlabel to unlabeled doesn't just overwrite CIPSO
     options with NOPs, but actually removes them. Some routers may drop
@@ -19,3 +20,4 @@ adjust+:
     because: RHEL-6 and below are not worth supporting by this test
 link:
   - verifies: https://issues.redhat.com/browse/RHEL-30904
+id: 46d01cf2-e2e8-48b0-b175-8acb9dc3494a

@@ -1,7 +1,8 @@
-summary: Test that the corecmd_bin_sys_resource permits sys_resource capability request when turned on.
+summary: Test that the corecmd_bin_sys_resource permits sys_resource capability 
+    request when turned on.
 description: |+
     Test that the corecmd_bin_sys_resource permits sys_resource capability request when turned on.
- 
+
 contact: Veronika Syncakova <vsyncako@redhat.com>
 test: ./runtest.sh
 framework: beakerlib
@@ -35,3 +36,4 @@ adjust+:
     when: distro < rhel-10.3
     continue: false
     because: RHEL-141858 is fixed in RHEL-10.3
+id: 49e2750d-37fa-41c3-9b2a-917ab4c450a4

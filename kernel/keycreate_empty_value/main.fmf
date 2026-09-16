@@ -1,7 +1,7 @@
 summary: Test writing empty value into /proc/self/attr/keycreate
 description: |
-  Verifies that writing an empty value into /proc/<PID>/attr/keycreate
-  is allowed.
+    Verifies that writing an empty value into /proc/<PID>/attr/keycreate
+    is allowed.
 contact: Ondrej Mosnacek <omosnace@redhat.com>
 component:
   - kernel
@@ -18,3 +18,4 @@ adjust+:
     because: RHEL-8.0 and below are not expected to have the bug fixed
 link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1719067
+id: 795d219a-68f9-4b11-9d62-4f56abc913c2

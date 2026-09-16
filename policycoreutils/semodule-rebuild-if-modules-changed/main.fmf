@@ -1,7 +1,7 @@
 summary: Test rebuild-on-change support in semodule
 description: |
-  Verifies that semodule --rebuild-if-modules-changed command-line option
-  works as it should.
+    Verifies that semodule --rebuild-if-modules-changed command-line option
+    works as it should.
 contact: Ondrej Mosnacek <omosnace@redhat.com>
 component:
   - policycoreutils
@@ -29,3 +29,4 @@ link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2049193
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2173959
 extra-nitrate: TC#0613060
+id: ca094230-e93d-45a7-845a-dcd2a58cf76f

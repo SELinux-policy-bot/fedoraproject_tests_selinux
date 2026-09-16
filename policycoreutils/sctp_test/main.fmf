@@ -17,3 +17,4 @@ extra-task: /selinux/policycoreutils/sctp_test
 extra-nitrate: TC#0614834
 tag:
   - avoidImageMode
+id: 0327dc4b-23d5-4939-87f0-251bcd6deb8d

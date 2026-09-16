@@ -4,11 +4,11 @@ description: |
     many interfaces (BZ#1901171 and BZ#1901174)
 contact: Ondrej Mosnacek <omosnace@redhat.com>
 component:
-- kernel
+  - kernel
 framework: beakerlib
 require:
-- netlabel_tools
-- iproute
+  - netlabel_tools
+  - iproute
 duration: 5m
 tier: 2
 enabled: true
@@ -16,3 +16,4 @@ adjust+:
   - enabled: false
     when: distro < rhel-8.4
     because: not fixed below RHEL 8.4...
+id: 824a3203-fc39-4ce1-ad20-73af0bd34e29

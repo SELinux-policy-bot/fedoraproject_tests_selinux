@@ -24,4 +24,4 @@ link:
   - verifies: https://redhat.atlassian.net/browse/RHEL-157952
   - verifies: https://redhat.atlassian.net/browse/FC-1681
 id: ee9a0250-4a0a-4c56-bf4e-15228324dbc5
-
+extra-nitrate: TC#0620048

@@ -4,24 +4,25 @@ description: |
     doesn't cause an incorrect label to be assigned to files/mounts.
 contact: Ondrej Mosnacek <omosnace@redhat.com>
 component:
-- kernel
+  - kernel
 framework: beakerlib
 require:
-- attr
+  - attr
 duration: 15m
 tier: 2
 enabled: true
 adjust+:
-- enabled: false
-  when: distro < rhel-7
-  because: RHEL-6 and below are not worth supporting by this test
-- enabled: false
-  when: arch = s390x
-  because: No machines likely available with required HW configuration
+  - enabled: false
+    when: distro < rhel-7
+    because: RHEL-6 and below are not worth supporting by this test
+  - enabled: false
+    when: arch = s390x
+    because: No machines likely available with required HW configuration
 extra-hardware: |
     keyvalue = PROCESSORS >= 4
 link:
-- verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1969344
-- verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2040196
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1969344
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2040196
 tag:
   - avoidImageMode
+id: 60e0bd40-404a-48f7-9780-83cb629fcdbc

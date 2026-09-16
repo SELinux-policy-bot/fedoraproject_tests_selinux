@@ -23,3 +23,4 @@ adjust+:
     because: RHEL-7 and below don't have SCTP SELinux support
 link:
   - verifies: https://issues.redhat.com/browse/RHEL-48647
+id: f0d43010-6200-4500-9a17-6620e03bfd33

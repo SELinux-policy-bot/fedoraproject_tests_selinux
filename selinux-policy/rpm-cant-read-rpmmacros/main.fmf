@@ -1,4 +1,5 @@
-summary: setroubleshootd process should not cause an AVC when trying to read /root/.rpmmacros
+summary: setroubleshootd process should not cause an AVC when trying to read 
+    /root/.rpmmacros
 description: |+
     setroubleshootd process should not cause an AVC when trying to read /root/.rpmmacros
 
@@ -40,3 +41,4 @@ adjust+:
     when: distro < rhel-9.9
     continue: false
     because: RHEL-147470 is fixed in RHEL-9.9 and RHEL-142548 in RHEL-10.3
+id: 36495ea5-beb9-406c-b043-794cc7e34dd0

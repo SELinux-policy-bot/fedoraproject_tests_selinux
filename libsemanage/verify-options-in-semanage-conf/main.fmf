@@ -38,3 +38,4 @@ adjust+:
 extra-nitrate: TC#0540246
 extra-summary: /CoreOS/libsemanage/Sanity/verify-options-in-semanage-conf
 extra-task: /CoreOS/libsemanage/Sanity/verify-options-in-semanage-conf
+id: de5a397a-2b8e-428c-b1a4-5b4a103525e1

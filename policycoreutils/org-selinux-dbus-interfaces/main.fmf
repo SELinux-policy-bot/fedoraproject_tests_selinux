@@ -1,4 +1,5 @@
-summary: Do the D-bus interfaces/methods of /org/selinux/object work as expected?
+summary: Do the D-bus interfaces/methods of /org/selinux/object work as 
+    expected?
 description: ''
 contact: Milos Malik <mmalik@redhat.com>
 component:
@@ -32,3 +33,4 @@ adjust+:
 extra-nitrate: TC#0546187
 extra-summary: /CoreOS/policycoreutils/Sanity/org-selinux-dbus-interfaces
 extra-task: /CoreOS/policycoreutils/Sanity/org-selinux-dbus-interfaces
+id: 289e3eeb-f97e-4902-99aa-39709fc1be44

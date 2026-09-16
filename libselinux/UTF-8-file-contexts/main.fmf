@@ -17,3 +17,5 @@ tag:
   - CI-Tier-1
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=2427550
+extra-nitrate: TC#0620356
+id: 5a0ba1ca-a3dc-4f8e-960f-b175883fd547

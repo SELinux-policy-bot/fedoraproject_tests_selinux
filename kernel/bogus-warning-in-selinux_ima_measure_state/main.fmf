@@ -4,19 +4,20 @@ description: |
     lock-related WARN_ON() when the mutex is held by another task.
 contact: Ondrej Mosnacek <omosnace@redhat.com>
 component:
-- kernel
+  - kernel
 framework: beakerlib
 require:
-- policycoreutils
+  - policycoreutils
 duration: 5m
 tier: 2
 enabled: true
 adjust+:
-- enabled: false
-  when: distro < fedora-36
-  because: some kernels on Fedora 35 and below don't have the fix
-- enabled: false
-  when: distro < rhel-9.1
-  because: not expected to be fixed earlier than RHEL-9.1
+  - enabled: false
+    when: distro < fedora-36
+    because: some kernels on Fedora 35 and below don't have the fix
+  - enabled: false
+    when: distro < rhel-9.1
+    because: not expected to be fixed earlier than RHEL-9.1
 link:
-- verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2050966
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2050966
+id: 87d9b7f0-b44b-48f7-bd51-630cc9d335b3

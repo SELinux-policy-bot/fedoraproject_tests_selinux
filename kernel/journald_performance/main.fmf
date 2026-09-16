@@ -1,7 +1,7 @@
 summary: Test journald performance under SELinux
 description: |
-  Regression test for a bug where systemd-journald suffered a terrible
-  performance overhead due to SELinux.
+    Regression test for a bug where systemd-journald suffered a terrible
+    performance overhead due to SELinux.
 contact: Ondrej Mosnacek <omosnace@redhat.com>
 component:
   - kernel
@@ -24,3 +24,4 @@ link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1733259
 tag:
   - failinfedora
+id: 49c29d69-b3fe-4bdb-8536-38c2870f5318

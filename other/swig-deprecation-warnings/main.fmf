@@ -3,30 +3,30 @@ contact: Milos Malik <mmalik@redhat.com>
 test: ./runtest.sh
 framework: beakerlib
 component:
- - libselinux
- - libsemanage
- - policycoreutils
- - setools
+  - libselinux
+  - libsemanage
+  - policycoreutils
+  - setools
 recommend:
- - python3
- - python3-libselinux
- - python3-libsemanage
- - python3-policycoreutils
- - python3-setools
+  - python3
+  - python3-libselinux
+  - python3-libsemanage
+  - python3-policycoreutils
+  - python3-setools
 duration: 5m
 enabled: true
 link:
- - verifies: https://issues.redhat.com/browse/RHEL-118812
- - verifies: https://issues.redhat.com/browse/RHEL-138405
- - verifies: https://issues.redhat.com/browse/RHEL-138406
+  - verifies: https://issues.redhat.com/browse/RHEL-118812
+  - verifies: https://issues.redhat.com/browse/RHEL-138405
+  - verifies: https://issues.redhat.com/browse/RHEL-138406
 tag:
- - NoRHEL4
- - NoRHEL5
- - NoRHEL6
- - NoRHEL7
- - NoRHEL8
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - NoRHEL8
 adjust+:
- - enabled: false
-   when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8
-   continue: false
-
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8
+    continue: false
+id: 0244b420-3794-48b1-bba5-20e6be51acdd

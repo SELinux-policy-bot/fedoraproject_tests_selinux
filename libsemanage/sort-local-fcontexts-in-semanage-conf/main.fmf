@@ -16,3 +16,4 @@ tier: 1
 link:
   - relates: https://bugzilla.redhat.com/show_bug.cgi?id=678577
   - relates: https://github.com/SELinuxProject/selinux/issues/40
+id: 5a507ca2-fdd2-4f8d-81a8-10cb07a17c0a

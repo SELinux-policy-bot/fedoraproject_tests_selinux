@@ -1,7 +1,7 @@
 summary: Test SELinux labeling before initial policy load
 description: |
-  Regression test for a bug where SELinux may have printed uninitialized
-  kernel memory instead of a valid source/target context in AVC denials.
+    Regression test for a bug where SELinux may have printed uninitialized
+    kernel memory instead of a valid source/target context in AVC denials.
 contact: Ondrej Mosnacek <omosnace@redhat.com>
 component:
   - kernel
@@ -15,4 +15,5 @@ enabled: true
 link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1758086
 environment:
-  AVC_ERROR: +no_avc_check
+    AVC_ERROR: +no_avc_check
+id: 1bdf0f9d-58be-403a-ac18-f0b98075fbe0

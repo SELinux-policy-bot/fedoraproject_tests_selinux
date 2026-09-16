@@ -1,7 +1,7 @@
 summary: Test soft lockup on selinuxfs dentry lookup
 description: |
-  Verifies that traversing selinuxfs while policy is being reloaded doesn't
-  cause a deadlock in the kernel.
+    Verifies that traversing selinuxfs while policy is being reloaded doesn't
+    cause a deadlock in the kernel.
 contact: Ondrej Mosnacek <omosnace@redhat.com>
 component:
   - kernel
@@ -16,3 +16,4 @@ link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1510603
 extra-hardware: |
     keyvalue = PROCESSORS >= 2
+id: bbdcb9bd-62e5-412a-9c1a-87394c8f69e2

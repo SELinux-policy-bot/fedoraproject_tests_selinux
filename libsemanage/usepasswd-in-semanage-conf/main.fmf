@@ -32,3 +32,4 @@ adjust+:
 extra-nitrate: TC#0609005
 extra-summary: /CoreOS/libsemanage/Sanity/usepasswd-in-semanage-conf
 extra-task: /CoreOS/libsemanage/Sanity/usepasswd-in-semanage-conf
+id: 81923d1f-4fe4-46fa-a09a-5776f5c5f32f

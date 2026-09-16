@@ -4,7 +4,7 @@ description: |
     memory leaks.
 contact: Ondrej Mosnacek <omosnace@redhat.com>
 component:
-- kernel
+  - kernel
 framework: beakerlib
 duration: 1h
 tier: 2
@@ -17,3 +17,4 @@ link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2187402
 tag:
   - reboot
+id: 43d3243c-d460-4d5f-b009-bd5d03a9f88c

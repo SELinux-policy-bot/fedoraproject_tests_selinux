@@ -1,4 +1,5 @@
-summary: runs checkpolicy with various options to find out if it behaves correctly
+summary: runs checkpolicy with various options to find out if it behaves 
+    correctly
 description: |+
     Description: runs checkpolicy with various options to find out if it behaves correctly
 
@@ -39,3 +40,4 @@ adjust+:
 extra-nitrate: TC#0062302
 extra-summary: /CoreOS/checkpolicy/Sanity/checkpolicy
 extra-task: /CoreOS/checkpolicy/Sanity/checkpolicy
+id: 281b2e41-701b-44cd-881a-b01c861e949b

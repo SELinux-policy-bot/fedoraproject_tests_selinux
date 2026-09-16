@@ -1,4 +1,5 @@
-summary: runs checkmodule with various options to find out if it behaves correctly
+summary: runs checkmodule with various options to find out if it behaves 
+    correctly
 description: |+
     This TC runs checkmodule with various options to find out if it behaves correctly.
 
@@ -35,3 +36,4 @@ adjust+:
 extra-nitrate: TC#0062301
 extra-summary: /CoreOS/checkpolicy/Sanity/checkmodule
 extra-task: /CoreOS/checkpolicy/Sanity/checkmodule
+id: c4808353-760e-42b8-bc2a-b0068124ec61

@@ -1,12 +1,12 @@
 summary: Test SELinux labeling before initial policy load
 description: |
-  Verifies that reading/writing SELinux labels works before the first policy
-  load.
+    Verifies that reading/writing SELinux labels works before the first policy
+    load.
 
-  See also:
-  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=3e3e24b42043eceb97ed834102c2d094dfd7aaa6
-  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c8e222616c7e98305bdc861db3ccac520bc29921
-  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=9530a3e00459cd6eabf050133205e0e8fecbdfc7
+    See also:
+    https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=3e3e24b42043eceb97ed834102c2d094dfd7aaa6
+    https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c8e222616c7e98305bdc861db3ccac520bc29921
+    https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=9530a3e00459cd6eabf050133205e0e8fecbdfc7
 contact: Ondrej Mosnacek <omosnace@redhat.com>
 component:
   - kernel
@@ -27,3 +27,4 @@ link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1777525
 tag:
   - reboot
+id: de5d8f15-67c2-492c-a70c-21a8afbb8183

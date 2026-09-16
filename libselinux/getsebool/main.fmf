@@ -25,3 +25,4 @@ adjust+:
 extra-nitrate: TC#0549303
 extra-summary: /CoreOS/libselinux/Sanity/getsebool
 extra-task: /CoreOS/libselinux/Sanity/getsebool
+id: 84edb4d1-3120-4f3a-8fb9-420fcc1105b7

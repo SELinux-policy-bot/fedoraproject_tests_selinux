@@ -1,5 +1,5 @@
 summary: tests everything about sestatus
-description: |4
+description: |2
      
 contact: Milos Malik <mmalik@redhat.com>
 component:
@@ -28,3 +28,4 @@ adjust+:
 extra-nitrate: TC#0103609
 extra-summary: /CoreOS/policycoreutils/Sanity/sestatus
 extra-task: /CoreOS/policycoreutils/Sanity/sestatus
+id: ce97f5d0-5edf-43df-aab0-10f36854fd7e

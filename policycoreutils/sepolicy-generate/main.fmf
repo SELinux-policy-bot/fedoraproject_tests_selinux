@@ -36,3 +36,4 @@ adjust+:
 extra-nitrate: TC#0248603
 extra-summary: /CoreOS/policycoreutils/Sanity/sepolicy-generate
 extra-task: /CoreOS/policycoreutils/Sanity/sepolicy-generate
+id: a670d5e2-7c52-47ae-940e-f85ea6f46bae

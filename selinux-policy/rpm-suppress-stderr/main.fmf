@@ -19,3 +19,4 @@ adjust+:
     when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8
     continue: false
 extra-nitrate: TC#0617968
+id: 986c6487-243d-425a-abe8-78969e689d4b

@@ -1,6 +1,6 @@
 summary: Test support for self keyword in type rules
 description: |
-  Verifies that libsepol/checkmodule supports the self keyword in type rules.
+    Verifies that libsepol/checkmodule supports the self keyword in type rules.
 contact: Ondrej Mosnacek <omosnace@redhat.com>
 component:
   - libsepol
@@ -26,3 +26,4 @@ adjust+:
 link:
   - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2069718
 extra-nitrate: TC#0613928
+id: 03b3ce0c-dc37-49ea-8037-231e68b96abf

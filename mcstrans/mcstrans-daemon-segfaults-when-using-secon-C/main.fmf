@@ -34,5 +34,8 @@ adjust+:
     when: distro == rhel-4, rhel-5
     continue: false
 extra-nitrate: TC#0520380
-extra-summary: /CoreOS/mcstrans/Regression/mcstrans-daemon-segfaults-when-using-secon-C
-extra-task: /CoreOS/mcstrans/Regression/mcstrans-daemon-segfaults-when-using-secon-C
+extra-summary: 
+    /CoreOS/mcstrans/Regression/mcstrans-daemon-segfaults-when-using-secon-C
+extra-task: 
+    /CoreOS/mcstrans/Regression/mcstrans-daemon-segfaults-when-using-secon-C
+id: 3630dabe-d2a8-404b-a77b-d6249631aec1

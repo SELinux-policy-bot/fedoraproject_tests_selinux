@@ -8,22 +8,23 @@ description: |
     https://lore.kernel.org/selinux/20210113123802.63563-1-omosnace@redhat.com/
 contact: Ondrej Mosnacek <omosnace@redhat.com>
 component:
-- kernel
+  - kernel
 framework: beakerlib
 require:
-- policycoreutils
-- dosfstools
+  - policycoreutils
+  - dosfstools
 duration: 5m
 tier: 2
 enabled: true
 adjust+:
- -  enabled: false
+  - enabled: false
     when: distro < rhel-8.5
     because: RHEL-8.5 and below are not expected to support this
- -  enabled: false
+  - enabled: false
     when: distro < fedora-35
     because: This feature may not be supported on kernels in F34 and below
 link:
-- verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1899703
-- verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1915825
-- verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1937297
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1899703
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1915825
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=1937297
+id: a4bfefcf-d808-47c8-b263-43a1fcb03b62

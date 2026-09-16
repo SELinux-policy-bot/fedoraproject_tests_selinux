@@ -1,7 +1,6 @@
 summary: Does setfiles work correctly in chroot environment?
 description: |
     Does setfiles work correctly in chroot environment?
-
 contact: Milos Malik <mmalik@redhat.com>
 component:
   - libselinux
@@ -20,3 +19,4 @@ link:
 extra-summary: /CoreOS/libselinux/Regression/setfiles-in-chroot-env
 extra-task: /CoreOS/libselinux/Regression/setfiles-in-chroot-env
 extra-nitrate: TC#0613958
+id: 8b7358c8-235a-4ad5-b671-45ca8bcb3025
