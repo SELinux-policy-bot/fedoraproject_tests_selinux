@@ -111,6 +111,9 @@ rlJournalStart
             # for RHELs where the SELinux domain does not exist yet
             PROCESS_CONTEXT="sendmail_t"
         fi
+        if [ -d /var/log/exim ] ; then
+            getent passwd exim && chown -R exim:exim /var/log/exim
+        fi
         rlSEService ${ROOT_PASSWORD} ${SERVICE_NAME} ${PROCESS_NAME} ${PROCESS_CONTEXT} "start status" 1
         rlRun "lsof | grep exim_daemon_notify"
         rlRun "restorecon -Rv /etc /run /var -e /var/ARTIFACTS" 0-255

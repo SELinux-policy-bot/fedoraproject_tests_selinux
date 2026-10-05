@@ -155,6 +155,7 @@ rlJournalStart
         rlRun "journalctl -M test --system"
         rlRun "journalctl -M test --user"
         rlWatchdog "machinectl login test" 20
+        rlRun "restorecon -Rv /etc /run /var -e /var/ARTIFACTS" 0-255
         rlRun "machinectl list-images"
         rlRun "machinectl image-status test"
         if rlIsFedora ; then

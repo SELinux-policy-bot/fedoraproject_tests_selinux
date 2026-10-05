@@ -92,6 +92,7 @@ rlJournalStart
                 rlRun "cp -f ${CUR_FILE} /etc/systemd/system/"
                 COPIED_FILE=`echo ${CUR_FILE} | sed 's|/usr/lib|/etc|'`
                 rlRun "sed -i 's|^ExecStart=.*python.* /|ExecStart=/|' ${COPIED_FILE}"
+                rlRun "sed -i 's|\(\[Service\]\)|\1\nEnvironment=PYTHONNOUSERSITE=1\n|' ${COPIED_FILE}"
                 rlRun "systemctl daemon-reload"
                 rlRun "grep '^ExecStart=' ${COPIED_FILE}"
             fi

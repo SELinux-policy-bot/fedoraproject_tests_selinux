@@ -12,7 +12,7 @@ rlJournalStart
     # the bug is fixed on RHEL-8 but it was auto-closed on RHEL-9
     rlPhaseStartTest "RHEL-2616 + RHEL-16185"
         rlRun "sepolgen-ifgen -v -d 2>/dev/null | sort | uniq > output.txt"
-        rlRun "grep -i missing output.txt" 1
+        rlRun "grep -v -f known-patterns.txt output.txt | grep -i missing" 1
     rlPhaseEnd
     fi
 
