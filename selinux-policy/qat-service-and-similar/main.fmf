@@ -35,6 +35,13 @@ tag:
   - targeted
   - NoRHIVOS
 link:
+  - verifies: https://bugzilla.redhat.com/show_bug.cgi?id=2080443
+  - verifies: https://redhat.atlassian.net/browse/RHEL-19051
+  - verifies: https://redhat.atlassian.net/browse/RHEL-19052
+  - verifies: https://redhat.atlassian.net/browse/RHEL-53864
+  - verifies: https://redhat.atlassian.net/browse/RHEL-66334
+  - verifies: https://redhat.atlassian.net/browse/RHEL-133797
+  - verifies: https://redhat.atlassian.net/browse/RHEL-133799
   - verifies: https://issues.redhat.com/browse/RHEL-211077
   - verifies: https://issues.redhat.com/browse/RHEL-211089
   - verifies: https://issues.redhat.com/browse/RHEL-251355

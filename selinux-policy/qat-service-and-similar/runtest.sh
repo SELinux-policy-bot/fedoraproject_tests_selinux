@@ -56,6 +56,38 @@ rlJournalStart
     rlPhaseEnd
 
     if rlSEDefined ${PROCESS_CONTEXT} ; then
+    rlPhaseStartTest "BZ#2080443"
+        rlRun "semodule -lfull | grep qatlib"
+        rlSESearchRule "allow qatlib_t systemd_unit_file_t : dir { search } [ ]"
+        rlSESearchRule "allow qatlib_t sssd_public_t : dir { search } [ ]"
+        rlSESearchRule "allow qatlib_t sssd_var_lib_t : dir { search } [ ]"
+        rlSESearchRule "allow qatlib_t sysfs_t : file { write } [ ]"
+        rlSESearchRule "allow qatlib_t kmod_exec_t : file { getattr open read map execute execute_no_trans } [ ]"
+        rlSESearchRule "allow qatlib_t modules_conf_t : dir { getattr open read } [ ]"
+        rlSESearchRule "allow qatlib_t proc_t : file { getattr open read } [ ]"
+    rlPhaseEnd
+
+    rlPhaseStartTest "RHEL-19051 + RHEL-19052"
+        rlSESearchRule "allow qatlib_t var_run_t : dir { write add_name } [ ]"
+        rlSESearchRule "type_transition qatlib_t var_run_t : sock_file qatlib_var_run_t"
+        rlSESearchRule "allow qatlib_t qatlib_var_run_t : sock_file { create } [ ]"
+    rlPhaseEnd
+
+    rlPhaseStartTest "RHEL-53864 + RHEL-66334"
+        rlRun "semanage fcontext -l | grep '/sys/kernel/debug.*:debugfs_t:'"
+        rlRun "semanage fcontext -l | grep '/dev/vfio/.*:vfio_device_t'"
+        rlSESearchRule "allow qatlib_t debugfs_t : dir { getattr open search } [ ]"
+        rlSESearchRule "allow qatlib_t vfio_device_t : chr_file { getattr read write ioctl } [ ]"
+    rlPhaseEnd
+
+    rlPhaseStartTest "RHEL-133797 + RHEL-133799"
+        for CUR_FILE in `find /lib/modules -type f -name modules.dep.bin` ; do
+            rlSEMatchPathCon $CUR_FILE "modules_dep_t"
+        done
+        rlSESearchRule "allow qatlib_t modules_dep_t : file { map } [ ]"
+        rlSESearchRule "allow qatlib_t modules_object_t : file { map } [ ]"
+    rlPhaseEnd
+
     rlPhaseStartTest "RHEL-211077"
         rlSEMatchPathCon ${FILE_PATH} ${FILE_CONTEXT}
         rlSEMatchPathCon "/dev/hugepages" "hugetlbfs_t"
