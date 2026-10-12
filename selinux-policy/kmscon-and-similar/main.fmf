@@ -1,0 +1,44 @@
+summary: SELinux interferes with kmscon and related programs
+description: |+
+    SELinux interferes with kmscon and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - kmscon
+  - selinux-policy
+test: ./runtest.sh
+framework: beakerlib
+require:
+  - type: library
+    name: /selinux-policy/Library/common
+    nick: selinux-policy
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - kmscon
+  - /usr/sbin/service
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - NoRHEL8
+  - NoRHEL9
+  - NoRHEL10
+  - targeted
+  - NoRHIVOS
+adjust+:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8, rhel-9, rhel-10, centos-stream-9, centos-stream-10
+    because: the kmscon package is not available there
+id: 4c5f9f5b-9adb-4c13-a354-aab45e0f18ab
+extra-nitrate: TC#0620386
