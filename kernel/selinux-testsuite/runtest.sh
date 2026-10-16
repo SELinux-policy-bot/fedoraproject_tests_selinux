@@ -35,7 +35,7 @@ PACKAGE="selinux-policy"
 # This should be updated as needed after verifying that the new version
 # doesn't break testing and after applying all necessary tweaks in the TC.
 # Run with GIT_BRANCH=master to run the latest upstream version.
-DEFAULT_COMMIT="d03e89292da66e638d795c06840037d27131d82c"
+DEFAULT_COMMIT="b2f894f0016b3ad6a991811bf8e69a4aa4bce4d1"
 # Default pull requests to merge before running the test.
 # If non-empty, then after checking out GIT_BRANCH the listed upstream pull
 # requests (by number) are merged, creating a new temporary local branch.
@@ -328,6 +328,8 @@ rlJournalStart
                 "Fix up kernel version in nnp test"
         done
         if rlIsRHELLike "<8"; then
+            rlRun "sed -i 's|-Werror||' tests/Makefile" 0 \
+                "Disable -Werror to workaround compiler bugs"
             rlRun "sed -i 's|\$basedir/test_validate|true|' tests/file_contexts/test" 0 \
                 "Disable test for a known libselinux issue"
             rlRun "sed -i 's|sub test_68_7_ctx {|sub test_68_7_ctx { ok(1); return;|' tests/overlay/test" 0 \
