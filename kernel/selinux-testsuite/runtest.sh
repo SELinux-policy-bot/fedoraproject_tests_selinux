@@ -367,6 +367,14 @@ rlJournalStart
             rlRun "sed -i 's/ token_test_common.c//g' tests/bpf/Makefile" 0 \
                 "Disable BPF token tests (no support in libbpf)"
         fi
+        if rlIsRHELLike ">=10"; then
+            # FIXME on RHEL-10 the BTRFS kernel module can be installed
+            # from kernel-modules-internal, but btrfs-progs is probably
+            # only in buildroot - just disable the BTRFS tests entirely
+            # on RHEL-10+ for now
+            exclude_tests+=" filesystem/btrfs fs_filesystem/btrfs"
+        fi
+
 
         rlRun "sed -i 's/tm\.tv_sec = [0-9]*;/tm.tv_sec = $NETWORK_TIMEOUT;/' ./tests/*/*.c" 0 \
             "Tweak timeout in networking tests" # 2 secs is too little for SCTP test
