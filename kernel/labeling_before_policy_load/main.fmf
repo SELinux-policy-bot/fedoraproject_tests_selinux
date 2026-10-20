@@ -16,6 +16,7 @@ require:
   - coreutils
   - policycoreutils
   - attr
+  - grubby
 duration: 30m
 tier: 2
 enabled: true

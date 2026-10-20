@@ -21,6 +21,7 @@ recommend:
   - selinux-policy-targeted
   - setools-console
   - systemd-oomd
+  - grubby
 environment:
     AVC_ERROR: +no_avc_check
 duration: 5m

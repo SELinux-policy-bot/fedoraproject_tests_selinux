@@ -11,7 +11,7 @@ recommend:
   - libsemanage
   - libselinux
   - policycoreutils
-duration: 10m
+duration: 20m
 enabled: true
 tier: 1
 tag:

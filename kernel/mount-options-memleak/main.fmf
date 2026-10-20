@@ -5,6 +5,8 @@ description: |
 contact: Ondrej Mosnacek <omosnace@redhat.com>
 component:
   - kernel
+require:
+  - grubby
 framework: beakerlib
 duration: 1h
 tier: 2
