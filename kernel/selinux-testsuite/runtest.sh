@@ -225,7 +225,9 @@ rlJournalStart
             selinuxfs=/selinux
         fi
 
-        if rlIsRHELLike '<7.3'; then
+        if rlIsOS rhivos; then
+            use_cil=y
+        elif rlIsRHELLike '<7.3'; then
             use_cil=n
         else
             use_cil=y
