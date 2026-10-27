@@ -147,11 +147,13 @@ rlJournalStart
         # dependencies here. Thus we don't need to maintain duplicate lists of
         # package requirements in many places (RH repo, Fedora kernel dist-git,
         # CKI).
+        # audit-rules - needs to be installed explicitly on Automotive images
         REQUIRES="
             $KERNEL_PKGS
             /usr/bin/unbuffer
             attr
             audit
+            audit-rules
             btrfs-progs
             checkpolicy
             curl
