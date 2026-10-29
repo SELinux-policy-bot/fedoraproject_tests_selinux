@@ -1,0 +1,44 @@
+summary: SELinux interferes with tpm2-abrmd and related programs
+description: |+
+    SELinux interferes with tpm2-abrmd and related programs.
+
+contact: Milos Malik <mmalik@redhat.com>
+component:
+  - tpm2-abrmd
+  - selinux-policy
+test: ./runtest.sh
+framework: beakerlib
+require:
+  - type: library
+    name: /selinux-policy/Library/common
+    nick: selinux-policy
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - tpm2-abrmd
+  - tpm2-tools
+  - swtpm
+  - swtpm-tools
+  - /usr/sbin/service
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - targeted
+  - NoRHIVOS
+adjust+:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7
+    because: the tpm2-abrmd package is not available there
+id: 59f78c88-e4d0-434c-afeb-2b5509302136
+extra-nitrate: TC#0620398
