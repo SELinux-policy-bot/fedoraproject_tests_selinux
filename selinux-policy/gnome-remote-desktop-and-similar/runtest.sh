@@ -69,10 +69,27 @@ rlJournalStart
         rlSESearchRule "allow gnome_remote_desktop_t policykit_t : dbus { send_msg } [ ]"
         rlSESearchRule "allow policykit_t gnome_remote_desktop_t : dbus { send_msg } [ ]"
     rlPhaseEnd
+
+    rlPhaseStartTest "RHEL-138731"
+        rlSEMatchPathCon "/dev/tpm0" "tpm_device_t"
+        rlSEMatchPathCon "/dev/tpmrm0" "tpm_device_t"
+        rlSESearchRule "allow gnome_remote_desktop_t tpm_device_t : chr_file { getattr } [ ]"
+    rlPhaseEnd
     fi
 
     if [ -f /usr/lib/systemd/system/gnome-remote-desktop.service ] ; then
     rlPhaseStartTest "real scenario"
+        rlRun "modprobe tpm_vtpm_proxy"
+        rlRun "lsmod | grep tpm"
+        rlRun "ls -lZ /dev/vtpmx"
+        rlRun "mkdir -p /var/lib/swtpm/tpm0"
+        rlRun "chown -R tss:tss /var/lib/swtpm"
+        rlRun "swtpm_setup --tpm-state /var/lib/swtpm/tpm0 --tpm2 --create-ek-cert --create-platform-cert"
+        rlRun "swtpm chardev --vtpm-proxy --tpm2 --tpmstate dir=/var/lib/swtpm/tpm0 --daemon"
+        sleep 2
+        rlRun "ls -lZ /dev/tpm*"
+        rlRun "tpm2_getrandom --hex 16"
+
         rlRun "rm -rf ~gnome-remote-desktop/.local/share/gnome-remote-desktop"
         rlRun "sudo -u gnome-remote-desktop mkdir -p ~gnome-remote-desktop/.local/share/gnome-remote-desktop"
         rlRun "sudo -u gnome-remote-desktop winpr-makecert -silent -rdp -path ~gnome-remote-desktop/.local/share/gnome-remote-desktop tls"
