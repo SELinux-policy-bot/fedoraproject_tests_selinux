@@ -51,7 +51,7 @@ fs_getattr_xattr_fs(test_mounter_t)
 fs_relabelfrom_xattr_fs(test_mounter_t)
 
 mount_entry_type(test_mounter_t)
-mount_rw_pid_files(test_mounter_t)
+mount_manage_pid_files(test_mounter_t)
 
 selinux_getattr_fs(test_mounter_t)
 
