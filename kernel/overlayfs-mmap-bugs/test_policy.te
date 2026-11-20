@@ -40,7 +40,7 @@ write_files_pattern(test_mounter_t, test_lowerfile_no_read_t, test_lowerfile_no_
 allow test_mounter_t test_lowerfile_no_read_t:file map;
 
 allow test_mounter_t test_mountedfile_t:dir { getattr setattr };
-allow test_mounter_t test_mountedfile_t:filesystem { relabelfrom relabelto mount };
+allow test_mounter_t test_mountedfile_t:filesystem { getattr relabelfrom relabelto mount };
 
 kernel_read_system_state(test_mounter_t)
 kernel_read_proc_symlinks(test_mounter_t)
@@ -49,6 +49,7 @@ kernel_search_proc(test_mounter_t)
 
 fs_getattr_xattr_fs(test_mounter_t)
 fs_relabelfrom_xattr_fs(test_mounter_t)
+fs_mount_xattr_fs(test_mounter_t)
 
 mount_entry_type(test_mounter_t)
 mount_manage_pid_files(test_mounter_t)
