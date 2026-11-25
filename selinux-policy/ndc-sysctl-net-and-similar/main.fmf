@@ -1,0 +1,47 @@
+summary: ndc_t needs read access to sysctl_net_t paths under /proc/sys/net
+description: |+
+    SELinux policy is missing rules allowing ndc_t (entered via ndc_exec_t-labeled
+    binaries such as bind's rndc) to access sysctl_net_t-labeled paths under
+    /proc/sys/net. Without the fix, rndc triggers AVC denials when it reads
+    /proc/sys/net/ipv4/ip_local_port_range (and opendir /proc/sys/net). The fix
+    is tracked in SELINUX-7500 (commit c0361cb61).
+
+contact: SELinux reproducer agent using Claude
+component:
+  - selinux-policy
+test: ./runtest.sh
+framework: beakerlib
+require:
+  - type: library
+    name: /selinux-policy/Library/common
+    nick: selinux-policy
+  - gcc
+  - policycoreutils
+  - selinux-policy
+  - selinux-policy-targeted
+  - setools-console
+  - util-linux
+recommend:
+  - audit
+  - libselinux
+  - libselinux-utils
+environment:
+    AVC_ERROR: +no_avc_check
+duration: 10m
+enabled: true
+tag:
+  - NoRHEL4
+  - NoRHEL5
+  - NoRHEL6
+  - NoRHEL7
+  - NoRHEL8
+  - targeted
+link:
+  - verifies: https://issues.redhat.com/browse/RHEL-311393
+  - relates: https://issues.redhat.com/browse/SELINUX-7500
+adjust+:
+  - enabled: false
+    when: distro == rhel-4, rhel-5, rhel-6, rhel-7, rhel-8
+    because: ndc_t sysctl_net_t gap first confirmed on RHEL 9 and RHEL 10; ndc_exec_t type absent on older releases
+extra-summary: /CoreOS/selinux-policy/Regression/ndc-sysctl-net-and-similar
+extra-task: /CoreOS/selinux-policy/Regression/ndc-sysctl-net-and-similar
